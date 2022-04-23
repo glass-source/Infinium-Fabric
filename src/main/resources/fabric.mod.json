@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "mrswz",
+  "version": "${version}",
+  "name": "TestMod",
+  "description": "Simple TestMod by mrswz",
+  "authors": [
+    "mrswz"
+  ],
+  "contact": {
+    "repo": "https://github.com/mrswz-dev/TestMod"
+  },
+  "license": "MIT",
+  "icon": "assets/test/pack.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "me.mrswz.client.MrswzClient"
+    ],
+    "main": [
+      "me.mrswz.Test"
+    ]
+  },
+  "mixins": [
+    "mrswz.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.14.1",
+    "fabric": "*",
+    "minecraft": "1.18.2"
+  }
+}
