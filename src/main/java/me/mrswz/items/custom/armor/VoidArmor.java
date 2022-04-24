@@ -1,0 +1,69 @@
+package me.mrswz.items.custom.armor;
+
+import me.mrswz.items.materials.ModArmorMaterials;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.attribute.EntityAttributeInstance;
+import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ArmorItem;
+import net.minecraft.item.ArmorMaterial;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
+
+public class VoidArmor extends ArmorItem {
+
+    public VoidArmor(ArmorMaterial material, EquipmentSlot slot, Settings settings) {
+        super(material, slot, settings);
+    }
+
+    @Override
+    public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
+
+        if (!world.isClient()) {
+            if (entity instanceof PlayerEntity p) {
+                if (hasFullArmor(p)) {
+
+                    if (hasVoidArmor(p)) {
+                        double baseValue = p.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).getBaseValue();
+                        if (baseValue + 10 < 30) {
+                            p.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue(baseValue + 10);
+                        } else {
+                            p.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue(baseValue);
+
+                        }
+                        p.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 80, 0));
+                        p.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, 80, 0));
+                        p.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 80, 0));
+                    }
+                }
+            }
+        }
+    }
+
+    private boolean hasFullArmor(PlayerEntity user) {
+        var inventory = user.getInventory();
+        var boots = inventory.getArmorStack(0);
+        var leggings = inventory.getArmorStack(1);
+        var chestplate = inventory.getArmorStack(2);
+        var helmet = inventory.getArmorStack(3);
+
+
+
+        return !boots.isEmpty() && !leggings.isEmpty() && !chestplate.isEmpty() && !helmet.isEmpty();
+    }
+
+    private boolean hasVoidArmor(PlayerEntity user) {
+        var inventory = user.getInventory();
+        var boots = ((ArmorItem) inventory.getArmorStack(0).getItem()).getMaterial();
+        var leggings = ((ArmorItem) inventory.getArmorStack(1).getItem()).getMaterial();
+        var chestplate = ((ArmorItem) inventory.getArmorStack(2).getItem()).getMaterial();
+        var helmet = ((ArmorItem) inventory.getArmorStack(3).getItem()).getMaterial();
+
+        return boots == ModArmorMaterials.VOID && leggings == ModArmorMaterials.VOID && chestplate == ModArmorMaterials.VOID && helmet == ModArmorMaterials.VOID;
+    }
+
+
+}

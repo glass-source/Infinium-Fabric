@@ -11,12 +11,7 @@ import java.util.function.Supplier;
 
 public enum ModToolMaterials implements ToolMaterial {
 
-    WOOD(0, 59, 2.0F, 0.0F, 15, () -> Ingredient.fromTag(ItemTags.PLANKS)),
-    STONE(1, 131, 4.0F, 1.0F, 5, () -> Ingredient.fromTag(ItemTags.STONE_TOOL_MATERIALS)),
-    IRON(2, 250, 6.0F, 2.0F, 14, () -> Ingredient.ofItems(Items.IRON_INGOT)),
-    DIAMOND(3, 1561, 8.0F, 3.0F, 10, () -> Ingredient.ofItems(Items.DIAMOND)),
-    FUSION(12, 3400, 22.0F, 25.0F, 100, () -> Ingredient.ofItems(Items.NETHERITE_BLOCK)),
-    NETHERITE(4, 2031, 9.0F, 4.0F, 15, () -> Ingredient.ofItems(Items.NETHERITE_INGOT, Items.NETHERITE_BLOCK));
+    FUSION(12, 3400, 22.0F, 25.0F, 100, () -> Ingredient.ofItems(Items.NETHERITE_BLOCK));
 
     private final int miningLevel;
     private final int itemDurability;
@@ -55,7 +50,7 @@ public enum ModToolMaterials implements ToolMaterial {
     }
 
     public Ingredient getRepairIngredient() {
-        return (Ingredient)this.repairIngredient.get();
+        return this.repairIngredient.get();
     }
 
 }
