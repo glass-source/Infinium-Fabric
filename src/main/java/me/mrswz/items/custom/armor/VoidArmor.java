@@ -13,6 +13,8 @@ import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
+import java.util.Arrays;
+
 public class VoidArmor extends ArmorItem {
 
     public VoidArmor(ArmorMaterial material, EquipmentSlot slot, Settings settings) {
@@ -34,9 +36,13 @@ public class VoidArmor extends ArmorItem {
                             p.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue(baseValue);
 
                         }
-                        p.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 80, 0));
-                        p.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, 80, 0));
-                        p.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 80, 0));
+
+                        StatusEffectInstance[] effects = {
+                                new StatusEffectInstance(StatusEffects.RESISTANCE, 120, 0),
+                                new StatusEffectInstance(StatusEffects.STRENGTH, 120, 0),
+                                new StatusEffectInstance(StatusEffects.SPEED, 120, 0)
+                        };
+                        Arrays.stream(effects).toList().forEach(p::addStatusEffect);
                     }
                 }
             }

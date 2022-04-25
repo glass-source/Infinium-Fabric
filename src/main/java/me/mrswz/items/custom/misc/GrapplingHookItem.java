@@ -15,9 +15,9 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
-public class GrapplingHook extends FishingRodItem {
+public class GrapplingHookItem extends FishingRodItem {
 
-    public GrapplingHook(Settings settings) {
+    public GrapplingHookItem(Settings settings) {
         super(settings);
     }
 

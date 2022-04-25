@@ -15,7 +15,7 @@
   "environment": "*",
   "entrypoints": {
     "client": [
-      "me.mrswz.client.MrswzClient"
+      "me.mrswz.client.TestClient"
     ],
     "main": [
       "me.mrswz.Test"

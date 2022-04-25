@@ -12,6 +12,7 @@ import java.util.function.Supplier;
 
 public enum ModArmorMaterials implements ArmorMaterial {
 
+    MAGMA("magma", 72, new int[]{12, 15, 20, 12}, 32, SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE, 10.0F, 1.75F, () -> Ingredient.ofItems(Items.NETHERITE_BLOCK)),
     VOID("void", 64, new int[]{9, 12, 16, 9}, 25, SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE, 6.0F, 1.25F, () -> Ingredient.ofItems(Items.NETHERITE_INGOT));
 
     private static final int[] BASE_DURABILITY = new int[]{13, 15, 16, 11};

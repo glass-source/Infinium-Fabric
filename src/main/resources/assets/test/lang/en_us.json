@@ -7,6 +7,7 @@
   "item.test.void_boots" : "Void Boots",
   "category.minecraft.test": "Test Category",
   "itemGroup.test.test": "Test Group",
+  "item.test.magma_trident" : "Magma Trident",
   "item.test.grappling_hook.tooltip" : "Presiona SHIFT para mas info!",
   "item.test.grappling_hook.tooltip.shift" : "Este item te permite volar por los cielos presionando el Click Derecho!"
 }

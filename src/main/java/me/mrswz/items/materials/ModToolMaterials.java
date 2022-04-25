@@ -1,17 +1,15 @@
 package me.mrswz.items.materials;
 
-import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.Items;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.recipe.Ingredient;
-import net.minecraft.tag.ItemTags;
 import net.minecraft.util.Lazy;
 
 import java.util.function.Supplier;
 
 public enum ModToolMaterials implements ToolMaterial {
 
-    FUSION(12, 3400, 22.0F, 25.0F, 100, () -> Ingredient.ofItems(Items.NETHERITE_BLOCK));
+    VOID(12, 3400, 22.0F, 25.0F, 100, () -> Ingredient.ofItems(Items.NETHERITE_BLOCK));
 
     private final int miningLevel;
     private final int itemDurability;

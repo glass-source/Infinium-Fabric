@@ -2,8 +2,9 @@ package me.mrswz.items;
 
 import me.mrswz.Test;
 import me.mrswz.items.custom.armor.VoidArmor;
+import me.mrswz.items.custom.misc.MagmaTridentItem;
 import me.mrswz.items.custom.tools.VoidPickaxe;
-import me.mrswz.items.custom.misc.GrapplingHook;
+import me.mrswz.items.custom.misc.GrapplingHookItem;
 import me.mrswz.items.groups.ModItemGroup;
 import me.mrswz.items.materials.ModArmorMaterials;
 import me.mrswz.items.materials.ModToolMaterials;
@@ -16,27 +17,35 @@ import net.minecraft.util.registry.Registry;
 
 public class ModItems {
 
-    public static final Item VOID_PICKAXE = registerItem("void_pickaxe",
-            new VoidPickaxe(ModToolMaterials.FUSION, 20, 20,
-            new FabricItemSettings()
-            .group(ModItemGroup.TEST)
-            .rarity(Rarity.EPIC)
-            .maxDamage(2000)
-            .fireproof()));
 
+
+    public static final Item MAGMA_TRIDENT = registerItem("magma_trident",
+            new MagmaTridentItem(new FabricItemSettings()
+                    .group(ModItemGroup.TEST)
+                    .rarity(Rarity.UNCOMMON)
+                    .maxDamage(3450)
+                    .fireproof()));
+
+    public static final Item VOID_PICKAXE = registerItem("void_pickaxe",
+            new VoidPickaxe(ModToolMaterials.VOID, 20, 20,
+                    new FabricItemSettings()
+                            .group(ModItemGroup.TEST)
+                            .rarity(Rarity.EPIC)
+                            .maxDamage(2000)
+                            .fireproof()));
 
     public static final Item GRAPPLING_HOOK = registerItem("grappling_hook",
-            new GrapplingHook(new FabricItemSettings()
-            .group(ModItemGroup.TEST)
-            .maxDamage(20)));
+            new GrapplingHookItem(new FabricItemSettings()
+                    .group(ModItemGroup.TEST)
+                    .maxDamage(20)));
 
     public static final Item VOID_HELMET = registerItem("void_helmet",
             new VoidArmor(ModArmorMaterials.VOID, EquipmentSlot.HEAD,
-            new FabricItemSettings()
-                    .group(ModItemGroup.TEST)
-                    .rarity(Rarity.EPIC)
-                    .maxDamage(2500)
-                    .fireproof()));
+                    new FabricItemSettings()
+                            .group(ModItemGroup.TEST)
+                            .rarity(Rarity.EPIC)
+                            .maxDamage(2500)
+                            .fireproof()));
 
     public static final Item VOID_CHESTPLATE = registerItem("void_chestplate",
             new VoidArmor(ModArmorMaterials.VOID, EquipmentSlot.CHEST,
