@@ -9,7 +9,8 @@ import java.util.function.Supplier;
 
 public enum ModToolMaterials implements ToolMaterial {
 
-    VOID(12, 3400, 22.0F, 25.0F, 100, () -> Ingredient.ofItems(Items.NETHERITE_BLOCK));
+    MAGMA(16, 4200, 26.0F, 30.0F, 120, () -> Ingredient.ofItems(Items.NETHERITE_BLOCK)),
+    VOID(12, 3400, 22.0F, 25.0F, 100, () -> Ingredient.ofItems(Items.NETHERITE_INGOT));
 
     private final int miningLevel;
     private final int itemDurability;

@@ -3,7 +3,7 @@ package me.mrswz.items;
 import me.mrswz.Test;
 import me.mrswz.items.custom.armor.VoidArmor;
 import me.mrswz.items.custom.misc.MagmaTridentItem;
-import me.mrswz.items.custom.tools.VoidPickaxe;
+import me.mrswz.items.custom.tools.VoidPickaxeItem;
 import me.mrswz.items.custom.misc.GrapplingHookItem;
 import me.mrswz.items.groups.ModItemGroup;
 import me.mrswz.items.materials.ModArmorMaterials;
@@ -17,8 +17,6 @@ import net.minecraft.util.registry.Registry;
 
 public class ModItems {
 
-
-
     public static final Item MAGMA_TRIDENT = registerItem("magma_trident",
             new MagmaTridentItem(new FabricItemSettings()
                     .group(ModItemGroup.TEST)
@@ -27,7 +25,7 @@ public class ModItems {
                     .fireproof()));
 
     public static final Item VOID_PICKAXE = registerItem("void_pickaxe",
-            new VoidPickaxe(ModToolMaterials.VOID, 20, 20,
+            new VoidPickaxeItem(ModToolMaterials.VOID, 20, 20,
                     new FabricItemSettings()
                             .group(ModItemGroup.TEST)
                             .rarity(Rarity.EPIC)
