@@ -1,2 +1,2 @@
-# TestMod
-Simple TestMod
+# Infinium SMP T1 Mod
+
