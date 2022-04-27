@@ -7,6 +7,9 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LightningEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.projectile.TridentEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.Packet;
@@ -22,10 +25,16 @@ import net.minecraft.world.World;
 public class MagmaTridentEntity extends TridentEntity {
 
     public final ItemStack tridentStack;
+    public static final TrackedData<Boolean> MAGMA;
+
+    static {
+        MAGMA = DataTracker.registerData(MagmaTridentEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+    }
 
     public MagmaTridentEntity(EntityType<? extends TridentEntity> entityType, World world) {
         super(entityType, world);
          tridentStack = new ItemStack(ModItems.MAGMA_TRIDENT);
+         this.dataTracker.set(MAGMA, false);
 
     }
 
@@ -34,7 +43,12 @@ public class MagmaTridentEntity extends TridentEntity {
         tridentStack = stack;
     }
 
+    @Override
+    protected void initDataTracker() {
+        super.initDataTracker();
+        this.dataTracker.startTracking(MAGMA, true);
 
+    }
 
     @Override
     protected void onEntityHit(EntityHitResult entityHitResult) {
@@ -44,8 +58,8 @@ public class MagmaTridentEntity extends TridentEntity {
             f += EnchantmentHelper.getAttackDamage(tridentStack, livingEntity.getGroup());
         }
 
-        Entity entity2 = getOwner();
-        DamageSource damageSource = DamageSource.trident(this, entity2 == null ? this : entity2);
+        Entity owner = this.getOwner();
+        DamageSource damageSource = DamageSource.trident(this, owner == null ? this : owner);
         SoundEvent soundEvent = SoundEvents.ITEM_TRIDENT_HIT;
         if (entity.damage(damageSource, f)) {
             if (entity.getType() == EntityType.ENDERMAN) {
@@ -53,9 +67,9 @@ public class MagmaTridentEntity extends TridentEntity {
             }
 
             if (entity instanceof LivingEntity livingEntity2) {
-                if (entity2 instanceof LivingEntity) {
-                    EnchantmentHelper.onUserDamaged(livingEntity2, entity2);
-                    EnchantmentHelper.onTargetDamaged((LivingEntity) entity2, livingEntity2);
+                if (owner instanceof LivingEntity) {
+                    EnchantmentHelper.onUserDamaged(livingEntity2, owner);
+                    EnchantmentHelper.onTargetDamaged((LivingEntity) owner, livingEntity2);
                 }
 
                 onHit(livingEntity2);
@@ -70,7 +84,7 @@ public class MagmaTridentEntity extends TridentEntity {
                 LightningEntity lightningEntity = EntityType.LIGHTNING_BOLT.create(world);
                 assert lightningEntity != null;
                 lightningEntity.refreshPositionAfterTeleport(Vec3d.ofBottomCenter(blockPos));
-                lightningEntity.setChanneler(entity2 != null ? (ServerPlayerEntity) entity2 : null);
+                lightningEntity.setChanneler(owner != null ? (ServerPlayerEntity) owner : null);
                 world.spawnEntity(lightningEntity);
                 soundEvent = SoundEvents.ITEM_TRIDENT_THUNDER;
                 g = 5.0F;
@@ -83,6 +97,15 @@ public class MagmaTridentEntity extends TridentEntity {
     @Override
     public Packet<?> createSpawnPacket() {
         return super.createSpawnPacket();
+    }
+
+
+    public static boolean isMagmaTrident(TridentEntity entity) {
+        try {
+            return entity.getDataTracker().get(MAGMA);
+        }catch (NullPointerException ignored) {
+            return false;
+        }
     }
     
 }

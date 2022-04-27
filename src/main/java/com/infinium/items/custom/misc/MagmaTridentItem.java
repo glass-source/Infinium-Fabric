@@ -30,7 +30,7 @@ public class MagmaTridentItem extends TridentItem {
     @Override
     public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
         if (user instanceof PlayerEntity playerEntity) {
-            int i = getMaxUseTime(stack) - remainingUseTicks;
+            int i = this.getMaxUseTime(stack) - remainingUseTicks;
             if (i >= 10) {
                 int riptideLevel = EnchantmentHelper.getRiptide(stack);
                 if (riptideLevel <= 0) {
@@ -42,12 +42,6 @@ public class MagmaTridentItem extends TridentItem {
                             magmaTridentEntity.setVelocity(playerEntity, playerEntity.getPitch(), playerEntity.getYaw(), 0.0F, 2.5F + riptideLevel * 0.5F, 1.0F);
                             world.spawnEntity(magmaTridentEntity);
                             world.playSoundFromEntity(null, magmaTridentEntity, SoundEvents.ENTITY_BLAZE_SHOOT, SoundCategory.PLAYERS, 1.0F, 1.0F);
-                            /*
-                            FireballEntity fEntity = new FireballEntity(world, playerEntity, 0, 0, 0, 2);
-                            fEntity.setVelocity(playerEntity, playerEntity.getPitch(), playerEntity.getYaw(), 0.0F, 2.5F + riptideLevel * 0.5F, 1.0F);
-                            world.spawnEntity(fEntity);
-                            world.playSoundFromEntity(null, fEntity, SoundEvents.ENTITY_BLAZE_SHOOT, SoundCategory.PLAYERS, 1.0F, 1.0F);
-                             */
                         }
                     }
 
