@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.infinium.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "TridentEntityMixin",
+    "render.TridentEntityRendererMixin"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

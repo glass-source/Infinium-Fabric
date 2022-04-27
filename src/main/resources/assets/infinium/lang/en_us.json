@@ -1,0 +1,13 @@
+{
+  "item.infinium.void_pickaxe" : "Void Pickaxe",
+  "item.infinium.grappling_hook" : "Grappling Hook",
+  "item.infinium.void_helmet" : "Void Helmet",
+  "item.infinium.void_chestplate" : "Void Chestplate",
+  "item.infinium.void_leggings" : "Void Leggings",
+  "item.infinium.void_boots" : "Void Boots",
+  "category.minecraft.test": "Infinium Category",
+  "itemGroup.infinium.test": "Infinium Group",
+  "item.infinium.magma_trident" : "Magma Trident",
+  "item.infinium.grappling_hook.tooltip" : "Presiona SHIFT para mas info!",
+  "item.infinium.grappling_hook.tooltip.shift" : "Este item te permite volar por los cielos presionando el Click Derecho!"
+}

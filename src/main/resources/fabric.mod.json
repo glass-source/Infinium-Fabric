@@ -1,28 +1,28 @@
 {
   "schemaVersion": 1,
-  "id": "mrswz",
+  "id": "infinium",
   "version": "${version}",
-  "name": "TestMod",
-  "description": "Simple TestMod by mrswz",
+  "name": "InfiniumT1-Mod",
+  "description": "Simple mod port of the Infinium SMP main plugin",
   "authors": [
     "mrswz"
   ],
   "contact": {
-    "repo": "https://github.com/mrswz-dev/TestMod"
+    "repo": "https://github.com/InfiniumMC/Infinium-T1-MOD"
   },
   "license": "MIT",
-  "icon": "assets/test/pack.png",
+  "icon": "assets/infinium/pack.png",
   "environment": "*",
   "entrypoints": {
     "client": [
-      "me.mrswz.client.TestClient"
+      "com.infinium.client.InfiniumClient"
     ],
     "main": [
-      "me.mrswz.Test"
+      "com.infinium.Infinium"
     ]
   },
   "mixins": [
-    "mrswz.mixins.json"
+    "infinium.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=0.14.1",
