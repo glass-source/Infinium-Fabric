@@ -73,7 +73,7 @@ public class ModItems {
         return Registry.register(Registry.ITEM, new Identifier(Infinium.MOD_ID, name), item);
     }
 
-    public static void registerModItems() {
+    public static void init() {
         Infinium.LOGGER.info("Registrando items para: " + Infinium.MOD_ID);
     }
 

@@ -17,6 +17,6 @@ public class Infinium implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        ModItems.registerModItems();
+        ModItems.init();
     }
 }

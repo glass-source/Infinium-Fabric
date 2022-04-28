@@ -29,7 +29,6 @@ public class TridentEntityRendererMixin {
     public void getTextureMixin(TridentEntity entity, CallbackInfoReturnable<Identifier> cir) {
         if(entity instanceof MagmaTridentEntity || MagmaTridentEntity.isMagmaTrident(entity)) {
             cir.setReturnValue(id("textures/entity/magma_trident.png"));
-            Infinium.LOGGER.debug("hola");
         }
     }
 

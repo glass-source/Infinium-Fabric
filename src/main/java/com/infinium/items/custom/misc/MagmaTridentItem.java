@@ -24,7 +24,6 @@ public class MagmaTridentItem extends TridentItem {
 
     public MagmaTridentItem(Settings settings) {
         super(settings);
-
     }
 
     @Override
@@ -37,14 +36,19 @@ public class MagmaTridentItem extends TridentItem {
                     if (!world.isClient()) {
                         stack.damage(1, playerEntity, (p) -> p.sendToolBreakStatus(user.getActiveHand()));
                         if (riptideLevel == 0) {
-
                             MagmaTridentEntity magmaTridentEntity = new MagmaTridentEntity(world, playerEntity, stack);
                             magmaTridentEntity.setVelocity(playerEntity, playerEntity.getPitch(), playerEntity.getYaw(), 0.0F, 2.5F + riptideLevel * 0.5F, 1.0F);
                             world.spawnEntity(magmaTridentEntity);
                             world.playSoundFromEntity(null, magmaTridentEntity, SoundEvents.ENTITY_BLAZE_SHOOT, SoundCategory.PLAYERS, 1.0F, 1.0F);
+
+                            if (playerEntity.getAbilities().creativeMode) {
+                                magmaTridentEntity.pickupType = PersistentProjectileEntity.PickupPermission.CREATIVE_ONLY;
+                            } else {
+                                playerEntity.getInventory().removeOne(stack);
+                            }
+
                         }
                     }
-
                     playerEntity.incrementStat(Stats.USED.getOrCreateStat(this));
                 } else {
                     if (playerEntity.isOnFire() || playerEntity.isTouchingWaterOrRain()) {

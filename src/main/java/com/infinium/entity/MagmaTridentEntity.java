@@ -47,7 +47,6 @@ public class MagmaTridentEntity extends TridentEntity {
     protected void initDataTracker() {
         super.initDataTracker();
         this.dataTracker.startTracking(MAGMA, true);
-
     }
 
     @Override
@@ -103,7 +102,7 @@ public class MagmaTridentEntity extends TridentEntity {
     public static boolean isMagmaTrident(TridentEntity entity) {
         try {
             return entity.getDataTracker().get(MAGMA);
-        }catch (NullPointerException ignored) {
+        } catch (NullPointerException ignored) {
             return false;
         }
     }

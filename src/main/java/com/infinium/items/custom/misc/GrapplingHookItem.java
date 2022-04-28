@@ -39,9 +39,9 @@ public class GrapplingHookItem extends FishingRodItem {
     @Override
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
         if (Screen.hasShiftDown()) {
-            tooltip.add(new TranslatableText("item.test.grappling_hook.tooltip.shift"));
+            tooltip.add(new TranslatableText("item.infinium.grappling_hook.tooltip.shift"));
         } else {
-            tooltip.add(new TranslatableText("item.test.grappling_hook.tooltip"));
+            tooltip.add(new TranslatableText("item.infinium.grappling_hook.tooltip"));
         }
     }
 }
