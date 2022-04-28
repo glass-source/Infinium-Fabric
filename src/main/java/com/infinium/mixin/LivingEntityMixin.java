@@ -1,11 +1,14 @@
 package com.infinium.mixin;
 
+import com.infinium.api.effects.InfiniumEffects;
+import com.infinium.api.effects.ModStatusEffect;
 import com.infinium.api.items.ModItems;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
@@ -15,10 +18,12 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.stat.Stats;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntity.class)
@@ -42,7 +47,35 @@ public abstract class LivingEntityMixin extends Entity {
 
     @Shadow public abstract void readCustomDataFromNbt(NbtCompound nbt);
 
-    @Inject(at = @At("HEAD"), method = "tryUseTotem")
+    @Shadow public abstract boolean addStatusEffect(StatusEffectInstance effect, @Nullable Entity source);
+
+    @Shadow public abstract boolean removeStatusEffect(StatusEffect type);
+
+    @Shadow @Nullable public abstract StatusEffectInstance removeStatusEffectInternal(@Nullable StatusEffect type);
+
+    @Shadow public abstract boolean hasStatusEffect(StatusEffect effect);
+
+    @Shadow @Nullable public abstract StatusEffectInstance getStatusEffect(StatusEffect effect);
+
+    @Inject(method = "canTakeDamage", at = @At("HEAD"), cancellable = true)
+    public void canTakeDMG(CallbackInfoReturnable<Boolean> cir) {
+        if(this.hasStatusEffect(InfiniumEffects.IMMUNITY)) {
+            cir.setReturnValue(false);
+        }
+    }
+
+    @Inject(method = "applyDamage", at = @At("HEAD"), cancellable = true)
+    public void onDamage(DamageSource source, float amount, CallbackInfo ci) {
+        if(this.hasStatusEffect(InfiniumEffects.IMMUNITY)) {
+            ci.cancel();
+        }
+        if(this.hasStatusEffect(InfiniumEffects.MADNESS)) {
+            amount *= (2.5 * (this.getStatusEffect(InfiniumEffects.MADNESS).getAmplifier()+1));
+
+        }
+    }
+
+    @Inject(at = @At("HEAD"), method = "tryUseTotem", cancellable = true)
     public void useVoidTotem(DamageSource source, CallbackInfoReturnable<Boolean> callback) {
 
         Entity entity = this;
@@ -59,22 +92,15 @@ public abstract class LivingEntityMixin extends Entity {
                 mainHand.decrement(1);
                 clone = mainHand.copy();
             }
-            if(entity instanceof ServerPlayerEntity) {
-                ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) entity;
-                serverPlayerEntity.incrementStat(Stats.USED.getOrCreateStat(ModItems.VOID_TOTEM));
-                Criteria.USED_TOTEM.trigger(serverPlayerEntity, clone);
-            }
 
             this.setHealth(1.0F);
             this.clearStatusEffects();
             this.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 125, 3));
             this.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 350, 7));
-            this.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 240, 4));
+            this.addStatusEffect(new StatusEffectInstance(InfiniumEffects.IMMUNITY, 100, 0));
             this.world.sendEntityStatus(this, (byte) 35);
             callback.setReturnValue(true);
-            return;
         }
-        callback.setReturnValue(false);
 
 
     }

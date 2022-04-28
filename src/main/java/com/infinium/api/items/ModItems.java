@@ -1,8 +1,10 @@
 package com.infinium.api.items;
 
 import com.infinium.Infinium;
+import com.infinium.api.enums.RuneType;
 import com.infinium.api.items.custom.armor.VoidArmor;
 import com.infinium.api.items.custom.misc.MagmaTridentItem;
+import com.infinium.api.items.custom.misc.ImmunityRuneItem;
 import com.infinium.api.items.custom.misc.VoidTotemItem;
 import com.infinium.api.items.custom.tools.VoidPickaxeItem;
 import com.infinium.api.items.custom.misc.GrapplingHookItem;
@@ -27,6 +29,8 @@ public class ModItems {
     public static Item VOID_LEGGINGS;
     public static Item VOID_BOOTS;
 
+    public static Item IMMUNITY_RUNE;
+
     private static Item registerItem(String name, Item item) {
         return Registry.register(Registry.ITEM, new Identifier(Infinium.MOD_ID, name), item);
     }
@@ -35,6 +39,7 @@ public class ModItems {
         registerArmor();
         registerTools();
         registerTotems();
+        registerRunes();
     }
 
     private static void registerArmor(){
@@ -100,6 +105,10 @@ public class ModItems {
                 new FabricItemSettings()
                 .group(ModItemGroup.INFINIUM)
                 .rarity(Rarity.RARE)));
+    }
+
+    private static void registerRunes() {
+        IMMUNITY_RUNE = registerItem("immunity_rune", new ImmunityRuneItem(new FabricItemSettings().group(ModItemGroup.INFINIUM).rarity(Rarity.EPIC)));
     }
 
 }
