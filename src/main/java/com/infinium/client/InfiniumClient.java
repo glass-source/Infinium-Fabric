@@ -10,8 +10,8 @@ import net.kyori.adventure.platform.fabric.FabricClientAudiences;
 
 public class InfiniumClient implements ClientModInitializer {
     private final Audience client = FabricClientAudiences.of().audience();
+
     @Override
     public void onInitializeClient() {
-
     }
 }

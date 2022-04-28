@@ -16,10 +16,8 @@ public class ItemBuilder {
     protected ItemStack stack;
 
     public ItemBuilder(Item item) {
-
         stack = new ItemStack(item);
     }
-
 
     public ItemBuilder(ItemStack stack) {
         this.stack = stack;
@@ -40,6 +38,7 @@ public class ItemBuilder {
         stack.setCount(count);
         return this;
     }
+
 
 
     public ItemBuilder addEnchantment(Enchantment enchant, int level) {
