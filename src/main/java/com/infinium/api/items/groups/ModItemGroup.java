@@ -10,6 +10,6 @@ import net.minecraft.util.Identifier;
 
 public class ModItemGroup {
 
-    public static final ItemGroup INFINIUM_GROUP = FabricItemGroupBuilder.build(new Identifier(Infinium.MOD_ID, "infinium"), () -> new ItemStack(ModItems.GRAPPLING_HOOK));
+    public static final ItemGroup INFINIUM = FabricItemGroupBuilder.build(new Identifier(Infinium.MOD_ID, "infinium"), () -> new ItemStack(ModItems.GRAPPLING_HOOK));
 
 }

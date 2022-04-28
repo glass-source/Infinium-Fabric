@@ -11,57 +11,57 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Text;
 
 
-public class ItemBuilder {
+public class ItemStackBuilder {
 
     protected ItemStack stack;
 
-    public ItemBuilder(Item item) {
+    public ItemStackBuilder(Item item) {
         stack = new ItemStack(item);
     }
 
-    public ItemBuilder(ItemStack stack) {
+    public ItemStackBuilder(ItemStack stack) {
         this.stack = stack;
     }
 
 
-    public ItemBuilder setDisplayName(String text) {
+    public ItemStackBuilder setDisplayName(String text) {
         stack.setCustomName(Text.of(text));
         return this;
     }
 
-    public ItemBuilder setDamage(int damage) {
+    public ItemStackBuilder setDamage(int damage) {
         stack.setDamage(damage);
         return this;
     }
 
-    public ItemBuilder setCount(int count) {
+    public ItemStackBuilder setCount(int count) {
         stack.setCount(count);
         return this;
     }
 
 
 
-    public ItemBuilder addEnchantment(Enchantment enchant, int level) {
+    public ItemStackBuilder addEnchantment(Enchantment enchant, int level) {
         stack.addEnchantment(enchant, level);
         return this;
     }
 
-    public ItemBuilder hideFlag(ItemStack.TooltipSection flag) {
+    public ItemStackBuilder hideFlag(ItemStack.TooltipSection flag) {
         stack.addHideFlag(flag);
         return this;
     }
 
-    public ItemBuilder setHolder(Entity entity) {
+    public ItemStackBuilder setHolder(Entity entity) {
         stack.setHolder(entity);
         return this; //la verdad no se porque hize esto pero ok
     }
 
-    public ItemBuilder setNBTCompound(NbtCompound nbt) {
+    public ItemStackBuilder setNBTCompound(NbtCompound nbt) {
         stack.setNbt(nbt);
         return this;
     }
 
-    public <T> ItemBuilder addNBT(String key, T value) {
+    public <T> ItemStackBuilder addNBT(String key, T value) {
         NbtCompound compound = stack.getOrCreateNbt();
 
         if(value instanceof String s) {
@@ -92,13 +92,13 @@ public class ItemBuilder {
     }
 
 
-    public ItemBuilder createNBT() {
+    public ItemStackBuilder createNBT() {
         stack.getOrCreateNbt();
         return this;
     }
 
 
-    public ItemBuilder addAttributeModifier(EntityAttribute attribute, EntityAttributeModifier modifier, EquipmentSlot slot)  {
+    public ItemStackBuilder addAttributeModifier(EntityAttribute attribute, EntityAttributeModifier modifier, EquipmentSlot slot)  {
         stack.addAttributeModifier(attribute, modifier, slot);
         return this;
     }

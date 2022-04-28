@@ -1,5 +1,6 @@
 package com.infinium;
 
+import com.infinium.api.effects.InfiniumEffects;
 import com.infinium.api.items.ModItems;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
@@ -28,6 +29,7 @@ public class Infinium implements ModInitializer {
     @Override
     public void onInitialize() {
         ModItems.init();
+        InfiniumEffects.load();
         ServerLifecycleEvents.SERVER_STARTING.register(server -> this.adventure = FabricServerAudiences.of(server));
         ServerLifecycleEvents.SERVER_STOPPED.register(server -> this.adventure = null);
     }

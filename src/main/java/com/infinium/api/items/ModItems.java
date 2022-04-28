@@ -12,7 +12,6 @@ import com.infinium.api.items.materials.ModToolMaterials;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.Item;
-import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.registry.Registry;
@@ -33,7 +32,6 @@ public class ModItems {
     }
 
     public static void init() {
-        Infinium.LOGGER.info("Registrando items para: " + Infinium.MOD_ID);
         registerArmor();
         registerTools();
         registerTotems();
@@ -43,7 +41,7 @@ public class ModItems {
         VOID_BOOTS = registerItem("void_boots",
                 new VoidArmor(ModArmorMaterials.VOID, EquipmentSlot.FEET, 
                 new FabricItemSettings()
-                .group(ModItemGroup.INFINIUM_GROUP)
+                .group(ModItemGroup.INFINIUM)
                 .rarity(Rarity.EPIC)
                 .maxDamage(2500)
                 .fireproof()));
@@ -51,7 +49,7 @@ public class ModItems {
         VOID_LEGGINGS = registerItem("void_leggings",
                 new VoidArmor(ModArmorMaterials.VOID, EquipmentSlot.LEGS, 
                 new FabricItemSettings()
-                .group(ModItemGroup.INFINIUM_GROUP)
+                .group(ModItemGroup.INFINIUM)
                 .rarity(Rarity.EPIC)
                 .maxDamage(2500)
                 .fireproof()));
@@ -59,7 +57,7 @@ public class ModItems {
         VOID_CHESTPLATE = registerItem("void_chestplate",
                 new VoidArmor(ModArmorMaterials.VOID, EquipmentSlot.CHEST,
                 new FabricItemSettings()
-                .group(ModItemGroup.INFINIUM_GROUP)
+                .group(ModItemGroup.INFINIUM)
                 .rarity(Rarity.EPIC)
                 .maxDamage(2770)
                 .fireproof()));
@@ -67,7 +65,7 @@ public class ModItems {
         VOID_HELMET = registerItem("void_helmet",
                 new VoidArmor(ModArmorMaterials.VOID, EquipmentSlot.HEAD,
                 new FabricItemSettings()
-                .group(ModItemGroup.INFINIUM_GROUP)
+                .group(ModItemGroup.INFINIUM)
                .rarity(Rarity.EPIC)
                 .maxDamage(2500)
                 .fireproof()));
@@ -77,20 +75,20 @@ public class ModItems {
         VOID_PICKAXE = registerItem("void_pickaxe",
                 new VoidPickaxeItem(ModToolMaterials.VOID, 20, 20,
                 new FabricItemSettings()
-                .group(ModItemGroup.INFINIUM_GROUP)
+                .group(ModItemGroup.INFINIUM)
                 .rarity(Rarity.UNCOMMON)
                 .maxDamage(2000)
                 .fireproof()));
 
         GRAPPLING_HOOK = registerItem("grappling_hook",
                 new GrapplingHookItem(new FabricItemSettings()
-                .group(ModItemGroup.INFINIUM_GROUP)
+                .group(ModItemGroup.INFINIUM)
                 .rarity(Rarity.UNCOMMON)
                 .maxDamage(20)));
 
         MAGMA_TRIDENT = registerItem("magma_trident",
                 new MagmaTridentItem(new FabricItemSettings()
-                .group(ModItemGroup.INFINIUM_GROUP)
+                .group(ModItemGroup.INFINIUM)
                 .rarity(Rarity.UNCOMMON)
                 .maxDamage(3450)
                 .fireproof()));
@@ -100,7 +98,7 @@ public class ModItems {
         VOID_TOTEM = registerItem("void_totem",
                 new VoidTotemItem(
                 new FabricItemSettings()
-                .group(ModItemGroup.INFINIUM_GROUP)
+                .group(ModItemGroup.INFINIUM)
                 .rarity(Rarity.RARE)));
     }
 

@@ -6,11 +6,11 @@
   "item.infinium.void_chestplate" : "Void Chestplate",
   "item.infinium.void_leggings" : "Void Leggings",
   "item.infinium.void_boots" : "Void Boots",
-  "category.minecraft.test": "Infinium Category",
-  "itemGroup.infinium.test": "Infinium Group",
-  "item.infinium.magma_trident" : "Magma Trident",
+  "category.minecraft.test": "Categoria de Infinium",
+  "itemGroup.infinium.test": "Grupo De Infinium",
+  "item.infinium.magma_trident" : "Tridente de Magma",
   "item.infinium.grappling_hook.tooltip" : "",
   "item.infinium.grappling_hook.tooltip.shift" : "",
-  "effect.infinium.immunity": "Immunity",
-  "effect.infinium.madness": "Madness"
+  "effect.infinium.immunity": "Inmunidad",
+  "effect.infinium.madness": "Locura"
 }
