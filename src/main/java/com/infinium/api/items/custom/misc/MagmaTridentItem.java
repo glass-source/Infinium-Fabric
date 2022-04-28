@@ -1,12 +1,10 @@
-package com.infinium.items.custom.misc;
+package com.infinium.api.items.custom.misc;
 
-import com.infinium.entity.MagmaTridentEntity;
+import com.infinium.api.entity.MagmaTridentEntity;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MovementType;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.FireballEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.TridentItem;

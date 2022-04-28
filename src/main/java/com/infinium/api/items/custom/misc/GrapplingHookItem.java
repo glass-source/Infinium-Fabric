@@ -1,4 +1,4 @@
-package com.infinium.items.custom.misc;
+package com.infinium.api.items.custom.misc;
 
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.item.TooltipContext;

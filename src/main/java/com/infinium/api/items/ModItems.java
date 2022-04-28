@@ -1,13 +1,13 @@
-package com.infinium.items;
+package com.infinium.api.items;
 
 import com.infinium.Infinium;
-import com.infinium.items.custom.armor.VoidArmor;
-import com.infinium.items.custom.misc.MagmaTridentItem;
-import com.infinium.items.custom.tools.VoidPickaxeItem;
-import com.infinium.items.custom.misc.GrapplingHookItem;
-import com.infinium.items.groups.ModItemGroup;
-import com.infinium.items.materials.ModArmorMaterials;
-import com.infinium.items.materials.ModToolMaterials;
+import com.infinium.api.items.custom.armor.VoidArmor;
+import com.infinium.api.items.custom.misc.MagmaTridentItem;
+import com.infinium.api.items.custom.tools.VoidPickaxeItem;
+import com.infinium.api.items.custom.misc.GrapplingHookItem;
+import com.infinium.api.items.groups.ModItemGroup;
+import com.infinium.api.items.materials.ModArmorMaterials;
+import com.infinium.api.items.materials.ModToolMaterials;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.Item;

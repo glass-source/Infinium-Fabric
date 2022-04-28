@@ -1,4 +1,4 @@
-package com.infinium.items.materials;
+package com.infinium.api.items.materials;
 
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ArmorMaterial;

@@ -1,8 +1,8 @@
-package com.infinium.items.groups;
+package com.infinium.api.items.groups;
 
 
 import com.infinium.Infinium;
-import com.infinium.items.ModItems;
+import com.infinium.api.items.ModItems;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;

@@ -1,6 +1,6 @@
-package com.infinium.items.custom.armor;
+package com.infinium.api.items.custom.armor;
 
-import com.infinium.items.materials.ModArmorMaterials;
+import com.infinium.api.items.materials.ModArmorMaterials;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -14,9 +14,9 @@ import net.minecraft.world.World;
 
 import java.util.Arrays;
 
-public class VoidArmor extends ArmorItem {
+public class MagmaArmor extends ArmorItem {
 
-    public VoidArmor(ArmorMaterial material, EquipmentSlot slot, Settings settings) {
+    public MagmaArmor(ArmorMaterial material, EquipmentSlot slot, Settings settings) {
         super(material, slot, settings);
     }
 
@@ -27,7 +27,7 @@ public class VoidArmor extends ArmorItem {
             if (entity instanceof PlayerEntity p) {
                 if (hasFullArmor(p)) {
 
-                    if (hasVoidArmor(p)) {
+                    if (hasMagmaArmor(p)) {
                         double baseValue = p.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).getBaseValue();
                         if (baseValue + 10 < 30) {
                             p.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue(baseValue + 10);
@@ -35,11 +35,11 @@ public class VoidArmor extends ArmorItem {
                             p.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue(baseValue);
 
                         }
-
                         StatusEffectInstance[] effects = {
-                                new StatusEffectInstance(StatusEffects.RESISTANCE, 120, 0),
-                                new StatusEffectInstance(StatusEffects.STRENGTH, 120, 0),
-                                new StatusEffectInstance(StatusEffects.SPEED, 120, 0)
+                          new StatusEffectInstance(StatusEffects.RESISTANCE, 120, 1),
+                          new StatusEffectInstance(StatusEffects.STRENGTH, 120, 1),
+                          new StatusEffectInstance(StatusEffects.SPEED, 120, 1),
+                          new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 120, 0)
                         };
                         Arrays.stream(effects).toList().forEach(p::addStatusEffect);
                     }
@@ -60,15 +60,14 @@ public class VoidArmor extends ArmorItem {
         return !boots.isEmpty() && !leggings.isEmpty() && !chestplate.isEmpty() && !helmet.isEmpty();
     }
 
-    private boolean hasVoidArmor(PlayerEntity user) {
+    private boolean hasMagmaArmor(PlayerEntity user) {
         var inventory = user.getInventory();
         var boots = ((ArmorItem) inventory.getArmorStack(0).getItem()).getMaterial();
         var leggings = ((ArmorItem) inventory.getArmorStack(1).getItem()).getMaterial();
         var chestplate = ((ArmorItem) inventory.getArmorStack(2).getItem()).getMaterial();
         var helmet = ((ArmorItem) inventory.getArmorStack(3).getItem()).getMaterial();
 
-        return boots == ModArmorMaterials.VOID && leggings == ModArmorMaterials.VOID && chestplate == ModArmorMaterials.VOID && helmet == ModArmorMaterials.VOID;
+        return boots == ModArmorMaterials.MAGMA && leggings == ModArmorMaterials.MAGMA && chestplate == ModArmorMaterials.MAGMA && helmet == ModArmorMaterials.MAGMA;
     }
-
 
 }

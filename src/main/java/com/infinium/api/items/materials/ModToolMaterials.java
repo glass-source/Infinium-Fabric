@@ -1,4 +1,4 @@
-package com.infinium.items.materials;
+package com.infinium.api.items.materials;
 
 import net.minecraft.item.Items;
 import net.minecraft.item.ToolMaterial;

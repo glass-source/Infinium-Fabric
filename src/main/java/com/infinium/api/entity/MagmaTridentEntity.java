@@ -1,6 +1,6 @@
-package com.infinium.entity;
+package com.infinium.api.entity;
 
-import com.infinium.items.ModItems;
+import com.infinium.api.items.ModItems;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
