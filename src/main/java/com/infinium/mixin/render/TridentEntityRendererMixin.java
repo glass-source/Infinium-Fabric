@@ -1,7 +1,7 @@
 package com.infinium.mixin.render;
 
-import com.infinium.api.entity.MagmaTridentEntity;
 import net.minecraft.client.render.entity.TridentEntityRenderer;
+import net.minecraft.client.render.entity.model.TridentEntityModel;
 import net.minecraft.entity.projectile.TridentEntity;
 import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.Mixin;
@@ -16,9 +16,8 @@ public class TridentEntityRendererMixin {
 
     @Inject(method = "getTexture(Lnet/minecraft/entity/projectile/TridentEntity;)Lnet/minecraft/util/Identifier;", at = @At(value = "HEAD"), cancellable = true)
     public void getTextureMixin(TridentEntity entity, CallbackInfoReturnable<Identifier> cir) {
-        if(entity instanceof MagmaTridentEntity || MagmaTridentEntity.isMagmaTrident(entity)) {
-            cir.setReturnValue(id("textures/entity/magma_trident.png"));
-        }
+        if (entity.getName().asString().equals("Magma Trident")) cir.setReturnValue(id("textures/entity/magma_trident.png"));
     }
+
 
 }

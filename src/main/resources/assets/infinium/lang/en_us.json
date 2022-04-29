@@ -1,16 +1,22 @@
 {
   "item.infinium.void_totem" : "Void Totem",
   "item.infinium.void_pickaxe" : "Void Pickaxe",
-  "item.infinium.grappling_hook" : "Grappling Hook",
   "item.infinium.void_helmet" : "Void Helmet",
   "item.infinium.void_chestplate" : "Void Chestplate",
   "item.infinium.void_leggings" : "Void Leggings",
   "item.infinium.void_boots" : "Void Boots",
+
+  "item.infinium.grappling_hook" : "Grappling Hook",
+  "item.infinium.magma_trident" : "Magma Trident",
+
   "category.minecraft.test": "Infinium Category",
   "itemGroup.infinium.test": "Infinium Group",
-  "item.infinium.magma_trident" : "Magma Trident",
-  "item.infinium.grappling_hook.tooltip" : "",
-  "item.infinium.grappling_hook.tooltip.shift" : "",
+
+  "item.infinium.immunity_rune" : "Immunity Rune",
+
   "effect.infinium.immunity": "Immunity",
-  "effect.infinium.madness": "Madness"
+  "effect.infinium.madness": "Madness",
+
+  "item.infinium.grappling_hook.tooltip" : "",
+  "item.infinium.grappling_hook.tooltip.shift" : ""
 }

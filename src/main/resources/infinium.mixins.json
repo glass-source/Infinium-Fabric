@@ -5,9 +5,8 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "LivingEntityMixin",
-    "ProjectileEntityMixin",
-    "TridentEntityMixin",
-    "render.TridentEntityRendererMixin"
+    "render.TridentEntityRendererMixin",
+    "render.TridentRiptideFeatureRendererMixin"
   ],
   "client": [
   ],

@@ -8,30 +8,36 @@ import net.minecraft.inventory.StackReference;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.slot.Slot;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ClickType;
+import net.minecraft.util.Hand;
+import net.minecraft.util.TypedActionResult;
+import net.minecraft.world.World;
 
 public class ImmunityRuneItem extends Item {
 
-
-
     public ImmunityRuneItem(Settings settings) {
         super(settings);
-
-
     }
 
     @Override
-    public boolean onClicked(ItemStack stack, ItemStack otherStack, Slot slot, ClickType clickType, PlayerEntity player, StackReference cursorStackReference) {
-
-        if(clickType.equals(ClickType.RIGHT)) {
-            player.addStatusEffect(new StatusEffectInstance(InfiniumEffects.IMMUNITY, 800, 0));
-
-            return true;
-        }else if(clickType.equals(ClickType.LEFT)) {
-
-            return true;
-        }
-
+    public boolean isDamageable() {
         return false;
     }
+
+    @Override
+    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+        var cooldownManager = user.getItemCooldownManager();
+        if (!cooldownManager.isCoolingDown(this)) {
+            if (!world.isClient()) {
+                user.addStatusEffect(new StatusEffectInstance(InfiniumEffects.IMMUNITY, 20 * 25));
+                cooldownManager.set(this, 20 * (60 * 2));
+            }
+            world.playSound(user, user.getBlockPos(), SoundEvents.ENTITY_ILLUSIONER_PREPARE_BLINDNESS, SoundCategory.PLAYERS, 1, 0.03F);
+        }
+        return super.use(world, user, hand);
+    }
+
+
 }

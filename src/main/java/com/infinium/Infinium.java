@@ -29,7 +29,7 @@ public class Infinium implements ModInitializer {
     @Override
     public void onInitialize() {
         ModItems.init();
-        InfiniumEffects.load();
+        InfiniumEffects.init();
         ServerLifecycleEvents.SERVER_STARTING.register(server -> this.adventure = FabricServerAudiences.of(server));
         ServerLifecycleEvents.SERVER_STOPPED.register(server -> this.adventure = null);
     }

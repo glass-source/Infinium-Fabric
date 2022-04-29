@@ -47,15 +47,15 @@ public class ModItems {
                 new VoidArmor(ModArmorMaterials.VOID, EquipmentSlot.FEET, 
                 new FabricItemSettings()
                 .group(ModItemGroup.INFINIUM)
-                .rarity(Rarity.EPIC)
-                .maxDamage(2500)
+                .rarity(Rarity.RARE)
+                .maxDamage(2350)
                 .fireproof()));
         
         VOID_LEGGINGS = registerItem("void_leggings",
                 new VoidArmor(ModArmorMaterials.VOID, EquipmentSlot.LEGS, 
                 new FabricItemSettings()
                 .group(ModItemGroup.INFINIUM)
-                .rarity(Rarity.EPIC)
+                .rarity(Rarity.RARE)
                 .maxDamage(2500)
                 .fireproof()));
 
@@ -63,7 +63,7 @@ public class ModItems {
                 new VoidArmor(ModArmorMaterials.VOID, EquipmentSlot.CHEST,
                 new FabricItemSettings()
                 .group(ModItemGroup.INFINIUM)
-                .rarity(Rarity.EPIC)
+                .rarity(Rarity.RARE)
                 .maxDamage(2770)
                 .fireproof()));
         
@@ -71,8 +71,8 @@ public class ModItems {
                 new VoidArmor(ModArmorMaterials.VOID, EquipmentSlot.HEAD,
                 new FabricItemSettings()
                 .group(ModItemGroup.INFINIUM)
-               .rarity(Rarity.EPIC)
-                .maxDamage(2500)
+               .rarity(Rarity.RARE)
+                .maxDamage(2350)
                 .fireproof()));
     }
     
@@ -81,15 +81,15 @@ public class ModItems {
                 new VoidPickaxeItem(ModToolMaterials.VOID, 20, 20,
                 new FabricItemSettings()
                 .group(ModItemGroup.INFINIUM)
-                .rarity(Rarity.UNCOMMON)
-                .maxDamage(2000)
+                .rarity(Rarity.RARE)
+                .maxDamage(3250)
                 .fireproof()));
 
         GRAPPLING_HOOK = registerItem("grappling_hook",
                 new GrapplingHookItem(new FabricItemSettings()
                 .group(ModItemGroup.INFINIUM)
-                .rarity(Rarity.UNCOMMON)
-                .maxDamage(20)));
+                .rarity(Rarity.EPIC)
+                .maxDamage(450)));
 
         MAGMA_TRIDENT = registerItem("magma_trident",
                 new MagmaTridentItem(new FabricItemSettings()
@@ -104,11 +104,12 @@ public class ModItems {
                 new VoidTotemItem(
                 new FabricItemSettings()
                 .group(ModItemGroup.INFINIUM)
+                .maxCount(1)
                 .rarity(Rarity.RARE)));
     }
 
     private static void registerRunes() {
-        IMMUNITY_RUNE = registerItem("immunity_rune", new ImmunityRuneItem(new FabricItemSettings().group(ModItemGroup.INFINIUM).rarity(Rarity.EPIC)));
+        IMMUNITY_RUNE = registerItem("immunity_rune", new ImmunityRuneItem(new FabricItemSettings().group(ModItemGroup.INFINIUM).maxCount(1).rarity(Rarity.EPIC)));
     }
 
 }

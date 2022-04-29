@@ -1,0 +1,12 @@
+{
+  "map": [
+    {
+      "predicate": {
+        "materialPredicate": {
+          "texture": "infinium:textures/entity/magma_trident.png"
+        }
+      },
+      "material": "canvas:emissive_transform"
+    }
+  ]
+}

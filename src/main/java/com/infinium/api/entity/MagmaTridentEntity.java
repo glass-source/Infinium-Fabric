@@ -17,6 +17,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.Text;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -33,14 +34,15 @@ public class MagmaTridentEntity extends TridentEntity {
 
     public MagmaTridentEntity(EntityType<? extends TridentEntity> entityType, World world) {
         super(entityType, world);
-         tridentStack = new ItemStack(ModItems.MAGMA_TRIDENT);
-         this.dataTracker.set(MAGMA, false);
-
+        tridentStack = new ItemStack(ModItems.MAGMA_TRIDENT);
+        this.dataTracker.set(MAGMA, false);
+        this.setCustomName(Text.of("Magma Trident"));
     }
 
     public MagmaTridentEntity(World world, LivingEntity owner, ItemStack stack) {
         super(world, owner, stack);
         tridentStack = stack;
+        this.setCustomName(Text.of("Magma Trident"));
     }
 
     @Override
@@ -98,7 +100,6 @@ public class MagmaTridentEntity extends TridentEntity {
         return super.createSpawnPacket();
     }
 
-
     public static boolean isMagmaTrident(TridentEntity entity) {
         try {
             return entity.getDataTracker().get(MAGMA);
@@ -106,5 +107,5 @@ public class MagmaTridentEntity extends TridentEntity {
             return false;
         }
     }
-    
+
 }

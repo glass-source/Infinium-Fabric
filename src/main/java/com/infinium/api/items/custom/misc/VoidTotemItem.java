@@ -7,6 +7,7 @@ public class VoidTotemItem extends Item {
 
     public VoidTotemItem(Settings settings) {
         super(settings);
+
     }
 
 }
