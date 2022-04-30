@@ -1,11 +1,11 @@
 package com.infinium.api.items;
 
 import com.infinium.Infinium;
-import com.infinium.api.enums.RuneType;
 import com.infinium.api.items.custom.armor.VoidArmor;
 import com.infinium.api.items.custom.misc.MagmaTridentItem;
-import com.infinium.api.items.custom.misc.ImmunityRuneItem;
+import com.infinium.api.items.custom.runes.ImmunityRuneItem;
 import com.infinium.api.items.custom.misc.VoidTotemItem;
+import com.infinium.api.items.custom.runes.WitherRuneItem;
 import com.infinium.api.items.custom.tools.VoidPickaxeItem;
 import com.infinium.api.items.custom.misc.GrapplingHookItem;
 import com.infinium.api.items.groups.ModItemGroup;
@@ -30,6 +30,8 @@ public class ModItems {
     public static Item VOID_BOOTS;
 
     public static Item IMMUNITY_RUNE;
+
+    public static Item WITHER_RUNE;
 
     private static Item registerItem(String name, Item item) {
         return Registry.register(Registry.ITEM, new Identifier(Infinium.MOD_ID, name), item);
@@ -78,11 +80,11 @@ public class ModItems {
     
     private static void registerTools(){
         VOID_PICKAXE = registerItem("void_pickaxe",
-                new VoidPickaxeItem(ModToolMaterials.VOID, 20, 20,
+                new VoidPickaxeItem(ModToolMaterials.VOID, 8, 1.2F,
                 new FabricItemSettings()
                 .group(ModItemGroup.INFINIUM)
                 .rarity(Rarity.RARE)
-                .maxDamage(3250)
+                .maxDamage(4570)
                 .fireproof()));
 
         GRAPPLING_HOOK = registerItem("grappling_hook",
@@ -110,6 +112,8 @@ public class ModItems {
 
     private static void registerRunes() {
         IMMUNITY_RUNE = registerItem("immunity_rune", new ImmunityRuneItem(new FabricItemSettings().group(ModItemGroup.INFINIUM).maxCount(1).rarity(Rarity.EPIC)));
+        WITHER_RUNE = registerItem("wither_rune", new WitherRuneItem(new FabricItemSettings().group(ModItemGroup.INFINIUM).maxCount(1).rarity(Rarity.EPIC)));
+
     }
 
 }

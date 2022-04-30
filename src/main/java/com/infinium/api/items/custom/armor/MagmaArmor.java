@@ -28,16 +28,8 @@ public class MagmaArmor extends ArmorItem {
                 if (hasFullArmor(p)) {
 
                     if (hasMagmaArmor(p)) {
-                        double baseValue = p.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).getBaseValue();
-                        if (baseValue + 10 < 30) {
-                            p.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue(baseValue + 10);
-                        } else {
-                            p.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue(baseValue);
-
-                        }
                         StatusEffectInstance[] effects = {
                           new StatusEffectInstance(StatusEffects.RESISTANCE, 120, 1),
-                          new StatusEffectInstance(StatusEffects.STRENGTH, 120, 1),
                           new StatusEffectInstance(StatusEffects.SPEED, 120, 1),
                           new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 120, 0)
                         };
@@ -54,9 +46,6 @@ public class MagmaArmor extends ArmorItem {
         var leggings = inventory.getArmorStack(1);
         var chestplate = inventory.getArmorStack(2);
         var helmet = inventory.getArmorStack(3);
-
-
-
         return !boots.isEmpty() && !leggings.isEmpty() && !chestplate.isEmpty() && !helmet.isEmpty();
     }
 

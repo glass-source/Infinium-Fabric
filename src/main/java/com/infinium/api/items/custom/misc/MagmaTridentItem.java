@@ -23,16 +23,18 @@ public class MagmaTridentItem extends TridentItem {
     public MagmaTridentItem(Settings settings) {
         super(settings);
     }
-
     @Override
     public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
         if (user instanceof PlayerEntity playerEntity) {
             int i = this.getMaxUseTime(stack) - remainingUseTicks;
             if (i >= 10) {
+
                 int riptideLevel = EnchantmentHelper.getRiptide(stack);
+
+                if (!world.isClient()) stack.damage(1, playerEntity, (p) -> p.sendToolBreakStatus(user.getActiveHand()));
+
                 if (riptideLevel <= 0) {
                     if (!world.isClient()) {
-                        stack.damage(1, playerEntity, (p) -> p.sendToolBreakStatus(user.getActiveHand()));
                         if (riptideLevel == 0) {
                             MagmaTridentEntity magmaTridentEntity = new MagmaTridentEntity(world, playerEntity, stack);
                             magmaTridentEntity.setVelocity(playerEntity, playerEntity.getPitch(), playerEntity.getYaw(), 0.0F, 2.5F + riptideLevel * 0.5F, 1.0F);

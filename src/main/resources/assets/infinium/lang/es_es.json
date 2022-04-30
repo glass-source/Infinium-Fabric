@@ -9,8 +9,8 @@
   "item.infinium.grappling_hook" : "Gancho",
   "item.infinium.magma_trident" : "Tridente de Magma",
 
-  "category.minecraft.test": "Categoría de Infinium",
-  "itemGroup.infinium.test": "Grupo de Infinium",
+  "category.minecraft.infinium": "Categoría de Infinium",
+  "itemGroup.infinium.infinium": "Grupo de Infinium",
 
   "item.infinium.immunity_rune" : "Runa de Inmunidad",
 

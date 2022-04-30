@@ -9,10 +9,11 @@
   "item.infinium.grappling_hook" : "Grappling Hook",
   "item.infinium.magma_trident" : "Magma Trident",
 
-  "category.minecraft.test": "Infinium Category",
-  "itemGroup.infinium.test": "Infinium Group",
+  "category.minecraft.infinium": "Infinium Category",
+  "itemGroup.infinium.infinium": "Infinium Group",
 
   "item.infinium.immunity_rune" : "Immunity Rune",
+  "item.infinium.wither_rune" : "Wither Rune",
 
   "effect.infinium.immunity": "Immunity",
   "effect.infinium.madness": "Madness",

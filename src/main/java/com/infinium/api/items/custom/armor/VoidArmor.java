@@ -28,17 +28,8 @@ public class VoidArmor extends ArmorItem {
                 if (hasFullArmor(p)) {
 
                     if (hasVoidArmor(p)) {
-                        double baseValue = p.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).getBaseValue();
-                        if (baseValue + 10 < 30) {
-                            p.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue(baseValue + 10);
-                        } else {
-                            p.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue(baseValue);
-
-                        }
-
                         StatusEffectInstance[] effects = {
                                 new StatusEffectInstance(StatusEffects.RESISTANCE, 120, 0),
-                                new StatusEffectInstance(StatusEffects.STRENGTH, 120, 0),
                                 new StatusEffectInstance(StatusEffects.SPEED, 120, 0)
                         };
                         Arrays.stream(effects).toList().forEach(p::addStatusEffect);
