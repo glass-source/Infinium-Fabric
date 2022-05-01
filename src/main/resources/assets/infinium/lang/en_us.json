@@ -14,6 +14,9 @@
 
   "item.infinium.immunity_rune" : "Immunity Rune",
   "item.infinium.wither_rune" : "Wither Rune",
+  "item.infinium.speed_rune" : "Speed Rune",
+  "item.infinium.resistance_rune" : "Resistance Rune",
+  "item.infinium.fire_rune" : "Fire Rune",
 
   "effect.infinium.immunity": "Immunity",
   "effect.infinium.madness": "Madness",

@@ -23,6 +23,7 @@ public class MagmaTridentItem extends TridentItem {
     public MagmaTridentItem(Settings settings) {
         super(settings);
     }
+
     @Override
     public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
         if (user instanceof PlayerEntity playerEntity) {

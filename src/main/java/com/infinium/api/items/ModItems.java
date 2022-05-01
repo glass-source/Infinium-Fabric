@@ -3,9 +3,8 @@ package com.infinium.api.items;
 import com.infinium.Infinium;
 import com.infinium.api.items.custom.armor.VoidArmor;
 import com.infinium.api.items.custom.misc.MagmaTridentItem;
-import com.infinium.api.items.custom.runes.ImmunityRuneItem;
+import com.infinium.api.items.custom.runes.*;
 import com.infinium.api.items.custom.misc.VoidTotemItem;
-import com.infinium.api.items.custom.runes.WitherRuneItem;
 import com.infinium.api.items.custom.tools.VoidPickaxeItem;
 import com.infinium.api.items.custom.misc.GrapplingHookItem;
 import com.infinium.api.items.groups.ModItemGroup;
@@ -30,8 +29,10 @@ public class ModItems {
     public static Item VOID_BOOTS;
 
     public static Item IMMUNITY_RUNE;
-
     public static Item WITHER_RUNE;
+    public static Item SPEED_RUNE;
+    public static Item RESISTANCE_RUNE;
+    public static Item FIRE_RUNE;
 
     private static Item registerItem(String name, Item item) {
         return Registry.register(Registry.ITEM, new Identifier(Infinium.MOD_ID, name), item);
@@ -111,9 +112,11 @@ public class ModItems {
     }
 
     private static void registerRunes() {
-        IMMUNITY_RUNE = registerItem("immunity_rune", new ImmunityRuneItem(new FabricItemSettings().group(ModItemGroup.INFINIUM).maxCount(1).rarity(Rarity.EPIC)));
-        WITHER_RUNE = registerItem("wither_rune", new WitherRuneItem(new FabricItemSettings().group(ModItemGroup.INFINIUM).maxCount(1).rarity(Rarity.EPIC)));
-
+        IMMUNITY_RUNE = registerItem("immunity_rune", new ImmunityRuneItem(new FabricItemSettings().group(ModItemGroup.INFINIUM).maxDamage(8).rarity(Rarity.EPIC)));
+        WITHER_RUNE = registerItem("wither_rune", new WitherRuneItem(new FabricItemSettings().group(ModItemGroup.INFINIUM).maxDamage(8).rarity(Rarity.EPIC)));
+        SPEED_RUNE = registerItem("speed_rune", new SpeedRuneItem(new FabricItemSettings().group(ModItemGroup.INFINIUM).maxDamage(8).rarity(Rarity.EPIC)));
+        RESISTANCE_RUNE = registerItem("resistance_rune", new ResistanceRuneItem(new FabricItemSettings().group(ModItemGroup.INFINIUM).maxDamage(8).rarity(Rarity.EPIC)));
+        FIRE_RUNE = registerItem("fire_rune", new FireRuneItem(new FabricItemSettings().group(ModItemGroup.INFINIUM).maxDamage(8).rarity(Rarity.EPIC)));
     }
 
 }

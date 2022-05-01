@@ -2,6 +2,7 @@ package com.infinium.api.items.custom.runes;
 
 import com.infinium.api.effects.InfiniumEffects;
 import net.kyori.adventure.audience.Audience;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
@@ -29,12 +30,18 @@ public class ImmunityRuneItem extends Item {
             world.playSound(user, user.getBlockPos(), SoundEvents.ENTITY_ILLUSIONER_PREPARE_BLINDNESS, SoundCategory.PLAYERS, 1, 0.03F);
             if (!world.isClient()) {
                 user.addStatusEffect(new StatusEffectInstance(InfiniumEffects.IMMUNITY, 20 * 25));
-                this.getDefaultStack().damage(1, user, (p) -> p.sendToolBreakStatus(user.getActiveHand()));
                 cooldownManager.set(this, 20 * (60 * 2));
             }
         }
         return super.use(world, user, hand);
     }
 
+    @Override
+    public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
+        if (user instanceof PlayerEntity playerEntity) {
+            if (!world.isClient()) stack.damage(1, playerEntity, (p) -> p.sendToolBreakStatus(user.getActiveHand()));
+        }
+        return super.finishUsing(stack, world, user);
+    }
 
 }

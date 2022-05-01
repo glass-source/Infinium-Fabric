@@ -1,12 +1,10 @@
 package com.infinium.api.items.custom.runes;
 
-import com.infinium.Infinium;
-import com.infinium.api.effects.InfiniumEffects;
-import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.WitherSkullEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundCategory;
@@ -15,11 +13,9 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
-import java.util.concurrent.TimeUnit;
+public class FireRuneItem extends Item {
 
-public class WitherRuneItem extends Item {
-
-    public WitherRuneItem(Settings settings) {
+    public FireRuneItem(Settings settings) {
         super(settings);
     }
 
@@ -27,15 +23,10 @@ public class WitherRuneItem extends Item {
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         var cooldownManager = user.getItemCooldownManager();
         if (!cooldownManager.isCoolingDown(this)) {
-            this.getDefaultStack().damage(1, user, (p) -> p.sendToolBreakStatus(user.getActiveHand()));
-            world.playSound(user, user.getBlockPos(), SoundEvents.ENTITY_BLAZE_SHOOT, SoundCategory.PLAYERS, 1, 0.75F);
+            world.playSound(user, user.getBlockPos(), SoundEvents.ENTITY_ILLUSIONER_PREPARE_BLINDNESS, SoundCategory.PLAYERS, 1, 0.03F);
             if (!world.isClient()) {
-                Infinium.executorService.schedule(() -> cooldownManager.set(this, 15), 25, TimeUnit.MILLISECONDS);
-                WitherSkullEntity skull = new WitherSkullEntity(world, user, 0, 0,0);
-                skull.setPosition(user.getEyePos());
-                skull.setVelocity(user, user.getPitch(), user.getYaw(), 0.0F, 2.5F + 1 * 0.5F, 1.0F);
-                world.spawnEntity(skull);
-                this.getDefaultStack().damage(1, user, (p) -> p.sendToolBreakStatus(user.getActiveHand()));
+                user.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 20 * 60 * 22, 3));
+                cooldownManager.set(this, 20 * (60 * 5));
             }
         }
         return super.use(world, user, hand);
@@ -48,5 +39,4 @@ public class WitherRuneItem extends Item {
         }
         return super.finishUsing(stack, world, user);
     }
-
 }
