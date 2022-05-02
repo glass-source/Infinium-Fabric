@@ -1,9 +1,11 @@
 package com.infinium.api.items.custom.armor;
 
-import com.infinium.api.items.materials.ModArmorMaterials;
+import com.google.common.collect.HashBasedTable;
+import com.google.common.collect.Table;
+import com.infinium.api.items.materials.InfiniumArmorMaterials;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
@@ -12,7 +14,9 @@ import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 public class VoidArmor extends ArmorItem {
 
@@ -28,11 +32,15 @@ public class VoidArmor extends ArmorItem {
                 if (hasFullArmor(p)) {
 
                     if (hasVoidArmor(p)) {
-                        StatusEffectInstance[] effects = {
-                                new StatusEffectInstance(StatusEffects.RESISTANCE, 120, 0),
-                                new StatusEffectInstance(StatusEffects.SPEED, 120, 0)
+                        StatusEffect[] effects = {
+                                StatusEffects.RESISTANCE,
+                                StatusEffects.SPEED,
                         };
-                        Arrays.stream(effects).toList().forEach(p::addStatusEffect);
+                        Arrays.stream(effects).toList().forEach(status -> {
+                            if (!p.hasStatusEffect(status)) p.addStatusEffect(new StatusEffectInstance(status, 140, 0));
+                            if (p.getStatusEffect(status).getDuration() < 60) p.addStatusEffect(new StatusEffectInstance(status, 140, 0));
+                        });
+
                     }
                 }
             }
@@ -58,7 +66,7 @@ public class VoidArmor extends ArmorItem {
         var chestplate = ((ArmorItem) inventory.getArmorStack(2).getItem()).getMaterial();
         var helmet = ((ArmorItem) inventory.getArmorStack(3).getItem()).getMaterial();
 
-        return boots == ModArmorMaterials.VOID && leggings == ModArmorMaterials.VOID && chestplate == ModArmorMaterials.VOID && helmet == ModArmorMaterials.VOID;
+        return boots == InfiniumArmorMaterials.VOID && leggings == InfiniumArmorMaterials.VOID && chestplate == InfiniumArmorMaterials.VOID && helmet == InfiniumArmorMaterials.VOID;
     }
 
 

@@ -1,6 +1,6 @@
 package com.infinium.api.entity;
 
-import com.infinium.api.items.ModItems;
+import com.infinium.api.items.global.InfiniumItems;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -34,7 +34,7 @@ public class MagmaTridentEntity extends TridentEntity {
 
     public MagmaTridentEntity(EntityType<? extends TridentEntity> entityType, World world) {
         super(entityType, world);
-        tridentStack = new ItemStack(ModItems.MAGMA_TRIDENT);
+        tridentStack = new ItemStack(InfiniumItems.MAGMA_TRIDENT);
         this.dataTracker.set(MAGMA, false);
         this.setCustomName(Text.of("Magma Trident"));
     }
@@ -54,6 +54,7 @@ public class MagmaTridentEntity extends TridentEntity {
     @Override
     protected void onEntityHit(EntityHitResult entityHitResult) {
         Entity entity = entityHitResult.getEntity();
+        if (!world.isClient()) entity.setFireTicks(entity.getFireTicks() + 1000);
         float f = 8.0F;
         if (entity instanceof LivingEntity livingEntity) {
             f += EnchantmentHelper.getAttackDamage(tridentStack, livingEntity.getGroup());

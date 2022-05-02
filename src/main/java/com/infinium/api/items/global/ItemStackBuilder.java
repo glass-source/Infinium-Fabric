@@ -1,4 +1,4 @@
-package com.infinium.api.items;
+package com.infinium.api.items.global;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;

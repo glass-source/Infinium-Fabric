@@ -25,6 +25,7 @@ public class FireRuneItem extends Item {
         if (!cooldownManager.isCoolingDown(this)) {
             world.playSound(user, user.getBlockPos(), SoundEvents.ENTITY_ILLUSIONER_PREPARE_BLINDNESS, SoundCategory.PLAYERS, 1, 0.03F);
             if (!world.isClient()) {
+                user.getActiveItem().damage(1, user, (p) -> p.sendToolBreakStatus(user.getActiveHand()));
                 user.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 20 * 60 * 22, 3));
                 cooldownManager.set(this, 20 * (60 * 5));
             }

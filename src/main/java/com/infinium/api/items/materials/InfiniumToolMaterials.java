@@ -2,15 +2,17 @@ package com.infinium.api.items.materials;
 
 import net.minecraft.item.Items;
 import net.minecraft.item.ToolMaterial;
+import net.minecraft.item.ToolMaterials;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.util.Lazy;
 
 import java.util.function.Supplier;
 
-public enum ModToolMaterials implements ToolMaterial {
+public enum InfiniumToolMaterials implements ToolMaterial {
 
-    MAGMA(16, 4200, 26.0F, 30.0F, 120, () -> Ingredient.ofItems(Items.NETHERITE_BLOCK)),
-    VOID(12, 3400, 22.0F, 25.0F, 100, () -> Ingredient.ofItems(Items.NETHERITE_INGOT));
+
+    MAGMA(8, 4231, 15.0F, 10.0F, 20, () -> Ingredient.ofItems(Items.NETHERITE_BLOCK)),
+    VOID(4, 3732, 9.0F, 4.0F, 15, () -> Ingredient.ofItems(Items.NETHERITE_INGOT));
 
     private final int miningLevel;
     private final int itemDurability;
@@ -19,13 +21,13 @@ public enum ModToolMaterials implements ToolMaterial {
     private final int enchantability;
     private final Lazy<Ingredient> repairIngredient;
 
-    private ModToolMaterials(int miningLevel, int itemDurability, float miningSpeed, float attackDamage, int enchantability, Supplier<Ingredient> repairIngredient) {
+    InfiniumToolMaterials(int miningLevel, int itemDurability, float miningSpeed, float attackDamage, int enchantability, Supplier<Ingredient> repairIngredient) {
         this.miningLevel = miningLevel;
         this.itemDurability = itemDurability;
         this.miningSpeed = miningSpeed;
         this.attackDamage = attackDamage;
         this.enchantability = enchantability;
-        this.repairIngredient = new Lazy(repairIngredient);
+        this.repairIngredient = new Lazy<>(repairIngredient);
     }
 
     public int getDurability() {

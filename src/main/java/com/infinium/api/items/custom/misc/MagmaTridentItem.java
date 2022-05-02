@@ -85,7 +85,12 @@ public class MagmaTridentItem extends TridentItem {
 
             }
         }
+    }
 
+    @Override
+    public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+        if (!target.getWorld().isClient) target.setFireTicks(target.getFireTicks() + 1000);
+        return super.postHit(stack, target, attacker);
     }
 
     @Override

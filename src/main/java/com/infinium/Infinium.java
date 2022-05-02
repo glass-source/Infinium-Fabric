@@ -1,7 +1,9 @@
 package com.infinium;
 
+import com.infinium.api.blocks.InfiniumBlocks;
 import com.infinium.api.effects.InfiniumEffects;
-import com.infinium.api.items.ModItems;
+import com.infinium.api.items.global.InfiniumItems;
+import com.infinium.api.utils.InfiniumRegistries;
 import lombok.Getter;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
@@ -10,11 +12,12 @@ import net.minecraft.util.Identifier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
 public class Infinium implements ModInitializer {
+
+
 
     public static @Getter ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
     public static String MOD_ID = "infinium";
@@ -34,9 +37,10 @@ public class Infinium implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        ModItems.init();
+        InfiniumItems.init();
+        InfiniumBlocks.init();
         InfiniumEffects.init();
-
+        InfiniumRegistries.init();
         ServerLifecycleEvents.SERVER_STARTING.register(server -> this.adventure = FabricServerAudiences.of(server));
         ServerLifecycleEvents.SERVER_STOPPED.register(server -> this.adventure = null);
     }

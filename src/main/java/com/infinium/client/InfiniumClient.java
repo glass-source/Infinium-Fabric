@@ -13,5 +13,8 @@ public class InfiniumClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
+
+
+
     }
 }

@@ -10,7 +10,7 @@ import net.minecraft.util.Lazy;
 
 import java.util.function.Supplier;
 
-public enum ModArmorMaterials implements ArmorMaterial {
+public enum InfiniumArmorMaterials implements ArmorMaterial {
 
     MAGMA("magma", 72, new int[]{12, 15, 20, 12}, 32, SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE, 10.0F, 1.75F, () -> Ingredient.ofItems(Items.NETHERITE_BLOCK)),
     VOID("void", 64, new int[]{9, 12, 16, 9}, 25, SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE, 6.0F, 1.25F, () -> Ingredient.ofItems(Items.NETHERITE_INGOT));
@@ -25,7 +25,7 @@ public enum ModArmorMaterials implements ArmorMaterial {
     private final float knockbackResistance;
     private final Lazy<Ingredient> repairIngredientSupplier;
 
-    ModArmorMaterials(String name, int durabilityMultiplier, int[] protectionAmounts, int enchantability, SoundEvent equipSound, float toughness, float knockbackResistance, Supplier<Ingredient> repairIngredientSupplier) {
+    InfiniumArmorMaterials(String name, int durabilityMultiplier, int[] protectionAmounts, int enchantability, SoundEvent equipSound, float toughness, float knockbackResistance, Supplier<Ingredient> repairIngredientSupplier) {
         this.name = name;
         this.durabilityMultiplier = durabilityMultiplier;
         this.protectionAmounts = protectionAmounts;

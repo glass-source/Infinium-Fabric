@@ -1,9 +1,7 @@
 package com.infinium.mixin;
 
 import com.infinium.api.effects.InfiniumEffects;
-import com.infinium.api.effects.ModStatusEffect;
-import com.infinium.api.items.ModItems;
-import net.minecraft.advancement.criterion.Criteria;
+import com.infinium.api.items.global.InfiniumItems;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -12,12 +10,8 @@ import net.minecraft.entity.damage.DamageTracker;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.stat.Stats;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
@@ -62,6 +56,8 @@ public abstract class LivingEntityMixin extends Entity {
 
     @Shadow @Final private DamageTracker damageTracker;
 
+    @Shadow public abstract boolean damage(DamageSource source, float amount);
+
     @Inject(method = "damage", at = @At("HEAD"), cancellable = true)
     public void onDamage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
         if(this.hasStatusEffect(InfiniumEffects.IMMUNITY)) {
@@ -69,8 +65,7 @@ public abstract class LivingEntityMixin extends Entity {
             cir.cancel();
 
         } else if (this.hasStatusEffect(InfiniumEffects.MADNESS)) {
-            amount += (2.5 * (this.getStatusEffect(InfiniumEffects.MADNESS).getAmplifier() + 1));
-
+            var extraDamage = (2.5 * (this.getStatusEffect(InfiniumEffects.MADNESS).getAmplifier() + 1));
         }
     }
 
@@ -90,9 +85,9 @@ public abstract class LivingEntityMixin extends Entity {
         ItemStack mainHand = this.getMainHandStack();
         ItemStack offHand = this.getOffHandStack();
 
-        if (offHand.getItem() == ModItems.VOID_TOTEM || mainHand.getItem() == ModItems.VOID_TOTEM) {
+        if (offHand.getItem() == InfiniumItems.VOID_TOTEM || mainHand.getItem() == InfiniumItems.VOID_TOTEM) {
 
-            if (offHand.getItem() == ModItems.VOID_TOTEM) {
+            if (offHand.getItem() == InfiniumItems.VOID_TOTEM) {
                 offHand.decrement(1);
             } else {
                 mainHand.decrement(1);

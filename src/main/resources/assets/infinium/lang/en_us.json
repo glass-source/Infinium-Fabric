@@ -18,9 +18,15 @@
   "item.infinium.resistance_rune" : "Resistance Rune",
   "item.infinium.fire_rune" : "Fire Rune",
 
+  "item.infinium.ender_wand": "Ender Wand",
+
+  "item.infinium.sanity_pill" : "Sanity Pill",
+
   "effect.infinium.immunity": "Immunity",
   "effect.infinium.madness": "Madness",
 
   "item.infinium.grappling_hook.tooltip" : "",
-  "item.infinium.grappling_hook.tooltip.shift" : ""
+  "item.infinium.grappling_hook.tooltip.shift" : "",
+  "block.infinium.void_stone": "Void Stone",
+  "block.infinium.void_stone_ore": "Void Stone Ore"
 }

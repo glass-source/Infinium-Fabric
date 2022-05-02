@@ -1,9 +1,8 @@
 package com.infinium.api.items.custom.armor;
 
-import com.infinium.api.items.materials.ModArmorMaterials;
+import com.infinium.api.items.materials.InfiniumArmorMaterials;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
@@ -56,7 +55,7 @@ public class MagmaArmor extends ArmorItem {
         var chestplate = ((ArmorItem) inventory.getArmorStack(2).getItem()).getMaterial();
         var helmet = ((ArmorItem) inventory.getArmorStack(3).getItem()).getMaterial();
 
-        return boots == ModArmorMaterials.MAGMA && leggings == ModArmorMaterials.MAGMA && chestplate == ModArmorMaterials.MAGMA && helmet == ModArmorMaterials.MAGMA;
+        return boots == InfiniumArmorMaterials.MAGMA && leggings == InfiniumArmorMaterials.MAGMA && chestplate == InfiniumArmorMaterials.MAGMA && helmet == InfiniumArmorMaterials.MAGMA;
     }
 
 }
