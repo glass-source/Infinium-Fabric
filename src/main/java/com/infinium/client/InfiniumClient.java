@@ -23,7 +23,6 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 @Environment(EnvType.CLIENT)
-
 public class InfiniumClient implements ClientModInitializer {
 
     private static final MagmaTridentItem ITEM = (MagmaTridentItem) InfiniumItems.MAGMA_TRIDENT;

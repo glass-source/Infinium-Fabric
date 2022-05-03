@@ -3,7 +3,7 @@ package com.infinium.api.utils;
 import net.minecraft.util.Formatting;
 import org.apache.commons.lang3.Validate;
 
-public class Format {
+public class ChatFormatter {
 
     /**
      * Function to translate the given text into Formatting format.

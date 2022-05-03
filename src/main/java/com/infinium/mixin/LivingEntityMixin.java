@@ -58,15 +58,15 @@ public abstract class LivingEntityMixin extends Entity {
 
     @Shadow public abstract boolean damage(DamageSource source, float amount);
 
+    @Shadow public abstract boolean isDead();
+
+    @Shadow protected abstract boolean tryUseTotem(DamageSource source);
+
     @Inject(method = "damage", at = @At("HEAD"), cancellable = true)
     public void onDamage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
         if(this.hasStatusEffect(InfiniumEffects.IMMUNITY)) {
             cir.setReturnValue(false);
             cir.cancel();
-
-        } else if (this.hasStatusEffect(InfiniumEffects.MADNESS)) {
-
-            var extraDamage = (2.5 * (this.getStatusEffect(InfiniumEffects.MADNESS).getAmplifier() + 1));
         }
     }
 
@@ -80,6 +80,8 @@ public abstract class LivingEntityMixin extends Entity {
 
         }
     }
+
+
 
     @Inject(at = @At("HEAD"), method = "tryUseTotem", cancellable = true)
     public void useVoidTotem(DamageSource source, CallbackInfoReturnable<Boolean> callback) {
