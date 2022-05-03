@@ -65,6 +65,7 @@ public abstract class LivingEntityMixin extends Entity {
             cir.cancel();
 
         } else if (this.hasStatusEffect(InfiniumEffects.MADNESS)) {
+
             var extraDamage = (2.5 * (this.getStatusEffect(InfiniumEffects.MADNESS).getAmplifier() + 1));
         }
     }
@@ -75,7 +76,7 @@ public abstract class LivingEntityMixin extends Entity {
             ci.cancel();
         }
         if(this.hasStatusEffect(InfiniumEffects.MADNESS)) {
-            amount *= (2.5 * (this.getStatusEffect(InfiniumEffects.MADNESS).getAmplifier()+1));
+            amount *= (2.5 * (this.getStatusEffect(InfiniumEffects.MADNESS).getAmplifier() + 1));
 
         }
     }

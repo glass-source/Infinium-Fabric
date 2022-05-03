@@ -2,6 +2,7 @@ package com.infinium;
 
 import com.infinium.api.blocks.InfiniumBlocks;
 import com.infinium.api.effects.InfiniumEffects;
+import com.infinium.api.entity.types.InfiniumEntityTypes;
 import com.infinium.api.items.global.InfiniumItems;
 import com.infinium.api.utils.InfiniumRegistries;
 import lombok.Getter;
@@ -41,6 +42,7 @@ public class Infinium implements ModInitializer {
         InfiniumBlocks.init();
         InfiniumEffects.init();
         InfiniumRegistries.init();
+        InfiniumEntityTypes.init();
         ServerLifecycleEvents.SERVER_STARTING.register(server -> this.adventure = FabricServerAudiences.of(server));
         ServerLifecycleEvents.SERVER_STOPPED.register(server -> this.adventure = null);
     }

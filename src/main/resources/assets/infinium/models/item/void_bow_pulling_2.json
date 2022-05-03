@@ -1,0 +1,6 @@
+{
+    "parent": "infinium:item/void_bow",
+    "textures": {
+        "layer0": "infinium:item/void_bow_pulling_2"
+    }
+}

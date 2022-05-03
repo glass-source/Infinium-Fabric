@@ -2,41 +2,59 @@ package com.infinium.api.items.custom.runes;
 
 import com.infinium.Infinium;
 import com.infinium.api.effects.InfiniumEffects;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.WitherSkullEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ToolItem;
+import net.minecraft.item.ToolMaterial;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraft.world.explosion.Explosion;
 
 import java.util.concurrent.TimeUnit;
 
-public class WitherRuneItem extends Item {
+public class WitherRuneItem extends ToolItem {
 
-    public WitherRuneItem(Settings settings) {
-        super(settings);
+    public WitherRuneItem(ToolMaterial material, Settings settings) {
+        super(material, settings);
     }
 
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         var cooldownManager = user.getItemCooldownManager();
         if (!cooldownManager.isCoolingDown(this)) {
-            this.getDefaultStack().damage(1, user, (p) -> p.sendToolBreakStatus(user.getActiveHand()));
-            world.playSound(user, user.getBlockPos(), SoundEvents.ENTITY_BLAZE_SHOOT, SoundCategory.PLAYERS, 1, 0.75F);
             if (!world.isClient()) {
-                Infinium.executorService.schedule(() -> cooldownManager.set(this, 15), 25, TimeUnit.MILLISECONDS);
+                Infinium.executorService.schedule(() -> cooldownManager.set(this, 15), 75, TimeUnit.MILLISECONDS);
                 WitherSkullEntity skull = new WitherSkullEntity(world, user, 0, 0,0);
+                Vec3d vec = user.getRotationVector();
                 skull.setPosition(user.getEyePos());
-                skull.setVelocity(user, user.getPitch(), user.getYaw(), 0.0F, 2.5F + 1 * 0.5F, 1.0F);
+                skull.setVelocity(vec.getX() * 1.25, vec.getY() * 1.25, vec.getZ() * 1.25);
                 world.spawnEntity(skull);
-                this.getDefaultStack().damage(1, user, (p) -> p.sendToolBreakStatus(user.getActiveHand()));
+                Infinium.executorService.schedule(() -> {
+                    if (skull.isAlive()) {
+                        world.createExplosion(skull, skull.getX(), skull.getY(), skull.getZ(), 3, Explosion.DestructionType.DESTROY);
+                        skull.remove(Entity.RemovalReason.KILLED);
+                        skull.kill();
+                    }
+                }, 4, TimeUnit.SECONDS);
             }
+
+            if (user.getEquippedStack(EquipmentSlot.MAINHAND).getItem().equals(this)) {
+                finishUsing(user.getEquippedStack(EquipmentSlot.MAINHAND), world, user);
+            } else if (user.getEquippedStack(EquipmentSlot.OFFHAND).getItem().equals(this)) {
+                finishUsing(user.getEquippedStack(EquipmentSlot.OFFHAND), world, user);
+            }
+            world.playSound(user, user.getBlockPos(), SoundEvents.ENTITY_BLAZE_SHOOT, SoundCategory.PLAYERS, 1, 0.75F);
         }
         return super.use(world, user, hand);
     }

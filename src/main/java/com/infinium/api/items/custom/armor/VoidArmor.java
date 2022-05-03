@@ -37,8 +37,8 @@ public class VoidArmor extends ArmorItem {
                                 StatusEffects.SPEED,
                         };
                         Arrays.stream(effects).toList().forEach(status -> {
-                            if (!p.hasStatusEffect(status)) p.addStatusEffect(new StatusEffectInstance(status, 140, 0));
-                            if (p.getStatusEffect(status).getDuration() < 60) p.addStatusEffect(new StatusEffectInstance(status, 140, 0));
+                            if (!p.hasStatusEffect(status)) p.addStatusEffect(new StatusEffectInstance(status, 280, 0));
+                            if (p.getStatusEffect(status).getDuration() < 120) p.addStatusEffect(new StatusEffectInstance(status, 280, 0));
                         });
 
                     }

@@ -1,11 +1,17 @@
 {
-  "item.infinium.void_totem" : "Void Totem",
   "item.infinium.void_pickaxe" : "Void Pickaxe",
+  "item.infinium.void_sword" : "Void Sword",
+  "item.infinium.void_axe" : "Void Axe",
+  "item.infinium.void_shovel" : "Void Shovel",
+  "item.infinium.void_hoe" : "Void Hoe",
+  "item.infinium.void_bow" : "Void Bow",
+
   "item.infinium.void_helmet" : "Void Helmet",
   "item.infinium.void_chestplate" : "Void Chestplate",
   "item.infinium.void_leggings" : "Void Leggings",
   "item.infinium.void_boots" : "Void Boots",
 
+  "item.infinium.void_totem" : "Void Totem",
   "item.infinium.grappling_hook" : "Grappling Hook",
   "item.infinium.magma_trident" : "Magma Trident",
 
@@ -28,5 +34,9 @@
   "item.infinium.grappling_hook.tooltip" : "",
   "item.infinium.grappling_hook.tooltip.shift" : "",
   "block.infinium.void_stone": "Void Stone",
-  "block.infinium.void_stone_ore": "Void Stone Ore"
+  "block.infinium.void_stone_ore": "Void Stone Ore",
+  "block.infinium.void_stone_button": "Void Stone Button",
+  "block.infinium.void_stone_pressure_plate": "Void Stone Pressure Plate",
+  "block.infinium.void_stone_wall": "Void Stone Wall"
+
 }

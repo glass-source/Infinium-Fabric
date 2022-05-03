@@ -1,4 +1,4 @@
-package com.infinium.api.items.custom.tools;
+package com.infinium.api.items.custom.tools.voiditems;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;

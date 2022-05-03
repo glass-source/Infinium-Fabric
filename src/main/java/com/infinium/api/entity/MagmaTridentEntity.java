@@ -96,17 +96,8 @@ public class MagmaTridentEntity extends TridentEntity {
         playSound(soundEvent, g, 1.0F);
     }
 
-    @Override
-    public Packet<?> createSpawnPacket() {
-        return super.createSpawnPacket();
-    }
 
-    public static boolean isMagmaTrident(TridentEntity entity) {
-        try {
-            return entity.getDataTracker().get(MAGMA);
-        } catch (NullPointerException ignored) {
-            return false;
-        }
-    }
+
+
 
 }

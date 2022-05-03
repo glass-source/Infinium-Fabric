@@ -2,6 +2,7 @@ package com.infinium.api.items.custom.misc;
 
 import com.infinium.api.entity.MagmaTridentEntity;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MovementType;
 import net.minecraft.entity.player.PlayerEntity;
@@ -20,8 +21,19 @@ import net.minecraft.world.World;
 
 public class MagmaTridentItem extends TridentItem {
 
+    EntityType<? extends MagmaTridentEntity> type;
+
     public MagmaTridentItem(Settings settings) {
         super(settings);
+    }
+
+    public MagmaTridentItem(Settings settings, EntityType<? extends MagmaTridentEntity> entityType) {
+        super(settings);
+        this.type = entityType;
+    }
+
+    public EntityType<? extends MagmaTridentEntity> getEntityType() {
+        return type;
     }
 
     @Override

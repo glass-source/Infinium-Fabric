@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "infinium",
   "version": "${version}",
-  "name": "InfiniumT1-Mod",
+  "name": "InfiniumT1-FabricMC",
   "description": "Simple mod port of the Infinium SMP main plugin",
   "authors": [
     "mrswz", "ITzFel17"

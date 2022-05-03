@@ -3,6 +3,7 @@ package com.infinium.api.items.custom.armor;
 import com.infinium.api.items.materials.InfiniumArmorMaterials;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
@@ -27,12 +28,15 @@ public class MagmaArmor extends ArmorItem {
                 if (hasFullArmor(p)) {
 
                     if (hasMagmaArmor(p)) {
-                        StatusEffectInstance[] effects = {
-                          new StatusEffectInstance(StatusEffects.RESISTANCE, 120, 1),
-                          new StatusEffectInstance(StatusEffects.SPEED, 120, 1),
-                          new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 120, 0)
+                        StatusEffect[] effects = {
+                                StatusEffects.RESISTANCE,
+                                StatusEffects.SPEED,
+                                StatusEffects.FIRE_RESISTANCE
                         };
-                        Arrays.stream(effects).toList().forEach(p::addStatusEffect);
+                        Arrays.stream(effects).toList().forEach(status -> {
+                            if (!p.hasStatusEffect(status)) p.addStatusEffect(new StatusEffectInstance(status, 280, 0));
+                            if (p.getStatusEffect(status).getDuration() < 120) p.addStatusEffect(new StatusEffectInstance(status, 280, 0));
+                        });
                     }
                 }
             }
