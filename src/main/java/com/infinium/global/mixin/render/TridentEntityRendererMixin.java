@@ -1,7 +1,6 @@
-package com.infinium.mixin.render;
+package com.infinium.global.mixin.render;
 
 import net.minecraft.client.render.entity.TridentEntityRenderer;
-import net.minecraft.client.render.entity.model.TridentEntityModel;
 import net.minecraft.entity.projectile.TridentEntity;
 import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.Mixin;

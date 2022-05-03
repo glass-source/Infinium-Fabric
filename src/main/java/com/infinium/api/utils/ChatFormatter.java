@@ -1,7 +1,14 @@
 package com.infinium.api.utils;
 
+import com.infinium.Infinium;
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import org.apache.commons.lang3.Validate;
+import org.jetbrains.annotations.NotNull;
 
 public class ChatFormatter {
 
@@ -12,6 +19,17 @@ public class ChatFormatter {
      * @return Text containing the Formatting.FORMATTING_CODE_PREFIX color code character replaced by '&'.
      */
     public static String format(String text) {return translateAlternateColorCodes('&', text);}
+
+    /**
+     * Function to translate the given text into Formatting format.
+     *
+     * @param text to translate.
+     * @return Text containing the Formatting.FORMATTING_CODE_PREFIX color code character replaced by '&'.
+     */
+
+    public static Text text(String text) {
+        return Text.of(ChatFormatter.format(text));
+    }
 
     /**
      * Function to translate the given text into Formatting format.
@@ -44,6 +62,15 @@ public class ChatFormatter {
         return new String(b);
     }
 
+
+    public static Component miniMessage(String build) {
+        return MiniMessage.miniMessage().deserialize(build);
+    }
+
     public static String prefix = format("&5&lInfinium&6&lSMP &8>> ");
 
+
+    public static void broadcastMessage(String message) {
+        Infinium.adventure.audience(PlayerLookup.all(Infinium.getServer())).sendMessage(miniMessage(message));
+    }
 }

@@ -1,4 +1,4 @@
-package com.infinium.mixin;
+package com.infinium.global.mixin;
 
 import com.infinium.api.effects.InfiniumEffects;
 import com.infinium.api.items.global.InfiniumItems;

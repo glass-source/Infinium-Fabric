@@ -9,6 +9,7 @@ import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
@@ -29,19 +30,20 @@ public class ServerPlayerListeners {
         ServerPlayerEvents.ALLOW_DEATH.register((player, damageSource, damageAmount) -> {
             boolean[] hasTotem = {false};
 
-            player.getItemsHand().forEach(itemStack -> {
-                var item = itemStack.getItem();
+            for(ItemStack stack : player.getItemsHand()) {
+                var item = stack.getItem();
 
-                if (item.equals(Items.TOTEM_OF_UNDYING) && damageSource.isOutOfWorld()) {
-                    hasTotem[0] = false;
-                    return;
-                }
 
 
                 if (item.equals(Items.TOTEM_OF_UNDYING) || item.equals(InfiniumItems.VOID_TOTEM)) {
+                    if(item.equals(Items.TOTEM_OF_UNDYING) && damageSource.isOutOfWorld()) {
+                        continue;
+                    }
                     hasTotem[0] = true;
                 }
-            });
+
+
+            }
 
             if (!hasTotem[0]) {
                 if (Infinium.server != null) {

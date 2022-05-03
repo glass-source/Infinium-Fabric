@@ -1,6 +1,6 @@
 package com.infinium.api.items.custom.misc;
 
-import com.infinium.api.entity.MagmaTridentEntity;
+import com.infinium.global.entity.list.MagmaTridentEntity;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;

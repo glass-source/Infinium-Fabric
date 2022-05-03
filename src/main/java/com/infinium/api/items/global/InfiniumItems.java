@@ -1,7 +1,7 @@
 package com.infinium.api.items.global;
 
 import com.infinium.Infinium;
-import com.infinium.api.entity.types.InfiniumEntityTypes;
+import com.infinium.global.entity.InfiniumEntityType;
 import com.infinium.api.items.custom.armor.VoidArmor;
 import com.infinium.api.items.custom.food.SanityItem;
 import com.infinium.api.items.custom.misc.EnderWandItem;
@@ -80,7 +80,7 @@ public class InfiniumItems {
 
     private static void registerMisc() {
         GRAPPLING_HOOK = registerItem("grappling_hook", new GrapplingHookItem(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC).maxDamage(450)));
-        MAGMA_TRIDENT = registerItem("magma_trident", new MagmaTridentItem(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.UNCOMMON).maxDamage(3450).fireproof(), InfiniumEntityTypes.MAGMA_TRIDENT));
+        MAGMA_TRIDENT = registerItem("magma_trident", new MagmaTridentItem(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.UNCOMMON).maxDamage(3450).fireproof(), InfiniumEntityType.MAGMA_TRIDENT));
         ENDER_WAND = registerItem("ender_wand", new EnderWandItem(InfiniumToolMaterials.VOID, new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC).maxDamage(25)));
     }
 

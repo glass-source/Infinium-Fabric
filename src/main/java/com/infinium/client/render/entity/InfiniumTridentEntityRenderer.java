@@ -1,6 +1,6 @@
 package com.infinium.client.render.entity;
 
-import com.infinium.api.entity.MagmaTridentEntity;
+import com.infinium.global.entity.list.MagmaTridentEntity;
 import com.infinium.client.render.entity.model.InfiniumTridentEntityModel;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

@@ -1,4 +1,4 @@
-package com.infinium.mixin;
+package com.infinium.global.mixin;
 
 import com.infinium.api.events.players.ServerPlayerConnectionEvents;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ServerPlayNetworkHandler.class)
-public class ServerPlayNetworkHandlerMixin {
+public abstract class ServerPlayNetworkHandlerMixin {
 
     @Shadow public ServerPlayerEntity player;
 

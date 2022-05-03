@@ -12,14 +12,17 @@ import java.util.Date;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
+
+//Lol this is no a event???????
 public class SolarEclipseManager {
 
-    private static final String NAME = ChatFormatter.format("&6&l☀ &e&lEclipse Solar: &5&l%time% &6&l☀");
-    public static final BossBar BOSS_BAR = BossBar.bossBar(Component.text(NAME.replaceAll("%time%", "0:00:00")), 1, BossBar.Color.RED, BossBar.Overlay.NOTCHED_6);
+    private static final String NAME = ChatFormatter.format("&8&l☀ &7&lEclipse Solar: &e&l%time% &8&l☀");
+    public static final BossBar BOSS_BAR = BossBar.bossBar(Component.text(NAME.replaceAll("%time%", "0:00:00")), 1, BossBar.Color.PURPLE, BossBar.Overlay.NOTCHED_6);
     private static long endsIn;
     private static long lastTimeChecked;
     private static long totalTime = 0L;
     private static final ScheduledFuture<?> Task = null;
+
 
     private static void tick(){
         Infinium.executorService.scheduleWithFixedDelay(() -> {
@@ -28,6 +31,7 @@ public class SolarEclipseManager {
             BOSS_BAR.name(name);
             BOSS_BAR.progress(percent);
             if (getTimeToEnd() <= 0) end();
+
         }, 0, 1000, TimeUnit.MILLISECONDS);
 
     }

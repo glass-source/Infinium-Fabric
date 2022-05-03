@@ -2,8 +2,9 @@ package com.infinium;
 
 import com.infinium.api.blocks.InfiniumBlocks;
 import com.infinium.api.effects.InfiniumEffects;
-import com.infinium.api.entity.types.InfiniumEntityTypes;
+import com.infinium.global.entity.InfiniumEntityType;
 import com.infinium.api.items.global.InfiniumItems;
+import com.infinium.api.listeners.entity.EntityListeners;
 import com.infinium.api.listeners.player.ServerPlayerListeners;
 import com.infinium.api.utils.InfiniumRegistries;
 import lombok.Getter;
@@ -57,8 +58,9 @@ public class Infinium implements ModInitializer {
         InfiniumBlocks.init();
         InfiniumEffects.init();
         InfiniumRegistries.init();
-        InfiniumEntityTypes.init();
+        InfiniumEntityType.init();
         ServerPlayerListeners.registerListener();
+        EntityListeners.registerListeners();
     }
 
     private void registerServer(){

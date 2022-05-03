@@ -1,14 +1,16 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "com.infinium.mixin",
+  "package": "com.infinium.global.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "LivingEntityMixin",
     "PlayerManagerMixin",
     "ServerPlayNetworkHandlerMixin",
     "render.TridentEntityRendererMixin",
-    "render.TridentRiptideFeatureRendererMixin"
+    "render.TridentRiptideFeatureRendererMixin",
+    "world.ClientWorldMixin",
+    "world.ServerWorldMixin"
   ],
   "client": [
   ],

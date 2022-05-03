@@ -1,4 +1,4 @@
-package com.infinium.api.entity;
+package com.infinium.global.entity.list;
 
 import com.infinium.api.items.global.InfiniumItems;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -12,7 +12,6 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.projectile.TridentEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.Packet;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;

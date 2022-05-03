@@ -1,4 +1,4 @@
-package com.infinium.mixin;
+package com.infinium.global.mixin;
 
 import com.infinium.api.events.players.ServerPlayerConnectionEvents;
 import net.minecraft.network.ClientConnection;
@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class PlayerManagerMixin {
 
     @Inject(at = @At("TAIL"), method = "onPlayerConnect")
-    public void onDisconnect(ClientConnection connection, ServerPlayerEntity player, CallbackInfo ci){
+    public void onPlayerConnect(ClientConnection connection, ServerPlayerEntity player, CallbackInfo ci){
         ServerPlayerConnectionEvents.OnServerPlayerConnect.EVENT.invoker().connect(player);
     }
 
