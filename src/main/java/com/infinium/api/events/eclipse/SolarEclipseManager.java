@@ -3,27 +3,25 @@ package com.infinium.api.events.eclipse;
 import com.infinium.Infinium;
 import com.infinium.api.utils.ChatFormatter;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
-import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.bossbar.BossBar;
+import net.kyori.adventure.key.Key;
+import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.Text;
+import net.kyori.adventure.title.Title;
+import net.minecraft.world.GameRules;
 
 import java.util.Date;
-import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 
-//Lol this is no a event???????
+
 public class SolarEclipseManager {
 
-    private static final String NAME = ChatFormatter.format("&8&l☀ &7&lEclipse Solar: &e&l%time% &8&l☀");
+    private static final String NAME = ChatFormatter.format("&5&k&? &6&l☀ &7&lEclipse Solar: &e&l%time% &6&l☀ &5&k&?");
     public static final BossBar BOSS_BAR = BossBar.bossBar(Component.text(NAME.replaceAll("%time%", "0:00:00")), 1, BossBar.Color.PURPLE, BossBar.Overlay.NOTCHED_6);
     private static long endsIn;
     private static long lastTimeChecked;
     private static long totalTime = 0L;
-    private static final ScheduledFuture<?> Task = null;
-
 
     private static void tick(){
         Infinium.executorService.scheduleWithFixedDelay(() -> {
@@ -47,36 +45,34 @@ public class SolarEclipseManager {
 
     public static void start(double hours){
         if (hours <= 0) hours = 0.5;
-        long addedTime = (long) (hours * 3600000.0D);
         if (!isActive()) {
             tick();
             endsIn = 0L;
-
-            if (Infinium.server != null) {
-                Infinium.server.getOverworld().setTimeOfDay(18000);
-                Infinium.adventure.audience(PlayerLookup.all(Infinium.server)).showBossBar(SolarEclipseManager.BOSS_BAR);
-                PlayerLookup.all(Infinium.server).forEach(serverPlayerEntity -> {
-                    serverPlayerEntity.playSound(SoundEvents.BLOCK_ENDER_CHEST_OPEN, 20, 0.002f);
-                });
-            } else {
-                Infinium.LOGGER.debug("El servidor era null!");
-            }
-
-
         }
+
+        var server = Infinium.server;
+        long addedTime = (long) (hours * 3600000.0D);
 
         endsIn += addedTime;
         totalTime += addedTime;
         lastTimeChecked = (new Date()).getTime();
-        if (Task != null) {
-            Task.cancel(false);
+
+        if (Infinium.server != null) {
+            var world = server.getOverworld();
+            var audience = Infinium.adventure.audience(PlayerLookup.all(server));
+            var title = Title.title(Component.text(ChatFormatter.format("&8&k&l? &7Eclipse Solar &8&k&l?")), Component.text(ChatFormatter.format("&7Duración: &8" + getTime())));
+
+            audience.showTitle(title);
+            world.setTimeOfDay(18000);
+            server.getGameRules().get(GameRules.DO_DAYLIGHT_CYCLE).set(false, server);
+            audience.showBossBar(SolarEclipseManager.BOSS_BAR);
+            audience.playSound(Sound.sound(Key.key("minecraft:item.chorus_fruit.teleport"), Sound.Source.AMBIENT, 10, 0.003f));
+
         }
     }
 
     public static void end(){
-        if (Task != null) {
-            Task.cancel(true);
-        }
+        Infinium.server.getGameRules().get(GameRules.DO_DAYLIGHT_CYCLE).set(true, Infinium.server);
         Infinium.adventure.audience(PlayerLookup.all(Infinium.server)).hideBossBar(BOSS_BAR);
         endsIn = 0L;
         totalTime = 0L;

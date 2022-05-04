@@ -38,6 +38,7 @@ public class SuperNova extends WitherEntity {
         private int randomMessageCooldown = 420;
         private SuperNovaNMSAttacks currentAttack = SuperNovaNMSAttacks.NONE;
         private ThreadLocalRandom random;
+
         public SuperNovaGoal(WitherEntity wither){
             this.wither = wither;
             this.random = ThreadLocalRandom.current();

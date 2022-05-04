@@ -55,8 +55,12 @@ public class EntityBuilder {
 
 
     public EntityBuilder setCharged(boolean value) {
-        if(value && entity.getType() == EntityType.CREEPER) ((CreeperEntity)entity).onStruckByLightning(null,null);
-    return this;
+        if(value && entity.getType() == EntityType.CREEPER) {
+            entity.onStruckByLightning(null, null);
+            entity.setFireTicks(0);
+            entity.setHealth(entity.getHealth() + 1);
+        }
+        return this;
     }
 
     public EntityBuilder setInvisible(boolean value) {

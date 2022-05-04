@@ -7,12 +7,19 @@ import com.infinium.api.items.global.InfiniumItems;
 import com.infinium.api.utils.ChatFormatter;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.key.Key;
+import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
+
+import java.util.concurrent.TimeUnit;
 
 public class ServerPlayerListeners {
 
@@ -47,24 +54,25 @@ public class ServerPlayerListeners {
 
             if (!hasTotem[0]) {
                 if (Infinium.server != null) {
-                    SolarEclipseManager.start(0.25);
-                    Title title = Title.title(Component.text(ChatFormatter.format("&6&k&l? &5Infinium &6&k&l?")), Component.text("h"));
-                    PlayerLookup.all(Infinium.server).forEach(serverPlayerEntity -> {
-                        Infinium.adventure.audience(PlayerLookup.all(Infinium.server)).showTitle(title);
-                        serverPlayerEntity.sendMessage(Text.of(ChatFormatter.formatWithPrefix("&7El jugador: &c&l%player% &7ha muerto".replaceAll("%player%", player.getEntityName()))), false);
-                    });
+                    Audience audience = Infinium.adventure.audience(PlayerLookup.all(Infinium.server));
+                    Title title = Title.title(Component.text(ChatFormatter.format("&6&k&l? &5Infinium &6&k&l?")), Component.text(""));
+
+                    audience.playSound(Sound.sound(Key.key("minecraft:item.trident.riptide_3"), Sound.Source.AMBIENT, 10, 0.003f));
+                    audience.showTitle(title);
+                    ChatFormatter.broadcastMessage(ChatFormatter.formatWithPrefix("&7El jugador: &6&l%player% &7sucumbio ante el\n&5&lVacío Infinito".replaceAll("%player%", player.getEntityName())));
+                    Infinium.executorService.schedule(() -> SolarEclipseManager.start(0.1), 6, TimeUnit.SECONDS);
                 }
             }
-
             return true;
         });
     }
 
     private static void playerConnectCallback(){
         ServerPlayerConnectionEvents.OnServerPlayerConnect.EVENT.register(player -> {
-            player.sendMessage(Text.of("Conectado!"), false);
+            if (SolarEclipseManager.isActive()) Infinium.adventure.audience(PlayerLookup.all(Infinium.server)).showBossBar(SolarEclipseManager.BOSS_BAR);
             return ActionResult.PASS;
         });
+
     }
 
     private static void playerDisconnectCallback(){

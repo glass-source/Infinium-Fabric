@@ -91,7 +91,7 @@ public class MagmaTridentItem extends TridentItem {
                             soundEvent3 = SoundEvents.ITEM_TRIDENT_RIPTIDE_1;
                         }
 
-                        world.playSoundFromEntity(null, playerEntity, soundEvent3, SoundCategory.PLAYERS, 1.0F, 1.0F);
+                        world.playSoundFromEntity(null, playerEntity, soundEvent3, SoundCategory.PLAYERS, 1.0F, 0.04F);
                     }
                 }
 
