@@ -45,7 +45,7 @@ public class ChatFormatter {
     }
 
     public static LiteralArgumentBuilder<ServerCommandSource> CD(String value) {
-        return CommandManager.literal("value");
+        return CommandManager.literal(value);
     }
 
 
