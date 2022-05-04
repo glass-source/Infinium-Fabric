@@ -24,13 +24,12 @@ public class GrapplingHookItem extends FishingRodItem {
     
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-        if (!world.isClient()) {
+        if (world.isClient()) {
             var cooldownManager = user.getItemCooldownManager();
             if (!cooldownManager.isCoolingDown(this)) {
                 Vec3d vec = user.getRotationVector();
                 user.setVelocity(vec.getX() * 2.25, vec.getY() * 3.25, vec.getZ() * 2.25);
                 cooldownManager.set(this, 20);
-                return TypedActionResult.success(this.getDefaultStack(), true);
             }
         }
         return TypedActionResult.fail(this.getDefaultStack());

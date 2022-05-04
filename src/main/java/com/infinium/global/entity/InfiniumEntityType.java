@@ -19,7 +19,7 @@ public class InfiniumEntityType {
 
     public static void init() {
         MAGMA_TRIDENT = register("magma_trident", createEntityType(MagmaTridentEntity::new));
-        SUPERNOVA = register("supernova", FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, SuperNova::new).fireImmune().specificSpawnBlocks(Blocks.WITHER_ROSE).dimensions(EntityDimensions.changing(0.9F, 3.5F)).trackRangeBlocks(10).build());
+        SUPERNOVA = register("supernova", FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, SuperNova::new).fireImmune().specificSpawnBlocks(Blocks.WITHER_ROSE).dimensions(EntityDimensions.changing(0.9F, 3.5F)).trackRangeBlocks(40).build());
 
 
     }

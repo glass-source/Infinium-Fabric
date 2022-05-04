@@ -1,15 +1,15 @@
 package com.infinium.api.utils;
 
 import com.infinium.Infinium;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.minimessage.MiniMessage;
-import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.command.CommandManager;
+import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import org.apache.commons.lang3.Validate;
-import org.jetbrains.annotations.NotNull;
 
 public class ChatFormatter {
 
@@ -39,6 +39,15 @@ public class ChatFormatter {
      * @return Text containing the Formatting.FORMATTING_CODE_PREFIX color code character replaced by '&'.
      */
     public static String formatWithPrefix(String text) {return prefix + format(text);}
+
+    public static String formatWithPrefix(Text text) {
+        return String.valueOf(ChatFormatter.text(String.valueOf(text)));
+    }
+
+    public static LiteralArgumentBuilder<ServerCommandSource> CD(String value) {
+        return CommandManager.literal("value");
+    }
+
 
     /**
      * Translates a string using an alternate color code character into a

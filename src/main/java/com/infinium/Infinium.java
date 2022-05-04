@@ -27,15 +27,7 @@ public class Infinium implements ModInitializer {
     public static final String MOD_ID = "infinium";
     public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
     public static FabricServerAudiences adventure;
-    public static @Getter MinecraftServer server;
-
-    public FabricServerAudiences adventure() {
-        if(adventure == null) {
-
-            throw new IllegalStateException("Tried to access Adventure without a running server!");
-        }
-        return adventure;
-    }
+    public static MinecraftServer server;
 
     public static Identifier id(String id) {
         return new Identifier(MOD_ID, id);
@@ -43,14 +35,16 @@ public class Infinium implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        initMod();
         initAdventure();
-        registerServer();
+        initMod();
     }
 
     private void initAdventure(){
-        ServerLifecycleEvents.SERVER_STARTING.register(server -> this.adventure = FabricServerAudiences.of(server));
-        ServerLifecycleEvents.SERVER_STOPPED.register(server -> this.adventure = null);
+        ServerLifecycleEvents.SERVER_STARTING.register(server -> {
+            Infinium.server = server;
+            adventure = FabricServerAudiences.of(server);
+        });
+        ServerLifecycleEvents.SERVER_STOPPED.register(server -> adventure = null);
     }
 
     private void initMod(){
@@ -61,9 +55,5 @@ public class Infinium implements ModInitializer {
         InfiniumEntityType.init();
         ServerPlayerListeners.registerListener();
         EntityListeners.registerListeners();
-    }
-
-    private void registerServer(){
-        ServerLifecycleEvents.SERVER_STARTING.register(server1 -> server = server1);
     }
 }

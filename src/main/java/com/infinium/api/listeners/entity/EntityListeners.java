@@ -13,12 +13,9 @@ public class EntityListeners {
 
 
     private static ActionResult onSpawn(Entity entity, Location loc) {
-
-
         if(entity.getType() == EntityType.CREEPER) {
             CreeperEntity creeper = (CreeperEntity) entity;
             if(loc.getY() < 30) EntityBuilder.create(creeper).setHealth(4.0F).setInvisible(true).setCharged(true).setName("&dBlack Hole").setCharged(true);
-
         }
 
 
