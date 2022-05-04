@@ -2,8 +2,8 @@ package com.infinium.global.entity;
 
 import com.infinium.Infinium;
 import com.infinium.global.entity.list.MagmaTridentEntity;
+import com.infinium.global.entity.list.SuperNova;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
-import net.fabricmc.fabric.impl.object.builder.FabricEntityType;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;

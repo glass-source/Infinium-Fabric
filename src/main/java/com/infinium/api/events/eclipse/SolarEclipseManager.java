@@ -3,6 +3,7 @@ package com.infinium.api.events.eclipse;
 import com.infinium.Infinium;
 import com.infinium.api.utils.ChatFormatter;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.Component;
 import net.minecraft.sound.SoundEvents;
@@ -56,7 +57,6 @@ public class SolarEclipseManager {
                 Infinium.adventure.audience(PlayerLookup.all(Infinium.server)).showBossBar(SolarEclipseManager.BOSS_BAR);
                 PlayerLookup.all(Infinium.server).forEach(serverPlayerEntity -> {
                     serverPlayerEntity.playSound(SoundEvents.BLOCK_ENDER_CHEST_OPEN, 20, 0.002f);
-                    serverPlayerEntity.sendMessage(Text.of("Activado!"), false);
                 });
             } else {
                 Infinium.LOGGER.debug("El servidor era null!");

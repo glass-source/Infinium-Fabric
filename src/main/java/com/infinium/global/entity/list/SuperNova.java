@@ -1,4 +1,4 @@
-package com.infinium.global.entity;
+package com.infinium.global.entity.list;
 
 import com.infinium.Infinium;
 import com.infinium.api.utils.ChatFormatter;

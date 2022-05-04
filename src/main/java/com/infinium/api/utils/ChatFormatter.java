@@ -3,6 +3,7 @@ package com.infinium.api.utils;
 import com.infinium.Infinium;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
@@ -71,6 +72,6 @@ public class ChatFormatter {
 
 
     public static void broadcastMessage(String message) {
-        Infinium.adventure.audience(PlayerLookup.all(Infinium.getServer())).sendMessage(miniMessage(message));
+        Infinium.adventure.audience(PlayerLookup.all(Infinium.getServer())).sendMessage(Component.text(format(message)));
     }
 }
