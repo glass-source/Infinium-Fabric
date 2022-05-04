@@ -36,6 +36,7 @@ public class InfiniumClient implements ClientModInitializer {
     }
 
     private static void registerTrident() {
+
         Identifier tridentId = Registry.ITEM.getId(InfiniumItems.MAGMA_TRIDENT);
         Identifier texture = new Identifier(tridentId.getNamespace(), "textures/entity/magma_trident.png");
         EntityModelLayer modelLayer = EntityModelLayers.TRIDENT;

@@ -33,7 +33,7 @@ public enum InfiniumArmorMaterials implements ArmorMaterial {
         this.equipSound = equipSound;
         this.toughness = toughness;
         this.knockbackResistance = knockbackResistance;
-        this.repairIngredientSupplier = new Lazy(repairIngredientSupplier);
+        this.repairIngredientSupplier = new Lazy<Ingredient>(repairIngredientSupplier);
     }
 
     public int getDurability(EquipmentSlot slot) {

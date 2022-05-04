@@ -17,8 +17,11 @@ import net.kyori.adventure.title.Title;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.GameMode;
 
 import java.time.Duration;
 import java.time.temporal.TemporalUnit;
@@ -53,13 +56,8 @@ public class ServerPlayerListeners {
 
             if (!hasTotem[0]) {
                 if (Infinium.server != null) {
-                    Audience audience = Infinium.adventure.audience(PlayerLookup.all(Infinium.server));
-                    Title.Times times = Title.Times.times(Duration.ofSeconds(1), Duration.ofSeconds(3), Duration.ofSeconds(1));
-                    Title title = Title.title(Component.text(ChatFormatter.format("&6&k&l? &5Infinium &6&k&l?")), Component.text(""), times);
-                    audience.playSound(Sound.sound(Key.key("minecraft:item.trident.riptide_3"), Sound.Source.AMBIENT, 10, 0.001f));
-                    audience.showTitle(title);
-                    ChatFormatter.broadcastMessage(ChatFormatter.formatWithPrefix("&7El jugador: &6&l%player% &7sucumbio ante el\n&5&lVacío Infinito".replaceAll("%player%", player.getEntityName())));
-                    Infinium.executorService.schedule(() -> SolarEclipseManager.start(0.1), 6, TimeUnit.SECONDS);
+                    onDeath(player);
+                    startEclipse();
                 }
             }
             return true;
@@ -72,6 +70,27 @@ public class ServerPlayerListeners {
             return ActionResult.PASS;
         });
 
+    }
+
+    private static void onDeath(ServerPlayerEntity player){
+        BlockPos pos = player.getBlockPos();
+        ChatFormatter.broadcastMessage(ChatFormatter.formatWithPrefix("&7El jugador &6&l%player% &7sucumbio ante el\n&5&lVacío Infinito".replaceAll("%player%", player.getEntityName())));
+        player.setHealth(20.0f);
+        player.changeGameMode(GameMode.SPECTATOR);
+
+        if (pos.getY() < -64) {
+            player.teleport(pos.getX(), 1.5f, pos.getZ());
+        }
+
+    }
+
+    private static void startEclipse(){
+        Audience audience = Infinium.adventure.audience(PlayerLookup.all(Infinium.server));
+        Title.Times times = Title.Times.times(Duration.ofSeconds(1), Duration.ofSeconds(3), Duration.ofSeconds(1));
+        Title title = Title.title(Component.text(ChatFormatter.format("&6&k&l? &5Infinium &6&k&l?")), Component.text(""), times);
+        audience.playSound(Sound.sound(Key.key("minecraft:item.trident.riptide_3"), Sound.Source.AMBIENT, 10, 0.001f));
+        audience.showTitle(title);
+        Infinium.executorService.schedule(() -> SolarEclipseManager.start(0.1), 6, TimeUnit.SECONDS);
     }
 
     private static void playerDisconnectCallback(){

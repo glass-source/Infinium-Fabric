@@ -3,20 +3,13 @@ package com.infinium.global.entity.list;
 import com.infinium.Infinium;
 import com.infinium.api.utils.ChatFormatter;
 import com.infinium.api.world.Location;
-import lombok.experimental.Wither;
-import net.minecraft.client.particle.Particle;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.entity.AreaEffectCloudEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.boss.WitherEntity;
-import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.projectile.WitherSkullEntity;
-import net.minecraft.particle.ParticleType;
-import net.minecraft.particle.ParticleTypes;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
 
 import java.util.Random;
@@ -27,27 +20,29 @@ public class SuperNova extends WitherEntity {
 
 
 
-    public SuperNova(EntityType<? extends WitherEntity> entityType, World world) {
+    public SuperNova(EntityType<? extends SuperNova> entityType, World world) {
         super(entityType, world);
     }
     private static class SuperNovaGoal extends Goal {
 
-        private final WitherEntity wither;
+        private final SuperNova superNova;
         private LivingEntity target;
         private int attackCooldown = 200;
         private int randomMessageCooldown = 420;
-        private SuperNovaNMSAttacks currentAttack = SuperNovaNMSAttacks.NONE;
+        private ATTACKS currentAttack = ATTACKS.NONE;
         private ThreadLocalRandom random;
 
-        public SuperNovaGoal(WitherEntity wither){
-            this.wither = wither;
+        public SuperNovaGoal(SuperNova superNova){
+            this.superNova = superNova;
             this.random = ThreadLocalRandom.current();
         }
 
-
         private static String novaPrefix() {
+
             return ChatFormatter.format("&8&lSuper Nova: &7");
         }
+
+
 
         @Override
         public boolean canStart() {
@@ -63,7 +58,7 @@ public class SuperNova extends WitherEntity {
                 int r = new Random().nextInt(4);
 
                 if(r == 0){
-                    ChatFormatter.broadcastMessage(novaPrefix()+"&7Que buen dia para morir,  ¿no?");
+                    ChatFormatter.broadcastMessage(novaPrefix()+"&7Que buen dia para morir, ¿no?");
 
                 } else if (r == 1) {
                     ChatFormatter.broadcastMessage(novaPrefix()+"&7¡Estan acabados!");
@@ -84,30 +79,29 @@ public class SuperNova extends WitherEntity {
                 int r = random.nextInt(3) + 1;
 
                 switch (r){
-                    case 1 -> this.currentAttack = SuperNovaNMSAttacks.MINI_MODE;
-                    case 2 -> this.currentAttack = SuperNovaNMSAttacks.WITHER_SKULLS_OP;
-                    case 3 -> this.currentAttack = SuperNovaNMSAttacks.ROTATE_WITHER_AND_EXPLOSION;
-                    default -> this.currentAttack = SuperNovaNMSAttacks.NEGATIVE_POTION_EFFECT;
+                    case 1 -> this.currentAttack = ATTACKS.MINI_MODE;
+                    case 2 -> this.currentAttack = ATTACKS.WITHER_SKULLS_OP;
+                    case 3 -> this.currentAttack = ATTACKS.ROTATE_WITHER_AND_EXPLOSION;
+                    default -> this.currentAttack = ATTACKS.NEGATIVE_POTION_EFFECT;
                 }
                 doAttack();
 
             }
 
-
             if(attackCooldown == -1){
                 random = ThreadLocalRandom.current();
                 attackCooldown = 50 + random.nextInt(100);
-                this.currentAttack = SuperNovaNMSAttacks.NONE;
+                this.currentAttack = ATTACKS.NONE;
             }
         }
         private void doAttack(){
             switch (this.currentAttack){
                 case MINI_MODE -> {
-                    this.wither.setInvulTimer(300);
-                    this.wither.setGlowing(true);
+                    this.superNova.setInvulTimer(300);
+                    this.superNova.setGlowing(true);
                     Infinium.executorService.schedule(() -> {
-                        this.wither.setInvulTimer(0);
-                        this.wither.setGlowing(false);
+                        this.superNova.setInvulTimer(0);
+                        this.superNova.setGlowing(false);
                     }, 15L, TimeUnit.SECONDS);
                 }
                 case NEGATIVE_POTION_EFFECT -> {
@@ -121,8 +115,8 @@ public class SuperNova extends WitherEntity {
                         Random r = new Random();
                         int X = (r.nextInt(10) + 5) * (r.nextBoolean() ? 1 : -1) ;
                         int Z = (r.nextInt(10) + 5) * (r.nextBoolean() ? 1 : -1);
-                        int Y = wither.getBlockY();
-                        Location loc = new Location(wither.getWorld(), X + wither.getBlockX() , Y, Z + wither.getBlockZ());
+                        int Y = superNova.getBlockY();
+                        Location loc = new Location(superNova.getWorld(), X + superNova.getBlockX() , Y, Z + superNova.getBlockZ());
 
                         /*
                                         if(loc.getWorld().isClient()) {
@@ -153,7 +147,7 @@ public class SuperNova extends WitherEntity {
                 case ROTATE_WITHER_AND_EXPLOSION -> {}
             }
         }
-        private enum SuperNovaNMSAttacks {
+        private enum ATTACKS {
             NONE,
             MINI_MODE,
             WITHER_SKULLS_OP,

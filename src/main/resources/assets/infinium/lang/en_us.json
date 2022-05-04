@@ -5,6 +5,7 @@
   "item.infinium.void_shovel" : "Void Shovel",
   "item.infinium.void_hoe" : "Void Hoe",
   "item.infinium.void_bow" : "Void Bow",
+  "item.infinium.void_shield" : "Void Shield",
 
   "item.infinium.void_helmet" : "Void Helmet",
   "item.infinium.void_chestplate" : "Void Chestplate",
@@ -27,6 +28,8 @@
   "item.infinium.ender_wand": "Ender Wand",
 
   "item.infinium.sanity_pill" : "Sanity Pill",
+  "item.infinium.netherite_carrot" : "Netherite Carrot",
+
 
   "effect.infinium.immunity": "Immunity",
   "effect.infinium.madness": "Madness",

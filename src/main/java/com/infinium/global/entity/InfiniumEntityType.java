@@ -24,8 +24,6 @@ public class InfiniumEntityType {
 
     }
 
-
-
     private static <T extends Entity> EntityType<T> register(String s, EntityType<T> bombEntityType) {
         return Registry.register(Registry.ENTITY_TYPE, Infinium.MOD_ID + ":" + s, bombEntityType);
     }

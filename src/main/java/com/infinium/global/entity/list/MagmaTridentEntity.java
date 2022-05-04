@@ -36,6 +36,7 @@ public class MagmaTridentEntity extends TridentEntity {
         tridentStack = new ItemStack(InfiniumItems.MAGMA_TRIDENT);
         this.dataTracker.set(MAGMA, false);
         this.setCustomName(Text.of("Magma Trident"));
+
     }
 
     public MagmaTridentEntity(World world, LivingEntity owner, ItemStack stack) {

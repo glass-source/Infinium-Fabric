@@ -1,5 +1,7 @@
 package com.infinium.api.items.custom.misc;
 
+import com.infinium.api.utils.ChatFormatter;
+import net.kyori.adventure.sound.Sound;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
@@ -30,6 +32,12 @@ public class GrapplingHookItem extends FishingRodItem {
                 Vec3d vec = user.getRotationVector();
                 user.setVelocity(vec.getX() * 2.25, vec.getY() * 3.25, vec.getZ() * 2.25);
                 cooldownManager.set(this, 20);
+
+                if (user.getStackInHand(hand).getItem().equals(this)) {
+                    user.playSound(SoundEvents.ENTITY_FISHING_BOBBER_THROW, 10, 0.5f);
+                    super.use(world, user, hand);
+                    return TypedActionResult.success(user.getStackInHand(hand));
+                }
             }
         }
         return TypedActionResult.fail(this.getDefaultStack());

@@ -1,6 +1,7 @@
 package com.infinium.api.items.global;
 
 import com.infinium.Infinium;
+import com.infinium.api.items.custom.food.NetheriteCarrot;
 import com.infinium.global.entity.InfiniumEntityType;
 import com.infinium.api.items.custom.armor.VoidArmor;
 import com.infinium.api.items.custom.food.SanityItem;
@@ -15,6 +16,7 @@ import com.infinium.api.items.materials.InfiniumToolMaterials;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.Item;
+import net.minecraft.item.ShieldItem;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.registry.Registry;
@@ -29,6 +31,7 @@ public class InfiniumItems {
     public static Item VOID_SHOVEL;
     public static Item VOID_HOE;
     public static Item VOID_BOW;
+    public static Item VOID_SHIELD;
 
 
     public static Item VOID_HELMET;
@@ -48,6 +51,7 @@ public class InfiniumItems {
     public static Item GRAPPLING_HOOK;
 
     public static Item SANITY_PILL;
+    public static Item NETHERITE_CARROT;
 
     private static Item registerItem(String name, Item item) {
         return Registry.register(Registry.ITEM, new Identifier(Infinium.MOD_ID, name), item);
@@ -76,6 +80,7 @@ public class InfiniumItems {
         VOID_SHOVEL = registerItem("void_shovel", new VoidShovelItem(InfiniumToolMaterials.VOID, 0, 0, new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.RARE).maxDamage(4570).fireproof()));
         VOID_HOE = registerItem("void_hoe", new VoidHoeItem(InfiniumToolMaterials.VOID, -4, 0.0F, new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.RARE).maxDamage(4570).fireproof()));
         VOID_BOW = registerItem("void_bow", new VoidBowItem(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.RARE).maxDamage(4570).fireproof()));
+        VOID_SHIELD = registerItem("void_shield", new ShieldItem(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.RARE).maxDamage(4570).fireproof()));
     }
 
     private static void registerMisc() {
@@ -98,6 +103,7 @@ public class InfiniumItems {
 
     private static void registerFood() {
         SANITY_PILL = registerItem("sanity_pill", new SanityItem(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).food(InfiniumFoodComponents.SANITY_PILL).rarity(Rarity.EPIC)));
-    }
+        NETHERITE_CARROT = registerItem("netherite_carrot", new NetheriteCarrot(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).food(InfiniumFoodComponents.NETHERITE_CARROT).rarity(Rarity.UNCOMMON)));
 
+    }
 }

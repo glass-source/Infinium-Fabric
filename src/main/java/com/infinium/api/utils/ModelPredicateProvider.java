@@ -25,7 +25,6 @@ public class ModelPredicateProvider {
 
         ModelPredicateProviderRegistry.register(bow, new Identifier("pulling"),
         ((stack, world, entity, seed) -> entity != null && entity.isUsingItem() && entity.getActiveItem() == stack ? 1.0f : 0.0f));
-
     }
 
 
