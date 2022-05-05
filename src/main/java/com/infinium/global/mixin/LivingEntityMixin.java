@@ -19,7 +19,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntity.class)
@@ -62,22 +61,31 @@ public abstract class LivingEntityMixin extends Entity {
 
     @Shadow protected abstract boolean tryUseTotem(DamageSource source);
 
+    @Shadow protected abstract void applyDamage(DamageSource source, float amount);
+
+    @Shadow public abstract boolean isAlive();
+
+    @Shadow public abstract float getHealth();
+
+    @Shadow public abstract void kill();
+
     @Inject(method = "damage", at = @At("HEAD"), cancellable = true)
-    public void onDamage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
+    public void applyImmunity(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
         if(this.hasStatusEffect(InfiniumEffects.IMMUNITY)) {
             cir.setReturnValue(false);
             cir.cancel();
         }
     }
 
-    @Inject(method = "applyDamage", at = @At("HEAD"), cancellable = true)
-    public void onDamage(DamageSource source, float amount, CallbackInfo ci) {
-        if(this.hasStatusEffect(InfiniumEffects.IMMUNITY)) {
-            ci.cancel();
-        }
-        if(this.hasStatusEffect(InfiniumEffects.MADNESS)) {
-            amount *= (2.5 * (this.getStatusEffect(InfiniumEffects.MADNESS).getAmplifier() + 1));
+    @Inject(method = "damage", at = @At("TAIL"), cancellable = true)
+    public void applyMadness(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
+        float extraDamage = amount;
 
+        if (this.hasStatusEffect(InfiniumEffects.MADNESS)) {
+            extraDamage *= (1.05 * (this.getStatusEffect(InfiniumEffects.MADNESS).getAmplifier() + 1));
+            if (this.isAlive()) this.applyDamage(source, extraDamage);
+            if (this.getHealth() <= 0) this.kill();
+            cir.setReturnValue(false);
         }
     }
 

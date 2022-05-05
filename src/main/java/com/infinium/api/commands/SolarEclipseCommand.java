@@ -1,27 +1,21 @@
 package com.infinium.api.commands;
 
 import com.infinium.api.events.eclipse.SolarEclipseManager;
-import com.infinium.api.utils.ChatFormatter;
 import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.arguments.FloatArgumentType;
-import com.mojang.brigadier.arguments.IntegerArgumentType;
-import com.mojang.brigadier.builder.ArgumentBuilder;
-import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
-import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
 
-import static com.infinium.api.utils.ChatFormatter.CD;
+import static com.infinium.api.utils.ChatFormatter.cd;
 
 public class SolarEclipseCommand {
 
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher, boolean dedicated){
-        var eclipse = CD("eclipse");
+        var eclipse = cd("eclipse");
 
-        dispatcher.register(eclipse.then(CD("end").executes(SolarEclipseCommand::end).requires(source -> source.hasPermissionLevel(2))));
-        dispatcher.register(eclipse.then(CD("start").executes(source -> start(source, 0.25f)).requires(source -> source.hasPermissionLevel(2))));
-        dispatcher.register(eclipse.then(CD("get").executes(SolarEclipseCommand::get).requires(source -> source.hasPermissionLevel(2))));
+        dispatcher.register(eclipse.then(cd("end").executes(SolarEclipseCommand::end).requires(source -> source.hasPermissionLevel(2))));
+        dispatcher.register(eclipse.then(cd("start").executes(source -> start(source, 0.25f)).requires(source -> source.hasPermissionLevel(2))));
+        dispatcher.register(eclipse.then(cd("get").executes(SolarEclipseCommand::get).requires(source -> source.hasPermissionLevel(2))));
 
         /*
         dispatcher.register( (((eclipse.requires((source) -> {

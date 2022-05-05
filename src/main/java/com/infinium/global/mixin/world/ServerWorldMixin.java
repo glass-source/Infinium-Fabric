@@ -12,13 +12,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ServerWorld.class)
 public abstract class ServerWorldMixin {
 
-
-
-
     @Inject(method = "addEntity", at = @At("HEAD"))
     public void onSpawnEntity(Entity entity, CallbackInfoReturnable<Boolean> cir) {
-
-
         Location loc = new Location(entity.getWorld(), entity.getX(), entity.getY(), entity.getZ());
         EntitySpawn.EVENT.invoker().spawn(entity, loc);
     }

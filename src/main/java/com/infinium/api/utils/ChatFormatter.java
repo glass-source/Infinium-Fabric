@@ -42,13 +42,14 @@ public class ChatFormatter {
      * @param text to translate.
      * @return Text containing the Formatting.FORMATTING_CODE_PREFIX color code character replaced by '&'.
      */
+
     public static String formatWithPrefix(String text) {return prefix + format(text);}
 
     public static String formatWithPrefix(Text text) {
         return String.valueOf(ChatFormatter.text(String.valueOf(text)));
     }
 
-    public static LiteralArgumentBuilder<ServerCommandSource> CD(String value) {
+    public static LiteralArgumentBuilder<ServerCommandSource> cd(String value) {
         return CommandManager.literal(value);
     }
 

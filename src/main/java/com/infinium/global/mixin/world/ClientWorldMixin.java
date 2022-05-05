@@ -12,14 +12,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ClientWorld.class)
 public abstract class ClientWorldMixin {
 
-
-   @Inject(method = "addEntity", at = @At("HEAD"), cancellable = true)
+   @Inject(method = "addEntity", at = @At("HEAD"))
    public void onSpawnEntity(int id, Entity entity, CallbackInfo ci) {
-
-
       Location loc = new Location(entity.getWorld(), entity.getX(), entity.getY(), entity.getZ());
       EntitySpawn.EVENT.invoker().spawn(entity, loc);
    }
-
 
 }
