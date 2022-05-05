@@ -71,13 +71,13 @@ public class SolarEclipseManager {
         if (Infinium.server != null) {
             var world = server.getOverworld();
             var audience = Infinium.adventure.audience(PlayerLookup.all(server));
-            var times = Title.Times.times(Duration.ofSeconds(1), Duration.ofSeconds(3), Duration.ofSeconds(1));
+            var times = Title.Times.times(Duration.ofSeconds(1), Duration.ofSeconds(5), Duration.ofSeconds(2));
             var title = Title.title(Component.text(ChatFormatter.format("&8&k&l? &7Eclipse Solar &8&k&l?")), Component.text(ChatFormatter.format("&7Duración: &8" + getTime())), times);
             audience.showTitle(title);
+            audience.showBossBar(SolarEclipseManager.BOSS_BAR);
+            audience.playSound(Sound.sound(Key.key("infinium:eclipse_start"), Sound.Source.PLAYER, 10, 0.5f));
             world.setTimeOfDay(18000);
             server.getGameRules().get(GameRules.DO_DAYLIGHT_CYCLE).set(false, server);
-            audience.showBossBar(SolarEclipseManager.BOSS_BAR);
-            audience.playSound(Sound.sound(Key.key("minecraft:item.chorus_fruit.teleport"), Sound.Source.AMBIENT, 10, 0.03f));
         }
     }
 

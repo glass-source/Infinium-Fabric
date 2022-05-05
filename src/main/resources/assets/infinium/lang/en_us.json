@@ -27,6 +27,10 @@
 
   "item.infinium.ender_wand": "Ender Wand",
 
+  "item.infinium.duet_music_disc": "Music Disc",
+  "item.infinium.duet_music_disc.desc": "Pedro Silva - Final Duet",
+
+
   "item.infinium.sanity_pill" : "Sanity Pill",
   "item.infinium.netherite_carrot" : "Netherite Carrot",
 
@@ -40,6 +44,11 @@
   "block.infinium.void_stone_ore": "Void Stone Ore",
   "block.infinium.void_stone_button": "Void Stone Button",
   "block.infinium.void_stone_pressure_plate": "Void Stone Pressure Plate",
-  "block.infinium.void_stone_wall": "Void Stone Wall"
+  "block.infinium.void_stone_wall": "Void Stone Wall",
+
+  "infinium.player_died": "Player Died",
+  "infinium.eclipse_started": "Solar Eclipse Started",
+  "infinium.duet_started": "Duet Music Disc"
+
 
 }

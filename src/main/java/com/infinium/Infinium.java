@@ -7,6 +7,8 @@ import com.infinium.api.items.global.InfiniumItems;
 import com.infinium.api.listeners.entity.EntityListeners;
 import com.infinium.api.listeners.player.ServerPlayerListeners;
 import com.infinium.api.utils.InfiniumRegistries;
+import com.infinium.global.sanity.SanityManager;
+import com.infinium.global.sounds.InfiniumSounds;
 import lombok.Getter;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
@@ -39,6 +41,8 @@ public class Infinium implements ModInitializer {
         initMod();
     }
 
+
+
     private void initAdventure(){
         ServerLifecycleEvents.SERVER_STARTING.register(server -> {
             Infinium.server = server;
@@ -55,5 +59,6 @@ public class Infinium implements ModInitializer {
         InfiniumEntityType.init();
         ServerPlayerListeners.registerListener();
         EntityListeners.registerListeners();
+        SanityManager.initSanityTask();
     }
 }

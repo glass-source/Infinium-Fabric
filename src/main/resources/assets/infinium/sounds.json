@@ -1,0 +1,26 @@
+{
+  "player_death": {
+    "subtitle": "infinium.player_died",
+    "sounds": [
+      "infinium:player_death"
+    ]
+  },
+
+  "eclipse_start": {
+    "subtitle": "infinium.eclipse_started",
+    "sounds": [
+      "infinium:eclipse_start"
+    ]
+  },
+
+  "duet_start": {
+    "subtitle": "infinium.duet_started",
+    "sounds": [
+      {
+        "name" : "infinium:duet_start",
+        "stream" : true
+      }
+    ]
+  }
+
+}

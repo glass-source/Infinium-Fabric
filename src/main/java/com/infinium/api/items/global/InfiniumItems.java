@@ -2,20 +2,19 @@ package com.infinium.api.items.global;
 
 import com.infinium.Infinium;
 import com.infinium.api.items.custom.food.NetheriteCarrot;
+import com.infinium.api.items.custom.misc.*;
 import com.infinium.global.entity.InfiniumEntityType;
 import com.infinium.api.items.custom.armor.VoidArmor;
 import com.infinium.api.items.custom.food.SanityItem;
-import com.infinium.api.items.custom.misc.EnderWandItem;
-import com.infinium.api.items.custom.misc.GrapplingHookItem;
-import com.infinium.api.items.custom.misc.MagmaTridentItem;
-import com.infinium.api.items.custom.misc.VoidTotemItem;
 import com.infinium.api.items.custom.runes.*;
 import com.infinium.api.items.custom.tools.voiditems.*;
 import com.infinium.api.items.materials.InfiniumArmorMaterials;
 import com.infinium.api.items.materials.InfiniumToolMaterials;
+import com.infinium.global.sounds.InfiniumSounds;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.Item;
+import net.minecraft.item.MusicDiscItem;
 import net.minecraft.item.ShieldItem;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
@@ -32,7 +31,6 @@ public class InfiniumItems {
     public static Item VOID_HOE;
     public static Item VOID_BOW;
     public static Item VOID_SHIELD;
-
 
     public static Item VOID_HELMET;
     public static Item VOID_CHESTPLATE;
@@ -52,6 +50,8 @@ public class InfiniumItems {
 
     public static Item SANITY_PILL;
     public static Item NETHERITE_CARROT;
+
+    public static Item DUET_MUSIC_DISC;
 
     private static Item registerItem(String name, Item item) {
         return Registry.register(Registry.ITEM, new Identifier(Infinium.MOD_ID, name), item);
@@ -87,6 +87,8 @@ public class InfiniumItems {
         GRAPPLING_HOOK = registerItem("grappling_hook", new GrapplingHookItem(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC).maxDamage(450)));
         MAGMA_TRIDENT = registerItem("magma_trident", new MagmaTridentItem(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.UNCOMMON).maxDamage(3450).fireproof(), InfiniumEntityType.MAGMA_TRIDENT));
         ENDER_WAND = registerItem("ender_wand", new EnderWandItem(InfiniumToolMaterials.VOID, new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC).maxDamage(25)));
+        DUET_MUSIC_DISC = registerItem("duet_music_disc", new InfiniumDiscItem(4, InfiniumSounds.DUET, new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC).maxCount(1)));
+
     }
 
     private static void registerTotems() {
@@ -104,6 +106,5 @@ public class InfiniumItems {
     private static void registerFood() {
         SANITY_PILL = registerItem("sanity_pill", new SanityItem(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).food(InfiniumFoodComponents.SANITY_PILL).rarity(Rarity.EPIC)));
         NETHERITE_CARROT = registerItem("netherite_carrot", new NetheriteCarrot(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).food(InfiniumFoodComponents.NETHERITE_CARROT).rarity(Rarity.UNCOMMON)));
-
     }
 }

@@ -32,6 +32,10 @@ public class ChatFormatter {
         return Text.of(ChatFormatter.format(text));
     }
 
+    public static Text textWithPrefix(String text) {
+        return Text.of(ChatFormatter.format(prefix + text));
+    }
+
     /**
      * Function to translate the given text into Formatting format.
      *
