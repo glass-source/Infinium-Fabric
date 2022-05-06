@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "infinium:item/fall_in_love_music_disc"
+  }
+}

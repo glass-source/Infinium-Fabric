@@ -2,6 +2,7 @@ package com.infinium;
 
 import com.infinium.api.blocks.InfiniumBlocks;
 import com.infinium.api.effects.InfiniumEffects;
+import com.infinium.api.events.eclipse.SolarEclipseManager;
 import com.infinium.global.entity.InfiniumEntityType;
 import com.infinium.api.items.global.InfiniumItems;
 import com.infinium.api.listeners.entity.EntityListeners;
@@ -44,11 +45,14 @@ public class Infinium implements ModInitializer {
 
 
     private void initAdventure(){
-        ServerLifecycleEvents.SERVER_STARTING.register(server -> {
+        ServerLifecycleEvents.SERVER_STARTED.register(server -> {
             Infinium.server = server;
             adventure = FabricServerAudiences.of(server);
         });
-        ServerLifecycleEvents.SERVER_STOPPED.register(server -> adventure = null);
+        ServerLifecycleEvents.SERVER_STOPPED.register(server -> {
+            SolarEclipseManager.end();
+            adventure = null;
+        });
     }
 
     private void initMod(){

@@ -10,6 +10,7 @@ public class InfiniumSounds {
     public static SoundEvent PLAYER_DEATH = registerSoundEvent("player_death");
     public static SoundEvent ECLIPSE_START = registerSoundEvent("eclipse_start");
     public static SoundEvent DUET = registerSoundEvent("duet_start");
+    public static SoundEvent FALL_IN_LOVE = registerSoundEvent("fall_in_love");
 
     private static SoundEvent registerSoundEvent(String name){
         Identifier id = new Identifier(Infinium.MOD_ID, name);

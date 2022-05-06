@@ -31,6 +31,7 @@ import net.minecraft.world.GameMode;
 
 import java.time.Duration;
 import java.time.temporal.TemporalUnit;
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 public class ServerPlayerListeners {
@@ -72,22 +73,23 @@ public class ServerPlayerListeners {
 
     private static void playerConnectCallback(){
         ServerPlayerConnectionEvents.OnServerPlayerConnect.EVENT.register(player -> {
-            if (SolarEclipseManager.isActive()) Infinium.adventure.audience(PlayerLookup.all(Infinium.server)).showBossBar(SolarEclipseManager.BOSS_BAR);
-            EntityDataSaver dataPlayer = (EntityDataSaver) player;
+            var data = ((EntityDataSaver) player).getPersistentData();
 
             if (!SanityManager.totalPlayers.contains(player)) SanityManager.totalPlayers.add(player);
 
-            if (dataPlayer.getPersistentData().get("infinium.cordura") == null) {
-                dataPlayer.getPersistentData().putInt("infinium.cordura", 100);
+            if (SolarEclipseManager.isActive()) Infinium.adventure.audience(SanityManager.totalPlayers.get(SanityManager.totalPlayers.size() - 1)).showBossBar(SolarEclipseManager.BOSS_BAR);
+
+            if (data.get("infinium.cordura") == null) {
+                data.putInt("infinium.cordura", 100);
             }
-
-
             return ActionResult.PASS;
         });
 
     }
 
     private static void onDeath(ServerPlayerEntity playerDied){
+        if (playerDied.isSpectator()) return;
+
         BlockPos pos = playerDied.getBlockPos();
         Audience audience = Infinium.adventure.audience(PlayerLookup.all(Infinium.server));
         Title.Times times = Title.Times.times(Duration.ofSeconds(1), Duration.ofSeconds(6), Duration.ofSeconds(3));

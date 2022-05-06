@@ -8,6 +8,7 @@
     "PlayerDataSaver",
     "PlayerManagerMixin",
     "ServerPlayNetworkHandlerMixin",
+    "entity.SheepEntityMixin",
     "render.TridentEntityRendererMixin",
     "render.TridentRiptideFeatureRendererMixin",
     "world.ClientWorldMixin",

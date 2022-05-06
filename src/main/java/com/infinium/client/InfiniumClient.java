@@ -1,7 +1,7 @@
 package com.infinium.client;
 
 
-import com.infinium.api.items.custom.misc.MagmaTridentItem;
+import com.infinium.api.items.custom.tools.magmaitems.MagmaTridentItem;
 import com.infinium.api.items.global.InfiniumItems;
 import com.infinium.api.utils.ModelPredicateProvider;
 import com.infinium.client.render.entity.InfiniumTridentEntityRenderer;

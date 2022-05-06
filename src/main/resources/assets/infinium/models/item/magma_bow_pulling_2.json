@@ -1,0 +1,6 @@
+{
+    "parent": "infinium:item/magma_bow",
+    "textures": {
+        "layer0": "infinium:item/magma_bow_pulling_2"
+    }
+}

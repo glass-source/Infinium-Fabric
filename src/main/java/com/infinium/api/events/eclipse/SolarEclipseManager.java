@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit;
 
 public class SolarEclipseManager {
 
-    private static final String NAME = ChatFormatter.format("&5&k&? &6&l☀ &7&lEclipse Solar: &e&l%time% &6&l☀ &5&k&?");
+    private static final String NAME = ChatFormatter.format("&k| &6&l☀ &7&lEclipse Solar: &e&l%time% &6&l☀ &r&k|");
     public static final BossBar BOSS_BAR = BossBar.bossBar(Component.text(NAME.replaceAll("%time%", "0:00:00")), 1, BossBar.Color.PURPLE, BossBar.Overlay.NOTCHED_6);
     private static long endsIn;
     private static long lastTimeChecked;
@@ -43,13 +43,11 @@ public class SolarEclipseManager {
             }
 
         }, 0, 1000, TimeUnit.MILLISECONDS);
-
     }
 
     public static void load() {
         lastTimeChecked = (new Date()).getTime();
-
-        if (endsIn > 0L) {
+        if (isActive()) {
             start(0.5);
         }
     }
@@ -89,8 +87,10 @@ public class SolarEclipseManager {
         audience.playSound(Sound.sound(Key.key("minecraft:item.trident.hit_ground"), Sound.Source.AMBIENT, 10, 0.003f));
         endsIn = 0L;
         totalTime = 0L;
+        lastTimeChecked = 0;
         task.cancel(true);
-
+        service.shutdown();
+        service.shutdownNow();
     }
 
     public static long getTimeToEnd() {

@@ -21,6 +21,16 @@
         "stream" : true
       }
     ]
+  },
+
+  "fall_in_love": {
+    "subtitle": "infinium.fall_in_love",
+    "sounds": [
+      {
+        "name" : "infinium:fall_in_love",
+        "stream" : true
+      }
+    ]
   }
 
 }

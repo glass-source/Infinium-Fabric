@@ -4,6 +4,7 @@ import com.infinium.api.utils.ChatFormatter;
 import com.infinium.api.utils.EntityDataSaver;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.world.GameMode;
 
 import java.util.ArrayList;
 
@@ -16,9 +17,16 @@ public class SanityTask {
     private static int biomeCooldown = 20;
 
     public static void run(){
+
+
+
         totalPlayers.forEach((player) -> {
-            calcSanity(player);
-            sanityEffects(player);
+
+            if (!player.isSpectator()) {
+                calcSanity(player);
+                sanityEffects(player);
+                sanityDebuffs(player);
+            }
         });
 
     }

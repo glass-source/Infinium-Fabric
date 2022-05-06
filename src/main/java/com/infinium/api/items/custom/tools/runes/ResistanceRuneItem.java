@@ -1,13 +1,10 @@
-package com.infinium.api.items.custom.runes;
+package com.infinium.api.items.custom.tools.runes;
 
-import com.infinium.api.effects.InfiniumEffects;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolItem;
 import net.minecraft.item.ToolMaterial;
@@ -17,9 +14,9 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
-public class SpeedRuneItem extends ToolItem {
+public class ResistanceRuneItem extends ToolItem {
 
-    public SpeedRuneItem(ToolMaterial material, Settings settings) {
+    public ResistanceRuneItem(ToolMaterial material, Settings settings) {
         super(material, settings);
     }
 
@@ -28,8 +25,8 @@ public class SpeedRuneItem extends ToolItem {
         var cooldownManager = user.getItemCooldownManager();
         if (!cooldownManager.isCoolingDown(this)) {
             if (!world.isClient()) {
-                user.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 20 * 60, 4));
-                cooldownManager.set(this, 20 * (60 * 4));
+                user.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 20 * 60, 3));
+                cooldownManager.set(this, 20 * (60 * 5));
             }
 
             if (user.getEquippedStack(EquipmentSlot.MAINHAND).getItem().equals(this)) {

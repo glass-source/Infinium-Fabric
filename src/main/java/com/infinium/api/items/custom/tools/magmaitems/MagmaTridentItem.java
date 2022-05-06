@@ -1,4 +1,4 @@
-package com.infinium.api.items.custom.misc;
+package com.infinium.api.items.custom.tools.magmaitems;
 
 import com.infinium.global.entity.list.MagmaTridentEntity;
 import net.minecraft.enchantment.EnchantmentHelper;

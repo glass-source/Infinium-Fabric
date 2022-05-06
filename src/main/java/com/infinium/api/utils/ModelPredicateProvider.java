@@ -10,6 +10,7 @@ public class ModelPredicateProvider {
 
     public static void registerModels() {
         registerBow(InfiniumItems.VOID_BOW);
+        registerBow(InfiniumItems.MAGMA_BOW);
     }
 
 

@@ -1,4 +1,4 @@
-package com.infinium.api.items.custom.misc;
+package com.infinium.api.items.custom.tools.utility;
 
 import com.infinium.api.utils.ChatFormatter;
 import net.kyori.adventure.sound.Sound;
