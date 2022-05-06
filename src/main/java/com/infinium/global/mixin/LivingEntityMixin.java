@@ -85,7 +85,7 @@ public abstract class LivingEntityMixin extends Entity {
             extraDamage *= (1.05 * (this.getStatusEffect(InfiniumEffects.MADNESS).getAmplifier() + 1));
             if (this.isAlive()) this.applyDamage(source, extraDamage);
             if (this.getHealth() <= 0) this.kill();
-            cir.setReturnValue(false);
+            cir.setReturnValue(false); //Todo aqui no estarias creando un loop infinito ya que apply damage quizas llama a damage asi que denuevo tendria madness y volveria a cancelar haciendo que sea un loop infinito y mas encima si se bugea daño infinito lol
         }
     }
 

@@ -1,11 +1,9 @@
 package com.infinium.api.utils;
 
-import com.infinium.api.commands.SolarEclipseCommand;
+import com.infinium.global.commands.SolarEclipseCommand;
 import com.infinium.api.items.global.InfiniumItems;
-import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.registry.FuelRegistry;
-import net.minecraft.server.Main;
 
 public class InfiniumRegistries {
 

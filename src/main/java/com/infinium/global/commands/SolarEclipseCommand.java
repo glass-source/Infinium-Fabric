@@ -1,4 +1,4 @@
-package com.infinium.api.commands;
+package com.infinium.global.commands;
 
 import com.infinium.api.events.eclipse.SolarEclipseManager;
 import com.mojang.brigadier.CommandDispatcher;

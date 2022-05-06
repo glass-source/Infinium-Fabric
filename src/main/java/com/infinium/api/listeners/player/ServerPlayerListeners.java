@@ -79,8 +79,8 @@ public class ServerPlayerListeners {
 
             if (SolarEclipseManager.isActive()) Infinium.adventure.audience(SanityManager.totalPlayers.get(SanityManager.totalPlayers.size() - 1)).showBossBar(SolarEclipseManager.BOSS_BAR);
 
-            if (data.get("infinium.cordura") == null) {
-                data.putInt("infinium.cordura", 100);
+            if (data.get("infinium.sanity") == null) {
+                data.putInt("infinium.sanity", 100);
             }
             return ActionResult.PASS;
         });

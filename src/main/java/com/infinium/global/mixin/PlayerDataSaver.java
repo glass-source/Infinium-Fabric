@@ -26,14 +26,14 @@ public abstract class PlayerDataSaver implements EntityDataSaver {
     @Inject(method = "writeNbt", at = @At("HEAD"))
     private void saveSanity(NbtCompound nbt, CallbackInfoReturnable<NbtCompound> cir) {
         if (persistentData != null) {
-            nbt.put("infinium.cordura", persistentData);
+            nbt.put("infinium.sanity", persistentData);
         }
     }
 
     @Inject(method = "readNbt", at = @At("HEAD"))
     private void saveSanity(NbtCompound nbt, CallbackInfo ci) {
-        if (nbt.contains("infinium.cordura", 10)) {
-            persistentData = nbt.getCompound("infinium.cordura");
+        if (nbt.contains("infinium.sanity", 10)) {
+            persistentData = nbt.getCompound("infinium.sanity");
         }
     }
 

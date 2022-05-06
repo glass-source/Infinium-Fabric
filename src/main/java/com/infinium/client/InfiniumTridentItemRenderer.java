@@ -29,6 +29,7 @@ public class InfiniumTridentItemRenderer implements BuiltinItemRendererRegistry.
     private InfiniumTridentEntityModel tridentModel;
     private BakedModel inventoryTridentModel;
 
+
     public InfiniumTridentItemRenderer(Identifier tridentId, Identifier texture, EntityModelLayer modelLayer) {
         this.id = new Identifier(tridentId.getNamespace(), tridentId.getPath() + "_renderer");
         this.tridentId = tridentId;
