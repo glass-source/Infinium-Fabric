@@ -1,28 +1,100 @@
-package com.infinium.global.entity.list;
+package com.infinium.global.entity.list.boss;
 
+import com.google.common.collect.ImmutableList;
 import com.infinium.Infinium;
 import com.infinium.api.utils.ChatFormatter;
 import com.infinium.api.world.Location;
+import net.minecraft.entity.EntityGroup;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.TargetPredicate;
+import net.minecraft.entity.ai.control.FlightMoveControl;
 import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.attribute.DefaultAttributeContainer;
+import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.boss.BossBar;
+import net.minecraft.entity.boss.ServerBossBar;
 import net.minecraft.entity.boss.WitherEntity;
+import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
 
+import java.util.EnumSet;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Predicate;
 
 public class SuperNova extends WitherEntity {
 
+    private final ServerBossBar bossBar;
+    private static final TrackedData<Integer> TRACKED_ENTITY_ID_1;
+    private static final TrackedData<Integer> TRACKED_ENTITY_ID_2;
+    private static final TrackedData<Integer> TRACKED_ENTITY_ID_3;
+    private static final List<TrackedData<Integer>> TRACKED_ENTITY_IDS;
+    private static final TrackedData<Integer> INVUL_TIMER;
+    private static final Predicate<LivingEntity> CAN_ATTACK_PREDICATE;
+    private static final TargetPredicate HEAD_TARGET_PREDICATE;
 
+    public void onSummoned() {
+        this.setInvulTimer(220);
+        this.bossBar.setPercent(0.0F);
+        this.setHealth(this.getMaxHealth() / 3.0F);
+    }
+
+    public static DefaultAttributeContainer.Builder createSuperNovaAttributes() {
+        return HostileEntity.createHostileAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 7500.0).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.6000000238418579).add(EntityAttributes.GENERIC_FLYING_SPEED, 0.6000000238418579).add(EntityAttributes.GENERIC_FOLLOW_RANGE, 48.0).add(EntityAttributes.GENERIC_ARMOR, 4.0);
+    }
 
     public SuperNova(EntityType<? extends SuperNova> entityType, World world) {
         super(entityType, world);
+        this.setCustomName(ChatFormatter.text("&8&lSuper Nova"));
+
+        this.bossBar = (ServerBossBar)(new ServerBossBar(this.getDisplayName(), BossBar.Color.BLUE, BossBar.Style.PROGRESS)).setDarkenSky(true);
+        this.moveControl = new FlightMoveControl(this, 10, false);
+        this.setHealth(this.getMaxHealth());
+        this.experiencePoints = 250;
+
     }
+    static {
+        TRACKED_ENTITY_ID_1 = DataTracker.registerData(SuperNova.class, TrackedDataHandlerRegistry.INTEGER);
+        TRACKED_ENTITY_ID_2 = DataTracker.registerData(SuperNova.class, TrackedDataHandlerRegistry.INTEGER);
+        TRACKED_ENTITY_ID_3 = DataTracker.registerData(SuperNova.class, TrackedDataHandlerRegistry.INTEGER);
+        TRACKED_ENTITY_IDS = ImmutableList.of(TRACKED_ENTITY_ID_1, TRACKED_ENTITY_ID_2, TRACKED_ENTITY_ID_3);
+        INVUL_TIMER = DataTracker.registerData(SuperNova.class, TrackedDataHandlerRegistry.INTEGER);
+        CAN_ATTACK_PREDICATE = (entity) -> {
+            return entity.getGroup() != EntityGroup.UNDEAD && entity.isMobOrPlayer();
+        };
+        HEAD_TARGET_PREDICATE = TargetPredicate.createAttackable().setBaseMaxDistance(20.0).setPredicate(CAN_ATTACK_PREDICATE);
+    }
+
+    @Override
+    protected void initGoals() {
+        this.goalSelector.add(1, new DescendAtHalfHealthGoal());
+        this.goalSelector.add(2, new ProjectileAttackGoal(this, 1.0, 40, 20.0F));
+        this.goalSelector.add(5, new FlyGoal(this, 1.0));
+        this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
+        this.goalSelector.add(7, new LookAroundGoal(this));
+        this.targetSelector.add(1, new RevengeGoal(this, new Class[0]));
+        this.targetSelector.add(2, new ActiveTargetGoal(this, LivingEntity.class, 0, false, false, CAN_ATTACK_PREDICATE));
+        this.goalSelector.add(0, new SuperNovaGoal(this));
+    }
+    private class DescendAtHalfHealthGoal extends Goal {
+        public DescendAtHalfHealthGoal() {
+            this.setControls(EnumSet.of(Control.MOVE, Control.JUMP, Control.LOOK));
+        }
+
+        public boolean canStart() {
+            return SuperNova.this.getInvulnerableTimer() > 0;
+        }
+    }
+
     private static class SuperNovaGoal extends Goal {
 
         private final SuperNova superNova;

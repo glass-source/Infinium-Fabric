@@ -5,8 +5,10 @@ import net.fabricmc.api.ModInitializer;
 
 public class InfiniumManager extends Instantiable<Infinium> {
 
-    //TODO lo iba a hacer pero me dio flojera
-    public InfiniumManager(Infinium clazz) {
-        super(clazz);
+
+    public InfiniumManager(Infinium instance) {
+        super(instance);
     }
+
+    
 }

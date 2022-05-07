@@ -8,14 +8,10 @@ import net.kyori.adventure.key.Key;
 import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;
-import net.minecraft.entity.ai.brain.Schedule;
 import net.minecraft.world.GameRules;
 
 import java.time.Duration;
 import java.util.Date;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.RunnableScheduledFuture;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
@@ -24,8 +20,8 @@ import java.util.concurrent.TimeUnit;
 
 public class SolarEclipseManager {
 
-    private static final String NAME = ChatFormatter.format("&k| &6&l☀ &7&lEclipse Solar: &e&l%time% &6&l☀ &r&k|");
-    public static final BossBar BOSS_BAR = BossBar.bossBar(Component.text(NAME.replaceAll("%time%", "0:00:00")), 1, BossBar.Color.PURPLE, BossBar.Overlay.NOTCHED_6);
+    private static final String TITLE = ChatFormatter.format("&k| &6&l☀ &7&lEclipse Solar: &e&l%time% &6&l☀ &r&k|");
+    public static final BossBar BOSS_BAR = BossBar.bossBar(Component.text(TITLE.replaceAll("%time%", "0:00:00")), 1, BossBar.Color.PURPLE, BossBar.Overlay.NOTCHED_6);
     private static long endsIn;
     private static long lastTimeChecked;
     private static long totalTime = 0L;
@@ -35,7 +31,7 @@ public class SolarEclipseManager {
     private static void tick(){
         task = service.scheduleWithFixedDelay(() -> {
             var percent = (float) Math.max(0d, Math.min(1d, (double) getTimeToEnd() / getTotalTime()));
-            var name = Component.text(ChatFormatter.format(NAME.replaceAll("%time%", getTime())));
+            var name = Component.text(ChatFormatter.format(TITLE.replaceAll("%time%", getTime())));
             BOSS_BAR.name(name);
             BOSS_BAR.progress(percent);
             if (getTimeToEnd() <= 0){
@@ -48,7 +44,7 @@ public class SolarEclipseManager {
     public static void load() {
         lastTimeChecked = (new Date()).getTime();
         if (isActive()) {
-            start(0.5);
+            start(0.5); //Sentido ??
         }
     }
 
