@@ -1,37 +1,35 @@
 package com.infinium.api.listeners.player;
 
 import com.infinium.Infinium;
+import com.infinium.api.effects.InfiniumEffects;
 import com.infinium.api.events.eclipse.SolarEclipseManager;
+import com.infinium.api.events.players.PlayerUseTotemEvent;
 import com.infinium.api.events.players.ServerPlayerConnectionEvents;
 import com.infinium.api.items.global.InfiniumItems;
-import com.infinium.api.utils.Animation;
 import com.infinium.api.utils.ChatFormatter;
 import com.infinium.api.utils.EntityDataSaver;
+import com.infinium.api.utils.Utils;
 import com.infinium.global.sanity.SanityManager;
-import com.infinium.global.sanity.SanityTask;
-import com.infinium.global.sounds.InfiniumSounds;
-import net.fabricmc.fabric.api.entity.event.v1.ServerEntityCombatEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;
+import net.kyori.adventure.title.Title.Times;
+import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.GameMode;
 
 import java.time.Duration;
-import java.time.temporal.TemporalUnit;
-import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 public class ServerPlayerListeners {
@@ -40,31 +38,47 @@ public class ServerPlayerListeners {
         playerConnectCallback();
         playerDisconnectCallback();
         playerDeathCallback();
+        playerTotemCallback();
     }
+    
+    private static void playerTotemCallback(){
+        PlayerUseTotemEvent.EVENT.register(((player, totem) -> {
+            var totemItem = totem.getItem();
+            var data = ((EntityDataSaver) player).getPersistentData();
+            var message = "";
+            int totems = data.getInt("infinium.totems");
 
-    private static void onEntityDeath(){
+            if (totemItem.equals(InfiniumItems.VOID_TOTEM)) {
+                player.addStatusEffect(new StatusEffectInstance(InfiniumEffects.IMMUNITY, 20 * 6, 0));
+                data.putInt("infinium.totems", totems + 3);
+                message = ChatFormatter.formatWithPrefix("&7El jugador &5&l" + player.getEntityName() + " &7ha consumido un \n&b&lVoid Totem. Totem #" + totems);
 
-    }
+            } else if (totemItem.equals(InfiniumItems.MAGMA_TOTEM)) {
+                data.putInt("infinium.totems", totems + 1);
+                message = ChatFormatter.formatWithPrefix("&7El jugador &5&l" + player.getEntityName() + " &7ha consumido un \n&c&lMagma Totem. Totem #" + totems);
 
-    private static void playerDeathCallback(){
-
-        ServerPlayerEvents.ALLOW_DEATH.register((player, damageSource, damageAmount) -> {
-            boolean[] hasTotem = {false};
-
-            for(ItemStack stack : player.getItemsHand()) {
-                var item = stack.getItem();
-
-                if (item.equals(Items.TOTEM_OF_UNDYING) || item.equals(InfiniumItems.VOID_TOTEM)) {
-                    if(item.equals(Items.TOTEM_OF_UNDYING) && damageSource.isOutOfWorld()) {
-                        continue;
-                    }
-                    hasTotem[0] = true;
-                }
+            } else {
+                data.putInt("infinium.totems", totems + Utils.getDay() >= 42 ? 5 : 1);
+                message = ChatFormatter.formatWithPrefix("&7El jugador &5&l" + player.getEntityName() + " &7ha consumido un \n&6&lTotem de la Inmortalidad. Totem #" + totems);
             }
 
-            if (!hasTotem[0]) {
-                if (Infinium.server != null) {
-                    onDeath(player);
+            player.setHealth(1.0F);
+            player.clearStatusEffects();
+            player.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 900, 1));
+            player.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 100, 1));
+            player.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 800, 0));
+            player.world.sendEntityStatus(player, (byte) 35);
+            SanityManager.removeSanity((ServerPlayerEntity) player, 40);
+            ChatFormatter.broadcastMessage(message);
+            return ActionResult.PASS;
+        }));
+    }
+    
+    private static void playerDeathCallback(){
+        ServerPlayerEvents.ALLOW_DEATH.register((player, damageSource, damageAmount) -> {
+            if (Infinium.server != null) {
+                if (!playerHasTotem(player, damageSource)) {
+                    onPlayerDeath(player);
                 }
             }
             return true;
@@ -82,36 +96,50 @@ public class ServerPlayerListeners {
             if (data.get("infinium.sanity") == null) {
                 data.putInt("infinium.sanity", 100);
             }
+
+            if (data.get("infinium.totems") == null) {
+                data.putInt("infinium.totems", 0);
+            }
+
             return ActionResult.PASS;
         });
 
     }
-
-    private static void onDeath(ServerPlayerEntity playerDied){
-        if (playerDied.isSpectator()) return;
-
-        BlockPos pos = playerDied.getBlockPos();
-        Audience audience = Infinium.adventure.audience(PlayerLookup.all(Infinium.server));
-        Title.Times times = Title.Times.times(Duration.ofSeconds(1), Duration.ofSeconds(6), Duration.ofSeconds(3));
-        Title title = Title.title(Component.text(ChatFormatter.format("&6&k&l? &5Infinium &6&k&l?")), Component.text(""), times);
-
-        ChatFormatter.broadcastMessage(ChatFormatter.formatWithPrefix("&7El jugador &6&l%player% &7sucumbio ante el\n&5&lVacío Infinito".replaceAll("%player%", playerDied.getEntityName())));
-        playerDied.setHealth(20.0f);
-        playerDied.changeGameMode(GameMode.SPECTATOR);
-        if (pos.getY() < -64) {
-            playerDied.teleport(pos.getX(), 1.5f, pos.getZ());
-        }
-        audience.showTitle(title);
-        audience.playSound(Sound.sound(Key.key("infinium:player_death"), Sound.Source.PLAYER, 10, 0.7f));
-        Infinium.executorService.schedule(() -> SolarEclipseManager.start(0.1), 13, TimeUnit.SECONDS);
-    }
-
-
 
     private static void playerDisconnectCallback(){
         ServerPlayerConnectionEvents.OnServerPlayerDisconnect.EVENT.register(player -> {
             SanityManager.totalPlayers.remove(player);
             return ActionResult.PASS;
         });
+    }
+
+    private static void onPlayerDeath(ServerPlayerEntity playerDied){
+        if (playerDied.isSpectator()) return;
+
+        var data = ((EntityDataSaver) playerDied).getPersistentData();
+        BlockPos pos = playerDied.getBlockPos();
+        Audience audience = Infinium.adventure.audience(PlayerLookup.all(Infinium.server));
+        Times times = Title.Times.times(Duration.ofSeconds(1), Duration.ofSeconds(6), Duration.ofSeconds(3));
+        Title title = Title.title(Component.text(ChatFormatter.format("&6&k&l? &5Infinium &6&k&l?")), Component.text(""), times);
+
+        data.putInt("infinium.totems", 0);
+        ChatFormatter.broadcastMessage(ChatFormatter.formatWithPrefix("&7El jugador &6&l%player% &7sucumbio ante el\n&5&lVacío Infinito".replaceAll("%player%", playerDied.getEntityName())));
+        playerDied.setHealth(20.0f);
+        playerDied.changeGameMode(GameMode.SPECTATOR);
+        audience.showTitle(title);
+        audience.playSound(Sound.sound(Key.key("infinium:player_death"), Sound.Source.PLAYER, 10, 0.7f));
+        Infinium.executorService.schedule(() -> SolarEclipseManager.start(0.1), 13, TimeUnit.SECONDS);
+        if (pos.getY() < -64) {
+            playerDied.teleport(pos.getX(), -64, pos.getZ());
+        }
+    }
+    
+    private static boolean playerHasTotem(PlayerEntity player, DamageSource damageSource) {
+        for(ItemStack stack : player.getItemsHand()) {
+            var item = stack.getItem();
+            if (item.equals(Items.TOTEM_OF_UNDYING) && damageSource.isOutOfWorld()) return false; 
+            if (item.equals(Items.TOTEM_OF_UNDYING) || item.equals(InfiniumItems.VOID_TOTEM) || item.equals(InfiniumItems.MAGMA_TOTEM)) return true;
+        }
+        return false;
     }
 }

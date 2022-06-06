@@ -1,7 +1,10 @@
 package com.infinium.global.mixin;
 
 import com.infinium.api.effects.InfiniumEffects;
+import com.infinium.api.events.players.PlayerUseTotemEvent;
 import com.infinium.api.items.global.InfiniumItems;
+import com.infinium.api.world.Location;
+import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -10,8 +13,14 @@ import net.minecraft.entity.damage.DamageTracker;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.stat.Stats;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
@@ -27,39 +36,21 @@ public abstract class LivingEntityMixin extends Entity {
         super(type, world);
     }
 
-    @Shadow public abstract ItemStack getMainHandStack();
-
-    @Shadow public abstract ItemStack getOffHandStack();
-
     @Shadow public abstract void setHealth(float health);
 
     @Shadow public abstract boolean clearStatusEffects();
 
     @Shadow public abstract boolean addStatusEffect(StatusEffectInstance effect);
 
-    @Shadow public abstract void endCombat();
-
     @Shadow public abstract void readCustomDataFromNbt(NbtCompound nbt);
 
     @Shadow public abstract boolean addStatusEffect(StatusEffectInstance effect, @Nullable Entity source);
-
-    @Shadow public abstract boolean removeStatusEffect(StatusEffect type);
-
-    @Shadow @Nullable public abstract StatusEffectInstance removeStatusEffectInternal(@Nullable StatusEffect type);
 
     @Shadow public abstract boolean hasStatusEffect(StatusEffect effect);
 
     @Shadow @Nullable public abstract StatusEffectInstance getStatusEffect(StatusEffect effect);
 
-    @Shadow public abstract boolean canTakeDamage();
-
-    @Shadow @Final private DamageTracker damageTracker;
-
     @Shadow public abstract boolean damage(DamageSource source, float amount);
-
-    @Shadow public abstract boolean isDead();
-
-    @Shadow protected abstract boolean tryUseTotem(DamageSource source);
 
     @Shadow protected abstract void applyDamage(DamageSource source, float amount);
 
@@ -68,6 +59,10 @@ public abstract class LivingEntityMixin extends Entity {
     @Shadow public abstract float getHealth();
 
     @Shadow public abstract void kill();
+
+    @Shadow public abstract ItemStack getStackInHand(Hand hand);
+
+    @Shadow @Nullable protected PlayerEntity attackingPlayer;
 
     @Inject(method = "damage", at = @At("HEAD"), cancellable = true)
     public void applyImmunity(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
@@ -85,7 +80,7 @@ public abstract class LivingEntityMixin extends Entity {
             extraDamage *= (1.05 * (this.getStatusEffect(InfiniumEffects.MADNESS).getAmplifier() + 1));
             if (this.isAlive()) this.applyDamage(source, extraDamage);
             if (this.getHealth() <= 0) this.kill();
-            cir.setReturnValue(false); //Todo aqui no estarias creando un loop infinito ya que apply damage quizas llama a damage asi que denuevo tendria madness y volveria a cancelar haciendo que sea un loop infinito y mas encima si se bugea daño infinito lol
+            cir.setReturnValue(false);
         }
     }
 
@@ -93,26 +88,21 @@ public abstract class LivingEntityMixin extends Entity {
 
     @Inject(at = @At("HEAD"), method = "tryUseTotem", cancellable = true)
     public void useVoidTotem(DamageSource source, CallbackInfoReturnable<Boolean> callback) {
-        ItemStack mainHand = this.getMainHandStack();
-        ItemStack offHand = this.getOffHandStack();
-
-        if (offHand.getItem() == InfiniumItems.VOID_TOTEM || mainHand.getItem() == InfiniumItems.VOID_TOTEM) {
-
-            if (offHand.getItem() == InfiniumItems.VOID_TOTEM) {
-                offHand.decrement(1);
-            } else {
-                mainHand.decrement(1);
+        var world = this.getWorld();
+        ItemStack itemStack = null;
+        Hand[] handValue = Hand.values();
+        for (Hand hand : handValue) {
+            ItemStack itemStack2 = this.getStackInHand(hand);
+            if (itemStack2.isOf(InfiniumItems.VOID_TOTEM) || itemStack2.isOf(InfiniumItems.MAGMA_TOTEM) || itemStack2.isOf(Items.TOTEM_OF_UNDYING)) {
+                itemStack = itemStack2.copy();
+                itemStack2.decrement(1);
+                break;
             }
-
-            this.setHealth(1.0F);
-            this.clearStatusEffects();
-            this.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 125, 3));
-            this.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 350, 7));
-            this.addStatusEffect(new StatusEffectInstance(InfiniumEffects.IMMUNITY, 120, 0));
-            this.world.sendEntityStatus(this, (byte) 35);
-            callback.setReturnValue(true);
         }
 
-
+        if (itemStack != null) {
+            callback.setReturnValue(true);
+            PlayerUseTotemEvent.EVENT.invoker().use((PlayerEntity) world.getEntityById(this.getId()), itemStack);
+        }
     }
 }

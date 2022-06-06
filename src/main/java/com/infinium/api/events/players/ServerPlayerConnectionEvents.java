@@ -20,6 +20,7 @@ public class ServerPlayerConnectionEvents {
                     }
                     return ActionResult.PASS;
                 });
+
         ActionResult connect(ServerPlayerEntity player);
 
     }
@@ -37,6 +38,7 @@ public class ServerPlayerConnectionEvents {
                     }
                     return ActionResult.PASS;
                 });
+
         ActionResult disconnect(ServerPlayerEntity player);
 
     }

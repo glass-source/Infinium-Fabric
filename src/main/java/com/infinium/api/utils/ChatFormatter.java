@@ -82,7 +82,7 @@ public class ChatFormatter {
         return MiniMessage.miniMessage().deserialize(build);
     }
 
-    public static String prefix = format("&5&lInfinium&6&lSMP &8>> ");
+    public static String prefix = format("&5&lInfinium&6&lSMP &8>> &r");
 
     public static void broadcastMessage(String message) {
         Infinium.adventure.audience(PlayerLookup.all(Infinium.server)).sendMessage(Component.text(format(message)));

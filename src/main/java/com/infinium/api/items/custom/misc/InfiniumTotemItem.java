@@ -6,7 +6,6 @@ public class InfiniumTotemItem extends Item {
 
     public InfiniumTotemItem(Settings settings) {
         super(settings);
-
     }
 
 }

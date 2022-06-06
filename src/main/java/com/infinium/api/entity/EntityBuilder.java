@@ -33,7 +33,6 @@ public class EntityBuilder {
     public EntityBuilder setHealth(double value) {
         entity.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue(value);
         entity.setHealth((float) value);
-
         return this;
     }
 

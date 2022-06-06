@@ -17,15 +17,11 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-
-//TODO hacer esto con los mob no hostiles restantes
-// Esto no se podria hacer modificando la clase Animal Entity? ??? XD nose quizas no existe el metodo o algo
 @Mixin(SheepEntity.class)
 public abstract class SheepEntityMixin extends MobEntity {
 
     protected SheepEntityMixin(EntityType<? extends MobEntity> entityType, World world) {
         super(entityType, world);
-
     }
 
     @Inject(method = "createSheepAttributes", at = @At("RETURN"))
