@@ -48,26 +48,27 @@ public class ServerPlayerListeners {
             var message = "";
             int totems = data.getInt("infinium.totems");
 
-            if (totemItem.equals(InfiniumItems.VOID_TOTEM)) {
-                player.addStatusEffect(new StatusEffectInstance(InfiniumEffects.IMMUNITY, 20 * 6, 0));
-                data.putInt("infinium.totems", totems + 3);
-                message = ChatFormatter.formatWithPrefix("&7El jugador &5&l" + player.getEntityName() + " &7ha consumido un \n&b&lVoid Totem. Totem #" + totems);
-
-            } else if (totemItem.equals(InfiniumItems.MAGMA_TOTEM)) {
-                data.putInt("infinium.totems", totems + 1);
-                message = ChatFormatter.formatWithPrefix("&7El jugador &5&l" + player.getEntityName() + " &7ha consumido un \n&c&lMagma Totem. Totem #" + totems);
-
-            } else {
-                data.putInt("infinium.totems", totems + Utils.getDay() >= 42 ? 5 : 1);
-                message = ChatFormatter.formatWithPrefix("&7El jugador &5&l" + player.getEntityName() + " &7ha consumido un \n&6&lTotem de la Inmortalidad. Totem #" + totems);
-            }
-
             player.setHealth(1.0F);
             player.clearStatusEffects();
             player.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 900, 1));
             player.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 100, 1));
             player.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 800, 0));
             player.world.sendEntityStatus(player, (byte) 35);
+
+            if (totemItem.equals(InfiniumItems.VOID_TOTEM)) {
+                player.addStatusEffect(new StatusEffectInstance(InfiniumEffects.IMMUNITY, 20 * 6, 0));
+                data.putInt("infinium.totems", totems + 3);
+                message = ChatFormatter.formatWithPrefix("&8El jugador &5&l" + player.getEntityName() + " &8ha consumido un &b&lVoid Tótem" + " &8(Tótem #%.%)".replaceAll("%.%", String.valueOf(totems + 3)));
+
+            } else if (totemItem.equals(InfiniumItems.MAGMA_TOTEM)) {
+                data.putInt("infinium.totems", totems + 1);
+                message = ChatFormatter.formatWithPrefix("&8El jugador &5&l" + player.getEntityName() + " &8ha consumido un \n&c&lMagma Tótem" + " &8(Tótem #%.%)".replaceAll("%.%", String.valueOf(totems + 1)));
+
+            } else {
+                data.putInt("infinium.totems", totems + Utils.getDay() >= 42 ? 5 : 1);
+                message = ChatFormatter.formatWithPrefix("&8El jugador &5&l" + player.getEntityName() + " &8ha consumido un \n&6&lTótem de la Inmortalidad" + " &8(Tótem #%.%)".replaceAll("%.%", String.valueOf(totems + Utils.getDay() >= 42 ? 5 : 1)));
+            }
+
             SanityManager.removeSanity((ServerPlayerEntity) player, 40);
             ChatFormatter.broadcastMessage(message);
             return ActionResult.PASS;

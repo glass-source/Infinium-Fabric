@@ -101,6 +101,7 @@ public abstract class LivingEntityMixin extends Entity {
         }
 
         if (itemStack != null) {
+            if (itemStack.isOf(Items.TOTEM_OF_UNDYING) && source.isOutOfWorld()) return;
             callback.setReturnValue(true);
             PlayerUseTotemEvent.EVENT.invoker().use((PlayerEntity) world.getEntityById(this.getId()), itemStack);
         }
