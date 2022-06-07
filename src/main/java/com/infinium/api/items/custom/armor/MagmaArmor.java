@@ -23,24 +23,20 @@ public class MagmaArmor extends ArmorItem {
     @Override
     public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
 
-        if (!world.isClient()) {
-            if (entity instanceof PlayerEntity p) {
-                if (hasFullArmor(p)) {
+        if (world.isClient()) return;
+        if (!(entity instanceof PlayerEntity p)) return;
+        if (!hasFullArmor(p)) return;
+        if (!hasMagmaArmor(p)) return;
 
-                    if (hasMagmaArmor(p)) {
-                        StatusEffect[] effects = {
-                                StatusEffects.RESISTANCE,
-                                StatusEffects.SPEED,
-                                StatusEffects.FIRE_RESISTANCE
-                        };
-                        Arrays.stream(effects).toList().forEach(status -> {
-                            if (!p.hasStatusEffect(status)) p.addStatusEffect(new StatusEffectInstance(status, 280, 0));
-                            if (p.getStatusEffect(status).getDuration() < 120) p.addStatusEffect(new StatusEffectInstance(status, 280, 0));
-                        });
-                    }
-                }
-            }
-        }
+        StatusEffect[] effects = {
+        StatusEffects.RESISTANCE,
+        StatusEffects.SPEED,
+        StatusEffects.FIRE_RESISTANCE};
+
+        Arrays.stream(effects).toList().forEach(status -> {
+            if (!p.hasStatusEffect(status)) p.addStatusEffect(new StatusEffectInstance(status, 280, 1));
+            if (p.getStatusEffect(status).getDuration() < 120) p.addStatusEffect(new StatusEffectInstance(status, 280, 1));
+        });
     }
 
     private boolean hasFullArmor(PlayerEntity user) {
@@ -61,5 +57,6 @@ public class MagmaArmor extends ArmorItem {
 
         return boots == InfiniumArmorMaterials.MAGMA && leggings == InfiniumArmorMaterials.MAGMA && chestplate == InfiniumArmorMaterials.MAGMA && helmet == InfiniumArmorMaterials.MAGMA;
     }
+    
 
 }

@@ -4,7 +4,6 @@ package com.infinium.global.mixin;
 
 import com.infinium.api.utils.EntityDataSaver;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -24,14 +23,15 @@ public abstract class PlayerDataSaver implements EntityDataSaver {
     }
 
     @Inject(method = "writeNbt", at = @At("HEAD"))
-    private void saveSanity(NbtCompound nbt, CallbackInfoReturnable<NbtCompound> cir) {
+    private void saveData(NbtCompound nbt, CallbackInfoReturnable<NbtCompound> cir) {
         if (persistentData != null) {
             nbt.put("infinium.sanity", persistentData);
+            nbt.put("infinium.totems", persistentData);
         }
     }
 
     @Inject(method = "readNbt", at = @At("HEAD"))
-    private void saveSanity(NbtCompound nbt, CallbackInfo ci) {
+    private void saveData(NbtCompound nbt, CallbackInfo ci) {
         if (nbt.contains("infinium.sanity", 10)) {
             persistentData = nbt.getCompound("infinium.sanity");
         }
