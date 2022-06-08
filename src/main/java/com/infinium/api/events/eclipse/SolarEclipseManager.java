@@ -2,6 +2,7 @@ package com.infinium.api.events.eclipse;
 
 import com.infinium.Infinium;
 import com.infinium.api.utils.ChatFormatter;
+import com.infinium.client.InfiniumClient;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.key.Key;
@@ -28,12 +29,17 @@ public class SolarEclipseManager {
     private static final ScheduledExecutorService service = Infinium.executorService;
     private static ScheduledFuture<?> task;
 
-    private static void tick(){
+    private static void initService(){
+        var server = Infinium.server;
+        var client = InfiniumClient.client;
         task = service.scheduleWithFixedDelay(() -> {
-            var percent = (float) Math.max(0d, Math.min(1d, (double) getTimeToEnd() / getTotalTime()));
-            var name = Component.text(ChatFormatter.format(TITLE.replaceAll("%time%", getTime())));
+
+            if (server.isSingleplayer() && (client != null && client.isPaused())) return;
+
+            var progress = (float) Math.max(0d, Math.min(1d, (double) getTimeToEnd() / getTotalTime()));
+            var name = Component.text(ChatFormatter.format(TITLE.replaceAll("%time%", getStringTime())));
             BOSS_BAR.name(name);
-            BOSS_BAR.progress(percent);
+            BOSS_BAR.progress(progress);
             if (getTimeToEnd() <= 0){
                 end();
             }
@@ -44,14 +50,14 @@ public class SolarEclipseManager {
     public static void load() {
         lastTimeChecked = (new Date()).getTime();
         if (isActive()) {
-            start(0.5); //Sentido ??
+            start(0.5);
         }
     }
 
     public static void start(double hours){
         if (hours <= 0) hours = 0.5;
         if (!isActive()) {
-            tick();
+            initService();
             endsIn = 0L;
         }
 
@@ -66,7 +72,7 @@ public class SolarEclipseManager {
             var world = server.getOverworld();
             var audience = Infinium.adventure.audience(PlayerLookup.all(server));
             var times = Title.Times.times(Duration.ofSeconds(1), Duration.ofSeconds(5), Duration.ofSeconds(2));
-            var title = Title.title(Component.text(ChatFormatter.format("&8&k&l? &7Eclipse Solar &8&k&l?")), Component.text(ChatFormatter.format("&7Duración: &8" + getTime())), times);
+            var title = Title.title(Component.text(ChatFormatter.format("&8&k&l? &7Eclipse Solar &8&k&l?")), Component.text(ChatFormatter.format("&7Duración: &8" + getStringTime())), times);
             audience.showTitle(title);
             audience.showBossBar(SolarEclipseManager.BOSS_BAR);
             audience.playSound(Sound.sound(Key.key("infinium:eclipse_start"), Sound.Source.PLAYER, 10, 0.5f));
@@ -100,7 +106,7 @@ public class SolarEclipseManager {
         return totalTime;
     }
 
-    public static String getTime() {
+    public static String getStringTime() {
         if (isActive()) {
             long segs = getTimeToEnd() / 1000L;
             long days = segs / 86400L;

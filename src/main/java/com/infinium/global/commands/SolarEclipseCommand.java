@@ -5,7 +5,6 @@ import com.infinium.api.utils.ChatFormatter;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.text.Text;
 
 import static com.infinium.api.utils.ChatFormatter.cd;
 
@@ -33,7 +32,7 @@ public class SolarEclipseCommand {
 
     private static int get(CommandContext<ServerCommandSource> source) {
         //source.getSource().sendFeedback(Text.of(String.valueOf(SolarEclipseManager.getTimeToEnd())), true);
-        source.getSource().sendFeedback(ChatFormatter.text("&7Quedan " +SolarEclipseManager.getTime() + " &7 de Solar Eclipse."), false);
+        source.getSource().sendFeedback(ChatFormatter.text("&7Quedan " +SolarEclipseManager.getStringTime() + " &7 de Solar Eclipse."), false);
         return (int) SolarEclipseManager.getTimeToEnd();
     }
 

@@ -123,23 +123,21 @@ public class ServerPlayerListeners {
         Times times = Title.Times.times(Duration.ofSeconds(1), Duration.ofSeconds(6), Duration.ofSeconds(3));
         Title title = Title.title(Component.text(ChatFormatter.format("&6&k&l? &5Infinium &6&k&l?")), Component.text(""), times);
 
-        data.putInt("infinium.totems", 0);
+        Infinium.executorService.schedule(() -> SolarEclipseManager.start(0.1), 13, TimeUnit.SECONDS);
         ChatFormatter.broadcastMessage(ChatFormatter.formatWithPrefix("&7El jugador &6&l%player% &7sucumbio ante el\n&5&lVacío Infinito".replaceAll("%player%", playerDied.getEntityName())));
         playerDied.setHealth(20.0f);
         playerDied.changeGameMode(GameMode.SPECTATOR);
         audience.showTitle(title);
         audience.playSound(Sound.sound(Key.key("infinium:player_death"), Sound.Source.PLAYER, 10, 0.7f));
-        Infinium.executorService.schedule(() -> SolarEclipseManager.start(0.1), 13, TimeUnit.SECONDS);
-        if (pos.getY() < -64) {
-            playerDied.teleport(pos.getX(), -64, pos.getZ());
-        }
+        data.putInt("infinium.totems", 0);
+        if (pos.getY() < -64) playerDied.teleport(pos.getX(), -64, pos.getZ());
     }
     
     private static boolean playerHasTotem(PlayerEntity player, DamageSource damageSource) {
         for(ItemStack stack : player.getItemsHand()) {
-            var item = stack.getItem();
-            if (item.equals(Items.TOTEM_OF_UNDYING) && damageSource.isOutOfWorld()) return false; 
-            if (item.equals(Items.TOTEM_OF_UNDYING) || item.equals(InfiniumItems.VOID_TOTEM) || item.equals(InfiniumItems.MAGMA_TOTEM)) return true;
+            if (stack.isOf(Items.TOTEM_OF_UNDYING) && damageSource.isOutOfWorld()) return false;
+            if (stack.isOf(InfiniumItems.MAGMA_TOTEM) && damageSource.isOutOfWorld()) return false;
+            if (stack.isOf(Items.TOTEM_OF_UNDYING) || stack.isOf(InfiniumItems.MAGMA_TOTEM) || stack.isOf(InfiniumItems.VOID_TOTEM)) return true;
         }
         return false;
     }

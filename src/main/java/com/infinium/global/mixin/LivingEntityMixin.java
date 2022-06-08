@@ -3,27 +3,19 @@ package com.infinium.global.mixin;
 import com.infinium.api.effects.InfiniumEffects;
 import com.infinium.api.events.players.PlayerUseTotemEvent;
 import com.infinium.api.items.global.InfiniumItems;
-import com.infinium.api.world.Location;
-import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.damage.DamageTracker;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.stat.Stats;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -35,10 +27,6 @@ public abstract class LivingEntityMixin extends Entity {
     protected LivingEntityMixin(EntityType<?> type, World world) {
         super(type, world);
     }
-
-    @Shadow public abstract void setHealth(float health);
-
-    @Shadow public abstract boolean clearStatusEffects();
 
     @Shadow public abstract boolean addStatusEffect(StatusEffectInstance effect);
 
@@ -61,8 +49,6 @@ public abstract class LivingEntityMixin extends Entity {
     @Shadow public abstract void kill();
 
     @Shadow public abstract ItemStack getStackInHand(Hand hand);
-
-    @Shadow @Nullable protected PlayerEntity attackingPlayer;
 
     @Inject(method = "damage", at = @At("HEAD"), cancellable = true)
     public void applyImmunity(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
@@ -93,7 +79,7 @@ public abstract class LivingEntityMixin extends Entity {
         Hand[] handValue = Hand.values();
         for (Hand hand : handValue) {
             ItemStack itemStack2 = this.getStackInHand(hand);
-            if (itemStack2.isOf(InfiniumItems.VOID_TOTEM) || itemStack2.isOf(InfiniumItems.MAGMA_TOTEM) || itemStack2.isOf(Items.TOTEM_OF_UNDYING)) {
+            if (itemStack2.isOf(Items.TOTEM_OF_UNDYING) || itemStack2.isOf(InfiniumItems.VOID_TOTEM) || itemStack2.isOf(InfiniumItems.MAGMA_TOTEM)) {
                 itemStack = itemStack2.copy();
                 itemStack2.decrement(1);
                 break;
@@ -102,6 +88,7 @@ public abstract class LivingEntityMixin extends Entity {
 
         if (itemStack != null) {
             if (itemStack.isOf(Items.TOTEM_OF_UNDYING) && source.isOutOfWorld()) return;
+            if (itemStack.isOf(InfiniumItems.MAGMA_TOTEM) && source.isOutOfWorld()) return;
             callback.setReturnValue(true);
             PlayerUseTotemEvent.EVENT.invoker().use((PlayerEntity) world.getEntityById(this.getId()), itemStack);
         }
