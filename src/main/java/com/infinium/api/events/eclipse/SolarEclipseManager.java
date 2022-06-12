@@ -9,6 +9,7 @@ import net.kyori.adventure.key.Key;
 import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.GameRules;
 
 import java.time.Duration;
@@ -26,16 +27,13 @@ public class SolarEclipseManager {
     private static long endsIn;
     private static long lastTimeChecked;
     private static long totalTime = 0L;
-    private static final ScheduledExecutorService service = Infinium.executorService;
+    private static ScheduledExecutorService service;
     private static ScheduledFuture<?> task;
 
     private static void initService(){
-        var server = Infinium.server;
-        var client = InfiniumClient.client;
+        service = Infinium.getExecutor();
         task = service.scheduleWithFixedDelay(() -> {
-
-            if (server.isSingleplayer() && (client != null && client.isPaused())) return;
-
+            //if (isGamePaused()) return;
             var progress = (float) Math.max(0d, Math.min(1d, (double) getTimeToEnd() / getTotalTime()));
             var name = Component.text(ChatFormatter.format(TITLE.replaceAll("%time%", getStringTime())));
             BOSS_BAR.name(name);
@@ -43,7 +41,6 @@ public class SolarEclipseManager {
             if (getTimeToEnd() <= 0){
                 end();
             }
-
         }, 0, 1000, TimeUnit.MILLISECONDS);
     }
 
@@ -61,16 +58,16 @@ public class SolarEclipseManager {
             endsIn = 0L;
         }
 
-        var server = Infinium.server;
+        var server = Infinium.getServer();
         long addedTime = (long) (hours * 3600000.0D);
 
         endsIn += addedTime;
         totalTime += addedTime;
         lastTimeChecked = (new Date()).getTime();
 
-        if (Infinium.server != null) {
+        if (Infinium.getServer() != null) {
             var world = server.getOverworld();
-            var audience = Infinium.adventure.audience(PlayerLookup.all(server));
+            var audience = Infinium.getAdventure().audience(PlayerLookup.all(server));
             var times = Title.Times.times(Duration.ofSeconds(1), Duration.ofSeconds(5), Duration.ofSeconds(2));
             var title = Title.title(Component.text(ChatFormatter.format("&8&k&l? &7Eclipse Solar &8&k&l?")), Component.text(ChatFormatter.format("&7Duración: &8" + getStringTime())), times);
             audience.showTitle(title);
@@ -82,17 +79,21 @@ public class SolarEclipseManager {
     }
 
     public static void end(){
-        var server = Infinium.server;
-        var audience = Infinium.adventure.audience(PlayerLookup.all(server));
-        server.getGameRules().get(GameRules.DO_DAYLIGHT_CYCLE).set(true, Infinium.server);
-        audience.hideBossBar(BOSS_BAR);
-        audience.playSound(Sound.sound(Key.key("minecraft:item.trident.hit_ground"), Sound.Source.AMBIENT, 10, 0.003f));
+        if (task != null) {
+            task.cancel(true);
+            task = null;
+            service = null;
+        }
+
         endsIn = 0L;
         totalTime = 0L;
         lastTimeChecked = 0;
-        task.cancel(true);
-        service.shutdown();
-        service.shutdownNow();
+        var server = Infinium.getServer();
+        var audience = Infinium.getAdventure().audience(PlayerLookup.all(server));
+        server.getGameRules().get(GameRules.DO_DAYLIGHT_CYCLE).set(true, Infinium.getServer());
+        audience.hideBossBar(BOSS_BAR);
+        audience.playSound(Sound.sound(Key.key("minecraft:item.trident.hit_ground"), Sound.Source.AMBIENT, 10, 0.003f));
+
     }
 
     public static long getTimeToEnd() {
@@ -121,6 +122,11 @@ public class SolarEclipseManager {
 
     public static boolean isActive() {
         return getTimeToEnd() > 0L;
+    }
+
+    public static boolean isGamePaused() {
+        var server = Infinium.getServer();
+        return server.isSingleplayer() && InfiniumClient.isPaused();
     }
 
 }

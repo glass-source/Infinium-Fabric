@@ -1,4 +1,4 @@
-package com.infinium.api.entity;
+package com.infinium.api.entities;
 
 import com.infinium.api.utils.ChatFormatter;
 import com.infinium.api.world.Location;

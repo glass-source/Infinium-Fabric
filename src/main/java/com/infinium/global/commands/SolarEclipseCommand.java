@@ -26,7 +26,12 @@ public class SolarEclipseCommand {
     }
 
     private static int start(CommandContext<ServerCommandSource> source, float duration) {
-        SolarEclipseManager.start(duration);
+        try{
+            SolarEclipseManager.start(duration);
+        }catch (Exception ex) {
+            ex.printStackTrace();
+            ChatFormatter.broadcastMessage(ex.toString());
+        }
         return Float.floatToIntBits(duration);
     }
 

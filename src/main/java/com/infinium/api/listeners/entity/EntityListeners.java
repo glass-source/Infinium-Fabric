@@ -1,6 +1,5 @@
 package com.infinium.api.listeners.entity;
 
-import com.infinium.api.entity.EntityBuilder;
 import com.infinium.api.events.entity.EntitySpawn;
 import com.infinium.api.world.Location;
 import net.minecraft.entity.Entity;

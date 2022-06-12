@@ -7,7 +7,7 @@ import com.infinium.api.items.global.InfiniumItems;
 import com.infinium.api.listeners.entity.EntityListeners;
 import com.infinium.api.listeners.player.ServerPlayerListeners;
 import com.infinium.api.utils.InfiniumRegistries;
-import com.infinium.global.entity.InfiniumEntityType;
+import com.infinium.api.entities.InfiniumEntityType;
 import com.infinium.global.sanity.SanityManager;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
@@ -24,11 +24,11 @@ public class Infinium implements ModInitializer {
 
 
 
-    public static ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+    private static final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
     public static final String MOD_ID = "infinium";
     public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
-    public static FabricServerAudiences adventure;
-    public static MinecraftServer server;
+    private static FabricServerAudiences adventure;
+    private static MinecraftServer server;
     public static Identifier id(String id) {
         return new Identifier(MOD_ID, id);
     }
@@ -62,5 +62,17 @@ public class Infinium implements ModInitializer {
         ServerPlayerListeners.registerListener();
         EntityListeners.registerListeners();
         SanityManager.initSanityTask();
+    }
+
+    public static MinecraftServer getServer() {
+        return server;
+    }
+
+    public static FabricServerAudiences getAdventure(){
+        return adventure;
+    }
+
+    public static ScheduledExecutorService getExecutor(){
+        return executorService;
     }
 }

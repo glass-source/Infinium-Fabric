@@ -13,8 +13,6 @@ public class SanityTask {
 
     public static void run(){
 
-
-
         totalPlayers.forEach((player) -> {
 
             if (!player.isSpectator()) {

@@ -1,4 +1,4 @@
-package com.infinium.global.entity.list;
+package com.infinium.api.entities.projectiles;
 
 import com.infinium.api.items.global.InfiniumItems;
 import net.minecraft.enchantment.EnchantmentHelper;

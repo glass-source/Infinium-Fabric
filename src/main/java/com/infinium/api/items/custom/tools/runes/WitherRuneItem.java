@@ -30,13 +30,13 @@ public class WitherRuneItem extends ToolItem {
         var cooldownManager = user.getItemCooldownManager();
         if (!cooldownManager.isCoolingDown(this)) {
             if (!world.isClient()) {
-                Infinium.executorService.schedule(() -> cooldownManager.set(this, 15), 75, TimeUnit.MILLISECONDS);
+                Infinium.getExecutor().schedule(() -> cooldownManager.set(this, 15), 75, TimeUnit.MILLISECONDS);
                 WitherSkullEntity skull = new WitherSkullEntity(world, user, 0, 0,0);
                 Vec3d vec = user.getRotationVector();
                 skull.setPosition(user.getEyePos());
                 skull.setVelocity(vec.getX() * 1.25, vec.getY() * 1.25, vec.getZ() * 1.25);
                 world.spawnEntity(skull);
-                Infinium.executorService.schedule(() -> {
+                Infinium.getExecutor().schedule(() -> {
                     if (skull.isAlive()) {
                         world.createExplosion(skull, skull.getX(), skull.getY(), skull.getZ(), 3, Explosion.DestructionType.DESTROY);
                         skull.remove(Entity.RemovalReason.KILLED);

@@ -65,8 +65,8 @@ public class ServerPlayerListeners {
                 message = ChatFormatter.formatWithPrefix("&8El jugador &5&l" + player.getEntityName() + " &8ha consumido un \n&c&lMagma Tótem" + " &8(Tótem #%.%)".replaceAll("%.%", String.valueOf(totems + 1)));
 
             } else {
-                data.putInt("infinium.totems", totems + Utils.getDay() >= 42 ? 5 : 1);
-                message = ChatFormatter.formatWithPrefix("&8El jugador &5&l" + player.getEntityName() + " &8ha consumido un \n&6&lTótem de la Inmortalidad" + " &8(Tótem #%.%)".replaceAll("%.%", String.valueOf(totems + Utils.getDay() >= 42 ? 5 : 1)));
+                data.putInt("infinium.totems", totems + 1);
+                message = ChatFormatter.formatWithPrefix("&8El jugador &5&l" + player.getEntityName() + " &8ha consumido un \n&6&lTótem de la Inmortalidad" + " &8(Tótem #%.%)".replaceAll("%.%", String.valueOf(totems + 1)));
             }
 
             SanityManager.removeSanity((ServerPlayerEntity) player, 40);
@@ -77,7 +77,7 @@ public class ServerPlayerListeners {
     
     private static void playerDeathCallback(){
         ServerPlayerEvents.ALLOW_DEATH.register((player, damageSource, damageAmount) -> {
-            if (Infinium.server != null) {
+            if (Infinium.getServer() != null) {
                 if (!playerHasTotem(player, damageSource)) {
                     onPlayerDeath(player);
                 }
@@ -92,7 +92,9 @@ public class ServerPlayerListeners {
 
             if (!SanityManager.totalPlayers.contains(player)) SanityManager.totalPlayers.add(player);
 
-            if (SolarEclipseManager.isActive()) Infinium.adventure.audience(SanityManager.totalPlayers.get(SanityManager.totalPlayers.size() - 1)).showBossBar(SolarEclipseManager.BOSS_BAR);
+            if (SolarEclipseManager.isActive()) {
+                Infinium.getAdventure().audience(SanityManager.totalPlayers.get(SanityManager.totalPlayers.size() - 1)).showBossBar(SolarEclipseManager.BOSS_BAR);
+            }
 
             if (data.get("infinium.sanity") == null) {
                 data.putInt("infinium.sanity", 100);
@@ -119,24 +121,25 @@ public class ServerPlayerListeners {
 
         var data = ((EntityDataSaver) playerDied).getPersistentData();
         BlockPos pos = playerDied.getBlockPos();
-        Audience audience = Infinium.adventure.audience(PlayerLookup.all(Infinium.server));
+        Audience audience = Infinium.getAdventure().audience(PlayerLookup.all(Infinium.getServer()));
         Times times = Title.Times.times(Duration.ofSeconds(1), Duration.ofSeconds(6), Duration.ofSeconds(3));
         Title title = Title.title(Component.text(ChatFormatter.format("&6&k&l? &5Infinium &6&k&l?")), Component.text(""), times);
 
-        Infinium.executorService.schedule(() -> SolarEclipseManager.start(0.1), 13, TimeUnit.SECONDS);
+        Infinium.getExecutor().schedule(() -> SolarEclipseManager.start(0.01), 13, TimeUnit.SECONDS);
         ChatFormatter.broadcastMessage(ChatFormatter.formatWithPrefix("&7El jugador &6&l%player% &7sucumbio ante el\n&5&lVacío Infinito".replaceAll("%player%", playerDied.getEntityName())));
         playerDied.setHealth(20.0f);
         playerDied.changeGameMode(GameMode.SPECTATOR);
         audience.showTitle(title);
         audience.playSound(Sound.sound(Key.key("infinium:player_death"), Sound.Source.PLAYER, 10, 0.7f));
+
         data.putInt("infinium.totems", 0);
         if (pos.getY() < -64) playerDied.teleport(pos.getX(), -64, pos.getZ());
     }
     
     private static boolean playerHasTotem(PlayerEntity player, DamageSource damageSource) {
+        if (damageSource.isOutOfWorld()) return false;
+
         for(ItemStack stack : player.getItemsHand()) {
-            if (stack.isOf(Items.TOTEM_OF_UNDYING) && damageSource.isOutOfWorld()) return false;
-            if (stack.isOf(InfiniumItems.MAGMA_TOTEM) && damageSource.isOutOfWorld()) return false;
             if (stack.isOf(Items.TOTEM_OF_UNDYING) || stack.isOf(InfiniumItems.MAGMA_TOTEM) || stack.isOf(InfiniumItems.VOID_TOTEM)) return true;
         }
         return false;

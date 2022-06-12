@@ -15,7 +15,7 @@ public class Location implements Cloneable {
         this.X = X;
         this.Y = Y;
         this.Z = Z;
-        world = Infinium.server.getWorld(World.OVERWORLD);
+        world = Infinium.getServer().getWorld(World.OVERWORLD);
     }
 
 

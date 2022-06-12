@@ -10,9 +10,9 @@ public class Animation {
 
     //TODO Tengo clases y no me dio tiempo a terminar esto
     public static void initImageForAll(){
-        var task = Infinium.executorService;
-        var server = Infinium.server;
-        var audience = Infinium.adventure.audience(PlayerLookup.all(server));
+        var task = Infinium.getExecutor();
+        var server = Infinium.getServer();
+        var audience = Infinium.getAdventure().audience(PlayerLookup.all(server));
         var animationList = getFramesCharsIntegers(0, 79);
     }
 
@@ -33,7 +33,7 @@ public class Animation {
          * grows it.
          */
 
-        StringBuffer newstr = new StringBuffer(oldstr.length());
+        StringBuilder newString = new StringBuilder(oldstr.length());
 
         boolean saw_backslash = false;
 
@@ -47,47 +47,47 @@ public class Animation {
                 if (cp == '\\') {
                     saw_backslash = true;
                 } else {
-                    newstr.append(Character.toChars(cp));
+                    newString.append(Character.toChars(cp));
                 }
                 continue; /* switch  \*/
             }
 
             if (cp == '\\') {
                 saw_backslash = false;
-                newstr.append('\\');
-                newstr.append('\\');
+                newString.append('\\');
+                newString.append('\\');
                 continue; /* switch */
             }
 
             switch (cp) {
 
                 case 'r':
-                    newstr.append('\r');
+                    newString.append('\r');
                     break; /* switch */
 
                 case 'n':
-                    newstr.append('\n');
+                    newString.append('\n');
                     break; /* switch */
 
                 case 'f':
-                    newstr.append('\f');
+                    newString.append('\f');
                     break; /* switch */
 
                 /* PASS a \b THROUGH!! */
                 case 'b':
-                    newstr.append("\\b");
+                    newString.append("\\b");
                     break; /* switch */
 
                 case 't':
-                    newstr.append('\t');
+                    newString.append('\t');
                     break; /* switch */
 
                 case 'a':
-                    newstr.append('\007');
+                    newString.append('\007');
                     break; /* switch */
 
                 case 'e':
-                    newstr.append('\033');
+                    newString.append('\033');
                     break; /* switch */
 
                 /*
@@ -108,7 +108,7 @@ public class Animation {
                     if (cp > 0x7f) {
                         die("expected ASCII after \\c");
                     }
-                    newstr.append(Character.toChars(cp ^ 64));
+                    newString.append(Character.toChars(cp ^ 64));
                     break; /* switch */
                 }
 
@@ -138,7 +138,7 @@ public class Animation {
                 case '0': {
                     if (i + 1 == oldstr.length()) {
                         /* found \0 at end of string */
-                        newstr.append(Character.toChars(0));
+                        newString.append(Character.toChars(0));
                         break; /* switch */
                     }
                     i++;
@@ -157,7 +157,7 @@ public class Animation {
                     }
                     if (digits == 0) {
                         --i;
-                        newstr.append('\0');
+                        newString.append('\0');
                         break; /* switch */
                     }
                     int value = 0;
@@ -166,7 +166,7 @@ public class Animation {
                     } catch (NumberFormatException nfe) {
                         die("invalid octal value for \\0 escape");
                     }
-                    newstr.append(Character.toChars(value));
+                    newString.append(Character.toChars(value));
                     i += digits - 1;
                     break; /* switch */
                 } /* end case '0' */
@@ -215,7 +215,7 @@ public class Animation {
                     } catch (NumberFormatException nfe) {
                         die("invalid hex value for \\x escape");
                     }
-                    newstr.append(Character.toChars(value));
+                    newString.append(Character.toChars(value));
                     if (saw_brace) {
                         j++;
                     }
@@ -241,7 +241,7 @@ public class Animation {
                     } catch (NumberFormatException nfe) {
                         die("invalid hex value for \\u escape");
                     }
-                    newstr.append(Character.toChars(value));
+                    newString.append(Character.toChars(value));
                     i += j - 1;
                     break; /* switch */
                 }
@@ -264,14 +264,14 @@ public class Animation {
                     } catch (NumberFormatException nfe) {
                         die("invalid hex value for \\U escape");
                     }
-                    newstr.append(Character.toChars(value));
+                    newString.append(Character.toChars(value));
                     i += j - 1;
                     break; /* switch */
                 }
 
                 default:
-                    newstr.append('\\');
-                    newstr.append(Character.toChars(cp));
+                    newString.append('\\');
+                    newString.append(Character.toChars(cp));
                     /*
                      * say(String.format( "DEFAULT unrecognized escape %c passed through", cp));
                      */
@@ -283,10 +283,10 @@ public class Animation {
 
         /* weird to leave one at the end */
         if (saw_backslash) {
-            newstr.append('\\');
+            newString.append('\\');
         }
 
-        return newstr.toString();
+        return newString.toString();
     }
 
     /**
