@@ -119,7 +119,6 @@ public class ServerPlayerListeners {
     private static void onPlayerDeath(ServerPlayerEntity playerDied){
         if (playerDied.isSpectator()) return;
 
-        var data = ((EntityDataSaver) playerDied).getPersistentData();
         BlockPos pos = playerDied.getBlockPos();
         Audience audience = Infinium.getAdventure().audience(PlayerLookup.all(Infinium.getServer()));
         Times times = Title.Times.times(Duration.ofSeconds(1), Duration.ofSeconds(6), Duration.ofSeconds(3));
@@ -131,8 +130,6 @@ public class ServerPlayerListeners {
         playerDied.changeGameMode(GameMode.SPECTATOR);
         audience.showTitle(title);
         audience.playSound(Sound.sound(Key.key("infinium:player_death"), Sound.Source.PLAYER, 10, 0.7f));
-
-        data.putInt("infinium.totems", 0);
         if (pos.getY() < -64) playerDied.teleport(pos.getX(), -64, pos.getZ());
     }
     

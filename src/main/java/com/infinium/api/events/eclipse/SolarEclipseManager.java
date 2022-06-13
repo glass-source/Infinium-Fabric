@@ -9,7 +9,6 @@ import net.kyori.adventure.key.Key;
 import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.GameRules;
 
 import java.time.Duration;
@@ -35,7 +34,7 @@ public class SolarEclipseManager {
         task = service.scheduleWithFixedDelay(() -> {
             //if (isGamePaused()) return;
             var progress = (float) Math.max(0d, Math.min(1d, (double) getTimeToEnd() / getTotalTime()));
-            var name = Component.text(ChatFormatter.format(TITLE.replaceAll("%time%", getStringTime())));
+            var name = Component.text(ChatFormatter.format(TITLE.replaceAll("%time%", getTimeToString())));
             BOSS_BAR.name(name);
             BOSS_BAR.progress(progress);
             if (getTimeToEnd() <= 0){
@@ -69,7 +68,7 @@ public class SolarEclipseManager {
             var world = server.getOverworld();
             var audience = Infinium.getAdventure().audience(PlayerLookup.all(server));
             var times = Title.Times.times(Duration.ofSeconds(1), Duration.ofSeconds(5), Duration.ofSeconds(2));
-            var title = Title.title(Component.text(ChatFormatter.format("&8&k&l? &7Eclipse Solar &8&k&l?")), Component.text(ChatFormatter.format("&7Duración: &8" + getStringTime())), times);
+            var title = Title.title(Component.text(ChatFormatter.format("&8&k&l? &7Eclipse Solar &8&k&l?")), Component.text(ChatFormatter.format("&7Duración: &8" + getTimeToString())), times);
             audience.showTitle(title);
             audience.showBossBar(SolarEclipseManager.BOSS_BAR);
             audience.playSound(Sound.sound(Key.key("infinium:eclipse_start"), Sound.Source.PLAYER, 10, 0.5f));
@@ -92,8 +91,7 @@ public class SolarEclipseManager {
         var audience = Infinium.getAdventure().audience(PlayerLookup.all(server));
         server.getGameRules().get(GameRules.DO_DAYLIGHT_CYCLE).set(true, Infinium.getServer());
         audience.hideBossBar(BOSS_BAR);
-        audience.playSound(Sound.sound(Key.key("minecraft:item.trident.hit_ground"), Sound.Source.AMBIENT, 10, 0.003f));
-
+        audience.playSound(Sound.sound(Key.key("minecraft:item.trident.return"), Sound.Source.AMBIENT, 10, 0.05f));
     }
 
     public static long getTimeToEnd() {
@@ -107,7 +105,7 @@ public class SolarEclipseManager {
         return totalTime;
     }
 
-    public static String getStringTime() {
+    public static String getTimeToString() {
         if (isActive()) {
             long segs = getTimeToEnd() / 1000L;
             long days = segs / 86400L;

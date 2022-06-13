@@ -1,7 +1,5 @@
 package com.infinium.global.mixin;
 
-//Infinium Player: la secuela
-
 import com.infinium.api.utils.EntityDataSaver;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NbtCompound;
@@ -32,8 +30,8 @@ public abstract class PlayerDataSaver implements EntityDataSaver {
 
     @Inject(method = "readNbt", at = @At("HEAD"))
     private void saveData(NbtCompound nbt, CallbackInfo ci) {
-        if (nbt.contains("infinium.sanity", 10)) {
-            persistentData = nbt.getCompound("infinium.sanity");
+        if (nbt.contains("infinium.data", 10)) {
+            persistentData = nbt.getCompound("infinium.data");
         }
     }
 

@@ -30,13 +30,12 @@ public class InfiniumCommand {
             ex.printStackTrace();
             source.getSource().sendError(ChatFormatter.text("&c¡Error! notificale esto a algun developer..."));
         }
-
         return 0;
     }
 
     private static int days(CommandContext<ServerCommandSource> source) {
         try{
-            source.getSource().sendFeedback(ChatFormatter.textWithPrefix("&7Estamos en el dia &6&l" + Utils.getDay()), false);
+            source.getSource().sendFeedback(ChatFormatter.textWithPrefix("&7Estamos en el día &6&l" + Utils.getDay()), false);
         }catch (ExceptionInInitializerError | DateTimeParseException ex) {
             ex.printStackTrace();
             source.getSource().sendError(ChatFormatter.text("&c¡Error! notificale esto a algun developer..."));
