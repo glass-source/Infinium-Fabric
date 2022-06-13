@@ -1,5 +1,6 @@
 package com.infinium.global.commands;
 
+import com.infinium.api.config.InfiniumConfig;
 import com.infinium.api.utils.ChatFormatter;
 import com.infinium.api.utils.EntityDataSaver;
 import com.infinium.api.utils.Utils;
@@ -7,6 +8,8 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.server.command.ServerCommandSource;
+
+import java.time.format.DateTimeParseException;
 
 import static com.infinium.api.utils.ChatFormatter.cd;
 
@@ -25,14 +28,19 @@ public class InfiniumCommand {
             source.getSource().sendFeedback(ChatFormatter.textWithPrefix("&7Has consumido &6&l" + totems + " &7Totems de la inmortalidad"), false);
         } catch (CommandSyntaxException ex) {
             ex.printStackTrace();
-            source.getSource().sendError(ChatFormatter.text("&c¡Error! notificale esto a algun staff..."));
+            source.getSource().sendError(ChatFormatter.text("&c¡Error! notificale esto a algun developer..."));
         }
 
         return 0;
     }
 
     private static int days(CommandContext<ServerCommandSource> source) {
-        source.getSource().sendFeedback(ChatFormatter.textWithPrefix("&7Estamos en el dia &6&l" + Utils.getDay()), false);
+        try{
+            source.getSource().sendFeedback(ChatFormatter.textWithPrefix("&7Estamos en el dia &6&l" + Utils.getDay()), false);
+        }catch (ExceptionInInitializerError | DateTimeParseException ex) {
+            ex.printStackTrace();
+            source.getSource().sendError(ChatFormatter.text("&c¡Error! notificale esto a algun developer..."));
+        }
         return 0;
     }
 

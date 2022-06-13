@@ -1,6 +1,7 @@
 package com.infinium;
 
 import com.infinium.api.blocks.InfiniumBlocks;
+import com.infinium.api.config.InfiniumConfig;
 import com.infinium.api.effects.InfiniumEffects;
 import com.infinium.api.events.eclipse.SolarEclipseManager;
 import com.infinium.api.items.global.InfiniumItems;
@@ -35,6 +36,7 @@ public class Infinium implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        InfiniumConfig.initConfig();
         initAdventure();
         initMod();
     }
