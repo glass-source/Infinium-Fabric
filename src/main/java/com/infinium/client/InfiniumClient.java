@@ -25,18 +25,18 @@ public class InfiniumClient implements ClientModInitializer {
     }
 
     private void initAudience(){
-        ClientLifecycleEvents.CLIENT_STARTED.register(client1 -> {
-            client = client1;
+        ClientLifecycleEvents.CLIENT_STARTED.register(cl -> {
+            client = cl;
             audience = FabricClientAudiences.of();
         });
 
-        ClientTickEvents.END_CLIENT_TICK.register(client1 -> {
-            if (client1.player != null) {
-                isPaused = client1.isPaused();
+        ClientTickEvents.END_CLIENT_TICK.register(cl -> {
+            if (cl.player != null) {
+                isPaused = cl.isPaused();
             }
         });
 
-        ClientLifecycleEvents.CLIENT_STOPPING.register(client1 -> {
+        ClientLifecycleEvents.CLIENT_STOPPING.register(cl -> {
             client = null;
             audience = null;
         });
