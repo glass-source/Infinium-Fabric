@@ -11,15 +11,14 @@ import java.util.concurrent.TimeUnit;
 
 public class SanityManager {
 
-
     private static final ScheduledExecutorService service = Infinium.getExecutor();
     public static ArrayList<ServerPlayerEntity> totalPlayers = new ArrayList<>();
+
     public static void initSanityTask() {
         service.scheduleWithFixedDelay(SanityTask::run, 0, 1, TimeUnit.SECONDS);
     }
 
     public static void addSanity(ServerPlayerEntity player, int amount) {
-
         SanityManager.setSanity(player, Math.max(0, Math.min(100, SanityManager.getSanity(player) + amount)));
     }
 
@@ -27,12 +26,10 @@ public class SanityManager {
         SanityManager.setSanity(player, Math.max(0, Math.min(100, SanityManager.getSanity(player) - amount)));
     }
 
-
     public static int getSanity(ServerPlayerEntity entity) {
         NbtCompound data = ((EntityDataSaver) entity).getPersistentData();
         return data.getInt("infinium.sanity");
     }
-
 
     public static void setSanity(ServerPlayerEntity player, int amount) {
         NbtCompound data = ((EntityDataSaver) player).getPersistentData();

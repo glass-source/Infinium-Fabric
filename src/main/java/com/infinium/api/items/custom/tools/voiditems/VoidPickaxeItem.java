@@ -18,12 +18,23 @@ public class VoidPickaxeItem extends PickaxeItem {
     }
 
     @Override
-    public boolean postMine(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner) {
-        if (!world.isClient()) {
-            if (miner instanceof PlayerEntity p) {
-                p.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 120, 1));
-            }
+    public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+        if (!target.getWorld().isClient()) {
+            target.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 160, 3));
+            target.addStatusEffect(new StatusEffectInstance(StatusEffects.GLOWING, 160, 0));
+            return true;
         }
-        return super.postMine(stack, world, state, pos, miner);
+        return false;
     }
+
+    @Override
+    public boolean postMine(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner) {
+        return true;
+    }
+
+    @Override
+    public boolean isDamageable() {
+        return false;
+    }
+
 }

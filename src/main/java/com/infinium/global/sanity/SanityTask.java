@@ -9,12 +9,10 @@ public class SanityTask {
 
     private static int healthCooldown = 10;
     private static int negativeHealthCooldown = 5;
-    private static int biomeCooldown = 20; //Private field 'biomeCooldown' is never used   intellij pensando
+    private static int biomeCooldown = 20;
 
     public static void run(){
-
         totalPlayers.forEach((player) -> {
-
             if (!player.isSpectator()) {
                 calcSanity(player);
                 sanityEffects(player);

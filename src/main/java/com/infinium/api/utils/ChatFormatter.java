@@ -77,6 +77,13 @@ public class ChatFormatter {
         return new String(b);
     }
 
+    public static Component stringToComponent(String s){
+        return Component.text(format(s));
+    }
+
+    public static Component componentWithFormat(String s){
+        return Component.text(format(prefix + s));
+    }
 
     public static Component miniMessage(String build) {
         return MiniMessage.miniMessage().deserialize(build);
@@ -86,5 +93,9 @@ public class ChatFormatter {
 
     public static void broadcastMessage(String message) {
         Infinium.getAdventure().audience(PlayerLookup.all(Infinium.getServer())).sendMessage(Component.text(format(message)));
+    }
+
+    public static void broadcastMessageWithPrefix(String message) {
+        Infinium.getAdventure().audience(PlayerLookup.all(Infinium.getServer())).sendMessage(Component.text(format(prefix + message)));
     }
 }

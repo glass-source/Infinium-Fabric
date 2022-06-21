@@ -39,9 +39,5 @@ public class SpeedRuneItem extends ToolItem {
         return super.use(world, user, hand);
     }
 
-    @Override
-    public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
-        if (!world.isClient()) stack.damage(1, user, (p) -> p.sendToolBreakStatus(user.getActiveHand()));
-        return super.finishUsing(stack, world, user);
-    }
+
 }

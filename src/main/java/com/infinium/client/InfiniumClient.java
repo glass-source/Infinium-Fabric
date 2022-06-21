@@ -7,15 +7,19 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.kyori.adventure.platform.fabric.FabricClientAudiences;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.ClientPlayerEntity;
 
 @Environment(EnvType.CLIENT)
 public class InfiniumClient implements ClientModInitializer {
 
     private static MinecraftClient client;
     private static FabricClientAudiences audience;
+    private static ClientPlayerEntity clientPlayer;
     private static boolean isPaused = false;
+
 
     @Override
     public void onInitializeClient() {
@@ -28,6 +32,7 @@ public class InfiniumClient implements ClientModInitializer {
         ClientLifecycleEvents.CLIENT_STARTED.register(cl -> {
             client = cl;
             audience = FabricClientAudiences.of();
+            clientPlayer = client.player;
         });
 
         ClientTickEvents.END_CLIENT_TICK.register(cl -> {
@@ -54,4 +59,5 @@ public class InfiniumClient implements ClientModInitializer {
         return client;
     }
 
+    public static ClientPlayerEntity getPlayer(){return clientPlayer;}
 }

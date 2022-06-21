@@ -1,5 +1,6 @@
 package com.infinium.api.items.custom.tools.voiditems;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.LivingEntity;
@@ -12,12 +13,28 @@ import net.minecraft.item.*;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class VoidBowItem extends BowItem {
 
     public VoidBowItem(Settings settings) {
         super(settings);
+    }
+
+    @Override
+    public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+        return true;
+    }
+
+    @Override
+    public boolean postMine(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner) {
+        return true;
+    }
+
+    @Override
+    public boolean isDamageable() {
+        return false;
     }
 
     @Override
@@ -56,7 +73,6 @@ public class VoidBowItem extends BowItem {
 
                         if (EnchantmentHelper.getLevel(Enchantments.FLAME, stack) > 0) arrowEntity.setOnFireFor(100);
 
-                        stack.damage(1, playerEntity, (p) -> p.sendToolBreakStatus(playerEntity.getActiveHand()));
                         if (bl2 || playerEntity.getAbilities().creativeMode && (itemStack.isOf(Items.SPECTRAL_ARROW) || itemStack.isOf(Items.TIPPED_ARROW))) {
                             arrowEntity.pickupType = PersistentProjectileEntity.PickupPermission.CREATIVE_ONLY;
                         }

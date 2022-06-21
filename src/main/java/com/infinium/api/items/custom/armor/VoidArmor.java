@@ -3,8 +3,10 @@ package com.infinium.api.items.custom.armor;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 import com.infinium.api.items.materials.InfiniumArmorMaterials;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -12,6 +14,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
@@ -25,26 +28,36 @@ public class VoidArmor extends ArmorItem {
     }
 
     @Override
-    public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
-
-        if (!world.isClient()) {
-            if (entity instanceof PlayerEntity p) {
-                if (hasFullArmor(p)) {
-
-                    if (hasVoidArmor(p)) {
-                        StatusEffect[] effects = {
-                                StatusEffects.RESISTANCE,
-                                StatusEffects.SPEED,
-                        };
-                        Arrays.stream(effects).toList().forEach(status -> {
-                            if (!p.hasStatusEffect(status)) p.addStatusEffect(new StatusEffectInstance(status, 280, 0));
-                            if (p.getStatusEffect(status).getDuration() < 120) p.addStatusEffect(new StatusEffectInstance(status, 280, 0));
-                        });
-
-                    }
-                }
-            }
+    public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+        if (!target.getWorld().isClient()) {
+            stack.setDamage(stack.getMaxDamage());
+            target.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 160, 3));
+            target.addStatusEffect(new StatusEffectInstance(StatusEffects.GLOWING, 160, 0));
+            return true;
         }
+        return false;
+    }
+
+    @Override
+    public boolean postMine(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner) {
+        return true;
+    }
+
+    @Override
+    public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
+        if (world.isClient()) return;
+        if (!(entity instanceof PlayerEntity p)) return;
+        if (!hasFullArmor(p)) return;
+        if (!hasVoidArmor(p)) return;
+
+        StatusEffect[] effects = {
+        StatusEffects.RESISTANCE,
+        StatusEffects.SPEED};
+
+        Arrays.stream(effects).toList().forEach(status -> {
+            if (!p.hasStatusEffect(status)) p.addStatusEffect(new StatusEffectInstance(status, 280, 0));
+            if (p.getStatusEffect(status).getDuration() < 120) p.addStatusEffect(new StatusEffectInstance(status, 280, 0));
+        });
     }
 
     private boolean hasFullArmor(PlayerEntity user) {
@@ -53,8 +66,6 @@ public class VoidArmor extends ArmorItem {
         var leggings = inventory.getArmorStack(1);
         var chestplate = inventory.getArmorStack(2);
         var helmet = inventory.getArmorStack(3);
-
-
 
         return !boots.isEmpty() && !leggings.isEmpty() && !chestplate.isEmpty() && !helmet.isEmpty();
     }
@@ -69,5 +80,9 @@ public class VoidArmor extends ArmorItem {
         return boots == InfiniumArmorMaterials.VOID && leggings == InfiniumArmorMaterials.VOID && chestplate == InfiniumArmorMaterials.VOID && helmet == InfiniumArmorMaterials.VOID;
     }
 
+    @Override
+    public boolean isDamageable() {
+        return false;
+    }
 
 }

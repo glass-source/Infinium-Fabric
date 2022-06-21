@@ -1,37 +1,41 @@
 package com.infinium.api.config;
 
 import com.infinium.Infinium;
+import com.infinium.api.events.eclipse.SolarEclipse;
 import com.mojang.datafixers.util.Pair;
 
 public class InfiniumConfig {
-    public static SimpleConfig CONFIG;
-    private static InfiniumConfigProvider configs;
+    private static SimpleConfig SIMPLE_CONFIG;
+    public static InfiniumConfigProvider CONFIG_PROVIDER;
 
     public static String START_DATE;
     public static long ECLIPSE_TIME_LEFT;
-    public static long ECLIPSE_TOTAL_TIME;
-
+    public static long ECLIPSE_TIME_TOTAL;
+    public static long ECLIPSE_TIME_PAUSED;
 
     public static void initConfig() {
-        configs = new InfiniumConfigProvider();
+        CONFIG_PROVIDER = new InfiniumConfigProvider();
         createConfigs();
-        CONFIG = SimpleConfig.of(Infinium.MOD_ID + "config").provider(configs).request();
+        SIMPLE_CONFIG = SimpleConfig.of(Infinium.MOD_ID + "config").provider(CONFIG_PROVIDER).request();
         assignConfigs();
     }
 
     private static void createConfigs() {
-        configs.addKeyValuePair(new Pair<>("start.date", "2022-06-01"));
-        configs.addKeyValuePair(new Pair<>("eclipse.time.left", 0));
-        configs.addKeyValuePair(new Pair<>("eclipse.time.total", 0));
-
+        CONFIG_PROVIDER.addKeyValuePair(new Pair<>("start.date", "2022-06-01"));
+        CONFIG_PROVIDER.addKeyValuePair(new Pair<>("eclipse.time.left", SolarEclipse.getTimeToEnd()));
+        CONFIG_PROVIDER.addKeyValuePair(new Pair<>("eclipse.time.total", SolarEclipse.getTotalTime()));
     }
 
     private static void assignConfigs() {
-        START_DATE = CONFIG.getOrDefault("start.date", "2022-06-01");
-        ECLIPSE_TIME_LEFT = CONFIG.getOrDefault("eclipse.time.left", 0);
-        ECLIPSE_TOTAL_TIME = CONFIG.getOrDefault("eclipse.time.total", 0);
+        START_DATE = SIMPLE_CONFIG.getOrDefault("start.date", "2022-06-01");
+        ECLIPSE_TIME_LEFT = (long) SIMPLE_CONFIG.getOrDefault("eclipse.time.left", SolarEclipse.getTimeToEnd());
+        ECLIPSE_TIME_TOTAL = (long) SIMPLE_CONFIG.getOrDefault("eclipse.time.total", SolarEclipse.getTotalTime());
 
-
-        System.out.println("All " + configs.getConfigsList().size() + " config values have been set properly");
+        System.out.println("All " + CONFIG_PROVIDER.getConfigsList().size() + " config values have been set properly");
     }
+
+    public static void set(String path, Object newValue) {
+        CONFIG_PROVIDER.addKeyValuePair(new Pair<>(path, newValue));
+    }
+
 }

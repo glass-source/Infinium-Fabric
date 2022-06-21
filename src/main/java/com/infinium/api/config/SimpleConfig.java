@@ -41,9 +41,9 @@ public class SimpleConfig {
     private boolean broken = false;
 
     public interface DefaultConfig {
-        String get( String namespace );
+        String get(String namespace );
 
-        static String empty( String namespace ) {
+        static String empty(String namespace ) {
             return "";
         }
     }
@@ -168,7 +168,7 @@ public class SimpleConfig {
      * @see     SimpleConfig#getOrDefault
      */
     @Deprecated
-    public String get( String key ) {
+    public String get(String key) {
         return config.get( key );
     }
 
@@ -178,7 +178,7 @@ public class SimpleConfig {
      *
      * @return  value corresponding to the given key, or the default value
      */
-    public String getOrDefault( String key, String def ) {
+    public String getOrDefault(String key, String def) {
         String val = get(key);
         return val == null ? def : val;
     }
@@ -189,9 +189,9 @@ public class SimpleConfig {
      *
      * @return  value corresponding to the given key, or the default value
      */
-    public int getOrDefault( String key, int def ) {
+    public int getOrDefault(String key, int def) {
         try {
-            return Integer.parseInt( get(key) );
+            return Integer.parseInt(get(key));
         } catch (Exception e) {
             return def;
         }
@@ -203,7 +203,7 @@ public class SimpleConfig {
      *
      * @return  value corresponding to the given key, or the default value
      */
-    public boolean getOrDefault( String key, boolean def ) {
+    public boolean getOrDefault(String key, boolean def) {
         String val = get(key);
         if( val != null ) {
             return val.equalsIgnoreCase("true");
@@ -218,9 +218,9 @@ public class SimpleConfig {
      *
      * @return  value corresponding to the given key, or the default value
      */
-    public double getOrDefault( String key, double def ) {
+    public double getOrDefault(String key, double def) {
         try {
-            return Double.parseDouble( get(key) );
+            return Double.parseDouble(get(key));
         } catch (Exception e) {
             return def;
         }

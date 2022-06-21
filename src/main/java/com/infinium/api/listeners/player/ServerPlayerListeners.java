@@ -2,13 +2,12 @@ package com.infinium.api.listeners.player;
 
 import com.infinium.Infinium;
 import com.infinium.api.effects.InfiniumEffects;
-import com.infinium.api.events.eclipse.SolarEclipseManager;
+import com.infinium.api.events.eclipse.SolarEclipse;
 import com.infinium.api.events.players.PlayerUseTotemEvent;
 import com.infinium.api.events.players.ServerPlayerConnectionEvents;
 import com.infinium.api.items.global.InfiniumItems;
 import com.infinium.api.utils.ChatFormatter;
 import com.infinium.api.utils.EntityDataSaver;
-import com.infinium.api.utils.Utils;
 import com.infinium.global.sanity.SanityManager;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
@@ -92,8 +91,8 @@ public class ServerPlayerListeners {
 
             if (!SanityManager.totalPlayers.contains(player)) SanityManager.totalPlayers.add(player);
 
-            if (SolarEclipseManager.isActive()) {
-                Infinium.getAdventure().audience(SanityManager.totalPlayers.get(SanityManager.totalPlayers.size() - 1)).showBossBar(SolarEclipseManager.BOSS_BAR);
+            if (SolarEclipse.isActive()) {
+                Infinium.getAdventure().audience(SanityManager.totalPlayers.get(SanityManager.totalPlayers.size() - 1)).showBossBar(SolarEclipse.getBossBar());
             }
 
             if (data.get("infinium.sanity") == null) {
@@ -124,7 +123,7 @@ public class ServerPlayerListeners {
         Times times = Title.Times.times(Duration.ofSeconds(1), Duration.ofSeconds(6), Duration.ofSeconds(3));
         Title title = Title.title(Component.text(ChatFormatter.format("&6&k&l? &5Infinium &6&k&l?")), Component.text(""), times);
 
-        Infinium.getExecutor().schedule(() -> SolarEclipseManager.start(0.01), 13, TimeUnit.SECONDS);
+        Infinium.getExecutor().schedule(SolarEclipse::startFromDeath, 13, TimeUnit.SECONDS);
         ChatFormatter.broadcastMessage(ChatFormatter.formatWithPrefix("&7El jugador &6&l%player% &7sucumbio ante el\n&5&lVacío Infinito".replaceAll("%player%", playerDied.getEntityName())));
         playerDied.setHealth(20.0f);
         playerDied.changeGameMode(GameMode.SPECTATOR);
@@ -132,7 +131,9 @@ public class ServerPlayerListeners {
         audience.playSound(Sound.sound(Key.key("infinium:player_death"), Sound.Source.PLAYER, 10, 0.7f));
         if (pos.getY() < -64) playerDied.teleport(pos.getX(), -64, pos.getZ());
     }
-    
+
+
+
     private static boolean playerHasTotem(PlayerEntity player, DamageSource damageSource) {
         if (damageSource.isOutOfWorld()) return false;
 

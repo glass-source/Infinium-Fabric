@@ -1,8 +1,10 @@
 package com.infinium.api.items.custom.armor;
 
 import com.infinium.api.items.materials.InfiniumArmorMaterials;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -10,6 +12,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.Arrays;
@@ -21,8 +24,23 @@ public class MagmaArmor extends ArmorItem {
     }
 
     @Override
-    public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
+    public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+        if (!target.getWorld().isClient()) {
+            stack.setDamage(stack.getMaxDamage());
+            target.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 160, 3));
+            target.addStatusEffect(new StatusEffectInstance(StatusEffects.GLOWING, 160, 0));
+            return true;
+        }
+        return false;
+    }
 
+    @Override
+    public boolean postMine(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner) {
+        return true;
+    }
+
+    @Override
+    public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
         if (world.isClient()) return;
         if (!(entity instanceof PlayerEntity p)) return;
         if (!hasFullArmor(p)) return;
@@ -40,11 +58,13 @@ public class MagmaArmor extends ArmorItem {
     }
 
     private boolean hasFullArmor(PlayerEntity user) {
+
         var inventory = user.getInventory();
         var boots = inventory.getArmorStack(0);
         var leggings = inventory.getArmorStack(1);
         var chestplate = inventory.getArmorStack(2);
         var helmet = inventory.getArmorStack(3);
+
         return !boots.isEmpty() && !leggings.isEmpty() && !chestplate.isEmpty() && !helmet.isEmpty();
     }
 
@@ -57,6 +77,10 @@ public class MagmaArmor extends ArmorItem {
 
         return boots == InfiniumArmorMaterials.MAGMA && leggings == InfiniumArmorMaterials.MAGMA && chestplate == InfiniumArmorMaterials.MAGMA && helmet == InfiniumArmorMaterials.MAGMA;
     }
-    
+
+    @Override
+    public boolean isDamageable() {
+        return false;
+    }
 
 }

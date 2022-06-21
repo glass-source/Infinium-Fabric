@@ -3,12 +3,13 @@ package com.infinium;
 import com.infinium.api.blocks.InfiniumBlocks;
 import com.infinium.api.config.InfiniumConfig;
 import com.infinium.api.effects.InfiniumEffects;
-import com.infinium.api.events.eclipse.SolarEclipseManager;
+import com.infinium.api.entities.InfiniumEntityType;
+import com.infinium.api.events.eclipse.SolarEclipse;
 import com.infinium.api.items.global.InfiniumItems;
 import com.infinium.api.listeners.entity.EntityListeners;
+import com.infinium.api.listeners.player.ClientPlayerListeners;
 import com.infinium.api.listeners.player.ServerPlayerListeners;
 import com.infinium.api.utils.InfiniumRegistries;
-import com.infinium.api.entities.InfiniumEntityType;
 import com.infinium.global.sanity.SanityManager;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
@@ -23,8 +24,6 @@ import java.util.concurrent.ScheduledExecutorService;
 
 public class Infinium implements ModInitializer {
 
-
-
     private static final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
     public static final String MOD_ID = "infinium";
     public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
@@ -38,7 +37,7 @@ public class Infinium implements ModInitializer {
     public void onInitialize() {
         InfiniumConfig.initConfig();
         initAdventure();
-        initMod();
+        registerMod();
     }
 
 
@@ -46,24 +45,34 @@ public class Infinium implements ModInitializer {
     private void initAdventure(){
         ServerLifecycleEvents.SERVER_STARTED.register(server -> {
             Infinium.server = server;
-            adventure = FabricServerAudiences.of(server);
+            Infinium.adventure = FabricServerAudiences.of(server);
+
         });
 
         ServerLifecycleEvents.SERVER_STOPPED.register(server -> {
-            SolarEclipseManager.end();
-            adventure = null;
+            SolarEclipse.end();
+            Infinium.adventure = null;
         });
     }
 
-    private void initMod(){
+    private void registerMod(){
+        initModGadgets();
+        initListeners();
+    }
+
+    private void initModGadgets(){
         InfiniumItems.init();
         InfiniumBlocks.init();
         InfiniumEffects.init();
         InfiniumRegistries.init();
         InfiniumEntityType.init();
-        ServerPlayerListeners.registerListener();
-        EntityListeners.registerListeners();
         SanityManager.initSanityTask();
+    }
+
+    private void initListeners(){
+        ServerPlayerListeners.registerListener();
+        ClientPlayerListeners.registerListeners();
+        EntityListeners.registerListeners();
     }
 
     public static MinecraftServer getServer() {

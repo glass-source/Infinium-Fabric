@@ -55,12 +55,5 @@ public class WitherRuneItem extends ToolItem {
         return super.use(world, user, hand);
     }
 
-    @Override
-    public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
-        if (user instanceof PlayerEntity playerEntity) {
-            if (!world.isClient()) stack.damage(1, playerEntity, (p) -> p.sendToolBreakStatus(user.getActiveHand()));
-        }
-        return super.finishUsing(stack, world, user);
-    }
 
 }

@@ -1,6 +1,8 @@
 package com.infinium.api.config;
+
 import com.mojang.datafixers.util.Pair;
 
+import java.security.KeyPair;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +19,10 @@ public class InfiniumConfigProvider implements SimpleConfig.DefaultConfig {
     public void addKeyValuePair(Pair<String, ?> keyValuePair) {
         configsList.add(keyValuePair);
         configContents += keyValuePair.getFirst() + "=" + keyValuePair.getSecond() + "\n";
+    }
+
+    public void removeKeyValuePair(Pair<String, ?> keyValuePair) {
+        configsList.remove(keyValuePair);
     }
 
     @Override

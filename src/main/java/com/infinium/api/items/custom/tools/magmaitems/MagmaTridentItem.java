@@ -1,10 +1,15 @@
 package com.infinium.api.items.custom.tools.magmaitems;
 
 import com.infinium.api.entities.projectiles.MagmaTridentEntity;
+import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MovementType;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.mob.EndermanEntity;
+import net.minecraft.entity.mob.ShulkerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.ItemStack;
@@ -15,6 +20,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -32,6 +38,11 @@ public class MagmaTridentItem extends TridentItem {
         this.type = entityType;
     }
 
+    @Override
+    public boolean isDamageable() {
+        return false;
+    }
+
     public EntityType<? extends MagmaTridentEntity> getEntityType() {
         return type;
     }
@@ -43,8 +54,6 @@ public class MagmaTridentItem extends TridentItem {
             if (i >= 10) {
 
                 int riptideLevel = EnchantmentHelper.getRiptide(stack);
-
-                if (!world.isClient()) stack.damage(1, playerEntity, (p) -> p.sendToolBreakStatus(user.getActiveHand()));
 
                 if (riptideLevel <= 0) {
                     if (!world.isClient()) {
@@ -101,8 +110,26 @@ public class MagmaTridentItem extends TridentItem {
 
     @Override
     public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        if (!target.getWorld().isClient) target.setFireTicks(target.getFireTicks() + 1000);
-        return super.postHit(stack, target, attacker);
+        if (!target.getWorld().isClient()) {
+            if (target instanceof EndermanEntity || target instanceof ShulkerEntity) {
+                target.addStatusEffect(new StatusEffectInstance(StatusEffects.GLOWING, 160, 0));
+                target.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 160, 4));
+                target.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 160, 4));
+            } else {
+                target.addStatusEffect(new StatusEffectInstance(StatusEffects.GLOWING, 160, 0));
+                target.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 160, 4));
+                target.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 160, 4));
+                target.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 160, 4));
+            }
+
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean postMine(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner) {
+        return true;
     }
 
     @Override

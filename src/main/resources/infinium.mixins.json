@@ -11,6 +11,7 @@
     "entity.SheepEntityMixin",
     "render.TridentEntityRendererMixin",
     "render.TridentRiptideFeatureRendererMixin",
+    "screen.GameMenuScreenMixin",
     "world.ClientWorldMixin",
     "world.ServerWorldMixin"
   ],

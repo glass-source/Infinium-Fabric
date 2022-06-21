@@ -1,8 +1,9 @@
 package com.infinium.global.commands;
 
-import com.infinium.api.events.eclipse.SolarEclipseManager;
+import com.infinium.api.events.eclipse.SolarEclipse;
 import com.infinium.api.utils.ChatFormatter;
 import com.infinium.api.utils.EntityDataSaver;
+import com.infinium.api.utils.Utils;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.FloatArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
@@ -22,6 +23,14 @@ public class StaffCommand {
         LiteralArgumentBuilder<ServerCommandSource> literalArgumentBuilder = CommandManager.literal("staff").requires(source -> source.hasPermissionLevel(4));
 
         literalArgumentBuilder
+                .then(CommandManager.literal("days")
+                        .then(CommandManager.literal("set")
+                                .then(CommandManager.argument("days", IntegerArgumentType.integer())
+                                        .executes(context ->
+                                                setDays(context, IntegerArgumentType.getInteger(context, "days")))))
+                        .then(CommandManager.literal("get")
+                                .executes(StaffCommand::getDay)))
+
                 .then(CommandManager.literal("totems")
                         .then(CommandManager.literal("get")
                                 .then(CommandManager.argument("player", EntityArgumentType.players())
@@ -44,6 +53,27 @@ public class StaffCommand {
                                                 startEclipse(context, FloatArgumentType.getFloat(context, "duration"))))));
 
         dispatcher.register(literalArgumentBuilder);
+    }
+
+    private static int setDays(CommandContext<ServerCommandSource> source, int newDay) {
+        try {
+            Utils.setDay(newDay);
+            source.getSource().sendFeedback(ChatFormatter.textWithPrefix("&7El día se ha cambiado a: &6&l" + newDay), true);
+            return 1;
+        }catch (Exception ex){
+            ex.printStackTrace();
+            return -1;
+        }
+    }
+
+    private static int getDay(CommandContext<ServerCommandSource> source) {
+        try {
+            source.getSource().sendFeedback(ChatFormatter.textWithPrefix("&7El día actual es: &6&l" + Utils.getDay()), false);
+            return 1;
+        }catch (Exception ex){
+            ex.printStackTrace();
+            return -1;
+        }
     }
 
     private static int getTotems(CommandContext<ServerCommandSource> source) {
@@ -83,13 +113,14 @@ public class StaffCommand {
     }
 
     private static int endEclipse(CommandContext<ServerCommandSource> source) {
-        SolarEclipseManager.end();
+        SolarEclipse.end();
         return 0;
     }
 
     private static int startEclipse(CommandContext<ServerCommandSource> source, float duration) {
         try{
-            SolarEclipseManager.start(duration);
+            SolarEclipse.start(duration);
+            source.getSource().sendFeedback(ChatFormatter.text("&7Ha empezado un Eclipse Solar correctamente!"), true);
             return 1;
         }catch (Exception ex) {
             ex.printStackTrace();
@@ -99,15 +130,13 @@ public class StaffCommand {
     }
 
     private static int getEclipseTime(CommandContext<ServerCommandSource> source) {
-        if (!SolarEclipseManager.isActive()) {
+        if (!SolarEclipse.isActive()) {
             source.getSource().sendFeedback(ChatFormatter.text("&7No hay un Eclipse Solar activo!"), false);
             return -1;
         }
-        source.getSource().sendFeedback(ChatFormatter.text("&7Quedan " + SolarEclipseManager.getTimeToString() + " &7 de Solar Eclipse."), false);
+        source.getSource().sendFeedback(ChatFormatter.text("&7Quedan " + SolarEclipse.getTimeToString() + " &7 de Solar Eclipse."), false);
         return 1;
     }
-
-
 
 
 }

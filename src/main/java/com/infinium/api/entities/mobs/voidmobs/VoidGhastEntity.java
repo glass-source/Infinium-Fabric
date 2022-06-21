@@ -36,7 +36,7 @@ public class VoidGhastEntity extends FlyingEntity implements Monster {
     static {
         SHOOTING = DataTracker.registerData(VoidGhastEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
     }
-
+    
     public VoidGhastEntity(EntityType<? extends VoidGhastEntity> entityType, World world) {
         super(entityType, world);
         this.experiencePoints = new Random().nextInt(120) + 20;
