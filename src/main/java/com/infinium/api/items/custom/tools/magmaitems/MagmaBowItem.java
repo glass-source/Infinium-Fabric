@@ -23,7 +23,6 @@ public class MagmaBowItem extends BowItem {
 
     public MagmaBowItem(Settings settings) {
         super(settings);
-
     }
 
     @Override
@@ -63,9 +62,9 @@ public class MagmaBowItem extends BowItem {
                         arrowEntity.setVelocity(playerEntity, playerEntity.getPitch(), playerEntity.getYaw(), 0.0F, pullProgress * 3.0F, 1.0F);
                         arrowEntity.setCritical(true);
                         arrowEntity.setDamage(arrowEntity.getDamage() * 2);
-                        arrowEntity.addEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 160, 7));
-                        arrowEntity.addEffect(new StatusEffectInstance(StatusEffects.GLOWING, 160, 7));
-                        arrowEntity.addEffect(new StatusEffectInstance(StatusEffects.POISON, 160, 1));
+                        arrowEntity.addEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 160, 4));
+                        arrowEntity.addEffect(new StatusEffectInstance(StatusEffects.POISON, 160, 4));
+                        arrowEntity.addEffect(new StatusEffectInstance(StatusEffects.GLOWING, 160, 0));
 
                         int powerLevel = EnchantmentHelper.getLevel(Enchantments.POWER, stack);
                         if (powerLevel > 0) {

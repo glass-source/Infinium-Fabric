@@ -124,7 +124,7 @@ public class InfiniumItems {
         MAGMA_HOE = registerItem("magma_hoe", new MagmaHoeItem(InfiniumToolMaterials.MAGMA, -4, 0.0F, new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.UNCOMMON).maxDamage(4570).fireproof()));
         MAGMA_BOW = registerItem("magma_bow", new MagmaBowItem(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.UNCOMMON).maxDamage(4570).fireproof()));
         MAGMA_TRIDENT = registerItem("magma_trident", new MagmaTridentItem(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.UNCOMMON).maxDamage(3450).fireproof(), InfiniumEntityType.MAGMA_TRIDENT));
-        MAGMA_SHIELD = registerItem("void_shield", new ShieldItem(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.RARE).maxDamage(4570).fireproof()));
+        MAGMA_SHIELD = registerItem("magma_shield", new ShieldItem(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.RARE).maxDamage(4570).fireproof()));
     }
 
     private static void registerMisc() {

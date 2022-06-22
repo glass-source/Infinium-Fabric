@@ -6,6 +6,7 @@ import net.minecraft.entity.ai.control.MoveControl;
 import net.minecraft.entity.ai.goal.ActiveTargetGoal;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
+import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
@@ -24,24 +25,32 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import software.bernie.geckolib3.core.IAnimatable;
+import software.bernie.geckolib3.core.PlayState;
+import software.bernie.geckolib3.core.builder.AnimationBuilder;
+import software.bernie.geckolib3.core.controller.AnimationController;
+import software.bernie.geckolib3.core.manager.AnimationData;
+import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 import java.util.EnumSet;
 import java.util.Random;
 
 
-public class VoidGhastEntity extends FlyingEntity implements Monster {
+public class VoidGhastEntity extends FlyingEntity implements IAnimatable, Monster {
 
     private static final TrackedData<Boolean> SHOOTING;
+    private final AnimationFactory factory = new AnimationFactory(this);
 
     static {
         SHOOTING = DataTracker.registerData(VoidGhastEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
     }
-    
+
     public VoidGhastEntity(EntityType<? extends VoidGhastEntity> entityType, World world) {
         super(entityType, world);
         this.experiencePoints = new Random().nextInt(120) + 20;
         this.moveControl = new VoidGhastMoveControl(this);
     }
+
 
     @Override
     public void initGoals() {
@@ -55,6 +64,15 @@ public class VoidGhastEntity extends FlyingEntity implements Monster {
     public void initDataTracker() {
         super.initDataTracker();
         this.dataTracker.startTracking(SHOOTING, false);
+    }
+
+    @Override
+    public double getAttributeValue(EntityAttribute attribute) {
+        return super.getAttributeValue(attribute);
+    }
+
+    public static DefaultAttributeContainer.Builder setAttributes() {
+        return GhastEntity.createGhastAttributes();
     }
 
     public boolean isShooting() {
@@ -85,8 +103,17 @@ public class VoidGhastEntity extends FlyingEntity implements Monster {
         return SoundEvents.ENTITY_GHAST_DEATH;
     }
 
-    public static DefaultAttributeContainer.Builder setAttributes() {
-        return MobEntity.createMobAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 200.0).add(EntityAttributes.GENERIC_FOLLOW_RANGE, 120.0);
+    @Override
+    public void registerControllers(AnimationData animationData) {
+        animationData.addAnimationController(new AnimationController<>(this, "controller", 0, event -> {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.voidghast.idle", true));
+            return PlayState.CONTINUE;
+        }));
+    }
+
+    @Override
+    public AnimationFactory getFactory() {
+        return factory;
     }
 
     public static class VoidGhastMoveControl extends MoveControl {
@@ -186,7 +213,6 @@ public class VoidGhastEntity extends FlyingEntity implements Monster {
                 this.ghast.bodyYaw = this.ghast.getYaw();
             } else {
                 LivingEntity livingEntity = this.ghast.getTarget();
-                double d = 64.0;
                 if (livingEntity.squaredDistanceTo(this.ghast) < 4096.0) {
                     double e = livingEntity.getX() - this.ghast.getX();
                     double f = livingEntity.getZ() - this.ghast.getZ();
@@ -233,13 +259,12 @@ public class VoidGhastEntity extends FlyingEntity implements Monster {
                     }
 
                     if (this.cooldown == 20) {
-                        double e = 4.0;
                         Vec3d vec3d = this.ghast.getRotationVec(1.0F);
                         double f = livingEntity.getX() - (this.ghast.getX() + vec3d.x * 4.0);
                         double g = livingEntity.getBodyY(0.5) - (0.5 + this.ghast.getBodyY(0.5));
                         double h = livingEntity.getZ() - (this.ghast.getZ() + vec3d.z * 4.0);
                         if (!this.ghast.isSilent()) {
-                            world.syncWorldEvent((PlayerEntity)null, 1016, this.ghast.getBlockPos(), 0);
+                            world.syncWorldEvent(null, 1016, this.ghast.getBlockPos(), 0);
                         }
 
                         FireballEntity fireballEntity = new FireballEntity(world, this.ghast, f, g, h, 6);

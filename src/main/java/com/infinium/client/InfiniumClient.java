@@ -59,5 +59,7 @@ public class InfiniumClient implements ClientModInitializer {
         return client;
     }
 
-    public static ClientPlayerEntity getPlayer(){return clientPlayer;}
+    public static ClientPlayerEntity getPlayer(){
+        return clientPlayer;
+    }
 }

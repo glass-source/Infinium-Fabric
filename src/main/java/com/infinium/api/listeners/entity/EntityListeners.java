@@ -24,9 +24,11 @@ public class EntityListeners {
         var world = loc.getWorld();
 
         if (entity.getType().equals(EntityType.GHAST)) {
+            /*
             entity.remove(Entity.RemovalReason.DISCARDED);
             VoidGhastEntity ghastEntity = new VoidGhastEntity(InfiniumEntityType.VOID_GHAST, world);
             world.spawnEntity(ghastEntity);
+             */
         }
 
         return ActionResult.PASS;

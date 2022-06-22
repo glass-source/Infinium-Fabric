@@ -14,11 +14,14 @@ import net.minecraft.util.registry.Registry;
 public class InfiniumEntityType {
 
     public static EntityType<MagmaTridentEntity> MAGMA_TRIDENT;
-    public static EntityType<VoidGhastEntity> VOID_GHAST = Registry.register(Registry.ENTITY_TYPE, new Identifier(Infinium.MOD_ID, "void_ghast"), FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, VoidGhastEntity::new).dimensions(EntityDimensions.fixed(4.0f, 4.0f)).build());
+    public static EntityType<VoidGhastEntity> VOID_GHAST = Registry.register(
+            Registry.ENTITY_TYPE, new Identifier(Infinium.MOD_ID, "void_ghast"),
+            FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, VoidGhastEntity::new)
+                    .dimensions(EntityDimensions.fixed(4.0f, 4.0f)).build());
+
 
     public static void init() {
         MAGMA_TRIDENT = register("magma_trident", createEntityType(MagmaTridentEntity::new));
-
     }
 
     private static <T extends Entity> EntityType<T> register(String s, EntityType<T> bombEntityType) {
