@@ -1,6 +1,7 @@
 package com.infinium;
 
 import com.infinium.api.blocks.InfiniumBlocks;
+import com.infinium.api.config.CustomMidnightConfig;
 import com.infinium.api.config.InfiniumConfig;
 import com.infinium.api.effects.InfiniumEffects;
 import com.infinium.api.entities.InfiniumEntityType;
@@ -11,6 +12,7 @@ import com.infinium.api.listeners.player.ClientPlayerListeners;
 import com.infinium.api.listeners.player.ServerPlayerListeners;
 import com.infinium.api.utils.InfiniumRegistries;
 import com.infinium.global.sanity.SanityManager;
+import eu.midnightdust.lib.config.MidnightConfig;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.kyori.adventure.platform.fabric.FabricServerAudiences;
@@ -35,7 +37,7 @@ public class Infinium implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        InfiniumConfig.initConfig();
+        CustomMidnightConfig.init(MOD_ID, InfiniumConfig.class);
         initAdventure();
         registerMod();
     }

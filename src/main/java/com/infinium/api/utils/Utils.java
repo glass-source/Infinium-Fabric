@@ -11,7 +11,6 @@ public class Utils {
     public static final LocalDate startDate = LocalDate.parse(String.valueOf(InfiniumConfig.START_DATE));
     private static int day = (int) ChronoUnit.DAYS.between(startDate, actualDate);
 
-
     public static int getDay(){
         return day;
     }

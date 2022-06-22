@@ -11,9 +11,6 @@ import net.kyori.adventure.key.Key;
 import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;
-import net.minecraft.client.RunArgs;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.GameRules;
 
 import java.time.Duration;
@@ -56,8 +53,8 @@ public class SolarEclipse {
     }
 
     public static void disable(){
-        InfiniumConfig.set("eclipse.time.total", String.valueOf(getTimeToEnd()));
-        InfiniumConfig.set("eclipse.time.left", String.valueOf(totalTime));
+        InfiniumConfig.ECLIPSE_TIME_TOTAL = getTimeToEnd();
+        InfiniumConfig.ECLIPSE_TIME_LEFT = getTotalTime();
         end();
     }
 

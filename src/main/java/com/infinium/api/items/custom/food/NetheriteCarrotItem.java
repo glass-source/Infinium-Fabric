@@ -14,6 +14,8 @@ public class NetheriteCarrotItem extends Item {
         super(settings);
     }
 
+
+
     @Override
     public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
         if (!world.isClient()) {

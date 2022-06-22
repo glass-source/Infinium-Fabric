@@ -15,7 +15,7 @@ public class ClientPlayerListeners {
 
     private static void playerPauseCallback(){
         PlayerPauseEvent.EVENT.register(player -> {
-            InfiniumConfig.set("client.pause.date", (new Date()).getTime());
+            InfiniumConfig.CLIENT_PAUSE_DATE = new Date().getTime();
             return ActionResult.PASS;
         });
     }
