@@ -75,24 +75,23 @@ public class ServerPlayerListeners {
     }
     
     private static void playerDeathCallback(){
+
         ServerPlayerEvents.ALLOW_DEATH.register((player, damageSource, damageAmount) -> {
-            if (Infinium.getServer() != null) {
-                if (!playerHasTotem(player, damageSource)) {
-                    onPlayerDeath(player);
-                }
-            }
-            return true;
+            if (Infinium.getServer() == null) return false;
+            if (playerHasTotem(player, damageSource)) return false;
+            return onPlayerDeath(player);
         });
     }
 
     private static void playerConnectCallback(){
         ServerPlayerConnectionEvents.OnServerPlayerConnect.EVENT.register(player -> {
             var data = ((EntityDataSaver) player).getPersistentData();
+            var audience = Infinium.getAdventure().audience(PlayerLookup.all(Infinium.getServer()));
 
             if (!SanityManager.totalPlayers.contains(player)) SanityManager.totalPlayers.add(player);
 
             if (SolarEclipse.isActive()) {
-                Infinium.getAdventure().audience(SanityManager.totalPlayers.get(SanityManager.totalPlayers.size() - 1)).showBossBar(SolarEclipse.getBossBar());
+                audience.showBossBar(SolarEclipse.getBossBar());
             }
 
             if (data.get("infinium.sanity") == null) {
@@ -101,6 +100,10 @@ public class ServerPlayerListeners {
 
             if (data.get("infinium.totems") == null) {
                 data.putInt("infinium.totems", 0);
+            }
+
+            if (data.get("infinium.cooldown") == null) {
+                data.putInt("infinium.cooldown", 0);
             }
 
             return ActionResult.PASS;
@@ -115,8 +118,11 @@ public class ServerPlayerListeners {
         });
     }
 
-    private static void onPlayerDeath(ServerPlayerEntity playerDied){
-        if (playerDied.isSpectator()) return;
+    private static boolean onPlayerDeath(ServerPlayerEntity playerDied){
+        if (playerDied.isSpectator()) {
+            playerDied.setHealth(playerDied.getMaxHealth());
+            return false;
+        }
 
         BlockPos pos = playerDied.getBlockPos();
         Audience audience = Infinium.getAdventure().audience(PlayerLookup.all(Infinium.getServer()));
@@ -130,6 +136,7 @@ public class ServerPlayerListeners {
         audience.showTitle(title);
         audience.playSound(Sound.sound(Key.key("infinium:player_death"), Sound.Source.PLAYER, 10, 0.7f));
         if (pos.getY() < -64) playerDied.teleport(pos.getX(), -64, pos.getZ());
+        return true;
     }
 
 

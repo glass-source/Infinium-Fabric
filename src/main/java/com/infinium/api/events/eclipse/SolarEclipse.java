@@ -1,7 +1,6 @@
 package com.infinium.api.events.eclipse;
 
 import com.infinium.Infinium;
-import com.infinium.api.config.InfiniumConfig;
 import com.infinium.api.utils.ChatFormatter;
 import com.infinium.api.utils.Utils;
 import com.infinium.client.InfiniumClient;
@@ -15,6 +14,7 @@ import net.minecraft.world.GameRules;
 
 import java.time.Duration;
 import java.util.Date;
+import java.util.Random;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
@@ -61,13 +61,13 @@ public class SolarEclipse {
         if(day == 0) {
             start(0.5D);
 
-        }else if (day > 0 && day < 7 ){
+        }else if(day > 0 && day < 7 ){
             start(day);
 
-        }else if (day == 7){
+        }else if(day == 7){
             start(0.5D);
 
-        }else if (day > 7 && day < 14) {
+        }else if(day > 7 && day < 14) {
             start(day - 7.5D);
 
         }else if(day == 14){
@@ -80,7 +80,7 @@ public class SolarEclipse {
             start(0.5D);
 
         }else if(day > 21 && day < 28){
-            start(day-21.5D);
+            start(day - 21.5D);
 
         }else if(day == 28){
             start(0.5D);
@@ -92,36 +92,36 @@ public class SolarEclipse {
             start(0.5D);
 
         }else if(day > 35 && day < 42){
-            start(day-35.5D);
+            start(day - 35.5D);
 
         }else if(day == 42){
             start(0.5D);
 
         }else if(day > 42 && day < 49){
-            start(day-42.5D);
+            start(day - 42.5D);
 
         }else if(day == 49){
             start(0.5D);
 
         }else if(day > 49 && day < 56){
-            start(day-49.5D);
+            start(day - 49.5D);
 
         }else if(day == 56){
             start(0.5D);
 
         }else if(day > 56 && day < 63){
-            start(day-56.5D);
+            start(day - 56.5D);
 
         }else if(day == 63){
             start(0.5D);
 
         }else if(day > 63 && day < 70){
-            start(day-63.5D);
+            start(day - 63.5D);
 
         }else if(day == 70){
             start(0.5D);
         } else {
-            start(day);
+            start(new Random().nextDouble(0.5, 1.5));
         }
     }
 
@@ -150,15 +150,19 @@ public class SolarEclipse {
             audience.showTitle(title);
             audience.showBossBar(SolarEclipse.BOSS_BAR);
             audience.playSound(Sound.sound(Key.key("infinium:eclipse_start"), Sound.Source.PLAYER, 10, 0.5f));
-
-            if (day >= 42 && !isActive()) {
+            if (day >= 42) {
                 ChatFormatter.broadcastMessageWithPrefix("&7Se ha activado el modo &4UHC!");
                 server.getGameRules().get(GameRules.NATURAL_REGENERATION).set(false, server);
             }
         }
+
+
+
     }
 
     public static void end(){
+        var server = Infinium.getServer();
+        var audience = Infinium.getAdventure().audience(PlayerLookup.all(server));
         if (task != null) {
             task.cancel(true);
             task = null;
@@ -167,8 +171,6 @@ public class SolarEclipse {
         endsIn = 0L;
         totalTime = 0L;
         lastTimeChecked = 0;
-        var server = Infinium.getServer();
-        var audience = Infinium.getAdventure().audience(PlayerLookup.all(server));
         server.getGameRules().get(GameRules.DO_DAYLIGHT_CYCLE).set(true, server);
         server.getGameRules().get(GameRules.NATURAL_REGENERATION).set(true, server);
         audience.hideBossBar(BOSS_BAR);
