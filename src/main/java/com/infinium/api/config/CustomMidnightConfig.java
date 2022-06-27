@@ -110,12 +110,14 @@ public abstract class CustomMidnightConfig {
 		}
 
 		for (EntryInfo info : entries) {
-			if (info.field.isAnnotationPresent(Entry.class))
+			if (info.field.isAnnotationPresent(Entry.class)) {
 				try {
 					info.value = info.field.get(null);
 					info.tempValue = info.value.toString();
-				} catch (IllegalAccessException ignored) {
+				} catch (IllegalAccessException ex) {
+					ex.printStackTrace();
 				}
+			}
 		}
 	}
 

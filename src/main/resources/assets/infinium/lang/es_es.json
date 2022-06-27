@@ -24,5 +24,7 @@
 
   "item.infinium.grappling_hook.tooltip" : "",
   "item.infinium.grappling_hook.tooltip.shift" : "",
-  "block.infinium.void_stone": "Void Stone"
+  "block.infinium.void_stone": "Void Stone",
+
+  "infinium.midnightconfig.START_DATE" : "Start Date"
 }

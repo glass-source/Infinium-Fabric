@@ -45,16 +45,13 @@ public class SolarEclipse {
 
     public static void load() {
         lastTimeChecked = (new Date()).getTime();
-        endsIn = InfiniumConfig.ECLIPSE_TIME_LEFT;
         if (endsIn > 0) {
-            totalTime = InfiniumConfig.ECLIPSE_TIME_TOTAL;
             start(1);
         }
     }
 
     public static void disable(){
-        InfiniumConfig.ECLIPSE_TIME_TOTAL = getTimeToEnd();
-        InfiniumConfig.ECLIPSE_TIME_LEFT = getTotalTime();
+
         end();
     }
 
@@ -123,6 +120,8 @@ public class SolarEclipse {
 
         }else if(day == 70){
             start(0.5D);
+        } else {
+            start(day);
         }
     }
 
@@ -146,11 +145,11 @@ public class SolarEclipse {
             var audience = Infinium.getAdventure().audience(PlayerLookup.all(server));
             var times = Title.Times.times(Duration.ofSeconds(1), Duration.ofSeconds(5), Duration.ofSeconds(2));
             var title = Title.title(ChatFormatter.stringToComponent("&8&k&l? &7Eclipse Solar &8&k&l?"), ChatFormatter.stringToComponent("&7Duración: &8" + getTimeToString()), times);
+            world.setTimeOfDay(18000);
+            server.getGameRules().get(GameRules.DO_DAYLIGHT_CYCLE).set(false, server);
             audience.showTitle(title);
             audience.showBossBar(SolarEclipse.BOSS_BAR);
             audience.playSound(Sound.sound(Key.key("infinium:eclipse_start"), Sound.Source.PLAYER, 10, 0.5f));
-            world.setTimeOfDay(18000);
-            server.getGameRules().get(GameRules.DO_DAYLIGHT_CYCLE).set(false, server);
 
             if (day >= 42 && !isActive()) {
                 ChatFormatter.broadcastMessageWithPrefix("&7Se ha activado el modo &4UHC!");

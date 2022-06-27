@@ -67,5 +67,10 @@
   "infinium.player_died": "Player Died",
   "infinium.eclipse_started": "Solar Eclipse Started",
   "infinium.duet_started": "Dead Sister Sounds",
-  "infinium.fall_in_love": "Mysterious Music"
+  "infinium.fall_in_love": "Mysterious Music",
+
+  "infinium.midnightconfig.title" : "Infinium Config",
+  "infinium.midnightconfig.START_DATE" : "Start Date"
+
+
 }

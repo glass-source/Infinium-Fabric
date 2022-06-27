@@ -61,7 +61,7 @@ public class MagmaTridentItem extends TridentItem {
                             MagmaTridentEntity magmaTridentEntity = new MagmaTridentEntity(world, playerEntity, stack);
                             magmaTridentEntity.setVelocity(playerEntity, playerEntity.getPitch(), playerEntity.getYaw(), 0.0F, 2.5F + riptideLevel * 0.5F, 1.0F);
                             world.spawnEntity(magmaTridentEntity);
-                            world.playSoundFromEntity(null, magmaTridentEntity, SoundEvents.ENTITY_BLAZE_SHOOT, SoundCategory.PLAYERS, 1.0F, 1.0F);
+                            world.playSoundFromEntity(null, magmaTridentEntity, SoundEvents.ITEM_TRIDENT_THROW, SoundCategory.PLAYERS, 1.0F, 1.0F);
 
                             if (playerEntity.getAbilities().creativeMode) {
                                 magmaTridentEntity.pickupType = PersistentProjectileEntity.PickupPermission.CREATIVE_ONLY;

@@ -25,7 +25,7 @@ public class InfiniumCommand {
         try {
             var data = ((EntityDataSaver) source.getSource().getPlayer()).getPersistentData();
             int totems = data.getInt("infinium.totems");
-            source.getSource().sendFeedback(ChatFormatter.textWithPrefix("&7Has consumido &6&l" + totems + " &7Totems de la inmortalidad"), false);
+            source.getSource().sendFeedback(ChatFormatter.textWithPrefix("&7Has consumido &6&l" + totems + " &7Tótems de la inmortalidad"), false);
         } catch (CommandSyntaxException ex) {
             ex.printStackTrace();
             source.getSource().sendError(ChatFormatter.text("&c¡Error! notificale esto a algun developer..."));

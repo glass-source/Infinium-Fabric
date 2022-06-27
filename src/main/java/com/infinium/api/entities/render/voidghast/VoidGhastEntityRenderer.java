@@ -10,12 +10,6 @@ import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
 
 public class VoidGhastEntityRenderer extends GeoEntityRenderer<VoidGhastEntity> {
 
-
-    /*
-    private static final Identifier TEXTURE = new Identifier(Infinium.MOD_ID,"textures/entity/void_ghast/void_ghast.png");
-    private static final Identifier ANGRY_TEXTURE = new Identifier(Infinium.MOD_ID,"textures/entity/void_ghast/void_ghast_shooting.png");
-     */
-
     private static final Identifier TEXTURE = new Identifier(Infinium.MOD_ID, "textures/entity/void_ghast/void_ghast.png");
     private static final Identifier ANGRY_TEXTURE = new Identifier(Infinium.MOD_ID, "textures/entity/void_ghast/void_ghast_shooting.png");
 

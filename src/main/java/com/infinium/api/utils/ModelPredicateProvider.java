@@ -1,6 +1,7 @@
 package com.infinium.api.utils;
 
 import com.infinium.api.entities.InfiniumEntityType;
+import com.infinium.api.entities.render.magmatrident.MagmaTridentEntityRenderer;
 import com.infinium.api.entities.render.voidghast.VoidGhastEntityRenderer;
 import com.infinium.api.items.global.InfiniumItems;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
@@ -20,7 +21,7 @@ public class ModelPredicateProvider {
 
     public static void registerEntityRenderer() {
         EntityRendererRegistry.register(InfiniumEntityType.VOID_GHAST, VoidGhastEntityRenderer::new);
-        EntityRendererRegistry.register(InfiniumEntityType.MAGMA_TRIDENT, TridentEntityRenderer::new);
+        EntityRendererRegistry.register(InfiniumEntityType.MAGMA_TRIDENT, MagmaTridentEntityRenderer::new);
     }
 
     private static void registerBow(Item bow) {
