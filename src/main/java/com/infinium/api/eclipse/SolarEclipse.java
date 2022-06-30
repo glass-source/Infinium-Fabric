@@ -57,9 +57,6 @@ public class SolarEclipse {
 
     public static void startFromDeath() {
         int day = Utils.getDay();
-        for (int i = 0; i <= 70; i++){
-
-        }
 
         if(day == 0) {
             start(0.5D);
