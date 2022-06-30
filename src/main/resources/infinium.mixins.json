@@ -16,6 +16,8 @@
     "world.ServerWorldMixin"
   ],
   "client": [
+    "render.ItemRendererAccesor",
+    "render.ItemRendererMixin",
     "world.WorldRendererMixin"
   ],
   "injectors": {

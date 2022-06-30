@@ -1,13 +1,12 @@
 package com.infinium.client;
 
 
-import com.infinium.api.utils.ModelPredicateProvider;
+import com.infinium.client.renderer.ModelPredicateProvider;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.kyori.adventure.platform.fabric.FabricClientAudiences;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -21,9 +20,10 @@ public class InfiniumClient implements ClientModInitializer {
     private static boolean isPaused = false;
 
 
+
     @Override
     public void onInitializeClient() {
-        ModelPredicateProvider.registerBowModels();
+        ModelPredicateProvider.initItemModels();
         ModelPredicateProvider.registerEntityRenderer();
         initAudience();
     }

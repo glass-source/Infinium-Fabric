@@ -1,7 +1,7 @@
 package com.infinium.global.mixin.world;
 
 import com.infinium.Infinium;
-import com.infinium.api.events.eclipse.SolarEclipse;
+import com.infinium.api.eclipse.SolarEclipse;
 import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.WorldRenderer;
 import net.minecraft.client.util.math.MatrixStack;

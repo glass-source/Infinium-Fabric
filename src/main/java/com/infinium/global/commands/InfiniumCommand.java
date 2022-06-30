@@ -1,9 +1,8 @@
 package com.infinium.global.commands;
 
-import com.infinium.api.config.InfiniumConfig;
-import com.infinium.api.utils.ChatFormatter;
-import com.infinium.api.utils.EntityDataSaver;
-import com.infinium.api.utils.Utils;
+import com.infinium.global.utils.ChatFormatter;
+import com.infinium.global.utils.EntityDataSaver;
+import com.infinium.global.utils.Utils;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
@@ -11,7 +10,7 @@ import net.minecraft.server.command.ServerCommandSource;
 
 import java.time.format.DateTimeParseException;
 
-import static com.infinium.api.utils.ChatFormatter.cd;
+import static com.infinium.global.utils.ChatFormatter.cd;
 
 public class InfiniumCommand {
 

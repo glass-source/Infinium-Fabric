@@ -1,18 +1,17 @@
 package com.infinium;
 
-import com.infinium.api.blocks.InfiniumBlocks;
+import com.infinium.global.InfiniumRegistries;
+import com.infinium.global.blocks.InfiniumBlocks;
 import com.infinium.api.config.CustomMidnightConfig;
 import com.infinium.api.config.InfiniumConfig;
-import com.infinium.api.effects.InfiniumEffects;
-import com.infinium.api.entities.InfiniumEntityType;
-import com.infinium.api.events.eclipse.SolarEclipse;
-import com.infinium.api.items.global.InfiniumItems;
-import com.infinium.api.listeners.entity.EntityListeners;
-import com.infinium.api.listeners.player.ClientPlayerListeners;
-import com.infinium.api.listeners.player.ServerPlayerListeners;
-import com.infinium.api.utils.InfiniumRegistries;
+import com.infinium.global.effects.InfiniumEffectRegistry;
+import com.infinium.global.entities.InfiniumEntityType;
+import com.infinium.api.eclipse.SolarEclipse;
+import com.infinium.global.items.groups.InfiniumItems;
+import com.infinium.global.listeners.entity.EntityListeners;
+import com.infinium.client.listeners.ClientPlayerListeners;
+import com.infinium.global.listeners.player.ServerPlayerListeners;
 import com.infinium.global.sanity.SanityManager;
-import eu.midnightdust.lib.config.MidnightConfig;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.kyori.adventure.platform.fabric.FabricServerAudiences;
@@ -64,7 +63,7 @@ public class Infinium implements ModInitializer {
     private void initModGadgets(){
         InfiniumItems.init();
         InfiniumBlocks.init();
-        InfiniumEffects.init();
+        InfiniumEffectRegistry.init();
         InfiniumRegistries.init();
         InfiniumEntityType.init();
         SanityManager.initSanityTask();

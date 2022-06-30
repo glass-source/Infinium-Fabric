@@ -1,5 +1,5 @@
 {
-    "parent": "item/generated",
+    "parent": "minecraft:item/generated",
     "textures": {
         "layer0": "infinium:item/void_wings"
     },
@@ -8,7 +8,7 @@
             "predicate": {
                 "broken": 1
             },
-            "model": "infinium:item/void_wings"
+            "model": "infinium:item/void_wings_broken"
         }
     ]
 }

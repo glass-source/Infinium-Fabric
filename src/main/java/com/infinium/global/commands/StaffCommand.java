@@ -1,9 +1,9 @@
 package com.infinium.global.commands;
 
-import com.infinium.api.events.eclipse.SolarEclipse;
-import com.infinium.api.utils.ChatFormatter;
-import com.infinium.api.utils.EntityDataSaver;
-import com.infinium.api.utils.Utils;
+import com.infinium.api.eclipse.SolarEclipse;
+import com.infinium.global.utils.ChatFormatter;
+import com.infinium.global.utils.EntityDataSaver;
+import com.infinium.global.utils.Utils;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.FloatArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;

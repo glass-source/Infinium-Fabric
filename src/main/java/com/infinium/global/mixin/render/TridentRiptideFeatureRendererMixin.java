@@ -1,6 +1,6 @@
 package com.infinium.global.mixin.render;
 
-import com.infinium.api.items.global.InfiniumItems;
+import com.infinium.global.items.groups.InfiniumItems;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;

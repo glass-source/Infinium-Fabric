@@ -1,7 +1,7 @@
 package com.infinium.global.sanity;
 
 import com.infinium.Infinium;
-import com.infinium.api.utils.EntityDataSaver;
+import com.infinium.global.utils.EntityDataSaver;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 

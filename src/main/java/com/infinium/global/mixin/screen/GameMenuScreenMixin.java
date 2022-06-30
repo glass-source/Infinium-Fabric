@@ -1,7 +1,6 @@
 package com.infinium.global.mixin.screen;
 
-import com.infinium.Infinium;
-import com.infinium.api.events.players.PlayerPauseEvent;
+import com.infinium.client.events.ClientPlayerPauseEvent;
 import com.infinium.client.InfiniumClient;
 import net.minecraft.client.gui.screen.GameMenuScreen;
 import org.spongepowered.asm.mixin.Mixin;
@@ -14,7 +13,7 @@ public class GameMenuScreenMixin {
 
     @Inject(method = "initWidgets", at = @At("HEAD"))
     public void checkPauseMenu(CallbackInfo ci){
-        PlayerPauseEvent.EVENT.invoker().pause(InfiniumClient.getPlayer());
+        ClientPlayerPauseEvent.EVENT.invoker().pause(InfiniumClient.getPlayer());
     }
 
 }

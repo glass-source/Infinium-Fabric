@@ -1,6 +1,6 @@
 package com.infinium.global.sanity;
 
-import com.infinium.api.utils.ChatFormatter;
+import com.infinium.global.utils.ChatFormatter;
 import net.minecraft.server.network.ServerPlayerEntity;
 
 import static com.infinium.global.sanity.SanityManager.*;

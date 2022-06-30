@@ -1,6 +1,6 @@
 package com.infinium.global.mixin;
 
-import com.infinium.api.utils.EntityDataSaver;
+import com.infinium.global.utils.EntityDataSaver;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NbtCompound;
 import org.spongepowered.asm.mixin.Mixin;
@@ -25,6 +25,7 @@ public abstract class PlayerDataSaver implements EntityDataSaver {
         if (persistentData != null) {
             nbt.put("infinium.sanity", persistentData);
             nbt.put("infinium.totems", persistentData);
+            nbt.put("infinium.cooldown", persistentData);
         }
     }
 
