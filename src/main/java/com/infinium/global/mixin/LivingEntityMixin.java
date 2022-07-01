@@ -1,6 +1,6 @@
 package com.infinium.global.mixin;
 
-import com.infinium.global.effects.InfiniumEffectRegistry;
+import com.infinium.global.effects.InfiniumEffects;
 import com.infinium.api.events.players.PlayerUseTotemEvent;
 import com.infinium.global.items.groups.InfiniumItems;
 import net.minecraft.entity.Entity;
@@ -52,7 +52,7 @@ public abstract class LivingEntityMixin extends Entity {
 
     @Inject(method = "damage", at = @At("HEAD"), cancellable = true)
     public void applyImmunity(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
-        if(this.hasStatusEffect(InfiniumEffectRegistry.IMMUNITY)) {
+        if(this.hasStatusEffect(InfiniumEffects.IMMUNITY)) {
             cir.setReturnValue(false);
             cir.cancel();
         }
@@ -62,8 +62,8 @@ public abstract class LivingEntityMixin extends Entity {
     public void applyMadness(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
         float extraDamage = amount;
 
-        if (this.hasStatusEffect(InfiniumEffectRegistry.MADNESS)) {
-            extraDamage *= (1.05 * (this.getStatusEffect(InfiniumEffectRegistry.MADNESS).getAmplifier() + 1));
+        if (this.hasStatusEffect(InfiniumEffects.MADNESS)) {
+            extraDamage *= (1.05 * (this.getStatusEffect(InfiniumEffects.MADNESS).getAmplifier() + 1));
             if (this.isAlive()) this.applyDamage(source, extraDamage);
             if (this.getHealth() <= 0) this.kill();
             cir.setReturnValue(false);

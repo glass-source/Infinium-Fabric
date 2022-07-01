@@ -1,6 +1,6 @@
 package com.infinium.global.items.custom.food;
 
-import com.infinium.global.effects.InfiniumEffectRegistry;
+import com.infinium.global.effects.InfiniumEffects;
 import com.infinium.global.sanity.SanityManager;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -22,7 +22,7 @@ public class SanityItem extends Item {
         if (!world.isClient() && user instanceof ServerPlayerEntity pl) {
             user.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 240, 3));
             user.addStatusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 240, 3));
-            user.removeStatusEffect(InfiniumEffectRegistry.MADNESS);
+            user.removeStatusEffect(InfiniumEffects.MADNESS);
             SanityManager.addSanity(pl, 40);
         }
         return super.finishUsing(stack, world, user);

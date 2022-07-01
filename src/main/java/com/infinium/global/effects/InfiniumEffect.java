@@ -8,5 +8,4 @@ public class InfiniumEffect extends StatusEffect {
     protected InfiniumEffect(StatusEffectCategory category, int color) {
         super(category, color);
     }
-
 }

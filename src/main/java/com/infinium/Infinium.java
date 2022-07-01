@@ -4,7 +4,7 @@ import com.infinium.global.InfiniumRegistries;
 import com.infinium.global.blocks.InfiniumBlocks;
 import com.infinium.api.config.CustomMidnightConfig;
 import com.infinium.api.config.InfiniumConfig;
-import com.infinium.global.effects.InfiniumEffectRegistry;
+import com.infinium.global.effects.InfiniumEffects;
 import com.infinium.global.entities.InfiniumEntityType;
 import com.infinium.api.eclipse.SolarEclipse;
 import com.infinium.global.items.groups.InfiniumItems;
@@ -12,6 +12,7 @@ import com.infinium.global.listeners.entity.EntityListeners;
 import com.infinium.client.listeners.ClientPlayerListeners;
 import com.infinium.global.listeners.player.ServerPlayerListeners;
 import com.infinium.global.sanity.SanityManager;
+import com.infinium.global.world.dimensions.InfiniumDimensions;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.kyori.adventure.platform.fabric.FabricServerAudiences;
@@ -63,10 +64,11 @@ public class Infinium implements ModInitializer {
     private void initModGadgets(){
         InfiniumItems.init();
         InfiniumBlocks.init();
-        InfiniumEffectRegistry.init();
+        InfiniumEffects.init();
         InfiniumRegistries.init();
         InfiniumEntityType.init();
         SanityManager.initSanityTask();
+        InfiniumDimensions.register();
     }
 
     private void initListeners(){

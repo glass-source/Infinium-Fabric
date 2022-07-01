@@ -1,6 +1,6 @@
 package com.infinium.global.items.custom.tools.runes;
 
-import com.infinium.global.effects.InfiniumEffectRegistry;
+import com.infinium.global.effects.InfiniumEffects;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
@@ -24,7 +24,7 @@ public class ImmunityRuneItem extends ToolItem {
         var cooldownManager = user.getItemCooldownManager();
         if (!cooldownManager.isCoolingDown(this)) {
             if (!world.isClient()) {
-                user.addStatusEffect(new StatusEffectInstance(InfiniumEffectRegistry.IMMUNITY, 20 * 25));
+                user.addStatusEffect(new StatusEffectInstance(InfiniumEffects.IMMUNITY, 20 * 25));
                 cooldownManager.set(this, 20 * (60 * 2));
             }
 

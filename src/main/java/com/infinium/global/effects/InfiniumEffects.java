@@ -6,8 +6,7 @@ import net.minecraft.entity.effect.StatusEffectCategory;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
-public class InfiniumEffectRegistry {
-
+public class InfiniumEffects {
     public static StatusEffect IMMUNITY;
     public static StatusEffect MADNESS;
 

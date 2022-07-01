@@ -1,7 +1,7 @@
 package com.infinium.global.listeners.player;
 
 import com.infinium.Infinium;
-import com.infinium.global.effects.InfiniumEffectRegistry;
+import com.infinium.global.effects.InfiniumEffects;
 import com.infinium.api.eclipse.SolarEclipse;
 import com.infinium.api.events.players.PlayerUseTotemEvent;
 import com.infinium.api.events.players.ServerPlayerConnectionEvents;
@@ -9,25 +9,20 @@ import com.infinium.global.items.groups.InfiniumItems;
 import com.infinium.global.utils.ChatFormatter;
 import com.infinium.global.utils.EntityDataSaver;
 import com.infinium.global.sanity.SanityManager;
-import net.fabricmc.fabric.api.entity.event.v1.EntityElytraEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
-import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;
-import net.kyori.adventure.title.Title.Times;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.GameMode;
 
 import java.time.Duration;
@@ -58,7 +53,7 @@ public class ServerPlayerListeners {
             player.world.sendEntityStatus(player, (byte) 35);
 
             if (totemItem.equals(InfiniumItems.VOID_TOTEM)) {
-                player.addStatusEffect(new StatusEffectInstance(InfiniumEffectRegistry.IMMUNITY, 20 * 6, 0));
+                player.addStatusEffect(new StatusEffectInstance(InfiniumEffects.IMMUNITY, 20 * 6, 0));
                 data.putInt("infinium.totems", totems + 3);
                 message = ChatFormatter.formatWithPrefix("&8El jugador &5&l" + player.getEntityName() + " &8ha consumido un &b&lVoid Tótem" + " &8(Tótem #%.%)".replaceAll("%.%", String.valueOf(totems + 3)));
 
