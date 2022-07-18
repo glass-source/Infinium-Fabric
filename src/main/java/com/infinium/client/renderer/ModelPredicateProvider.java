@@ -1,20 +1,19 @@
 package com.infinium.client.renderer;
 
-import com.infinium.client.renderer.magmatrident.MagmaTridentItemRenderer;
-import com.infinium.global.entities.InfiniumEntityType;
 import com.infinium.client.renderer.magmatrident.MagmaTridentEntityRenderer;
+import com.infinium.client.renderer.magmatrident.MagmaTridentItemRenderer;
+import com.infinium.client.renderer.voidghast.VoidGhastEntityModel;
 import com.infinium.client.renderer.voidghast.VoidGhastEntityRenderer;
+import com.infinium.global.entities.InfiniumEntityType;
 import com.infinium.global.items.groups.InfiniumItems;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.LivingEntityFeatureRendererRegistrationCallback;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
-import net.minecraft.client.render.entity.ItemEntityRenderer;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
-import net.minecraft.client.render.item.BuiltinModelItemRenderer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Item;
-import net.minecraft.resource.ResourceReloader;
 import net.minecraft.util.Identifier;
 
 public class ModelPredicateProvider {
@@ -28,11 +27,10 @@ public class ModelPredicateProvider {
     public static void registerEntityRenderer() {
         EntityRendererRegistry.register(InfiniumEntityType.VOID_GHAST, VoidGhastEntityRenderer::new);
         EntityRendererRegistry.register(InfiniumEntityType.MAGMA_TRIDENT, MagmaTridentEntityRenderer::new);
+        EntityModelLayerRegistry.registerModelLayer(VoidGhastEntityRenderer.VOID_GHAST, VoidGhastEntityModel::getTexturedModelData);
     }
 
     private static void registerModelItems(){
-
-
         BuiltinItemRendererRegistry.INSTANCE.register(InfiniumItems.MAGMA_TRIDENT, MagmaTridentItemRenderer::render);
 
         ModelPredicateProviderRegistry.register(InfiniumItems.MAGMA_TRIDENT, new Identifier("throwing"), ((stack, world, entity, seed) -> entity != null && entity.isUsingItem() && entity.getActiveItem() == stack ? 1.0F : 0.0F));

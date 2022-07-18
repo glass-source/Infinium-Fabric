@@ -19,8 +19,6 @@ public class InfiniumClient implements ClientModInitializer {
     private static ClientPlayerEntity clientPlayer;
     private static boolean isPaused = false;
 
-
-
     @Override
     public void onInitializeClient() {
         ModelPredicateProvider.initItemModels();

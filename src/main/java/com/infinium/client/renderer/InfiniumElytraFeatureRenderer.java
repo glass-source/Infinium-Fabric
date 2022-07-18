@@ -25,8 +25,8 @@
 package com.infinium.client.renderer;
 
 import com.infinium.global.items.groups.InfiniumItems;
-
-
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.VertexConsumer;
@@ -40,10 +40,7 @@ import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import static com.infinium.Infinium.id;
 
 @Environment(EnvType.CLIENT)

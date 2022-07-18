@@ -23,21 +23,14 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import software.bernie.geckolib3.core.IAnimatable;
-import software.bernie.geckolib3.core.PlayState;
-import software.bernie.geckolib3.core.builder.AnimationBuilder;
-import software.bernie.geckolib3.core.controller.AnimationController;
-import software.bernie.geckolib3.core.manager.AnimationData;
-import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 import java.util.EnumSet;
 import java.util.Random;
 
 
-public class VoidGhastEntity extends FlyingEntity implements IAnimatable, Monster {
+public class VoidGhastEntity extends FlyingEntity implements Monster {
 
     private static final TrackedData<Boolean> SHOOTING;
-    private final AnimationFactory factory = new AnimationFactory(this);
 
     static {
         SHOOTING = DataTracker.registerData(VoidGhastEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
@@ -101,18 +94,7 @@ public class VoidGhastEntity extends FlyingEntity implements IAnimatable, Monste
         return SoundEvents.ENTITY_GHAST_DEATH;
     }
 
-    @Override
-    public void registerControllers(AnimationData animationData) {
-        animationData.addAnimationController(new AnimationController<>(this, "controller", 0, event -> {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.voidghast.idle", true));
-            return PlayState.CONTINUE;
-        }));
-    }
 
-    @Override
-    public AnimationFactory getFactory() {
-        return factory;
-    }
 
     public static class VoidGhastMoveControl extends MoveControl {
         private final VoidGhastEntity ghast;
