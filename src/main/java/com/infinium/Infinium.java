@@ -20,7 +20,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Identifier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import software.bernie.geckolib3.GeckoLib;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -39,7 +38,6 @@ public class Infinium implements ModInitializer {
     @Override
     public void onInitialize() {
         CustomMidnightConfig.init(MOD_ID, InfiniumConfig.class);
-        GeckoLib.initialize();
         initAdventure();
         registerMod();
     }

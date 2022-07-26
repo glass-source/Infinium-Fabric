@@ -19,7 +19,7 @@ import net.minecraft.util.math.Vec3f;
 @Environment(EnvType.CLIENT)
 public class MagmaTridentEntityRenderer extends EntityRenderer<MagmaTridentEntity> {
 
-    public static final Identifier TEXTURE = new Identifier(Infinium.MOD_ID, "textures/entity/trident.png");
+    public static final Identifier TEXTURE = new Identifier(Infinium.MOD_ID, "textures/entity/magma_trident.png");
     private final MagmaTridentEntityModel model;
 
     public MagmaTridentEntityRenderer(EntityRendererFactory.Context context) {
