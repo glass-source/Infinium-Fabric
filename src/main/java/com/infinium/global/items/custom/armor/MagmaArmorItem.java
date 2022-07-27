@@ -58,24 +58,23 @@ public class MagmaArmorItem extends ArmorItem {
     }
 
     private boolean hasFullArmor(PlayerEntity user) {
-
         var inventory = user.getInventory();
         var boots = inventory.getArmorStack(0);
         var leggings = inventory.getArmorStack(1);
         var chestplate = inventory.getArmorStack(2);
         var helmet = inventory.getArmorStack(3);
-
         return !boots.isEmpty() && !leggings.isEmpty() && !chestplate.isEmpty() && !helmet.isEmpty();
     }
 
     private boolean hasMagmaArmor(PlayerEntity user) {
         var inventory = user.getInventory();
-        var boots = ((ArmorItem) inventory.getArmorStack(0).getItem()).getMaterial();
-        var leggings = ((ArmorItem) inventory.getArmorStack(1).getItem()).getMaterial();
-        var chestplate = ((ArmorItem) inventory.getArmorStack(2).getItem()).getMaterial();
-        var helmet = ((ArmorItem) inventory.getArmorStack(3).getItem()).getMaterial();
+        var boots = inventory.getArmorStack(0).getItem();
+        var leggings = inventory.getArmorStack(1).getItem();
+        var chestplate = inventory.getArmorStack(2).getItem();
+        var helmet = inventory.getArmorStack(3).getItem();
 
-        return boots == InfiniumArmorMaterials.MAGMA && leggings == InfiniumArmorMaterials.MAGMA && chestplate == InfiniumArmorMaterials.MAGMA && helmet == InfiniumArmorMaterials.MAGMA;
+        return helmet instanceof MagmaArmorItem && chestplate instanceof MagmaArmorItem
+        && leggings instanceof MagmaArmorItem && boots instanceof MagmaArmorItem;
     }
 
     @Override

@@ -12,7 +12,7 @@ import net.minecraft.world.World;
 
 public class VoidShovelItem extends ShovelItem {
 
-    public VoidShovelItem(ToolMaterial material, int attackDamage, float attackSpeed, Settings settings) {
+    public VoidShovelItem(ToolMaterial material, float attackDamage, float attackSpeed, Settings settings) {
         super(material, attackDamage, attackSpeed, settings);
     }
 

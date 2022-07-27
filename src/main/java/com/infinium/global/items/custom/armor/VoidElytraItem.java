@@ -1,12 +1,14 @@
 package com.infinium.global.items.custom.armor;
 
 import net.fabricmc.fabric.api.entity.event.v1.FabricElytraItem;
-import net.minecraft.client.render.entity.model.ElytraEntityModel;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.*;
+import net.minecraft.item.ArmorMaterial;
+import net.minecraft.item.ElytraItem;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Wearable;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
@@ -16,11 +18,11 @@ import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
-public class InfiniumElytraItem extends Item implements FabricElytraItem, Wearable {
+public class VoidElytraItem extends VoidArmorItem implements FabricElytraItem, Wearable {
 
 
-    public InfiniumElytraItem(Settings settings) {
-        super(settings);
+    public VoidElytraItem(ArmorMaterial material, EquipmentSlot slot, Settings settings) {
+        super(material, slot, settings);
     }
 
     @Override
@@ -31,10 +33,7 @@ public class InfiniumElytraItem extends Item implements FabricElytraItem, Wearab
     @Override
     public boolean useCustomElytra(LivingEntity entity, ItemStack chestStack, boolean tickElytra) {
         if (ElytraItem.isUsable(chestStack)) {
-            if (tickElytra) {
-                customElytraTick(entity, chestStack);
-            }
-
+            if (tickElytra) customElytraTick(entity, chestStack);
             return true;
         }
 

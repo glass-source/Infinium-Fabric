@@ -12,8 +12,13 @@ import java.util.function.Supplier;
 
 public enum InfiniumArmorMaterials implements ArmorMaterial {
 
-    MAGMA("magma", 72, new int[]{12, 15, 20, 12}, 32, SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE, 10.0F, 1.75F, () -> Ingredient.ofItems(Items.NETHERITE_BLOCK)),
-    VOID("void", 64, new int[]{9, 12, 16, 9}, 25, SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE, 6.0F, 1.25F, () -> Ingredient.ofItems(Items.NETHERITE_INGOT));
+    MAGMA("magma", 37, new int[]{3, 6, 8, 3}, 0, SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE, 5.0F, 0.5F, () -> Ingredient.ofItems(Items.NETHERITE_INGOT)),
+
+    MAGMA_ELYTRA("magma_elytra", 37, new int[]{0, 0, 4, 0}, 0, SoundEvents.ITEM_ARMOR_EQUIP_ELYTRA, 5.0F, 0.0F, () -> Ingredient.ofItems(Items.PHANTOM_MEMBRANE)),
+
+    VOID("void", 37, new int[]{3, 6, 8, 3}, 0, SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE, 3.0F, 0.25F, () -> Ingredient.ofItems(Items.NETHERITE_INGOT)),
+
+    VOID_ELYTRA("void_elytra", 37, new int[]{0, 0, 2, 0}, 0, SoundEvents.ITEM_ARMOR_EQUIP_ELYTRA, 3.0F, 0.0F, () -> Ingredient.ofItems(Items.PHANTOM_MEMBRANE));
 
     private static final int[] BASE_DURABILITY = new int[]{13, 15, 16, 11};
     private final String name;
@@ -33,7 +38,7 @@ public enum InfiniumArmorMaterials implements ArmorMaterial {
         this.equipSound = equipSound;
         this.toughness = toughness;
         this.knockbackResistance = knockbackResistance;
-        this.repairIngredientSupplier = new Lazy<Ingredient>(repairIngredientSupplier);
+        this.repairIngredientSupplier = new Lazy<>(repairIngredientSupplier);
     }
 
     public int getDurability(EquipmentSlot slot) {
@@ -53,7 +58,7 @@ public enum InfiniumArmorMaterials implements ArmorMaterial {
     }
 
     public Ingredient getRepairIngredient() {
-        return (Ingredient)this.repairIngredientSupplier.get();
+        return this.repairIngredientSupplier.get();
     }
 
     public String getName() {

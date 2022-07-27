@@ -28,7 +28,7 @@ public class InfiniumRegistries {
     }
 
     private static void registerEntityAttributes(){
-        FabricDefaultAttributeRegistry.register(InfiniumEntityType.VOID_GHAST, VoidGhastEntity.setAttributes());
+        FabricDefaultAttributeRegistry.register(InfiniumEntityType.VOID_GHAST, VoidGhastEntity.createVoidGhastAttributes());
     }
 
 }

@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 
 public class MagmaShovelItem extends ShovelItem {
 
-    public MagmaShovelItem(ToolMaterial material, int attackDamage, float attackSpeed, Settings settings) {
+    public MagmaShovelItem(ToolMaterial material, float attackDamage, float attackSpeed, Settings settings) {
         super(material, attackDamage, attackSpeed, settings);
     }
 

@@ -1,8 +1,9 @@
 package com.infinium.global.items.groups;
 
 import com.infinium.Infinium;
-import com.infinium.global.items.custom.armor.InfiniumElytraItem;
+import com.infinium.global.items.custom.armor.MagmaElytraItem;
 import com.infinium.global.items.custom.armor.MagmaArmorItem;
+import com.infinium.global.items.custom.armor.VoidElytraItem;
 import com.infinium.global.items.custom.food.NetheriteCarrotItem;
 import com.infinium.global.items.custom.misc.*;
 import com.infinium.global.items.custom.tools.magmaitems.*;
@@ -93,14 +94,14 @@ public class InfiniumItems {
         VOID_CHESTPLATE = registerItem("void_chestplate", new VoidArmorItem(InfiniumArmorMaterials.VOID, EquipmentSlot.CHEST, new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.RARE).maxDamage(2770).fireproof()));
         VOID_LEGGINGS = registerItem("void_leggings", new VoidArmorItem(InfiniumArmorMaterials.VOID, EquipmentSlot.LEGS, new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.RARE).maxDamage(2500).fireproof()));
         VOID_BOOTS = registerItem("void_boots", new VoidArmorItem(InfiniumArmorMaterials.VOID, EquipmentSlot.FEET, new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.RARE).maxDamage(2350).fireproof()));
-        VOID_WINGS = registerItem("void_wings", new InfiniumElytraItem(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.RARE).maxDamage(2350).fireproof().equipmentSlot(provider -> EquipmentSlot.CHEST)));
+        VOID_WINGS = registerItem("void_wings", new VoidElytraItem(InfiniumArmorMaterials.VOID_ELYTRA, EquipmentSlot.CHEST ,new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.RARE).maxDamage(2350).fireproof().equipmentSlot(context -> EquipmentSlot.CHEST)));
     }
 
     private static void registerVoidTools(){
-        VOID_SWORD = registerItem("void_sword", new VoidSwordItem(InfiniumToolMaterials.VOID, 6, -2.4F, new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.RARE).maxCount(4570).fireproof()));
+        VOID_SWORD = registerItem("void_sword", new VoidSwordItem(InfiniumToolMaterials.VOID, 5, -2.4F, new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.RARE).maxCount(4570).fireproof()));
         VOID_PICKAXE = registerItem("void_pickaxe", new VoidPickaxeItem(InfiniumToolMaterials.VOID, 1, -2.8F, new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.RARE).maxDamage(4570).fireproof()));
-        VOID_AXE = registerItem("void_axe", new VoidAxeItem(InfiniumToolMaterials.VOID, 5, -3.0F, new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.RARE).maxDamage(4570).fireproof()));
-        VOID_SHOVEL = registerItem("void_shovel", new VoidShovelItem(InfiniumToolMaterials.VOID, 0, 0, new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.RARE).maxDamage(4570).fireproof()));
+        VOID_AXE = registerItem("void_axe", new VoidAxeItem(InfiniumToolMaterials.VOID, 7, -3.0F, new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.RARE).maxDamage(4570).fireproof()));
+        VOID_SHOVEL = registerItem("void_shovel", new VoidShovelItem(InfiniumToolMaterials.VOID, 1.5F, -3.0F, new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.RARE).maxDamage(4570).fireproof()));
         VOID_HOE = registerItem("void_hoe", new VoidHoeItem(InfiniumToolMaterials.VOID, -4, 0.0F, new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.RARE).maxDamage(4570).fireproof()));
         VOID_BOW = registerItem("void_bow", new VoidBowItem(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.RARE).maxDamage(4570).fireproof()));
         VOID_SHIELD = registerItem("void_shield", new ShieldItem(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.RARE).maxDamage(4570).fireproof()));
@@ -111,14 +112,14 @@ public class InfiniumItems {
         MAGMA_CHESTPLATE = registerItem("magma_chestplate", new MagmaArmorItem(InfiniumArmorMaterials.MAGMA, EquipmentSlot.CHEST, new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.UNCOMMON).maxDamage(4770).fireproof()));
         MAGMA_LEGGINGS = registerItem("magma_leggings", new MagmaArmorItem(InfiniumArmorMaterials.MAGMA, EquipmentSlot.LEGS, new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.UNCOMMON).maxDamage(4500).fireproof()));
         MAGMA_BOOTS = registerItem("magma_boots", new MagmaArmorItem(InfiniumArmorMaterials.MAGMA, EquipmentSlot.FEET, new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.UNCOMMON).maxDamage(4350).fireproof()));
-        MAGMA_WINGS = registerItem("magma_wings", new InfiniumElytraItem(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.UNCOMMON).maxDamage(4500).fireproof().equipmentSlot(stack -> EquipmentSlot.CHEST)));
+        MAGMA_WINGS = registerItem("magma_wings", new MagmaElytraItem(InfiniumArmorMaterials.MAGMA_ELYTRA, EquipmentSlot.CHEST, new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.UNCOMMON).maxDamage(4500).fireproof().equipmentSlot(context -> EquipmentSlot.CHEST)));
     }
 
     private static void registerMagmaTools(){
-        MAGMA_SWORD = registerItem("magma_sword", new MagmaSwordItem(InfiniumToolMaterials.MAGMA, 6, -2.4F, new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.UNCOMMON).maxDamage(4570).fireproof()));
+        MAGMA_SWORD = registerItem("magma_sword", new MagmaSwordItem(InfiniumToolMaterials.MAGMA, 7, -2.4F, new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.UNCOMMON).maxDamage(4570).fireproof()));
         MAGMA_PICKAXE = registerItem("magma_pickaxe", new MagmaPickaxeItem(InfiniumToolMaterials.MAGMA, 1, -2.8F, new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.UNCOMMON).maxDamage(4570).fireproof()));
-        MAGMA_AXE = registerItem("magma_axe", new MagmaAxeItem(InfiniumToolMaterials.MAGMA, 5, -3.0F, new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.UNCOMMON).maxDamage(4570).fireproof()));
-        MAGMA_SHOVEL = registerItem("magma_shovel", new MagmaShovelItem(InfiniumToolMaterials.MAGMA, 0, 0, new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.UNCOMMON).maxDamage(4570).fireproof()));
+        MAGMA_AXE = registerItem("magma_axe", new MagmaAxeItem(InfiniumToolMaterials.MAGMA, 9, -3.0F, new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.UNCOMMON).maxDamage(4570).fireproof()));
+        MAGMA_SHOVEL = registerItem("magma_shovel", new MagmaShovelItem(InfiniumToolMaterials.MAGMA, 1.5F, -3.0F, new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.UNCOMMON).maxDamage(4570).fireproof()));
         MAGMA_HOE = registerItem("magma_hoe", new MagmaHoeItem(InfiniumToolMaterials.MAGMA, -4, 0.0F, new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.UNCOMMON).maxDamage(4570).fireproof()));
         MAGMA_BOW = registerItem("magma_bow", new MagmaBowItem(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.UNCOMMON).maxDamage(4570).fireproof()));
         MAGMA_TRIDENT = registerItem("magma_trident", new MagmaTridentItem(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.UNCOMMON).maxDamage(3450).fireproof(), InfiniumEntityType.MAGMA_TRIDENT));

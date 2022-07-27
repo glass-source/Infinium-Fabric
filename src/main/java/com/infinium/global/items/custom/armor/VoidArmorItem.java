@@ -62,18 +62,18 @@ public class VoidArmorItem extends ArmorItem {
         var leggings = inventory.getArmorStack(1);
         var chestplate = inventory.getArmorStack(2);
         var helmet = inventory.getArmorStack(3);
-
         return !boots.isEmpty() && !leggings.isEmpty() && !chestplate.isEmpty() && !helmet.isEmpty();
     }
 
     private boolean hasVoidArmor(PlayerEntity user) {
         var inventory = user.getInventory();
-        var boots = ((ArmorItem) inventory.getArmorStack(0).getItem()).getMaterial();
-        var leggings = ((ArmorItem) inventory.getArmorStack(1).getItem()).getMaterial();
-        var chestplate = ((ArmorItem) inventory.getArmorStack(2).getItem()).getMaterial();
-        var helmet = ((ArmorItem) inventory.getArmorStack(3).getItem()).getMaterial();
+        var boots = inventory.getArmorStack(0).getItem();
+        var leggings = inventory.getArmorStack(1).getItem();
+        var chestplate = inventory.getArmorStack(2).getItem();
+        var helmet = inventory.getArmorStack(3).getItem();
 
-        return boots == InfiniumArmorMaterials.VOID && leggings == InfiniumArmorMaterials.VOID && chestplate == InfiniumArmorMaterials.VOID && helmet == InfiniumArmorMaterials.VOID;
+        return helmet instanceof VoidArmorItem && chestplate instanceof VoidArmorItem
+        && leggings instanceof VoidArmorItem && boots instanceof VoidArmorItem;
     }
 
     @Override
