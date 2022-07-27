@@ -64,6 +64,8 @@
   "block.infinium.void_stone_pressure_plate": "Void Stone Pressure Plate",
   "block.infinium.void_stone_wall": "Void Stone Wall",
 
+  "entity.infinium.void_ghast" : "Void Ghast",
+
   "infinium.player_died": "Player Died",
   "infinium.eclipse_started": "Solar Eclipse Started",
   "infinium.duet_started": "Dead Sister Sounds",

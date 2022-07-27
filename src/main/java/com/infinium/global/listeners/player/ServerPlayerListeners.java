@@ -3,7 +3,6 @@ package com.infinium.global.listeners.player;
 import com.infinium.Infinium;
 import com.infinium.global.effects.InfiniumEffects;
 import com.infinium.api.eclipse.SolarEclipse;
-import com.infinium.api.events.players.PlayerUseTotemEvent;
 import com.infinium.api.events.players.ServerPlayerConnectionEvents;
 import com.infinium.global.items.groups.InfiniumItems;
 import com.infinium.global.utils.ChatFormatter;
@@ -23,6 +22,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
 import net.minecraft.world.GameMode;
 
 import java.time.Duration;
@@ -34,64 +34,6 @@ public class ServerPlayerListeners {
         playerConnectCallback();
         playerDisconnectCallback();
         playerDeathCallback();
-        playerTotemCallback();
-        playerElytraCallback();
-    }
-    
-    private static void playerTotemCallback(){
-        PlayerUseTotemEvent.EVENT.register(((player, totem) -> {
-            var totemItem = totem.getItem();
-            var data = ((EntityDataSaver) player).getPersistentData();
-            var message = "";
-            int totems = data.getInt("infinium.totems");
-
-            player.setHealth(1.0F);
-            player.clearStatusEffects();
-            player.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 900, 1));
-            player.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 100, 1));
-            player.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 800, 0));
-            player.world.sendEntityStatus(player, (byte) 35);
-
-            if (totemItem.equals(InfiniumItems.VOID_TOTEM)) {
-                player.addStatusEffect(new StatusEffectInstance(InfiniumEffects.IMMUNITY, 20 * 6, 0));
-                data.putInt("infinium.totems", totems + 3);
-                message = ChatFormatter.formatWithPrefix("&8El jugador &5&l" + player.getEntityName() + " &8ha consumido un &b&lVoid Tótem" + " &8(Tótem #%.%)".replaceAll("%.%", String.valueOf(totems + 3)));
-
-            } else if (totemItem.equals(InfiniumItems.MAGMA_TOTEM)) {
-                data.putInt("infinium.totems", totems + 1);
-                message = ChatFormatter.formatWithPrefix("&8El jugador &5&l" + player.getEntityName() + " &8ha consumido un \n&c&lMagma Tótem" + " &8(Tótem #%.%)".replaceAll("%.%", String.valueOf(totems + 1)));
-
-            } else {
-                data.putInt("infinium.totems", totems + 1);
-                message = ChatFormatter.formatWithPrefix("&8El jugador &5&l" + player.getEntityName() + " &8ha consumido un \n&6&lTótem de la Inmortalidad" + " &8(Tótem #%.%)".replaceAll("%.%", String.valueOf(totems + 1)));
-            }
-
-            SanityManager.removeSanity((ServerPlayerEntity) player, 40);
-            ChatFormatter.broadcastMessage(message);
-            return ActionResult.PASS;
-        }));
-    }
-    
-    private static void playerDeathCallback(){
-
-        ServerPlayerEvents.ALLOW_DEATH.register((player, damageSource, damageAmount) -> {
-            if (Infinium.getServer() == null) return false;
-            if (playerHasTotem(player, damageSource)) return false;
-            return onPlayerDeath(player);
-        });
-    }
-
-    private static void playerElytraCallback(){
-       /*
-        EntityElytraEvents.ALLOW.register(entity -> true);
-
-        EntityElytraEvents.CUSTOM.register(((entity, tickElytra) -> {
-            if (!(entity instanceof ServerPlayerEntity sp)) return false;
-            var inv = sp.getInventory();
-            var chestplate = inv.getArmorStack(2).getItem();
-            return chestplate.equals(InfiniumItems.MAGMA_WINGS) || chestplate.equals(InfiniumItems.VOID_WINGS);
-        }));
-        */
     }
 
     private static void playerConnectCallback(){
@@ -129,6 +71,62 @@ public class ServerPlayerListeners {
         });
     }
 
+    private static void playerDeathCallback(){
+        ServerPlayerEvents.ALLOW_DEATH.register((player, damageSource, damageAmount) -> {
+            if (Infinium.getServer() == null) return false;
+            if (playerHasTotem(player, damageSource)) {
+                onTotemUse(player);
+                return false;
+            }
+            return onPlayerDeath(player);
+        });
+    }
+
+    private static void onTotemUse(ServerPlayerEntity player){
+        ItemStack totemStack = null;
+        var data = ((EntityDataSaver) player).getPersistentData();
+        var message = "";
+        int totems = data.getInt("infinium.totems");
+
+        Hand[] handValue = Hand.values();
+        for (Hand hand : handValue) {
+            ItemStack itemStack = player.getStackInHand(hand);
+            if (itemStack.isOf(Items.TOTEM_OF_UNDYING) || itemStack.isOf(InfiniumItems.VOID_TOTEM) || itemStack.isOf(InfiniumItems.MAGMA_TOTEM)) {
+                totemStack = itemStack;
+                break;
+            }
+        }
+
+        if (totemStack == null) return;
+
+        var totemItem = totemStack.getItem();
+        player.setHealth(1.0F);
+        player.clearStatusEffects();
+        player.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 900, 1));
+        player.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 100, 1));
+        player.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 800, 0));
+        player.world.sendEntityStatus(player, (byte) 35);
+        totemStack.decrement(1);
+
+        if (totemItem.equals(InfiniumItems.VOID_TOTEM)) {
+            player.addStatusEffect(new StatusEffectInstance(InfiniumEffects.IMMUNITY, 20 * 6, 0));
+            data.putInt("infinium.totems", totems + 3);
+            message = ChatFormatter.formatWithPrefix("&8El jugador &5&l" + player.getEntityName() + " &8ha consumido un &b&lVoid Tótem" + " &8(Tótem #%.%)".replaceAll("%.%", String.valueOf(totems + 3)));
+
+        } else if (totemItem.equals(InfiniumItems.MAGMA_TOTEM)) {
+            data.putInt("infinium.totems", totems + 1);
+            message = ChatFormatter.formatWithPrefix("&8El jugador &5&l" + player.getEntityName() + " &8ha consumido un \n&c&lMagma Tótem" + " &8(Tótem #%.%)".replaceAll("%.%", String.valueOf(totems + 1)));
+
+        } else {
+            data.putInt("infinium.totems", totems + 1);
+            message = ChatFormatter.formatWithPrefix("&8El jugador &5&l" + player.getEntityName() + " &8ha consumido un \n&6&lTótem de la Inmortalidad" + " &8(Tótem #%.%)".replaceAll("%.%", String.valueOf(totems + 1)));
+        }
+
+
+        SanityManager.removeSanity(player, 40);
+        ChatFormatter.broadcastMessage(message);
+    }
+
     private static boolean onPlayerDeath(ServerPlayerEntity playerDied){
         var pos = playerDied.getBlockPos();
         var audience = Infinium.getAdventure().audience(PlayerLookup.all(Infinium.getServer()));
@@ -148,8 +146,6 @@ public class ServerPlayerListeners {
 
         return true;
     }
-
-
 
     private static boolean playerHasTotem(PlayerEntity player, DamageSource damageSource) {
         if (damageSource.isOutOfWorld()) return false;

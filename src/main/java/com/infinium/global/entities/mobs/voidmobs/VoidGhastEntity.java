@@ -45,10 +45,10 @@ public class VoidGhastEntity extends FlyingEntity implements Monster {
 
     @Override
     public void initGoals() {
-        this.goalSelector.add(5, new FlyRandomlyGoal(this));
-        this.goalSelector.add(7, new LookAtTargetGoal(this));
-        this.goalSelector.add(7, new ShootFireballGoal(this));
-        this.targetSelector.add(1, new ActiveTargetGoal<>(this, PlayerEntity.class, 10, true, false, (entity) -> Math.abs(entity.getY() - this.getY()) <= 4.0));
+        this.goalSelector.add(10, new FlyRandomlyGoal(this));
+        this.goalSelector.add(3, new LookAtTargetGoal(this));
+        this.goalSelector.add(3, new ShootFireballGoal(this));
+        this.targetSelector.add(1, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
     }
 
     @Override
@@ -93,8 +93,6 @@ public class VoidGhastEntity extends FlyingEntity implements Monster {
     public SoundEvent getDeathSound() {
         return SoundEvents.ENTITY_GHAST_DEATH;
     }
-
-
 
     public static class VoidGhastMoveControl extends MoveControl {
         private final VoidGhastEntity ghast;
