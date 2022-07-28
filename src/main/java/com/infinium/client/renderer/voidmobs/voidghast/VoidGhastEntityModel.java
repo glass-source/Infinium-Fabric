@@ -1,4 +1,4 @@
-package com.infinium.client.renderer.voidghast;
+package com.infinium.client.renderer.voidmobs.voidghast;
 
 import com.infinium.global.entities.mobs.voidmobs.VoidGhastEntity;
 import net.minecraft.client.model.*;
@@ -6,16 +6,14 @@ import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.mob.FlyingEntity;
 import net.minecraft.util.math.MathHelper;
 
-import java.util.Arrays;
 import java.util.Random;
 
 // Made with Blockbench 4.2.5
 // Exported for Minecraft version 1.17+ for Yarn
 // Paste this class into your mod and generate all required imports
-public class VoidGhastEntityModel<T extends Entity> extends EntityModel<VoidGhastEntity> {
+public class VoidGhastEntityModel extends EntityModel<VoidGhastEntity> {
 
     private final ModelPart body;
 	private final ModelPart[] tentacles = new ModelPart[9];

@@ -23,6 +23,7 @@ public class InfiniumClient implements ClientModInitializer {
     public void onInitializeClient() {
         ModelPredicateProvider.initItemModels();
         ModelPredicateProvider.registerEntityRenderer();
+        ModelPredicateProvider.registerEntityModelLayers();
         initAudience();
     }
 

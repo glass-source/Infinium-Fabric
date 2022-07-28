@@ -1,6 +1,6 @@
 package com.infinium.client.renderer;
 
-import com.infinium.client.renderer.magmatrident.MagmaTridentItemRenderer;
+import com.infinium.client.renderer.projectiles.magmatrident.MagmaTridentItemRenderer;
 import com.infinium.global.items.groups.InfiniumItems;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRenderDispatcher;

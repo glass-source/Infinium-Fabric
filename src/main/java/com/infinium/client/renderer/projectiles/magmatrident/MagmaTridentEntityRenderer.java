@@ -1,4 +1,4 @@
-package com.infinium.client.renderer.magmatrident;
+package com.infinium.client.renderer.projectiles.magmatrident;
 
 import com.infinium.Infinium;
 import com.infinium.global.entities.projectiles.MagmaTridentEntity;

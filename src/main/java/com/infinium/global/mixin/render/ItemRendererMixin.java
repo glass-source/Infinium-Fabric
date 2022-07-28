@@ -1,7 +1,7 @@
 package com.infinium.global.mixin.render;
 
 import com.infinium.Infinium;
-import com.infinium.client.renderer.magmatrident.MagmaTridentItemRenderer;
+import com.infinium.client.renderer.projectiles.magmatrident.MagmaTridentItemRenderer;
 import com.infinium.global.items.groups.InfiniumItems;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.RenderLayers;

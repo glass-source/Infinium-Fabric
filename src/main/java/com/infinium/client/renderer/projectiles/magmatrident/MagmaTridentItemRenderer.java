@@ -22,9 +22,8 @@
  * SOFTWARE.
  */
 
-package com.infinium.client.renderer.magmatrident;
+package com.infinium.client.renderer.projectiles.magmatrident;
 
-import net.minecraft.client.model.TexturedModelData;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.item.ItemRenderer;

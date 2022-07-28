@@ -1,4 +1,4 @@
-package com.infinium.client.renderer.magmatrident;
+package com.infinium.client.renderer.projectiles.magmatrident;
 
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.RenderLayer;
