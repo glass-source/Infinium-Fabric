@@ -2,7 +2,7 @@ package com.infinium.api.eclipse;
 
 import com.infinium.Infinium;
 import com.infinium.global.utils.ChatFormatter;
-import com.infinium.global.utils.Utils;
+import com.infinium.global.utils.DateUtils;
 import com.infinium.client.InfiniumClient;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.kyori.adventure.bossbar.BossBar;
@@ -32,7 +32,6 @@ public class SolarEclipse {
         SolarEclipse.service = Infinium.getExecutor();
         SolarEclipse.task = service.scheduleWithFixedDelay(() -> {
             //if (isGamePaused()) return;
-
             var progress = (float) Math.max(0d, Math.min(1d, (double) getTimeToEnd() / getTotalTime()));
             var name = Component.text(ChatFormatter.format(TITLE.replaceAll("%time%", getTimeToString())));
             SolarEclipse.BOSS_BAR.name(name);
@@ -51,12 +50,11 @@ public class SolarEclipse {
     }
 
     public static void disable(){
-
         end();
     }
 
     public static void startFromDeath() {
-        int day = Utils.getDay();
+        int day = DateUtils.getDay();
 
         if(day == 0) {
             start(0.5D);
@@ -132,7 +130,7 @@ public class SolarEclipse {
             endsIn = 0L;
         }
 
-        var day = Utils.getDay();
+        var day = DateUtils.getDay();
         var server = Infinium.getServer();
         long addedTime = (long) (hours * 3600000.0D);
 
@@ -155,9 +153,6 @@ public class SolarEclipse {
                 server.getGameRules().get(GameRules.NATURAL_REGENERATION).set(false, server);
             }
         }
-
-
-
     }
 
     public static void end(){

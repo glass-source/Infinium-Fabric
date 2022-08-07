@@ -23,9 +23,7 @@ public abstract class PlayerDataSaver implements EntityDataSaver {
     @Inject(method = "writeNbt", at = @At("HEAD"))
     private void saveData(NbtCompound nbt, CallbackInfoReturnable<NbtCompound> cir) {
         if (persistentData != null) {
-            nbt.put("infinium.sanity", persistentData);
-            nbt.put("infinium.totems", persistentData);
-            nbt.put("infinium.cooldown", persistentData);
+            nbt.put("infinium.data", persistentData);
         }
     }
 

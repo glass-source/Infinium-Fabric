@@ -1,6 +1,6 @@
 package com.infinium.global.mixin.entity;
 
-import com.infinium.global.utils.Utils;
+import com.infinium.global.utils.DateUtils;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.goal.ActiveTargetGoal;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
@@ -31,7 +31,7 @@ public abstract class SheepEntityMixin extends MobEntity {
 
     @Inject(method = "initGoals", at = @At("HEAD"))
     private void addGoals(CallbackInfo ci){
-        if (Utils.getDay() >= 7) {
+        if (DateUtils.getDay() >= 7) {
             targetSelector.add(1, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
             goalSelector.add(1, new MeleeAttackGoal(((PathAwareEntity) (Object) this), 3.0D, true));
         }

@@ -8,4 +8,5 @@ public class Instantiable<T> {
   public Instantiable(T clazz) {
     instance = clazz;
   }
+
 }

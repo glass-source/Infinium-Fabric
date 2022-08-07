@@ -1,7 +1,7 @@
 package com.infinium.client.renderer.projectiles.magmatrident;
 
 import com.infinium.Infinium;
-import com.infinium.global.entities.projectiles.MagmaTridentEntity;
+import com.infinium.server.entities.projectiles.MagmaTridentEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.OverlayTexture;

@@ -35,6 +35,7 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 
 @Mixin(ItemRenderer.class)
 public interface ItemRendererAccesor {
+
     @Accessor("models")
     ItemModels infinium$getModels();
 

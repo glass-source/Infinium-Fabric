@@ -1,13 +1,14 @@
 package com.infinium.client.renderer;
 
+import com.infinium.client.renderer.item.InfiniumElytraFeatureRenderer;
+import com.infinium.client.renderer.mobs.models.InfiniumSpiderEntityModel;
 import com.infinium.client.renderer.projectiles.magmatrident.MagmaTridentEntityRenderer;
-import com.infinium.client.renderer.projectiles.magmatrident.MagmaTridentItemRenderer;
-import com.infinium.client.renderer.voidmobs.voidghast.VoidGhastEntityModel;
-import com.infinium.client.renderer.voidmobs.voidghast.VoidGhastEntityRenderer;
-import com.infinium.client.renderer.voidmobs.voidspider.VoidSpiderEntityModel;
-import com.infinium.client.renderer.voidmobs.voidspider.VoidSpiderEntityRenderer;
-import com.infinium.global.entities.InfiniumEntityType;
-import com.infinium.global.items.groups.InfiniumItems;
+import com.infinium.client.renderer.item.MagmaTridentItemRenderer;
+import com.infinium.client.renderer.mobs.voidmobs.voidghast.VoidGhastEntityModel;
+import com.infinium.client.renderer.mobs.voidmobs.voidghast.VoidGhastEntityRenderer;
+import com.infinium.client.renderer.mobs.voidmobs.voidspider.VoidSpiderEntityRenderer;
+import com.infinium.server.entities.InfiniumEntityType;
+import com.infinium.server.items.groups.InfiniumItems;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
@@ -34,7 +35,7 @@ public class ModelPredicateProvider {
 
     public static void registerEntityModelLayers(){
         EntityModelLayerRegistry.registerModelLayer(VoidGhastEntityRenderer.VOID_GHAST, VoidGhastEntityModel::getTexturedModelData);
-        EntityModelLayerRegistry.registerModelLayer(VoidSpiderEntityRenderer.VOID_SPIDER, VoidSpiderEntityModel::getTexturedModelData);
+        EntityModelLayerRegistry.registerModelLayer(VoidSpiderEntityRenderer.VOID_SPIDER, InfiniumSpiderEntityModel::getTexturedModelData);
     }
 
     private static void registerModelItems(){

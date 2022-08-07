@@ -21,25 +21,30 @@ public class InfiniumClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        ModelPredicateProvider.initItemModels();
-        ModelPredicateProvider.registerEntityRenderer();
-        ModelPredicateProvider.registerEntityModelLayers();
-        initAudience();
+        onClientStart();
+        onClientStop();
     }
 
-    private void initAudience(){
+    private void onClientStart(){
         ClientLifecycleEvents.CLIENT_STARTED.register(cl -> {
             client = cl;
             audience = FabricClientAudiences.of();
             clientPlayer = client.player;
         });
+        ModelPredicateProvider.initItemModels();
+        ModelPredicateProvider.registerEntityRenderer();
+        ModelPredicateProvider.registerEntityModelLayers();
 
+       /*
         ClientTickEvents.END_CLIENT_TICK.register(cl -> {
             if (cl.player != null) {
                 isPaused = cl.isPaused();
             }
         });
+        */
+    }
 
+    private void onClientStop(){
         ClientLifecycleEvents.CLIENT_STOPPING.register(cl -> {
             client = null;
             audience = null;

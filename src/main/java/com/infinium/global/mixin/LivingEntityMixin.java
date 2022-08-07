@@ -1,6 +1,6 @@
 package com.infinium.global.mixin;
 
-import com.infinium.global.effects.InfiniumEffects;
+import com.infinium.server.effects.InfiniumEffects;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -53,6 +53,7 @@ public abstract class LivingEntityMixin extends Entity {
         if(this.hasStatusEffect(InfiniumEffects.IMMUNITY)) {
             cir.setReturnValue(false);
             cir.cancel();
+
         }
     }
 
