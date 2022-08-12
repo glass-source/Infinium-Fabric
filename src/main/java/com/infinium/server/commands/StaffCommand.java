@@ -1,9 +1,10 @@
 package com.infinium.server.commands;
 
-import com.infinium.api.eclipse.SolarEclipse;
+import com.infinium.Infinium;
+import com.infinium.api.eclipse.SolarEclipseManager;
 import com.infinium.global.utils.ChatFormatter;
-import com.infinium.global.utils.EntityDataSaver;
 import com.infinium.global.utils.DateUtils;
+import com.infinium.global.utils.EntityDataSaver;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.FloatArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
@@ -18,6 +19,8 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import java.util.Collection;
 
 public class StaffCommand {
+
+    private static final SolarEclipseManager manager = Infinium.getInstance().getCore().getEclipseManager();
 
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher, boolean dedicated){
         LiteralArgumentBuilder<ServerCommandSource> literalArgumentBuilder = CommandManager.literal("staff").requires(source -> source.hasPermissionLevel(4));
@@ -113,13 +116,13 @@ public class StaffCommand {
     }
 
     private static int endEclipse(CommandContext<ServerCommandSource> source) {
-        SolarEclipse.end();
+        manager.end();
         return 0;
     }
 
     private static int startEclipse(CommandContext<ServerCommandSource> source, float duration) {
         try{
-            SolarEclipse.start(duration);
+            manager.start(duration);
             source.getSource().sendFeedback(ChatFormatter.text("&7Ha empezado un Eclipse Solar correctamente!"), true);
             return 1;
         }catch (Exception ex) {
@@ -130,11 +133,11 @@ public class StaffCommand {
     }
 
     private static int getEclipseTime(CommandContext<ServerCommandSource> source) {
-        if (!SolarEclipse.isActive()) {
+        if (!manager.isActive()) {
             source.getSource().sendFeedback(ChatFormatter.text("&7No hay un Eclipse Solar activo!"), false);
             return -1;
         }
-        source.getSource().sendFeedback(ChatFormatter.text("&7Quedan " + SolarEclipse.getTimeToString() + " &7 de Solar Eclipse."), false);
+        source.getSource().sendFeedback(ChatFormatter.text("&7Quedan " + manager.getTimeToString() + " &7 de Solar Eclipse."), false);
         return 1;
     }
 

@@ -1,7 +1,6 @@
 package com.infinium.server.sanity;
 
 import com.infinium.Infinium;
-import com.infinium.global.utils.ChatFormatter;
 import com.infinium.global.utils.EntityDataSaver;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -12,13 +11,14 @@ import java.util.concurrent.TimeUnit;
 
 public class SanityManager {
 
-    private final ScheduledExecutorService service = Infinium.getExecutor();
+    private final ScheduledExecutorService service;
     public ArrayList<ServerPlayerEntity> totalPlayers = new ArrayList<>();
     private final Infinium instance;
     private final SanityTask task;
 
     public SanityManager(Infinium instance){
         this.instance = instance;
+        this.service = instance.getExecutor();
         this.task = new SanityTask(this);
     }
 
@@ -39,17 +39,17 @@ public class SanityManager {
     }
 
     public int getSanity(ServerPlayerEntity player) {
-        NbtCompound data = createData(player);
+        NbtCompound data = getData(player);
         return data.getInt("infinium.sanity");
     }
 
     public void setSanity(ServerPlayerEntity player, int amount) {
-        NbtCompound data = createData(player);
+        NbtCompound data = getData(player);
         data.putInt("infinium.sanity", Math.max(0, Math.min(100,amount)));
     }
 
 
-    private NbtCompound createData(ServerPlayerEntity entity){
+    private NbtCompound getData(ServerPlayerEntity entity){
         return ((EntityDataSaver) entity).getPersistentData();
     }
 }

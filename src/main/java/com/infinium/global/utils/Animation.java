@@ -10,9 +10,11 @@ public class Animation {
 
     //TODO Tengo clases y no me dio tiempo a terminar esto
     public static void initImageForAll(){
-        var task = Infinium.getExecutor();
-        var server = Infinium.getServer();
-        var audience = Infinium.getAdventure().audience(PlayerLookup.all(server));
+        var instance = Infinium.getInstance();
+        var core = instance.getCore();
+        var task = instance.getExecutor();
+        var server = core.getServer();
+        var audience = core.getAdventure().audience(PlayerLookup.all(server));
         var animationList = getFramesCharsIntegers(0, 79);
     }
 

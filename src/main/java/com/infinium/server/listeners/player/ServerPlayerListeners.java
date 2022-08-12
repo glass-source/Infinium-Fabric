@@ -1,12 +1,12 @@
 package com.infinium.server.listeners.player;
 
 import com.infinium.Infinium;
-import com.infinium.server.effects.InfiniumEffects;
-import com.infinium.api.eclipse.SolarEclipse;
 import com.infinium.api.events.players.ServerPlayerConnectionEvents;
-import com.infinium.server.items.groups.InfiniumItems;
 import com.infinium.global.utils.ChatFormatter;
 import com.infinium.global.utils.EntityDataSaver;
+import com.infinium.server.InfiniumServerManager;
+import com.infinium.server.effects.InfiniumEffects;
+import com.infinium.server.items.groups.InfiniumItems;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.kyori.adventure.key.Key;
@@ -31,9 +31,11 @@ import java.util.concurrent.TimeUnit;
 public class ServerPlayerListeners {
 
     private final Infinium instance;
+    private final InfiniumServerManager core;
 
     public ServerPlayerListeners(Infinium instance){
         this.instance = instance;
+        this.core = instance.getCore();
     }
 
     public void registerListener(){
@@ -43,14 +45,14 @@ public class ServerPlayerListeners {
     }
 
     private void playerConnectCallback(){
-        var sanityManager = instance.getCore().getSanityManager();
+        var sanityManager = core.getSanityManager();
         ServerPlayerConnectionEvents.OnServerPlayerConnect.EVENT.register(player -> {
             var data = ((EntityDataSaver) player).getPersistentData();
-            var audience = Infinium.getAdventure().audience(PlayerLookup.all(Infinium.getServer()));
+            var audience = core.getAdventure().audience(PlayerLookup.all(core.getServer()));
             if (!sanityManager.totalPlayers.contains(player)) sanityManager.totalPlayers.add(player);
 
-            if (SolarEclipse.isActive()) {
-                audience.showBossBar(SolarEclipse.getBossBar());
+            if (core.getEclipseManager().isActive()) {
+                audience.showBossBar(core.getEclipseManager().getBossBar());
             }
 
             if (data.get("infinium.sanity") == null) {
@@ -80,7 +82,7 @@ public class ServerPlayerListeners {
 
     private void playerDeathCallback(){
         ServerPlayerEvents.ALLOW_DEATH.register((player, damageSource, damageAmount) -> {
-            if (Infinium.getServer() == null) return false;
+            if (core.getServer() == null) return false;
             if (playerHasTotem(player, damageSource)) {
                 onTotemUse(player);
                 return false;
@@ -135,17 +137,19 @@ public class ServerPlayerListeners {
         ChatFormatter.broadcastMessage(message);
     }
 
-    private static boolean onPlayerDeath(ServerPlayerEntity playerDied){
+    private boolean onPlayerDeath(ServerPlayerEntity playerDied){
         var pos = playerDied.getBlockPos();
-        var audience = Infinium.getAdventure().audience(PlayerLookup.all(Infinium.getServer()));
+        var audience = core.getAdventure(). audience(PlayerLookup.all(core.getServer()));
         var times = Title.Times.times(Duration.ofSeconds(1), Duration.ofSeconds(6), Duration.ofSeconds(3));
         var title = Title.title(Component.text(ChatFormatter.format("&6&k&l? &5Infinium &6&k&l?")), Component.text(""), times);
+
         if (pos.getY() < -64) playerDied.teleport(pos.getX(), -64, pos.getZ());
         if (playerDied.isSpectator()) {
             playerDied.setHealth(playerDied.getMaxHealth());
             return false;
         }
-        Infinium.getExecutor().schedule(SolarEclipse::startFromDeath, 13, TimeUnit.SECONDS);
+
+        instance.getExecutor().schedule(core.getEclipseManager()::startFromDeath, 13, TimeUnit.SECONDS);
         ChatFormatter.broadcastMessage(ChatFormatter.formatWithPrefix("&7El jugador &6&l%player% &7sucumbio ante el\n&5&lVacío Infinito".replaceAll("%player%", playerDied.getEntityName())));
         playerDied.setHealth(20.0f);
         playerDied.changeGameMode(GameMode.SPECTATOR);

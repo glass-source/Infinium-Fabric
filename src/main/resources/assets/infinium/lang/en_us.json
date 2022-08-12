@@ -65,6 +65,8 @@
   "block.infinium.void_stone_wall": "Void Stone Wall",
 
   "entity.infinium.void_ghast" : "Void Ghast",
+  "entity.infinium.void_spider" : "Void Spider",
+
 
   "infinium.player_died": "Player Died",
   "infinium.eclipse_started": "Solar Eclipse Started",

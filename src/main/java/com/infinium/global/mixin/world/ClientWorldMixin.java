@@ -14,8 +14,8 @@ public abstract class ClientWorldMixin {
 
    @Inject(method = "addEntity", at = @At("HEAD"))
    public void onSpawnEntity(int id, Entity entity, CallbackInfo ci) {
-      Location loc = new Location(entity.getWorld(), entity.getX(), entity.getY(), entity.getZ());
-      EntitySpawn.EVENT.invoker().spawn(entity, loc);
+      //Location loc = new Location(entity.getWorld(), entity.getX(), entity.getY(), entity.getZ());
+      //EntitySpawn.EVENT.invoker().spawn(entity, loc);
    }
 
 }

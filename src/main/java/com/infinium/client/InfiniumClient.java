@@ -31,6 +31,7 @@ public class InfiniumClient implements ClientModInitializer {
             audience = FabricClientAudiences.of();
             clientPlayer = client.player;
         });
+
         ModelPredicateProvider.initItemModels();
         ModelPredicateProvider.registerEntityRenderer();
         ModelPredicateProvider.registerEntityModelLayers();

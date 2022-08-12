@@ -9,13 +9,13 @@ public class Location implements Cloneable {
     private double X;
     private double Y;
     private double Z;
-    private World world;
+    private final World world;
 
     public Location(double X, double Y, double Z) {
         this.X = X;
         this.Y = Y;
         this.Z = Z;
-        world = Infinium.getServer().getWorld(World.OVERWORLD);
+        world = Infinium.getInstance().getCore().getServer().getWorld(World.OVERWORLD);
     }
 
 

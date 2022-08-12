@@ -3,7 +3,7 @@ package com.infinium.server;
 import com.infinium.Infinium;
 import com.infinium.api.config.CustomMidnightConfig;
 import com.infinium.api.config.InfiniumConfig;
-import com.infinium.api.eclipse.SolarEclipse;
+import com.infinium.api.eclipse.SolarEclipseManager;
 import com.infinium.server.blocks.InfiniumBlocks;
 import com.infinium.server.effects.InfiniumEffects;
 import com.infinium.server.entities.InfiniumEntityType;
@@ -18,12 +18,15 @@ import net.minecraft.server.MinecraftServer;
 public class InfiniumServerManager {
 
     private final Infinium instance;
-    private static FabricServerAudiences adventure;
-    private static MinecraftServer server;
-    private SanityManager sanityManager;
+    private FabricServerAudiences adventure;
+    private MinecraftServer server;
+    private final SanityManager sanityManager;
+    private final SolarEclipseManager eclipseManager;
 
     public InfiniumServerManager(Infinium instance) {
         this.instance = instance;
+        this.eclipseManager = new SolarEclipseManager(this.instance);
+        this.sanityManager = new SanityManager(this.instance);
     }
 
     public void initMod(){
@@ -33,20 +36,20 @@ public class InfiniumServerManager {
 
     private void onServerStart(){
         ServerLifecycleEvents.SERVER_STARTED.register(server1 -> {
-            server = server1;
-            adventure = FabricServerAudiences.of(server);
-            sanityManager = new SanityManager(this.instance);
-            sanityManager.initSanityTask();
+            this.server = server1;
+            this.adventure = FabricServerAudiences.of(this.server);
+            this.sanityManager.initSanityTask();
             initListeners();
         });
+
         initConfig();
         initRegistries();
     }
 
     private void onServerStop(){
         ServerLifecycleEvents.SERVER_STOPPED.register(server -> {
-            SolarEclipse.end();
-            adventure = null;
+            this.eclipseManager.disable();
+            this.adventure = null;
         });
     }
 
@@ -69,6 +72,10 @@ public class InfiniumServerManager {
 
     public SanityManager getSanityManager(){
         return sanityManager;
+    }
+
+    public SolarEclipseManager getEclipseManager(){
+        return eclipseManager;
     }
 
     public MinecraftServer getServer() {

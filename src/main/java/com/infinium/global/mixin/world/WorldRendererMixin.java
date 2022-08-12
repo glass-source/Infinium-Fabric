@@ -1,7 +1,6 @@
 package com.infinium.global.mixin.world;
 
 import com.infinium.Infinium;
-import com.infinium.api.eclipse.SolarEclipse;
 import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.WorldRenderer;
 import net.minecraft.client.util.math.MatrixStack;
@@ -25,7 +24,7 @@ public class WorldRendererMixin {
 
     @Inject(method = "renderSky(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/util/math/Matrix4f;FLnet/minecraft/client/render/Camera;ZLjava/lang/Runnable;)V", at = @At("HEAD"))
     private void renderEclipse(MatrixStack matrices, Matrix4f projectionMatrix, float tickDelta, Camera camera, boolean bl, Runnable runnable, CallbackInfo ci){
-        MOON_PHASES = SolarEclipse.isActive() ? ECLIPSE_MOON_PHASES : VANILLA_MOON_PHASES;
+        MOON_PHASES =  Infinium.getInstance().getCore().getEclipseManager().isActive() ? ECLIPSE_MOON_PHASES : VANILLA_MOON_PHASES;
     }
 
 
