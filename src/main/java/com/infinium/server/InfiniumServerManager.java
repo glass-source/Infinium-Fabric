@@ -3,7 +3,7 @@ package com.infinium.server;
 import com.infinium.Infinium;
 import com.infinium.api.config.CustomMidnightConfig;
 import com.infinium.api.config.InfiniumConfig;
-import com.infinium.api.eclipse.SolarEclipseManager;
+import com.infinium.server.eclipse.SolarEclipseManager;
 import com.infinium.server.blocks.InfiniumBlocks;
 import com.infinium.server.effects.InfiniumEffects;
 import com.infinium.server.entities.InfiniumEntityType;

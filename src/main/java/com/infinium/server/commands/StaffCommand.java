@@ -1,7 +1,7 @@
 package com.infinium.server.commands;
 
 import com.infinium.Infinium;
-import com.infinium.api.eclipse.SolarEclipseManager;
+import com.infinium.server.eclipse.SolarEclipseManager;
 import com.infinium.global.utils.ChatFormatter;
 import com.infinium.global.utils.DateUtils;
 import com.infinium.global.utils.EntityDataSaver;

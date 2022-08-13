@@ -1,10 +1,9 @@
-package com.infinium.api.eclipse;
+package com.infinium.server.eclipse;
 
 import com.infinium.Infinium;
 import net.kyori.adventure.bossbar.BossBar;
 
 public class SolarEclipseManager {
-
     private final Infinium instance;
     private final SolarEclipse eclipse;
     private final String TITLE;

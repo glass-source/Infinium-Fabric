@@ -2,14 +2,14 @@ package com.infinium.client.renderer.mobs.ghoulmobs.ghoulspider;
 
 import com.infinium.Infinium;
 import com.infinium.client.renderer.mobs.models.InfiniumSpiderEntityModel;
+import com.infinium.server.entities.mobs.ghoulmobs.GhoulSpiderEntity;
 import com.infinium.server.entities.mobs.voidmobs.VoidSpiderEntity;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.util.Identifier;
 
-public class GhoulSpiderEntityRenderer<T extends VoidSpiderEntity> extends MobEntityRenderer<T, InfiniumSpiderEntityModel<T>>  {
-
+public class GhoulSpiderEntityRenderer<T extends GhoulSpiderEntity> extends MobEntityRenderer<T, InfiniumSpiderEntityModel<T>>  {
     private static final Identifier TEXTURE = new Identifier(Infinium.MOD_ID, "textures/entity/ghoul_spider/ghoul_spider.png");
     public static final EntityModelLayer GHOUL_SPIDER = new EntityModelLayer(new Identifier(Infinium.MOD_ID, "ghoul_spider"), "ghoul_spider");
 
@@ -22,7 +22,7 @@ public class GhoulSpiderEntityRenderer<T extends VoidSpiderEntity> extends MobEn
     }
 
     @Override
-    public Identifier getTexture(VoidSpiderEntity entity) {
+    public Identifier getTexture(GhoulSpiderEntity entity) {
         return TEXTURE;
     }
 

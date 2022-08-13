@@ -1,6 +1,7 @@
 package com.infinium.client.renderer;
 
 import com.infinium.client.renderer.item.InfiniumElytraFeatureRenderer;
+import com.infinium.client.renderer.mobs.ghoulmobs.ghoulspider.GhoulSpiderEntityRenderer;
 import com.infinium.client.renderer.mobs.models.InfiniumSpiderEntityModel;
 import com.infinium.client.renderer.projectiles.magmatrident.MagmaTridentEntityRenderer;
 import com.infinium.client.renderer.item.MagmaTridentItemRenderer;
@@ -30,12 +31,14 @@ public class ModelPredicateProvider {
     public static void registerEntityRenderer() {
         EntityRendererRegistry.register(InfiniumEntityType.VOID_GHAST, VoidGhastEntityRenderer::new);
         EntityRendererRegistry.register(InfiniumEntityType.VOID_SPIDER, VoidSpiderEntityRenderer::new);
+        EntityRendererRegistry.register(InfiniumEntityType.GHOUL_SPIDER, GhoulSpiderEntityRenderer::new);
         EntityRendererRegistry.register(InfiniumEntityType.MAGMA_TRIDENT, MagmaTridentEntityRenderer::new);
     }
 
     public static void registerEntityModelLayers(){
         EntityModelLayerRegistry.registerModelLayer(VoidGhastEntityRenderer.VOID_GHAST, VoidGhastEntityModel::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(VoidSpiderEntityRenderer.VOID_SPIDER, InfiniumSpiderEntityModel::getTexturedModelData);
+        EntityModelLayerRegistry.registerModelLayer(GhoulSpiderEntityRenderer.GHOUL_SPIDER, InfiniumSpiderEntityModel::getTexturedModelData);
     }
 
     private static void registerModelItems(){

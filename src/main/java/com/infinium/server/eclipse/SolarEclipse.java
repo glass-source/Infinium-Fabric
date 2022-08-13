@@ -1,4 +1,4 @@
-package com.infinium.api.eclipse;
+package com.infinium.server.eclipse;
 
 import com.infinium.Infinium;
 import com.infinium.global.utils.ChatFormatter;
@@ -24,10 +24,8 @@ public class SolarEclipse {
     public long endsIn;
     public long lastTimeChecked;
     public long totalTime = 0L;
-
     private ScheduledExecutorService service;
     private ScheduledFuture<?> task;
-
     private final SolarEclipseManager manager;
 
     public SolarEclipse(SolarEclipseManager manager) {
