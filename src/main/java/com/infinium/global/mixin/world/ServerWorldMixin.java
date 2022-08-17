@@ -1,6 +1,6 @@
 package com.infinium.global.mixin.world;
 
-import com.infinium.api.events.entity.EntitySpawn;
+import com.infinium.api.events.entity.EntitySpawnEvent;
 import com.infinium.api.world.Location;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.packet.s2c.play.WorldTimeUpdateS2CPacket;
@@ -25,7 +25,6 @@ public abstract class ServerWorldMixin {
     @Shadow @Final private ServerWorldProperties worldProperties;
 
     // Sends the WorldTimeUpdateS2CPacket to all the online players immediately after changing the world time to fix some timing bugs.
-
     @Inject(at = @At("TAIL"), method = "setTimeOfDay")
     public void fixTimePacketBug(long timeOfDay, CallbackInfo ci) {
         players.forEach(p -> p.networkHandler.sendPacket(new WorldTimeUpdateS2CPacket(worldProperties.getTime(), worldProperties.getTimeOfDay(), worldProperties.getGameRules().getBoolean(GameRules.DO_DAYLIGHT_CYCLE))));
@@ -34,6 +33,6 @@ public abstract class ServerWorldMixin {
     @Inject(method = "addEntity", at = @At("HEAD"))
     public void onSpawnEntity(Entity entity, CallbackInfoReturnable<Boolean> cir) {
         Location loc = new Location(entity.getWorld(), entity.getX(), entity.getY(), entity.getZ());
-        EntitySpawn.EVENT.invoker().spawn(entity, loc);
+        EntitySpawnEvent.EVENT.invoker().spawn(entity, loc);
     }
 }

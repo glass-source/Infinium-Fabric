@@ -1,6 +1,6 @@
 package com.infinium.server.entities.projectiles;
 
-import com.infinium.server.items.groups.InfiniumItems;
+import com.infinium.server.items.InfiniumItems;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;

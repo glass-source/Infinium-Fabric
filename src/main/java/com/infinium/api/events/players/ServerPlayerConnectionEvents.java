@@ -22,7 +22,6 @@ public class ServerPlayerConnectionEvents {
                 });
 
         ActionResult connect(ServerPlayerEntity player);
-
     }
 
     public interface OnServerPlayerDisconnect {
@@ -40,7 +39,6 @@ public class ServerPlayerConnectionEvents {
                 });
 
         ActionResult disconnect(ServerPlayerEntity player);
-
     }
 
 

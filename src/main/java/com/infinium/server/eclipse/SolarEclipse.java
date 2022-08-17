@@ -118,11 +118,9 @@ public class SolarEclipse {
     }
 
     public void start(double hours){
-        if (hours < 0) hours = 0.5;
-        if (!isActive()) {
-            initBossbarTask();
-            endsIn = 0L;
-        }
+        if (hours < 0) return;
+        initBossbarTask();
+        endsIn = 0L;
 
         var day = DateUtils.getDay();
         var core = manager.getInstance().getCore();
@@ -165,6 +163,10 @@ public class SolarEclipse {
         server.getGameRules().get(GameRules.NATURAL_REGENERATION).set(true, server);
         audience.hideBossBar(BOSS_BAR);
         audience.playSound(Sound.sound(Key.key("minecraft:item.trident.return"), Sound.Source.AMBIENT, 10, 0.05f));
+    }
+
+    public long getLastTimeChecked(){
+        return lastTimeChecked;
     }
 
     public long getTimeToEnd() {

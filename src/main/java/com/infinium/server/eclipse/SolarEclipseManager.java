@@ -1,7 +1,12 @@
 package com.infinium.server.eclipse;
 
 import com.infinium.Infinium;
+import com.infinium.api.config.InfiniumConfig;
+import me.shedaniel.autoconfig.AutoConfig;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.kyori.adventure.bossbar.BossBar;
+
+import java.util.Date;
 
 public class SolarEclipseManager {
     private final Infinium instance;
@@ -17,12 +22,19 @@ public class SolarEclipseManager {
     }
 
     public void load() {
-        if (eclipse.getTimeToEnd() > 0) {
-            eclipse.start(eclipse.getTimeToEnd());
-        }
+        eclipse.lastTimeChecked = (new Date()).getTime();
+        eclipse.endsIn = InfiniumConfig.endsIn;
+        eclipse.totalTime = InfiniumConfig.totalTime;
+        InfiniumConfig.write(Infinium.MOD_ID);
+
+        if (eclipse.isActive()) eclipse.start(eclipse.endsIn / 1000.0);
+
     }
 
     public void disable(){
+        InfiniumConfig.endsIn = getTimeToEnd();
+        InfiniumConfig.totalTime = eclipse.totalTime;
+        InfiniumConfig.write(Infinium.MOD_ID);
         eclipse.end();
     }
 
@@ -31,7 +43,7 @@ public class SolarEclipseManager {
     }
 
     public void start(double hours){
-        if (hours <= 0) eclipse.start(1);
+        if (hours <= 0) eclipse.start(0.5f);
         else eclipse.start(hours);
     }
 
@@ -57,6 +69,18 @@ public class SolarEclipseManager {
 
     public Infinium getInstance(){
         return this.instance;
+    }
+
+    public long getTimeToEnd(){
+        return eclipse.getTimeToEnd();
+    }
+
+    public long getTotalTime(){
+        return eclipse.getTotalTime();
+    }
+
+    public long getLastTimeChecked(){
+        return eclipse.getLastTimeChecked();
     }
 
 }

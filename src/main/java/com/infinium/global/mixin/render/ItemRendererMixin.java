@@ -2,7 +2,7 @@ package com.infinium.global.mixin.render;
 
 import com.infinium.Infinium;
 import com.infinium.client.renderer.item.MagmaTridentItemRenderer;
-import com.infinium.server.items.groups.InfiniumItems;
+import com.infinium.server.items.InfiniumItems;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.RenderLayers;
 import net.minecraft.client.render.VertexConsumer;

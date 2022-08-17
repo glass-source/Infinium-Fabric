@@ -2,7 +2,9 @@ package com.infinium.server.items.custom.tools.magmaitems;
 
 import com.infinium.server.entities.projectiles.MagmaTridentEntity;
 import net.minecraft.block.BlockState;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MovementType;
@@ -36,6 +38,7 @@ public class MagmaTridentItem extends TridentItem {
     public MagmaTridentItem(Settings settings, EntityType<? extends MagmaTridentEntity> entityType) {
         super(settings);
         this.type = entityType;
+        this.getDefaultStack().addEnchantment(Enchantments.RIPTIDE, 5);
     }
 
     @Override

@@ -6,11 +6,11 @@ import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ActionResult;
 
-public interface EntitySpawn {
+public interface EntitySpawnEvent {
 
-    Event<EntitySpawn> EVENT = EventFactory.createArrayBacked(EntitySpawn.class, (listeners) -> (entity, loc) -> {
+    Event<EntitySpawnEvent> EVENT = EventFactory.createArrayBacked(EntitySpawnEvent.class, (listeners) -> (entity, loc) -> {
 
-        for (EntitySpawn listener : listeners) {
+        for (EntitySpawnEvent listener : listeners) {
             ActionResult result = listener.spawn(entity, loc);
 
             if (result != ActionResult.PASS) {

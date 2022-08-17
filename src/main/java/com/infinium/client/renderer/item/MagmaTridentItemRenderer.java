@@ -37,7 +37,6 @@ import static com.infinium.Infinium.id;
 
 public class MagmaTridentItemRenderer {
 
-    private static final VoidGhastEntityModel ghastModel = new VoidGhastEntityModel(VoidGhastEntityModel.getTexturedModelData().createModel());
     private static final MagmaTridentEntityModel modelTrident = new MagmaTridentEntityModel(MagmaTridentEntityModel.getTexturedModelData().createModel());
 
     public static void render(ItemStack stack, Mode mode, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {

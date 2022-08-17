@@ -2,14 +2,13 @@ package com.infinium.client.renderer;
 
 import com.infinium.client.renderer.item.InfiniumElytraFeatureRenderer;
 import com.infinium.client.renderer.mobs.ghoulmobs.ghoulspider.GhoulSpiderEntityRenderer;
-import com.infinium.client.renderer.mobs.models.InfiniumSpiderEntityModel;
 import com.infinium.client.renderer.projectiles.magmatrident.MagmaTridentEntityRenderer;
 import com.infinium.client.renderer.item.MagmaTridentItemRenderer;
 import com.infinium.client.renderer.mobs.voidmobs.voidghast.VoidGhastEntityModel;
 import com.infinium.client.renderer.mobs.voidmobs.voidghast.VoidGhastEntityRenderer;
 import com.infinium.client.renderer.mobs.voidmobs.voidspider.VoidSpiderEntityRenderer;
 import com.infinium.server.entities.InfiniumEntityType;
-import com.infinium.server.items.groups.InfiniumItems;
+import com.infinium.server.items.InfiniumItems;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
@@ -37,15 +36,12 @@ public class ModelPredicateProvider {
 
     public static void registerEntityModelLayers(){
         EntityModelLayerRegistry.registerModelLayer(VoidGhastEntityRenderer.VOID_GHAST, VoidGhastEntityModel::getTexturedModelData);
-        EntityModelLayerRegistry.registerModelLayer(VoidSpiderEntityRenderer.VOID_SPIDER, InfiniumSpiderEntityModel::getTexturedModelData);
-        EntityModelLayerRegistry.registerModelLayer(GhoulSpiderEntityRenderer.GHOUL_SPIDER, InfiniumSpiderEntityModel::getTexturedModelData);
     }
 
     private static void registerModelItems(){
         BuiltinItemRendererRegistry.INSTANCE.register(InfiniumItems.MAGMA_TRIDENT, MagmaTridentItemRenderer::render);
 
         ModelPredicateProviderRegistry.register(InfiniumItems.MAGMA_TRIDENT, new Identifier("throwing"), ((stack, world, entity, seed) -> entity != null && entity.isUsingItem() && entity.getActiveItem() == stack ? 1.0F : 0.0F));
-        ModelPredicateProviderRegistry.register(InfiniumItems.MAGMA_SHIELD, new Identifier("blocking"), ((stack, world, entity, seed) -> entity != null && entity.isUsingItem() && entity.getActiveItem() == stack ? 1.0F : 0.0F));
 
         LivingEntityFeatureRendererRegistrationCallback.EVENT.register((entityType, entityRenderer, registrationHelper, s) -> {
             var model = entityRenderer.getModel();

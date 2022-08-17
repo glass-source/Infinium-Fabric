@@ -17,10 +17,10 @@ public class NetheriteCarrotItem extends Item {
     @Override
     public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
         if (!world.isClient()) {
-            user.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 160, 3));
-            user.addStatusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 160, 3));
-            user.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 20 * (60 * 4), 5));
-            user.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 20 * (60 * 4), 1));
+            user.addStatusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 240, 1));
+            user.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 240, 3));
+            user.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 4800, 5));
+            user.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 4800, 1));
         }
         return super.finishUsing(stack, world, user);
     }

@@ -24,7 +24,7 @@
 
 package com.infinium.client.renderer.item;
 
-import com.infinium.server.items.groups.InfiniumItems;
+import com.infinium.server.items.InfiniumItems;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.network.AbstractClientPlayerEntity;

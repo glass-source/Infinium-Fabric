@@ -60,9 +60,6 @@
   "item.infinium.grappling_hook.tooltip.shift" : "",
   "block.infinium.void_stone": "Void Stone",
   "block.infinium.void_stone_ore": "Void Stone Ore",
-  "block.infinium.void_stone_button": "Void Stone Button",
-  "block.infinium.void_stone_pressure_plate": "Void Stone Pressure Plate",
-  "block.infinium.void_stone_wall": "Void Stone Wall",
 
   "entity.infinium.void_ghast" : "Void Ghast",
   "entity.infinium.void_spider" : "Void Spider",

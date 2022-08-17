@@ -137,6 +137,7 @@ public class StaffCommand {
             source.getSource().sendFeedback(ChatFormatter.text("&7No hay un Eclipse Solar activo!"), false);
             return -1;
         }
+
         source.getSource().sendFeedback(ChatFormatter.text("&7Quedan " + manager.getTimeToString() + " &7 de Solar Eclipse."), false);
         return 1;
     }

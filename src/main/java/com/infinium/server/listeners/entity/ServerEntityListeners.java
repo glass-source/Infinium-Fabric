@@ -1,12 +1,18 @@
 package com.infinium.server.listeners.entity;
 
 import com.infinium.Infinium;
-import com.infinium.api.events.entity.EntitySpawn;
+import com.infinium.api.events.entity.EntitySpawnEvent;
+import com.infinium.global.utils.ChatFormatter;
 import com.infinium.global.utils.DateUtils;
 import com.infinium.api.world.Location;
+import com.infinium.server.entities.InfiniumEntityType;
+import com.infinium.server.entities.mobs.voidmobs.VoidGhastEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.mob.CreeperEntity;
+import net.minecraft.entity.mob.PathAwareEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.ActionResult;
 
 
@@ -19,26 +25,18 @@ public class ServerEntityListeners {
     }
 
     public void registerListeners() {
-        EntitySpawn.EVENT.register(this::onCreatureSpawn);
+        entitySpawnCallback();
     }
 
-    private ActionResult onCreatureSpawn(Entity entity, Location loc) {
-        int day = DateUtils.getDay();
-        var world = loc.getWorld();
-        return ActionResult.PASS;
+    private void entitySpawnCallback(){
+        EntitySpawnEvent.EVENT.register((entity, loc) -> {
+            var day = DateUtils.getDay();
+            if (!(entity.getWorld() instanceof ServerWorld world)) return ActionResult.FAIL;
+
+
+            return ActionResult.PASS;
+        });
     }
-
-    private ActionResult onSpawn(Entity entity, Location loc) {
-        if(entity.getType() == EntityType.CREEPER) {
-            CreeperEntity creeper = (CreeperEntity) entity;
-            if(loc.getY() < 30) {
-                creeper.setFuseSpeed(4);
-            }
-        }
-
-        return ActionResult.PASS;
-    }
-
 
 
 }

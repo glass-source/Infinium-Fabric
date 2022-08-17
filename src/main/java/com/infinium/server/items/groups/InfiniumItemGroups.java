@@ -2,6 +2,7 @@ package com.infinium.server.items.groups;
 
 
 import com.infinium.Infinium;
+import com.infinium.server.items.InfiniumItems;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;

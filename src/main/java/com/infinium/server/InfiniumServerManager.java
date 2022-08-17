@@ -1,16 +1,16 @@
 package com.infinium.server;
 
 import com.infinium.Infinium;
-import com.infinium.api.config.CustomMidnightConfig;
 import com.infinium.api.config.InfiniumConfig;
 import com.infinium.server.eclipse.SolarEclipseManager;
 import com.infinium.server.blocks.InfiniumBlocks;
 import com.infinium.server.effects.InfiniumEffects;
 import com.infinium.server.entities.InfiniumEntityType;
-import com.infinium.server.items.groups.InfiniumItems;
+import com.infinium.server.items.InfiniumItems;
 import com.infinium.server.listeners.entity.ServerEntityListeners;
 import com.infinium.server.listeners.player.ServerPlayerListeners;
 import com.infinium.server.sanity.SanityManager;
+import eu.midnightdust.lib.config.MidnightConfig;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.kyori.adventure.platform.fabric.FabricServerAudiences;
 import net.minecraft.server.MinecraftServer;
@@ -32,6 +32,8 @@ public class InfiniumServerManager {
     public void initMod(){
         onServerStart();
         onServerStop();
+        initConfig();
+        initRegistries();
     }
 
     private void onServerStart(){
@@ -39,22 +41,19 @@ public class InfiniumServerManager {
             this.server = server1;
             this.adventure = FabricServerAudiences.of(this.server);
             this.sanityManager.initSanityTask();
-            initListeners();
+            this.eclipseManager.load();
+            this.initListeners();
         });
-
-        initConfig();
-        initRegistries();
     }
 
     private void onServerStop(){
         ServerLifecycleEvents.SERVER_STOPPED.register(server -> {
             this.eclipseManager.disable();
-            this.adventure = null;
         });
     }
 
     private void initConfig(){
-        CustomMidnightConfig.init(Infinium.MOD_ID, InfiniumConfig.class);
+        MidnightConfig.init(Infinium.MOD_ID, InfiniumConfig.class);
     }
 
     private void initRegistries(){

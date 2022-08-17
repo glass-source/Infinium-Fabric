@@ -1,5 +1,6 @@
 package com.infinium.server.entities.mobs.voidmobs;
 
+import com.infinium.global.utils.ChatFormatter;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.control.MoveControl;
@@ -41,6 +42,7 @@ public class VoidGhastEntity extends FlyingEntity implements Monster {
         super(entityType, world);
         this.experiencePoints = new Random().nextInt(120) + 20;
         this.moveControl = new VoidGhastMoveControl(this);
+        this.setCustomName(ChatFormatter.text("&bVoid Ghast"));
     }
 
 
