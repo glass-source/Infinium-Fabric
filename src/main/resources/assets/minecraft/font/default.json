@@ -1,0 +1,684 @@
+{
+    "providers": [
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f1.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE000"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f2.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE001"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f3.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE002"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f4.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE003"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f5.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE004"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f6.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE005"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f7.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE006"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f8.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE007"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f9.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE008"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f10.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE009"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f11.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE010"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f12.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE011"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f13.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE012"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f14.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE013"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f15.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE014"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f16.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE015"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f17.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE016"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f18.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE017"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f19.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE018"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f20.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE019"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f21.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE020"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f22.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE021"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f23.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE022"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f24.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE023"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f25.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE024"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f26.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE025"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f27.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE026"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f28.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE027"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f29.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE028"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f30.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE029"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f31.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE030"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f32.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE031"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f33.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE032"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f34.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE033"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f35.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE034"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f36.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE035"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f37.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE036"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f38.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE037"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f39.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE038"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f40.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE039"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f41.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE040"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f42.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE041"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f43.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE042"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f44.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE043"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f45.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE044"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f46.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE045"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f47.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE046"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f48.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE047"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f49.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE048"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f50.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE049"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f51.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE050"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f52.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE051"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f53.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE052"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f54.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE053"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f55.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE054"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f56.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE055"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f57.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE056"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f58.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE057"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f59.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE058"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f60.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE059"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f61.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE060"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f62.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE061"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f63.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE062"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f64.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE063"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f65.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE064"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f66.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE065"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f67.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE066"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f68.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE067"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f69.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE068"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f70.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE069"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f71.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE070"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f72.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE071"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f73.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE072"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f74.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE073"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f75.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE074"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f76.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE075"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f77.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE076"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f78.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE077"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f79.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE078"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/death_animation/f80.png",
+        "ascent": 32,
+        "height": 64,
+        "chars": ["\uE079"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/teams/abyss_emperras_badge.png",
+        "height": 7,
+        "ascent": 7,
+        "chars": ["🇦"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/teams/cyber_quantum_plus_badge.png",
+        "height": 7,
+        "ascent": 7,
+        "chars": ["🇧"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/teams/team_el_mejor_badge.png",
+        "height": 7,
+        "ascent": 7,
+        "chars": ["🇨"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/teams/falopa_party_badge.png",
+        "height": 7,
+        "ascent": 7,
+        "chars": ["🇩"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/teams/momazos_reimu_badge.png",
+        "height": 7,
+        "ascent": 7,
+        "chars": ["🇪"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/teams/papu_team_3_badge.png",
+        "height": 7,
+        "ascent": 7,
+        "chars": ["🇫"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/teams/theunite_badge.png",
+        "height": 7,
+        "ascent": 7,
+        "chars": ["🇬"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/teams/team_tilin_y_xxtheedgy69xx_badge.png",
+        "height": 7,
+        "ascent": 7,
+        "chars": ["🇭"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/teams/tribu_islena_badge.png",
+        "height": 7,
+        "ascent": 7,
+        "chars": ["🇮"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/teams/triple_k_badge.png",
+        "height": 7,
+        "ascent": 7,
+        "chars": ["🇯"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/ranks/dead_rank.png",
+        "height": 7,
+        "ascent": 7,
+        "chars": ["💀"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/ranks/founder_rank.png",
+        "height": 7,
+        "ascent": 7,
+        "chars": ["💫"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/ranks/mod_rank.png",
+        "height": 7,
+        "ascent": 7,
+        "chars": ["🔧"]
+        },
+        {
+		"type": "bitmap",
+        "file": "minecraft:custom/ranks/helper_rank.png",
+		"height": 7,
+		"ascent": 7,
+		"chars": ["🔰"]
+		},
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/ranks/admin_rank.png",
+        "height": 7,
+        "ascent": 7,
+        "chars": ["🔨"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/ranks/participante_invitado_rank.png",
+        "height": 7,
+        "ascent": 7,
+        "chars": ["🔮"]
+        },
+        {
+        "type": "bitmap",
+        "file": "minecraft:custom/ranks/spectator_rank.png",
+        "height": 7,
+        "ascent": 7,
+        "chars": ["🎥"]
+        }
+        
+    ]
+}

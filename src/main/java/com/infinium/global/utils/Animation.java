@@ -2,20 +2,41 @@ package com.infinium.global.utils;
 
 import com.infinium.Infinium;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.title.Title;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 public class Animation {
+    private static ScheduledFuture<?> task;
 
-    //TODO Tengo clases y no me dio tiempo a terminar esto
-    public static void initImageForAll(){
+
+    public static void initImageForAll() {
         var instance = Infinium.getInstance();
         var core = instance.getCore();
-        var task = instance.getExecutor();
+        var executor = instance.getExecutor();
         var server = core.getServer();
         var audience = core.getAdventure().audience(PlayerLookup.all(server));
         var animationList = getFramesCharsIntegers(0, 79);
+        final int[] i = {0};
+        task = executor.scheduleWithFixedDelay(() -> {
+            sendTitle(audience, animationList.get(i[0]), 0, 20, 20);
+            i[0]++;
+            if(i[0] >= animationList.size()) {
+                task.cancel(true);
+                task = null;
+            }
+        }, 0, 80, TimeUnit.MILLISECONDS);
+
+    }
+
+    public static void sendTitle(Audience audience, char character, int fadeIn, int stay, int fadeOut) {
+        audience.showTitle(Title.title(Component.text(Character.toString(character)), Component.text(""), Title.Times.times(Duration.ofSeconds(fadeIn/20), Duration.ofSeconds(fadeOut/20), Duration.ofSeconds(fadeOut/20))));
     }
 
     public static List<Character> getFramesCharsIntegers(int from, int until) {

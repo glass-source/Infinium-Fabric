@@ -2,6 +2,7 @@ package com.infinium.server.listeners.player;
 
 import com.infinium.Infinium;
 import com.infinium.api.events.players.ServerPlayerConnectionEvents;
+import com.infinium.global.utils.Animation;
 import com.infinium.global.utils.ChatFormatter;
 import com.infinium.global.utils.DateUtils;
 import com.infinium.global.utils.EntityDataSaver;
@@ -205,8 +206,9 @@ public class ServerPlayerListeners {
         ChatFormatter.broadcastMessage(ChatFormatter.formatWithPrefix("&7El jugador &6&l%player% &7sucumbio ante el\n&5&lVacío Infinito".replaceAll("%player%", playerDied.getEntityName())));
         playerDied.setHealth(20.0f);
         playerDied.changeGameMode(GameMode.SPECTATOR);
-        audience.showTitle(title);
+        //audience.showTitle(title);
         audience.playSound(Sound.sound(Key.key("infinium:player_death"), Sound.Source.PLAYER, 10, 0.7f));
+        Animation.initImageForAll();
 
         return true;
     }

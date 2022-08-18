@@ -118,7 +118,7 @@ public class SolarEclipse {
     }
 
     public void start(double hours){
-        if (hours < 0) return;
+        if (hours <= 0) return;
         initBossbarTask();
         endsIn = 0L;
 
