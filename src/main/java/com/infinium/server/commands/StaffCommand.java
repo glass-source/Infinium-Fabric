@@ -1,10 +1,12 @@
 package com.infinium.server.commands;
 
 import com.infinium.Infinium;
+import com.infinium.server.InfiniumServerManager;
 import com.infinium.server.eclipse.SolarEclipseManager;
 import com.infinium.global.utils.ChatFormatter;
 import com.infinium.global.utils.DateUtils;
 import com.infinium.global.utils.EntityDataSaver;
+import com.infinium.server.sanity.SanityManager;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.FloatArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
@@ -20,12 +22,38 @@ import java.util.Collection;
 
 public class StaffCommand {
 
-    private static final SolarEclipseManager manager = Infinium.getInstance().getCore().getEclipseManager();
+    private static final InfiniumServerManager core = Infinium.getInstance().getCore();
+    private static final SolarEclipseManager eclipseManager = core.getEclipseManager();
+    private static final SanityManager sanityManager = core.getSanityManager();
 
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher, boolean dedicated){
         LiteralArgumentBuilder<ServerCommandSource> literalArgumentBuilder = CommandManager.literal("staff").requires(source -> source.hasPermissionLevel(4));
 
         literalArgumentBuilder
+
+                .then(CommandManager.literal("cordura")
+                        .then(CommandManager.literal("add")
+                                .then(CommandManager.argument("player", EntityArgumentType.players())
+                                        .then(CommandManager.argument("newSanity", IntegerArgumentType.integer())
+                                                .executes(context ->
+                                                        changeSanity(context, EntityArgumentType.getPlayers(context, "player"),
+                                                                IntegerArgumentType.getInteger(context, "newSanity"), false, true, false))
+                                        )))
+                        .then(CommandManager.literal("remove")
+                                .then(CommandManager.argument("player", EntityArgumentType.players())
+                                        .then(CommandManager.argument("newSanity", IntegerArgumentType.integer())
+                                                .executes(context ->
+                                                        changeSanity(context, EntityArgumentType.getPlayers(context, "player"),
+                                                                IntegerArgumentType.getInteger(context, "newSanity"), false, false, true))
+                                        )))
+                        .then(CommandManager.literal("set")
+                                .then(CommandManager.argument("player", EntityArgumentType.players())
+                                        .then(CommandManager.argument("newSanity", IntegerArgumentType.integer())
+                                                .executes(context ->
+                                                        changeSanity(context, EntityArgumentType.getPlayers(context, "player"),
+                                                                IntegerArgumentType.getInteger(context, "newSanity"), true, false, false))
+                                        ))))
+
                 .then(CommandManager.literal("days")
                         .then(CommandManager.literal("set")
                                 .then(CommandManager.argument("days", IntegerArgumentType.integer())
@@ -45,6 +73,7 @@ public class StaffCommand {
                                                         setTotems(context, EntityArgumentType.getPlayers(context, "player"),
                                                                 IntegerArgumentType.getInteger(context, "totems")))
                                         ))))
+
                 .then(CommandManager.literal("eclipse")
                         .then(CommandManager.literal("end")
                                 .executes(StaffCommand::endEclipse))
@@ -56,6 +85,33 @@ public class StaffCommand {
                                                 startEclipse(context, FloatArgumentType.getFloat(context, "duration"))))));
 
         dispatcher.register(literalArgumentBuilder);
+    }
+
+
+    private static int changeSanity(CommandContext<ServerCommandSource> source, Collection<ServerPlayerEntity> players, int number, boolean isSet, boolean isAdd, boolean isRemove) {
+        try{
+            var name = "";
+            for (ServerPlayerEntity player : players) {
+                name = player.getEntityName();
+                if (isSet) sanityManager.setSanity(player, number);
+                else if (isAdd) sanityManager.addSanity(player, number);
+                else if (isRemove) sanityManager.removeSanity(player, number);
+            }
+
+
+            if (players.size() <= 1) {
+                source.getSource().sendFeedback(ChatFormatter.textWithPrefix("&7La cordura del jugador &6&l" + name + " &7ha sido cambiada"), true);
+            }
+
+            if (players.size() > 1) {
+                source.getSource().sendFeedback(ChatFormatter.textWithPrefix("&7La cordura de todos los jugadores" + " ha sido cambiada"), true);
+            }
+            return 1;
+        }catch (Exception ex) {
+            ex.printStackTrace();
+            source.getSource().sendError(ChatFormatter.text("&c¡Error! ese no es un número valido!"));
+        }
+        return -1;
     }
 
     private static int setDays(CommandContext<ServerCommandSource> source, int newDay) {
@@ -110,35 +166,35 @@ public class StaffCommand {
 
         }catch (Exception ex) {
             ex.printStackTrace();
-            source.getSource().sendError(ChatFormatter.text("&c¡Error! ese no es un numero valido!"));
+            source.getSource().sendError(ChatFormatter.text("&c¡Error! ese no es un número valido!"));
         }
         return -1;
     }
 
     private static int endEclipse(CommandContext<ServerCommandSource> source) {
-        manager.end();
+        eclipseManager.end();
         return 0;
     }
 
     private static int startEclipse(CommandContext<ServerCommandSource> source, float duration) {
         try{
-            manager.start(duration);
+            eclipseManager.start(duration);
             source.getSource().sendFeedback(ChatFormatter.text("&7Ha empezado un Eclipse Solar correctamente!"), true);
             return 1;
         }catch (Exception ex) {
             ex.printStackTrace();
-            source.getSource().sendError(ChatFormatter.text("&c¡Error! ese no es un numero valido!"));
+            source.getSource().sendError(ChatFormatter.text("&c¡Error! ese no es un número valido!"));
         }
         return -1;
     }
 
     private static int getEclipseTime(CommandContext<ServerCommandSource> source) {
-        if (!manager.isActive()) {
+        if (!eclipseManager.isActive()) {
             source.getSource().sendFeedback(ChatFormatter.text("&7No hay un Eclipse Solar activo!"), false);
             return -1;
         }
 
-        source.getSource().sendFeedback(ChatFormatter.text("&7Quedan " + manager.getTimeToString() + " &7 de Solar Eclipse."), false);
+        source.getSource().sendFeedback(ChatFormatter.text("&7Quedan " + eclipseManager.getTimeToString() + " &7 de Solar Eclipse."), false);
         return 1;
     }
 

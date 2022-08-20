@@ -19,6 +19,7 @@ public class VoidHoeItem extends HoeItem {
     @Override
     public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         if (!target.getWorld().isClient()) {
+            stack.damage(1, attacker, p -> p.sendToolBreakStatus(attacker.getActiveHand()));
             target.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 160, 3));
             target.addStatusEffect(new StatusEffectInstance(StatusEffects.GLOWING, 160, 0));
             return true;
@@ -28,6 +29,7 @@ public class VoidHoeItem extends HoeItem {
 
     @Override
     public boolean postMine(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner) {
+        if (!world.isClient) stack.damage(1, miner, p -> p.sendToolBreakStatus(miner.getActiveHand()));
         return true;
     }
 

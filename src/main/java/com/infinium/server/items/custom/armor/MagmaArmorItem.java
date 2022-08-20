@@ -25,7 +25,6 @@ public class MagmaArmorItem extends ArmorItem {
     @Override
     public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         if (!target.getWorld().isClient()) {
-            stack.setDamage(stack.getMaxDamage());
             target.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 160, 3));
             target.addStatusEffect(new StatusEffectInstance(StatusEffects.GLOWING, 160, 0));
             return true;

@@ -21,6 +21,7 @@ public class MagmaHoeItem extends HoeItem {
     @Override
     public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         if (!target.getWorld().isClient()) {
+            stack.damage(1, attacker, p -> p.sendToolBreakStatus(attacker.getActiveHand()));
             if (target instanceof EndermanEntity || target instanceof ShulkerEntity) {
                 target.addStatusEffect(new StatusEffectInstance(StatusEffects.GLOWING, 160, 0));
                 target.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 160, 4));
@@ -39,12 +40,13 @@ public class MagmaHoeItem extends HoeItem {
 
     @Override
     public boolean postMine(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner) {
+        if (!world.isClient) stack.damage(1, miner, p -> p.sendToolBreakStatus(miner.getActiveHand()));
         return true;
     }
 
     @Override
     public boolean isDamageable() {
-        return false;
+        return super.isDamageable();
     }
 
 }

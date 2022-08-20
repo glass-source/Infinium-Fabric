@@ -1,19 +1,13 @@
 package com.infinium.server.items.custom.tools.utility;
 
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.FishingRodItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
-import java.util.List;
 
 public class GrapplingHookItem extends FishingRodItem {
 
@@ -21,32 +15,24 @@ public class GrapplingHookItem extends FishingRodItem {
         super(settings);
     }
 
-    
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-        if (world.isClient()) {
-            var cooldownManager = user.getItemCooldownManager();
-            if (!cooldownManager.isCoolingDown(this)) {
-                Vec3d vec = user.getRotationVector();
-                user.setVelocity(vec.getX() * 2.25, vec.getY() * 3.25, vec.getZ() * 2.25);
-                cooldownManager.set(this, 20);
+        var cooldownManager = user.getItemCooldownManager();
+        var itemStack = user.getStackInHand(hand);
+        var vec = user.getRotationVector().multiply(1.25f);
 
-                if (user.getStackInHand(hand).getItem().equals(this)) {
-                    user.playSound(SoundEvents.ENTITY_FISHING_BOBBER_THROW, 10, 0.5f);
-                    super.use(world, user, hand);
-                    return TypedActionResult.success(user.getStackInHand(hand));
-                }
-            }
+        if (!cooldownManager.isCoolingDown(this)) {
+            if (!world.isClient) itemStack.damage(1, user, p -> p.sendToolBreakStatus(hand));
+
+            user.setVelocity(vec.getX() * 2.25, vec.getY() * 3.25, vec.getZ() * 2.25);
+            world.playSound(null, user.getX(), user.getY(), user.getZ(), SoundEvents.ENTITY_FISHING_BOBBER_RETRIEVE, SoundCategory.NEUTRAL, 1.0f, 0.4f);
+            cooldownManager.set(this, 20);
+            super.use(world, user, hand);
+            return TypedActionResult.success(user.getStackInHand(hand));
         }
-        return TypedActionResult.fail(this.getDefaultStack());
+
+        return TypedActionResult.success(user.getStackInHand(hand));
     }
 
-    @Override
-    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-        if (Screen.hasShiftDown()) {
-            tooltip.add(new TranslatableText("item.infinium.grappling_hook.tooltip.shift"));
-        } else {
-            tooltip.add(new TranslatableText("item.infinium.grappling_hook.tooltip"));
-        }
-    }
+
 }

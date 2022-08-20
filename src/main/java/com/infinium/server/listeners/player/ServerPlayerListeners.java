@@ -14,9 +14,8 @@ import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.sound.Sound;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.title.Title;
 import net.minecraft.advancement.criterion.Criteria;
+import net.minecraft.entity.EntityStatuses;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -24,13 +23,13 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.stat.Stats;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.GameMode;
 import net.minecraft.world.World;
 
-import java.time.Duration;
 import java.util.Random;
 import java.util.SplittableRandom;
 import java.util.concurrent.TimeUnit;
@@ -45,8 +44,6 @@ public class ServerPlayerListeners {
         this.core = instance.getCore();
     }
 
-
-
     public void registerListener(){
         playerConnectCallback();
         playerDisconnectCallback();
@@ -59,7 +56,6 @@ public class ServerPlayerListeners {
         ServerPlayerConnectionEvents.OnServerPlayerConnect.EVENT.register(player -> {
             var data = ((EntityDataSaver) player).getPersistentData();
             var audience = core.getAdventure().audience(PlayerLookup.all(core.getServer()));
-            var cooldownManager = player.getItemCooldownManager();
             if (!sanityManager.totalPlayers.contains(player)) sanityManager.totalPlayers.add(player);
 
             if (core.getEclipseManager().isActive()) {
@@ -108,7 +104,7 @@ public class ServerPlayerListeners {
         });
     }
 
-    //TODO hacer las dimensiones custom
+    //TODO make The Void & Nightmare
     private void tpToWorld(RegistryKey<World> destination, ServerPlayerEntity who, int maxToTP) {
         if (who.getServer() == null) return;
         if (who.getServer().getWorld(destination) == null) return;
@@ -162,6 +158,10 @@ public class ServerPlayerListeners {
 
         if (totemStack == null) return;
 
+        String string = "hola";
+
+
+
         var totemItem = totemStack.getItem();
         var playerName = player.getEntityName();
         player.setHealth(1.0F);
@@ -169,9 +169,11 @@ public class ServerPlayerListeners {
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 900, 1));
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 100, 1));
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 800, 0));
-        player.world.sendEntityStatus(player, (byte) 35);
+        player.world.sendEntityStatus(player, EntityStatuses.USE_TOTEM_OF_UNDYING);
+        player.incrementStat(Stats.USED.getOrCreateStat(totemItem));
         totemStack.decrement(1);
         Criteria.USED_TOTEM.trigger(player, totemStack);
+
 
         if (totemItem.equals(InfiniumItems.VOID_TOTEM)) {
             player.addStatusEffect(new StatusEffectInstance(InfiniumEffects.IMMUNITY, 20 * 15, 0));
@@ -193,8 +195,6 @@ public class ServerPlayerListeners {
     private boolean onPlayerDeath(ServerPlayerEntity playerDied){
         var pos = playerDied.getBlockPos();
         var audience = core.getAdventure(). audience(PlayerLookup.all(core.getServer()));
-        var times = Title.Times.times(Duration.ofSeconds(1), Duration.ofSeconds(6), Duration.ofSeconds(3));
-        var title = Title.title(Component.text(ChatFormatter.format("&6&k&l? &5Infinium &6&k&l?")), Component.text(""), times);
 
         if (pos.getY() < -64) playerDied.teleport(pos.getX(), -64, pos.getZ());
         if (playerDied.isSpectator()) {
@@ -206,7 +206,6 @@ public class ServerPlayerListeners {
         ChatFormatter.broadcastMessage(ChatFormatter.formatWithPrefix("&7El jugador &6&l%player% &7sucumbio ante el\n&5&lVacío Infinito".replaceAll("%player%", playerDied.getEntityName())));
         playerDied.setHealth(20.0f);
         playerDied.changeGameMode(GameMode.SPECTATOR);
-        //audience.showTitle(title);
         audience.playSound(Sound.sound(Key.key("infinium:player_death"), Sound.Source.PLAYER, 10, 0.7f));
         Animation.initImageForAll();
 

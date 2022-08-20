@@ -41,17 +41,15 @@ public class MagmaTridentItem extends TridentItem {
         this.getDefaultStack().addEnchantment(Enchantments.RIPTIDE, 5);
     }
 
-    @Override
-    public boolean isDamageable() {
-        return false;
-    }
-
     public EntityType<? extends MagmaTridentEntity> getEntityType() {
         return type;
     }
 
     @Override
     public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
+
+        if (!world.isClient) stack.damage(1, user, p -> p.sendToolBreakStatus(user.getActiveHand()));
+
         if (user instanceof PlayerEntity playerEntity) {
             int i = this.getMaxUseTime(stack) - remainingUseTicks;
             if (i >= 10) {
@@ -114,6 +112,7 @@ public class MagmaTridentItem extends TridentItem {
     @Override
     public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         if (!target.getWorld().isClient()) {
+            stack.damage(1, attacker, p -> p.sendToolBreakStatus(attacker.getActiveHand()));
             if (target instanceof EndermanEntity || target instanceof ShulkerEntity) {
                 target.addStatusEffect(new StatusEffectInstance(StatusEffects.GLOWING, 160, 0));
                 target.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 160, 4));
@@ -132,7 +131,13 @@ public class MagmaTridentItem extends TridentItem {
 
     @Override
     public boolean postMine(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner) {
+        if (!world.isClient) stack.damage(1, miner, p -> p.sendToolBreakStatus(miner.getActiveHand()));
         return true;
+    }
+
+    @Override
+    public boolean isDamageable() {
+        return super.isDamageable();
     }
 
     @Override

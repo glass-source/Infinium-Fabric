@@ -16,7 +16,7 @@ public class InfiniumEffects {
     }
 
     public static void init() {
-        IMMUNITY = register("immunity", new InfiniumEffect(StatusEffectCategory.BENEFICIAL, 3381504));
-        MADNESS = register("madness", new InfiniumEffect(StatusEffectCategory.HARMFUL, 12624973));
+        IMMUNITY = register("immunity", new InfiniumEffect(StatusEffectCategory.BENEFICIAL, 0xffffff));
+        MADNESS = register("madness", new InfiniumEffect(StatusEffectCategory.HARMFUL, 0xff0000));
     }
 }

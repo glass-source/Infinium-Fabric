@@ -71,7 +71,11 @@
   "infinium.fall_in_love": "Mysterious Music",
 
   "infinium.midnightconfig.title" : "Infinium Config",
-  "infinium.midnightconfig.START_DATE" : "Start Date"
+  "infinium.midnightconfig.startDate" : "Start Date",
+  "infinium.midnightconfig.endsIn" : "",
+  "infinium.midnightconfig.totalTime" : "",
+  "infinium.midnightconfig.lastTimeChecked" : ""
+
 
 
 }

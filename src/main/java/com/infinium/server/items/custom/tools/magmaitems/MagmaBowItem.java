@@ -6,6 +6,8 @@ import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.mob.EndermanEntity;
+import net.minecraft.entity.mob.ShulkerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
@@ -26,18 +28,8 @@ public class MagmaBowItem extends BowItem {
     }
 
     @Override
-    public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        return true;
-    }
-
-    @Override
-    public boolean postMine(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner) {
-        return true;
-    }
-
-    @Override
     public boolean isDamageable() {
-        return false;
+        return super.isDamageable();
     }
 
     @Override
@@ -77,7 +69,7 @@ public class MagmaBowItem extends BowItem {
                         }
 
                         if (EnchantmentHelper.getLevel(Enchantments.FLAME, stack) > 0) arrowEntity.setOnFireFor(120);
-
+                        stack.damage(1, user, p -> p.sendToolBreakStatus(user.getActiveHand()));
                         if (checkCanPickUp || playerEntity.getAbilities().creativeMode && (itemStack.isOf(Items.SPECTRAL_ARROW) || itemStack.isOf(Items.TIPPED_ARROW))) {
                             arrowEntity.pickupType = PersistentProjectileEntity.PickupPermission.CREATIVE_ONLY;
                         }

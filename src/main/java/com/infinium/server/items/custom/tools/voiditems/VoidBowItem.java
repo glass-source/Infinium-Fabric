@@ -23,18 +23,8 @@ public class VoidBowItem extends BowItem {
     }
 
     @Override
-    public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        return true;
-    }
-
-    @Override
-    public boolean postMine(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner) {
-        return true;
-    }
-
-    @Override
     public boolean isDamageable() {
-        return false;
+        return super.isDamageable();
     }
 
     @Override
@@ -71,7 +61,9 @@ public class VoidBowItem extends BowItem {
                             arrowEntity.setPunch(k);
                         }
 
-                        if (EnchantmentHelper.getLevel(Enchantments.FLAME, stack) > 0) arrowEntity.setOnFireFor(100);
+                        if (EnchantmentHelper.getLevel(Enchantments.FLAME, stack) > 0) arrowEntity.setOnFireFor(120);
+
+                        stack.damage(1, playerEntity, p -> p.sendToolBreakStatus(playerEntity.getActiveHand()));
 
                         if (bl2 || playerEntity.getAbilities().creativeMode && (itemStack.isOf(Items.SPECTRAL_ARROW) || itemStack.isOf(Items.TIPPED_ARROW))) {
                             arrowEntity.pickupType = PersistentProjectileEntity.PickupPermission.CREATIVE_ONLY;

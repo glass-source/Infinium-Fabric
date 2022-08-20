@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 public class Animation {
     private static ScheduledFuture<?> task;
 
-
+    //mi diosito aleencuarto, clipear y elFelDiesisiete
     public static void initImageForAll() {
         var instance = Infinium.getInstance();
         var core = instance.getCore();
@@ -24,6 +24,7 @@ public class Animation {
         var audience = core.getAdventure().audience(PlayerLookup.all(server));
         var animationList = getFramesCharsIntegers(0, 79);
         final int[] i = {0};
+
         task = executor.scheduleWithFixedDelay(() -> {
             sendTitle(audience, animationList.get(i[0]), 0, 20, 20);
             i[0]++;
@@ -31,7 +32,7 @@ public class Animation {
                 task.cancel(true);
                 task = null;
             }
-        }, 0, 80, TimeUnit.MILLISECONDS);
+        }, 0, 100, TimeUnit.MILLISECONDS);
 
     }
 
@@ -42,8 +43,7 @@ public class Animation {
     public static List<Character> getFramesCharsIntegers(int from, int until) {
         List<Character> chars = new ArrayList<>();
 
-        while (from <= until)
-            chars.add(unescapeString(String.format("\\uE%03d", from++)).charAt(0));
+        while (from <= until) chars.add(unescapeString(String.format("\\uE%03d", from++)).charAt(0));
 
         return chars;
     }
@@ -317,7 +317,7 @@ public class Animation {
      *
      * @param foa String to be printed in the exception
      */
-    private static final void die(String foa) {
+    private static void die(String foa) {
         throw new IllegalArgumentException(foa);
     }
 
