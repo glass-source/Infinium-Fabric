@@ -35,9 +35,8 @@ public class StaffCommand {
         literalArgumentBuilder
 
                 .then(CommandManager.literal("flashbang")
-                        .then(CommandManager.argument("player", EntityArgumentType.players())
-                                .executes(context ->
-                                        showFlashbang(context, EntityArgumentType.getPlayers(context, "player")))))
+                        .then(CommandManager.argument("player", EntityArgumentType.player())
+                                .executes(StaffCommand::showFlashbang)))
 
                 .then(CommandManager.literal("cordura")
                         .then(CommandManager.literal("add")
@@ -96,11 +95,9 @@ public class StaffCommand {
     }
 
 
-    private static int showFlashbang(CommandContext<ServerCommandSource> source, Collection<ServerPlayerEntity> playerEntities) {
+    private static int showFlashbang(CommandContext<ServerCommandSource> source) {
         try{
-            for (ServerPlayerEntity player : playerEntities) {
-                ServerPlayNetworking.send(player, InfiniumPackets.FLASHBANG_SYNC_ID, PacketByteBufs.create());
-            }
+            ServerPlayNetworking.send(source.getSource().getPlayer(), InfiniumPackets.FLASHBANG_SYNC_ID, PacketByteBufs.create());
             return 1;
         }catch (Exception ex){
             return -1;

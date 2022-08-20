@@ -1,6 +1,9 @@
 package com.infinium.server.items.custom.armor;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.Enchantments;
+import net.minecraft.enchantment.MendingEnchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
@@ -10,30 +13,31 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterial;
+import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.Arrays;
 
-public class MagmaArmorItem extends ArmorItem {
+public class MagmaArmorItem extends ArmorItem implements ItemConvertible {
 
     public MagmaArmorItem(ArmorMaterial material, EquipmentSlot slot, Settings settings) {
         super(material, slot, settings);
     }
 
     @Override
-    public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        if (!target.getWorld().isClient()) {
-            target.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 160, 3));
-            target.addStatusEffect(new StatusEffectInstance(StatusEffects.GLOWING, 160, 0));
-            return true;
-        }
-        return false;
+    public boolean postMine(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner) {
+        return super.postMine(stack, world, state, pos, miner);
     }
 
     @Override
-    public boolean postMine(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner) {
+    public boolean isDamageable() {
+        return super.isDamageable();
+    }
+
+    @Override
+    public boolean canRepair(ItemStack stack, ItemStack ingredient) {
         return true;
     }
 
@@ -75,12 +79,15 @@ public class MagmaArmorItem extends ArmorItem {
         && leggings instanceof MagmaArmorItem && boots instanceof MagmaArmorItem;
     }
 
+
+
     @Override
-    public boolean isDamageable() {
-        return false;
+    public void onCraft(ItemStack stack, World world, PlayerEntity player) {
+        if (world.isClient) return;
+        stack.addEnchantment(Enchantments.PROTECTION, 4);
+        stack.addEnchantment(Enchantments.UNBREAKING, 4);
+        stack.addEnchantment(Enchantments.MENDING, 0);
+
+        super.onCraft(stack, world, player);
     }
-
-
-
-
 }

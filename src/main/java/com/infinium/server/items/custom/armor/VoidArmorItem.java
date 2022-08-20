@@ -27,14 +27,23 @@ public class VoidArmorItem extends ArmorItem {
         if (!target.getWorld().isClient()) {
             target.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 160, 3));
             target.addStatusEffect(new StatusEffectInstance(StatusEffects.GLOWING, 160, 0));
-            return true;
         }
-        return false;
+        return super.postHit(stack, target, attacker);
     }
 
     @Override
     public boolean postMine(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner) {
-        return true;
+        return super.postMine(stack, world, state, pos, miner);
+    }
+
+    @Override
+    public boolean isDamageable() {
+        return super.isDamageable();
+    }
+
+    @Override
+    public boolean canRepair(ItemStack stack, ItemStack ingredient) {
+        return super.canRepair(stack, ingredient);
     }
 
     @Override
@@ -72,11 +81,6 @@ public class VoidArmorItem extends ArmorItem {
 
         return helmet instanceof VoidArmorItem && chestplate instanceof VoidArmorItem
         && leggings instanceof VoidArmorItem && boots instanceof VoidArmorItem;
-    }
-
-    @Override
-    public boolean isDamageable() {
-        return false;
     }
 
 }
