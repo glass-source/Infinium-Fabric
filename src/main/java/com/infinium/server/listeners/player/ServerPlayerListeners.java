@@ -54,25 +54,11 @@ public class ServerPlayerListeners {
     private void playerConnectCallback(){
         var sanityManager = core.getSanityManager();
         ServerPlayerConnectionEvents.OnServerPlayerConnect.EVENT.register(player -> {
-            var data = ((EntityDataSaver) player).getPersistentData();
             var audience = core.getAdventure().audience(PlayerLookup.all(core.getServer()));
             if (!sanityManager.totalPlayers.contains(player)) sanityManager.totalPlayers.add(player);
 
-            if (core.getEclipseManager().isActive()) {
-                audience.showBossBar(core.getEclipseManager().getBossBar());
-            }
+            if (core.getEclipseManager().isActive()) audience.showBossBar(core.getEclipseManager().getBossBar());
 
-            if (data.get("infinium.sanity") == null) {
-                data.putInt("infinium.sanity", 100);
-            }
-
-            if (data.get("infinium.totems") == null) {
-                data.putInt("infinium.totems", 0);
-            }
-
-            if (data.get("infinium.cooldown") == null) {
-                data.putInt("infinium.cooldown", 0);
-            }
             return ActionResult.PASS;
         });
 
@@ -158,10 +144,6 @@ public class ServerPlayerListeners {
 
         if (totemStack == null) return;
 
-        String string = "hola";
-
-
-
         var totemItem = totemStack.getItem();
         var playerName = player.getEntityName();
         player.setHealth(1.0F);
@@ -188,7 +170,7 @@ public class ServerPlayerListeners {
             data.putInt("infinium.totems", totems + 1);
             message = ChatFormatter.formatWithPrefix("&8El jugador &5&l" + playerName + " &8ha consumido un \n&6&lTótem de la Inmortalidad" + " &8(Tótem #%.%)".replaceAll("%.%", String.valueOf(totems + 1)));
         }
-        sanityManager.removeSanity(player, 40);
+        sanityManager.decrease(player, 40, sanityManager.SANITY);
         ChatFormatter.broadcastMessage(message);
     }
 

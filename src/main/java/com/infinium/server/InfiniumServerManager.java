@@ -2,6 +2,7 @@ package com.infinium.server;
 
 import com.infinium.Infinium;
 import com.infinium.api.config.InfiniumConfig;
+import com.infinium.global.networking.InfiniumPackets;
 import com.infinium.server.blocks.InfiniumBlocks;
 import com.infinium.server.eclipse.SolarEclipseManager;
 import com.infinium.server.effects.InfiniumEffects;
@@ -40,7 +41,7 @@ public class InfiniumServerManager {
         ServerLifecycleEvents.SERVER_STARTED.register(server1 -> {
             this.server = server1;
             this.adventure = FabricServerAudiences.of(this.server);
-            this.sanityManager.initSanityTask();
+            this.sanityManager.registerSanityTask();
             this.eclipseManager.load();
             this.initListeners();
         });
@@ -62,6 +63,7 @@ public class InfiniumServerManager {
         InfiniumEffects.init();
         InfiniumEntityType.init();
         InfiniumRegistries.init();
+        InfiniumPackets.registerC2SPackets();
     }
 
     private void initListeners(){

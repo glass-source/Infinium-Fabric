@@ -18,14 +18,18 @@ public class SolarEclipseManager {
     }
 
     public void load() {
-        eclipse.lastTimeChecked = InfiniumConfig.lastTimeChecked;
-        eclipse.endsIn = InfiniumConfig.endsIn;
-        if (eclipse.endsIn > 0) {
-            eclipse.totalTime = InfiniumConfig.totalTime;
-            start(startFromLoad());
-        }
+        if (instance.getCore().getServer() == null) {
+            System.out.println("null");
+        } else {
+            eclipse.lastTimeChecked = InfiniumConfig.lastTimeChecked;
+            eclipse.endsIn = InfiniumConfig.endsIn;
+            if (eclipse.endsIn > 0) {
+                eclipse.totalTime = InfiniumConfig.totalTime;
+                start(startFromLoad());
+            }
 
-        InfiniumConfig.write(Infinium.MOD_ID);
+            InfiniumConfig.write(Infinium.MOD_ID);
+        }
     }
 
     public void disable(){

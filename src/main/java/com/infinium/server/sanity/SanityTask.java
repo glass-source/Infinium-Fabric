@@ -1,59 +1,55 @@
 package com.infinium.server.sanity;
 
 import com.infinium.global.utils.ChatFormatter;
-import com.infinium.server.entities.InfiniumEntityType;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SpawnReason;
 import net.minecraft.server.network.ServerPlayerEntity;
 
-import   com.infinium.server.sanity.SanityManager.*;
+import java.util.Random;
 
 public class SanityTask {
 
     private final SanityManager manager;
+
 
     public SanityTask(SanityManager manager){
         this.manager = manager;
     }
     
     public void run(){
-        manager.totalPlayers.forEach((player) -> {
-            if (!player.isSpectator()) {
-                calcSanity(player);
-                sanityEffects(player);
-                sanityDeBuffs(player);
+        manager.totalPlayers.forEach((p) -> {
+            if (!p.isSpectator() || !p.isCreative()) {
+                sanityEffects(p);
+                sanityDeBuffs(p);
             }
         });
-
     }
 
-    private void sanityDeBuffs(ServerPlayerEntity player) {
+    private void sanityDeBuffs(ServerPlayerEntity p) {
+        var world = p.getWorld();
+
+        if (world.getRandom().nextInt(500) == 1) manager.decrease(p, 1, manager.TIME_COOLDOWN);
+
+        if (manager.get(p, manager.TIME_COOLDOWN) <= 0) {
+            if (p.getWorld().getRandom().nextInt(10) == 1) manager.decrease(p, 1, manager.SANITY);
+        }
 
     }
 
     private void sanityEffects(ServerPlayerEntity p) {
-        int healthCooldown = 10;
-        int negativeHealthCooldown = 5;
-        int biomeCooldown = 20;
+        if (p.getHealth() >= p.getMaxHealth() - 3.0D) manager.decrease(p, 1, manager.POSITIVE_HEALTH_COOLDOWN);
 
-        if (p.getHealth() >= p.getMaxHealth() - 4.0D) healthCooldown--;
+        if (p.getHealth() <= (p.getMaxHealth() / 2)) manager.decrease(p, 1, manager.NEGATIVE_HEALTH_COOLDOWN);
 
-        if (p.getHealth() <= (p.getMaxHealth() / 2)) negativeHealthCooldown--;
-
-        if (healthCooldown <= 0) {
-            manager.addSanity(p, 2);
-            healthCooldown = 10;
+        if (manager.get(p, manager.POSITIVE_HEALTH_COOLDOWN) <= 0) {
+            manager.add(p, 1, manager.SANITY);
+            manager.set(p, (20 * 60) * 5, manager.POSITIVE_HEALTH_COOLDOWN);
         }
 
-        if (negativeHealthCooldown <= 0) {
-            manager.removeSanity(p, 2);
-            negativeHealthCooldown = 10;
+        if (manager.get(p, manager.NEGATIVE_HEALTH_COOLDOWN) <= 0) {
+            manager.decrease(p, 1, manager.SANITY);
+            manager.set(p, (20 * 60) * 5, manager.NEGATIVE_HEALTH_COOLDOWN);
         }
 
     }
 
-    private void calcSanity(ServerPlayerEntity player) {
-        player.sendMessage(ChatFormatter.text("&8[&1Cordura&8]: &5" + manager.getSanity(player) + "%"), true);
-    }
 
 }

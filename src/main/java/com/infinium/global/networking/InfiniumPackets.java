@@ -1,0 +1,26 @@
+package com.infinium.global.networking;
+
+import com.infinium.Infinium;
+import com.infinium.global.networking.packets.flashbang.FlashbangS2CPacket;
+import com.infinium.global.networking.packets.sanity.SanitySyncS2CPacket;
+import com.infinium.global.networking.packets.sanity.KairosCheckC2SPacket;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.util.Identifier;
+
+public class InfiniumPackets {
+
+    public static final Identifier SANITY_SYNC_ID = Infinium.id("sanity_sync");
+    public static final Identifier TIME_CHECK_ID = Infinium.id("time_check");
+    public static final Identifier FLASHBANG_SYNC_ID = Infinium.id("flashbang_sync");
+
+    public static void registerC2SPackets(){
+        ServerPlayNetworking.registerGlobalReceiver(TIME_CHECK_ID, KairosCheckC2SPacket::receive);
+    }
+
+    public static void registerS2CPackets(){
+        ClientPlayNetworking.registerGlobalReceiver(SANITY_SYNC_ID, SanitySyncS2CPacket::receive);
+        ClientPlayNetworking.registerGlobalReceiver(FLASHBANG_SYNC_ID, FlashbangS2CPacket::receive);
+    }
+
+}

@@ -56,8 +56,6 @@
   "effect.infinium.immunity": "Immunity",
   "effect.infinium.madness": "Madness",
 
-  "item.infinium.grappling_hook.tooltip" : "",
-  "item.infinium.grappling_hook.tooltip.shift" : "",
   "block.infinium.void_stone": "Void Stone",
   "block.infinium.void_stone_ore": "Void Stone Ore",
 
@@ -74,7 +72,10 @@
   "infinium.midnightconfig.startDate" : "Start Date",
   "infinium.midnightconfig.endsIn" : "",
   "infinium.midnightconfig.totalTime" : "",
-  "infinium.midnightconfig.lastTimeChecked" : ""
+  "infinium.midnightconfig.lastTimeChecked" : "",
+
+  "key.category.infinium.infinium" : "Infinium",
+  "key.infinium.check_time" : "Check Kairo's Clock"
 
 
 

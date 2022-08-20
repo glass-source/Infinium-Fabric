@@ -1,11 +1,12 @@
 package com.infinium.server.commands;
 
 import com.infinium.Infinium;
-import com.infinium.server.InfiniumServerManager;
-import com.infinium.server.eclipse.SolarEclipseManager;
+import com.infinium.global.networking.InfiniumPackets;
 import com.infinium.global.utils.ChatFormatter;
 import com.infinium.global.utils.DateUtils;
 import com.infinium.global.utils.EntityDataSaver;
+import com.infinium.server.InfiniumServerManager;
+import com.infinium.server.eclipse.SolarEclipseManager;
 import com.infinium.server.sanity.SanityManager;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.FloatArgumentType;
@@ -13,6 +14,8 @@ import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
@@ -30,6 +33,11 @@ public class StaffCommand {
         LiteralArgumentBuilder<ServerCommandSource> literalArgumentBuilder = CommandManager.literal("staff").requires(source -> source.hasPermissionLevel(4));
 
         literalArgumentBuilder
+
+                .then(CommandManager.literal("flashbang")
+                        .then(CommandManager.argument("player", EntityArgumentType.players())
+                                .executes(context ->
+                                        showFlashbang(context, EntityArgumentType.getPlayers(context, "player")))))
 
                 .then(CommandManager.literal("cordura")
                         .then(CommandManager.literal("add")
@@ -88,14 +96,25 @@ public class StaffCommand {
     }
 
 
+    private static int showFlashbang(CommandContext<ServerCommandSource> source, Collection<ServerPlayerEntity> playerEntities) {
+        try{
+            for (ServerPlayerEntity player : playerEntities) {
+                ServerPlayNetworking.send(player, InfiniumPackets.FLASHBANG_SYNC_ID, PacketByteBufs.create());
+            }
+            return 1;
+        }catch (Exception ex){
+            return -1;
+        }
+    }
+
     private static int changeSanity(CommandContext<ServerCommandSource> source, Collection<ServerPlayerEntity> players, int number, boolean isSet, boolean isAdd, boolean isRemove) {
         try{
             var name = "";
             for (ServerPlayerEntity player : players) {
                 name = player.getEntityName();
-                if (isSet) sanityManager.setSanity(player, number);
-                else if (isAdd) sanityManager.addSanity(player, number);
-                else if (isRemove) sanityManager.removeSanity(player, number);
+                if (isSet) sanityManager.set(player, number, sanityManager.SANITY);
+                else if (isAdd) sanityManager.add(player, number, sanityManager.SANITY);
+                else if (isRemove) sanityManager.decrease(player, number, sanityManager.SANITY);
             }
 
 

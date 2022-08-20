@@ -1,55 +1,63 @@
 package com.infinium.server.sanity;
 
 import com.infinium.Infinium;
+import com.infinium.global.networking.InfiniumPackets;
 import com.infinium.global.utils.EntityDataSaver;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 
 import java.util.ArrayList;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 public class SanityManager {
 
-    private final ScheduledExecutorService service;
     public ArrayList<ServerPlayerEntity> totalPlayers = new ArrayList<>();
-    private final Infinium instance;
     private final SanityTask task;
 
+    public final String SANITY = "infinium.sanity";
+    public final String TIME_COOLDOWN = "infinium.timeCooldown";
+    public final String POSITIVE_HEALTH_COOLDOWN = "infinium.positiveHealth";
+    public final String NEGATIVE_HEALTH_COOLDOWN = "infinium.negativeHealth";
+
     public SanityManager(Infinium instance){
-        this.instance = instance;
-        this.service = instance.getExecutor();
         this.task = new SanityTask(this);
     }
 
-    public void initSanityTask() {
-        if (instance.getCore().getServer() == null) {
-            System.out.println("null");
-        } else {
-            service.scheduleWithFixedDelay(task::run, 0, 1, TimeUnit.SECONDS);
-        }
+    public void registerSanityTask(){
+        ServerTickEvents.START_SERVER_TICK.register(server -> task.run());
     }
 
-    public void addSanity(ServerPlayerEntity player, int amount) {
-        setSanity(player, Math.max(0, Math.min(100, getSanity(player) + amount)));
+    public void add(ServerPlayerEntity player, int amount, String arg){
+        if (get(player, TIME_COOLDOWN) <= 0) return;
+        var added = get(player, arg);
+        set(player, added + amount, arg);
     }
 
-    public void removeSanity(ServerPlayerEntity player, int amount) {
-        setSanity(player, Math.max(0, Math.min(100, getSanity(player) - amount)));
+    public void decrease(ServerPlayerEntity player, int amount, String arg){
+        var decreased = get(player, arg);
+        set(player, decreased - amount, arg);
     }
 
-    public int getSanity(ServerPlayerEntity player) {
+    public void set(ServerPlayerEntity player, int amount, String arg){
         NbtCompound data = getData(player);
-        return data.getInt("infinium.sanity");
+        data.putInt(arg, Math.max(0, Math.min(100, amount)));
+        if (arg.equals(SANITY)) syncSanity(player, Math.max(0, Math.min(100, amount)));
     }
 
-    public void setSanity(ServerPlayerEntity player, int amount) {
+    public int get(ServerPlayerEntity player, String arg){
         NbtCompound data = getData(player);
-        data.putInt("infinium.sanity", Math.max(0, Math.min(100,amount)));
+        return data.getInt(arg);
     }
 
-
-    private NbtCompound getData(ServerPlayerEntity entity){
+    public NbtCompound getData(ServerPlayerEntity entity){
         return ((EntityDataSaver) entity).getPersistentData();
+    }
+
+    public void syncSanity(ServerPlayerEntity player, int amount){
+        var buffer = PacketByteBufs.create();
+        buffer.writeInt(amount);
+        ServerPlayNetworking.send(player, InfiniumPackets.SANITY_SYNC_ID, buffer);
     }
 }

@@ -24,9 +24,9 @@ public class GrapplingHookItem extends FishingRodItem {
         if (!cooldownManager.isCoolingDown(this)) {
             if (!world.isClient) itemStack.damage(1, user, p -> p.sendToolBreakStatus(hand));
 
-            user.setVelocity(vec.getX() * 2.25, vec.getY() * 3.25, vec.getZ() * 2.25);
+            user.setVelocity(vec.getX() * 1.75, vec.getY() * 2.55, vec.getZ() * 1.75);
             world.playSound(null, user.getX(), user.getY(), user.getZ(), SoundEvents.ENTITY_FISHING_BOBBER_RETRIEVE, SoundCategory.NEUTRAL, 1.0f, 0.4f);
-            cooldownManager.set(this, 20);
+            cooldownManager.set(this, 60);
             super.use(world, user, hand);
             return TypedActionResult.success(user.getStackInHand(hand));
         }

@@ -21,10 +21,11 @@ public class SanityItem extends Item {
     @Override
     public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
         if (!world.isClient() && user instanceof ServerPlayerEntity pl) {
+            var sanityManager = Infinium.getInstance().getCore().getSanityManager();
             pl.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 240, 3));
             pl.addStatusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 240, 3));
             pl.removeStatusEffect(InfiniumEffects.MADNESS);
-            Infinium.getInstance().getCore().getSanityManager().addSanity(pl, 40);
+            sanityManager.add(pl, 40, sanityManager.SANITY);
         }
         return super.finishUsing(stack, world, user);
     }
