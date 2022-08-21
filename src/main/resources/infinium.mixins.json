@@ -4,14 +4,15 @@
   "package": "com.infinium.global.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "LivingEntityMixin",
-    "PlayerDataSaver",
     "PlayerManagerMixin",
     "ServerPlayNetworkHandlerMixin",
+    "block.BlockMixin",
+    "entity.LivingEntityMixin",
+    "entity.PlayerDataSaver",
     "entity.SheepEntityMixin",
     "render.TridentEntityRendererMixin",
     "render.TridentRiptideFeatureRendererMixin",
-    "screen.GameMenuScreenMixin",
+    "render.screen.GameMenuScreenMixin",
     "world.ServerWorldMixin"
   ],
   "client": [

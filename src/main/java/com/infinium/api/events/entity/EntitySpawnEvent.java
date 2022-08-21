@@ -8,10 +8,10 @@ import net.minecraft.util.ActionResult;
 
 public interface EntitySpawnEvent {
 
-    Event<EntitySpawnEvent> EVENT = EventFactory.createArrayBacked(EntitySpawnEvent.class, (listeners) -> (entity, loc) -> {
+    Event<EntitySpawnEvent> EVENT = EventFactory.createArrayBacked(EntitySpawnEvent.class, (listeners) -> (entity) -> {
 
         for (EntitySpawnEvent listener : listeners) {
-            ActionResult result = listener.spawn(entity, loc);
+            ActionResult result = listener.spawn(entity);
 
             if (result != ActionResult.PASS) {
                 return result;
@@ -22,6 +22,6 @@ public interface EntitySpawnEvent {
 
 
 
-    ActionResult spawn(Entity entity, Location loc);
+    ActionResult spawn(Entity entity);
     
 }

@@ -1,7 +1,7 @@
 package com.infinium.server.sanity;
 
 import com.infinium.Infinium;
-import com.infinium.global.networking.InfiniumPackets;
+import com.infinium.networking.InfiniumPackets;
 import com.infinium.global.utils.EntityDataSaver;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;

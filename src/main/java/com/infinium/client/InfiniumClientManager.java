@@ -2,7 +2,7 @@ package com.infinium.client;
 
 import com.infinium.client.renderer.ModelPredicateProvider;
 import com.infinium.client.renderer.player.hud.SanityHudOverlay;
-import com.infinium.global.networking.InfiniumPackets;
+import com.infinium.networking.InfiniumPackets;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;

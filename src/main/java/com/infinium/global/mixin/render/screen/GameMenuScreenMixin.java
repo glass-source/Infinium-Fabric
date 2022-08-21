@@ -1,7 +1,6 @@
-package com.infinium.global.mixin.screen;
+package com.infinium.global.mixin.render.screen;
 
 import com.infinium.client.events.ClientPlayerPauseEvent;
-import com.infinium.client.InfiniumClient;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.GameMenuScreen;
 import org.spongepowered.asm.mixin.Mixin;

@@ -30,9 +30,8 @@ public abstract class ServerWorldMixin {
         players.forEach(p -> p.networkHandler.sendPacket(new WorldTimeUpdateS2CPacket(worldProperties.getTime(), worldProperties.getTimeOfDay(), worldProperties.getGameRules().getBoolean(GameRules.DO_DAYLIGHT_CYCLE))));
     }
 
-    @Inject(method = "addEntity", at = @At("HEAD"))
+    @Inject(method = "addEntity", at = @At("TAIL"))
     public void onSpawnEntity(Entity entity, CallbackInfoReturnable<Boolean> cir) {
-        Location loc = new Location(entity.getWorld(), entity.getX(), entity.getY(), entity.getZ());
-        EntitySpawnEvent.EVENT.invoker().spawn(entity, loc);
+        EntitySpawnEvent.EVENT.invoker().spawn(entity);
     }
 }

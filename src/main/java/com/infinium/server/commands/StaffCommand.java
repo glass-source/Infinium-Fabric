@@ -1,7 +1,7 @@
 package com.infinium.server.commands;
 
 import com.infinium.Infinium;
-import com.infinium.global.networking.InfiniumPackets;
+import com.infinium.networking.InfiniumPackets;
 import com.infinium.global.utils.ChatFormatter;
 import com.infinium.global.utils.DateUtils;
 import com.infinium.global.utils.EntityDataSaver;

@@ -2,14 +2,16 @@ package com.infinium.server;
 
 import com.infinium.Infinium;
 import com.infinium.api.config.InfiniumConfig;
-import com.infinium.global.networking.InfiniumPackets;
+import com.infinium.networking.InfiniumPackets;
 import com.infinium.server.blocks.InfiniumBlocks;
 import com.infinium.server.eclipse.SolarEclipseManager;
 import com.infinium.server.effects.InfiniumEffects;
 import com.infinium.server.entities.InfiniumEntityType;
 import com.infinium.server.items.InfiniumItems;
-import com.infinium.server.listeners.entity.ServerEntityListeners;
-import com.infinium.server.listeners.player.ServerPlayerListeners;
+import com.infinium.server.listeners.entity.EntitySpawnListeners;
+import com.infinium.server.listeners.player.PlayerConnectionListeners;
+import com.infinium.server.listeners.player.PlayerDeathListeners;
+import com.infinium.server.listeners.player.PlayerGlobalListeners;
 import com.infinium.server.sanity.SanityManager;
 import eu.midnightdust.lib.config.MidnightConfig;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
@@ -67,8 +69,14 @@ public class InfiniumServerManager {
     }
 
     private void initListeners(){
-        new ServerPlayerListeners(instance).registerListener();
-        new ServerEntityListeners(instance).registerListeners();
+        registerPlayerListeners();
+        new EntitySpawnListeners(instance).registerListeners();
+    }
+
+    private void registerPlayerListeners(){
+        new PlayerDeathListeners(instance).registerListener();
+        new PlayerConnectionListeners(instance).registerListener();
+        new PlayerGlobalListeners(instance).registerListener();
     }
 
     public SanityManager getSanityManager(){

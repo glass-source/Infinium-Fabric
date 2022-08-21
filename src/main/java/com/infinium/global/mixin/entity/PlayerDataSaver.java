@@ -1,4 +1,4 @@
-package com.infinium.global.mixin;
+package com.infinium.global.mixin.entity;
 
 import com.infinium.global.utils.EntityDataSaver;
 import net.minecraft.entity.Entity;

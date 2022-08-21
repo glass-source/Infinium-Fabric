@@ -1,7 +1,6 @@
-package com.infinium.global.networking.packets.flashbang;
+package com.infinium.networking.packets.flashbang;
 
 import com.infinium.Infinium;
-import com.infinium.global.utils.EntityDataSaver;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.minecraft.client.MinecraftClient;
@@ -11,7 +10,6 @@ import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.ColorHelper;
 
 public class FlashbangS2CPacket {
 
