@@ -94,7 +94,7 @@ public class StaffCommand {
 
     private static int showFlashbang(CommandContext<ServerCommandSource> source) {
         try{
-            ServerPlayNetworking.send(source.getSource().getPlayer(), InfiniumPackets.FLASHBANG_SYNC_ID, new FlashbangS2CPacket(255, 10, 10).write());
+            ServerPlayNetworking.send(source.getSource().getPlayer(), InfiniumPackets.FLASHBANG_SYNC_ID, new FlashbangS2CPacket(255, 10, 5, 255, 255, 255).write());
             return 1;
         }catch (Exception ex){
             return -1;

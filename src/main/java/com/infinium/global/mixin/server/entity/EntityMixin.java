@@ -1,11 +1,13 @@
 package com.infinium.global.mixin.server.entity;
 
 import com.infinium.global.utils.EntityDataSaver;
+import com.infinium.server.effects.InfiniumEffects;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NbtCompound;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -33,5 +35,7 @@ public abstract class EntityMixin implements EntityDataSaver {
             persistentData = nbt.getCompound("infinium.data");
         }
     }
+
+
 
 }

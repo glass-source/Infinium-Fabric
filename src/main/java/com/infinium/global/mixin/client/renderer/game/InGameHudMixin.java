@@ -14,14 +14,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(InGameHud.class)
 public class InGameHudMixin {
     @Shadow private int scaledWidth;
-
     @Shadow private int scaledHeight;
     @Shadow @Final private MinecraftClient client;
 
     @Inject(method = "render", at = @At("TAIL"))
     private void injectOnHead(MatrixStack matrices, float tickDelta, CallbackInfo ci) {
         if (!client.options.hudHidden) {
-            FlashbangManager.render(matrices, (int) FlashbangManager.opacity, scaledWidth, scaledHeight);
+            FlashbangManager.render(matrices, (int) FlashbangManager.opacity, scaledWidth, scaledHeight, FlashbangManager.red, FlashbangManager.green, FlashbangManager.blue);
         }
     }
 

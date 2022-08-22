@@ -11,15 +11,21 @@ import net.minecraft.network.PacketByteBuf;
 
 public class FlashbangS2CPacket {
 
-    private static @Getter float opacity;
-    private static @Getter int flashSeconds;
-    private static @Getter int opaqueSeconds;
+    private static float opacity;
+    private static int flashSeconds;
+    private static int opaqueSeconds;
+    private static int red;
+    private static int green;
+    private static int blue;
     private static PacketByteBuf packetByteBuf;
 
-    public FlashbangS2CPacket(float opacity, int flashSeconds, int opaqueSeconds) {
+    public FlashbangS2CPacket(float opacity, int flashSeconds, int opaqueSeconds, int red, int green, int blue) {
         FlashbangS2CPacket.opacity = opacity;
         FlashbangS2CPacket.flashSeconds = flashSeconds;
         FlashbangS2CPacket.opaqueSeconds = opaqueSeconds;
+        FlashbangS2CPacket.red = red;
+        FlashbangS2CPacket.green = green;
+        FlashbangS2CPacket.blue = blue;
         packetByteBuf = PacketByteBufs.create();
     }
 
@@ -28,9 +34,14 @@ public class FlashbangS2CPacket {
         FlashbangManager.opacity = buf.readFloat();
         FlashbangManager.flashSeconds = buf.readInt();
         FlashbangManager.opaqueTicks = buf.readInt();
+        FlashbangManager.red = buf.readInt();
+        FlashbangManager.green = buf.readInt();
+        FlashbangManager.blue = buf.readInt();
+
         MinecraftClient.getInstance().execute(() -> {
-            if (client.getWindow().getWidth() > 0 && client.getWindow().getHeight() > 0)
-                FlashbangManager.framebuffer = FlashbangManager.copyColorsFrom(client.getFramebuffer(), new SimpleFramebuffer(client.getWindow().getWidth(), client.getWindow().getHeight(), true, false));
+            var window = client.getWindow();
+            if (window.getWidth() <= 0 && window.getHeight() <= 0) return;
+            FlashbangManager.framebuffer = FlashbangManager.copyColorsFrom(client.getFramebuffer(), new SimpleFramebuffer(window.getWidth(), window.getHeight(), true, false));
             FlashbangManager.shouldTick = true;
         });
 
@@ -40,6 +51,9 @@ public class FlashbangS2CPacket {
         packetByteBuf.writeFloat(opacity);
         packetByteBuf.writeInt(flashSeconds);
         packetByteBuf.writeInt(opaqueSeconds);
+        packetByteBuf.writeInt(red);
+        packetByteBuf.writeInt(blue);
+        packetByteBuf.writeInt(blue);
         return packetByteBuf;
     }
 
