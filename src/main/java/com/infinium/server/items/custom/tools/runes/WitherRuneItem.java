@@ -1,6 +1,7 @@
 package com.infinium.server.items.custom.tools.runes;
 
 import com.infinium.Infinium;
+import com.infinium.server.items.custom.tools.InfiniumToolItem;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
@@ -18,7 +19,7 @@ import net.minecraft.world.explosion.Explosion;
 
 import java.util.concurrent.TimeUnit;
 
-public class WitherRuneItem extends ToolItem {
+public class WitherRuneItem extends ToolItem implements InfiniumToolItem {
 
     public WitherRuneItem(ToolMaterial material, Settings settings) {
         super(material, settings);

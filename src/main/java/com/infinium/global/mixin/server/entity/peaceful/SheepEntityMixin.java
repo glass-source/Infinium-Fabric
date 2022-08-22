@@ -1,4 +1,4 @@
-package com.infinium.global.mixin.server.entity;
+package com.infinium.global.mixin.server.entity.peaceful;
 
 import com.infinium.global.utils.DateUtils;
 import net.minecraft.entity.EntityType;

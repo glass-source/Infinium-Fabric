@@ -1,5 +1,6 @@
 package com.infinium.server.items.custom.tools.runes;
 
+import com.infinium.server.items.custom.tools.InfiniumToolItem;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -13,7 +14,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
-public class SpeedRuneItem extends ToolItem {
+public class SpeedRuneItem extends ToolItem implements InfiniumToolItem {
 
     public SpeedRuneItem(ToolMaterial material, Settings settings) {
         super(material, settings);

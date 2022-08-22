@@ -1,12 +1,17 @@
 package com.infinium.global.mixin.server.block;
 
 import com.infinium.global.utils.DateUtils;
+import com.infinium.server.items.custom.tools.InfiniumToolItem;
+import com.infinium.server.items.custom.tools.voiditems.VoidAxeItem;
 import net.minecraft.block.*;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemConvertible;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.math.BlockPos;
@@ -23,6 +28,20 @@ public abstract class BlockMixin extends AbstractBlock implements ItemConvertibl
 
     public BlockMixin(Settings settings) {
         super(settings);
+    }
+
+    @Inject(method = "afterBreak", at = @At("HEAD"))
+    public void afterBreak(World world, PlayerEntity player, BlockPos pos, BlockState state, BlockEntity blockEntity, ItemStack stack, CallbackInfo ci){
+        if (world.isClient) return;
+        var item = player.getMainHandStack().getItem();
+        var day = DateUtils.getDay();
+        if (item instanceof InfiniumToolItem) return;
+
+        if (day >= 7) {
+            if (state.getBlock().equals(Blocks.ANCIENT_DEBRIS)) {
+                player.setFireTicks((20 * 60) * 10);
+            }
+        }
     }
 
     @Inject(method = "onSteppedOn", at = @At("HEAD"))
@@ -87,7 +106,6 @@ public abstract class BlockMixin extends AbstractBlock implements ItemConvertibl
             });
         }
     }
-
     private boolean isBlock(Block block) {
         var item = block.asItem();
         var day = DateUtils.getDay();

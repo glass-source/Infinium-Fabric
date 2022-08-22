@@ -6,12 +6,12 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.Framebuffer;
 import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.ColorHelper;
 import net.minecraft.util.math.MathHelper;
 
 public class FlashbangManager {
-
     public static boolean shouldTick = false;
     public static float opacity = 0f;
     public static int flashSeconds = 0;
@@ -74,6 +74,17 @@ public class FlashbangManager {
 
             RenderSystem.restoreProjectionMatrix();
         }
+    }
+
+
+    public static NativeImage takeScreenshot(Framebuffer framebuffer) {
+        int i = framebuffer.textureWidth;
+        int j = framebuffer.textureHeight;
+        NativeImage nativeImage = new NativeImage(i, j, false);
+        RenderSystem.bindTexture(framebuffer.getColorAttachment());
+        nativeImage.loadFromTextureImage(0, true);
+        nativeImage.mirrorVertically();
+        return nativeImage;
     }
 
 }

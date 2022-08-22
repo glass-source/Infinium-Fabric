@@ -1,5 +1,6 @@
 package com.infinium.server.items.custom.tools.voiditems;
 
+import com.infinium.server.items.custom.tools.InfiniumToolItem;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -8,7 +9,7 @@ import net.minecraft.item.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class VoidAxeItem extends AxeItem {
+public class VoidAxeItem extends AxeItem implements InfiniumToolItem {
 
     public VoidAxeItem(ToolMaterial material, int attackDamage, float attackSpeed, Settings settings) {
         super(material, attackDamage, attackSpeed, settings);

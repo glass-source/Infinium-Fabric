@@ -1,5 +1,6 @@
 package com.infinium.server.items.custom.armor;
 
+import com.infinium.server.items.InfiniumItems;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.Enchantments;
@@ -7,6 +8,8 @@ import net.minecraft.enchantment.MendingEnchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -25,12 +28,6 @@ public class MagmaArmorItem extends ArmorItem implements ItemConvertible {
     public MagmaArmorItem(ArmorMaterial material, EquipmentSlot slot, Settings settings) {
         super(material, slot, settings);
     }
-
-    @Override
-    public boolean postMine(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner) {
-        return super.postMine(stack, world, state, pos, miner);
-    }
-
     @Override
     public boolean isDamageable() {
         return super.isDamageable();
@@ -46,16 +43,18 @@ public class MagmaArmorItem extends ArmorItem implements ItemConvertible {
         if (world.isClient()) return;
         if (!(entity instanceof PlayerEntity p)) return;
         if (!hasFullArmor(p)) return;
+        double baseValue = p.getAttributeBaseValue(EntityAttributes.GENERIC_MAX_HEALTH);
         if (!hasMagmaArmor(p)) return;
 
         StatusEffect[] effects = {
-        StatusEffects.RESISTANCE,
-        StatusEffects.SPEED,
-        StatusEffects.FIRE_RESISTANCE};
+                StatusEffects.RESISTANCE,
+                StatusEffects.SPEED,
+                StatusEffects.FIRE_RESISTANCE};
 
         Arrays.stream(effects).toList().forEach(status -> {
             if (!p.hasStatusEffect(status)) p.addStatusEffect(new StatusEffectInstance(status, 280, 1));
-            if (p.getStatusEffect(status).getDuration() < 120) p.addStatusEffect(new StatusEffectInstance(status, 280, 1));
+            if (p.getStatusEffect(status).getDuration() < 120)
+                p.addStatusEffect(new StatusEffectInstance(status, 280, 1));
         });
     }
 
@@ -79,11 +78,18 @@ public class MagmaArmorItem extends ArmorItem implements ItemConvertible {
         && leggings instanceof MagmaArmorItem && boots instanceof MagmaArmorItem;
     }
 
-
-
     @Override
     public void onCraft(ItemStack stack, World world, PlayerEntity player) {
         if (world.isClient) return;
+
+        switch (stack.getItem().toString()) {
+            case "MAGMA_HELMET" -> {
+                stack.addEnchantment(Enchantments.RESPIRATION, 3);
+                stack.addEnchantment(Enchantments.AQUA_AFFINITY, 1);
+            }
+
+
+        }
         stack.addEnchantment(Enchantments.PROTECTION, 4);
         stack.addEnchantment(Enchantments.UNBREAKING, 4);
         stack.addEnchantment(Enchantments.MENDING, 0);

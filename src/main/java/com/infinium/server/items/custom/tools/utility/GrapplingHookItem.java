@@ -1,5 +1,6 @@
 package com.infinium.server.items.custom.tools.utility;
 
+import com.infinium.server.items.custom.tools.InfiniumToolItem;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.FishingRodItem;
 import net.minecraft.item.ItemStack;
@@ -9,7 +10,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
-public class GrapplingHookItem extends FishingRodItem {
+public class GrapplingHookItem extends FishingRodItem implements InfiniumToolItem {
 
     public GrapplingHookItem(Settings settings) {
         super(settings);

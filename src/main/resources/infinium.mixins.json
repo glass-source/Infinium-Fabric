@@ -9,10 +9,8 @@
     "server.block.BlockMixin",
     "server.entity.EntityMixin",
     "server.entity.LivingEntityMixin",
-    "server.entity.SheepEntityMixin",
-    "server.world.ServerWorldMixin",
-    "server.PlayerManagerMixin",
-    "server.ServerPlayNetworkHandlerMixin"
+    "server.entity.peaceful.SheepEntityMixin",
+    "server.world.ServerWorldMixin"
   ],
   "client": [
     "client.entity.ClientPlayerEntityMixin",

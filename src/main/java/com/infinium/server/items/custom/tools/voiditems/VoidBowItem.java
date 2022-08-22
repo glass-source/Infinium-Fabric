@@ -1,5 +1,6 @@
 package com.infinium.server.items.custom.tools.voiditems;
 
+import com.infinium.server.items.custom.tools.InfiniumToolItem;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
@@ -16,7 +17,7 @@ import net.minecraft.stat.Stats;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class VoidBowItem extends BowItem {
+public class VoidBowItem extends BowItem implements InfiniumToolItem {
 
     public VoidBowItem(Settings settings) {
         super(settings);

@@ -1,5 +1,6 @@
 package com.infinium.server.items.custom.tools.magmaitems;
 
+import com.infinium.server.items.custom.tools.InfiniumToolItem;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
@@ -21,7 +22,7 @@ import net.minecraft.stat.Stats;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class MagmaBowItem extends BowItem {
+public class MagmaBowItem extends BowItem implements InfiniumToolItem {
 
     public MagmaBowItem(Settings settings) {
         super(settings);

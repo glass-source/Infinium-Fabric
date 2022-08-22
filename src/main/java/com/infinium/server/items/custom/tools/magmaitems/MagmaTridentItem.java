@@ -1,6 +1,7 @@
 package com.infinium.server.items.custom.tools.magmaitems;
 
 import com.infinium.server.entities.projectiles.MagmaTridentEntity;
+import com.infinium.server.items.custom.tools.InfiniumToolItem;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -27,7 +28,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-public class MagmaTridentItem extends TridentItem {
+public class MagmaTridentItem extends TridentItem implements InfiniumToolItem {
 
     EntityType<? extends MagmaTridentEntity> type;
 
