@@ -1,4 +1,4 @@
-package com.infinium.global.mixin.world;
+package com.infinium.global.mixin.client.renderer.world;
 
 import com.infinium.Infinium;
 import net.minecraft.client.render.Camera;

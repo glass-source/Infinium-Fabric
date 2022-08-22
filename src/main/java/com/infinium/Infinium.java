@@ -1,5 +1,6 @@
 package com.infinium;
 
+import com.infinium.client.InfiniumClientManager;
 import com.infinium.server.InfiniumServerManager;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.util.Identifier;
@@ -8,7 +9,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
 public class Infinium implements ModInitializer {
-
     private InfiniumServerManager core;
     private static Infinium instance;
     private final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();

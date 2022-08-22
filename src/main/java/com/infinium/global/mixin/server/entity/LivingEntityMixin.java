@@ -1,4 +1,4 @@
-package com.infinium.global.mixin.entity;
+package com.infinium.global.mixin.server.entity;
 
 import com.infinium.server.effects.InfiniumEffects;
 import net.minecraft.entity.Entity;

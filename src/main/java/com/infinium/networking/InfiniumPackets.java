@@ -1,11 +1,14 @@
 package com.infinium.networking;
 
 import com.infinium.Infinium;
+import com.infinium.networking.packets.flashbang.FlashbangManager;
 import com.infinium.networking.packets.flashbang.FlashbangS2CPacket;
 import com.infinium.networking.packets.sanity.SanitySyncS2CPacket;
 import com.infinium.networking.packets.sanity.KairosCheckC2SPacket;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gl.SimpleFramebuffer;
 import net.minecraft.util.Identifier;
 
 public class InfiniumPackets {

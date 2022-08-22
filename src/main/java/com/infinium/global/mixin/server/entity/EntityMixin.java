@@ -1,4 +1,4 @@
-package com.infinium.global.mixin.entity;
+package com.infinium.global.mixin.server.entity;
 
 import com.infinium.global.utils.EntityDataSaver;
 import net.minecraft.entity.Entity;
@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Entity.class)
-public abstract class PlayerDataSaver implements EntityDataSaver {
+public abstract class EntityMixin implements EntityDataSaver {
 
     private NbtCompound persistentData;
 

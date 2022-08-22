@@ -1,0 +1,62 @@
+package com.infinium.networking.packets.flashbang;
+
+import com.infinium.server.InfiniumServerManager;
+import com.mojang.blaze3d.platform.GlConst;
+import com.mojang.blaze3d.platform.GlStateManager;
+import lombok.Getter;
+import lombok.Setter;
+import net.minecraft.client.gl.Framebuffer;
+import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.util.math.ColorHelper;
+import net.minecraft.util.math.MathHelper;
+
+public class FlashbangManager {
+
+
+    public @Getter @Setter static boolean shouldTick = false;
+
+    public @Getter @Setter static float opacity = 0f;
+
+    public @Getter @Setter static int flashSeconds = 0;
+
+    public @Getter @Setter static int opaqueTicks = 0;
+
+    public @Getter @Setter static Framebuffer framebuffer;
+
+    public static void reset() {
+        shouldTick = false;
+        opacity = 0;
+        flashSeconds = 0;
+        opaqueTicks = 0;
+        framebuffer = null;
+    }
+
+    public static void tick() {
+        if (shouldTick) {
+            if (opaqueTicks <= 0) {
+                opacity -= 255f / (flashSeconds * 20);
+            }
+            opacity = MathHelper.clamp(opacity, 0, 255);
+            if (opacity <= 0) {
+                reset();
+                shouldTick = false;
+            }
+            if (opaqueTicks > 0) opaqueTicks--;
+        }
+    }
+
+
+    public static void render(MatrixStack matrices, int opacity, int width, int height) {
+        if (opacity > 0 && shouldTick) DrawableHelper.fill(matrices, 0, 0, width, height, ColorHelper.Argb.getArgb(opacity, 255, 255, 255));
+    }
+
+    public static Framebuffer copyColorsFrom(Framebuffer original, Framebuffer copy) {
+        GlStateManager._glBindFramebuffer(GlConst.GL_READ_FRAMEBUFFER, original.fbo);
+        GlStateManager._glBindFramebuffer(GlConst.GL_DRAW_FRAMEBUFFER, copy.fbo);
+        GlStateManager._glBlitFrameBuffer(0, 0, original.textureWidth, original.textureHeight, 0, 0, copy.textureWidth, copy.textureHeight, GlConst.GL_COLOR_BUFFER_BIT, GlConst.GL_NEAREST);
+        GlStateManager._glBindFramebuffer(GlConst.GL_FRAMEBUFFER, 0);
+        return copy;
+    }
+
+}

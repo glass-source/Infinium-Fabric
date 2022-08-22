@@ -1,4 +1,4 @@
-package com.infinium.global.mixin.render;
+package com.infinium.global.mixin.client.renderer.entity;
 
 import net.minecraft.client.render.entity.TridentEntityRenderer;
 import net.minecraft.entity.projectile.TridentEntity;

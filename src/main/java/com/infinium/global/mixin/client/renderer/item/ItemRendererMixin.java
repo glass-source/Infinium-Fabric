@@ -1,4 +1,4 @@
-package com.infinium.global.mixin.render;
+package com.infinium.global.mixin.client.renderer.item;
 
 import com.infinium.Infinium;
 import com.infinium.client.renderer.item.MagmaTridentItemRenderer;

@@ -1,4 +1,4 @@
-package com.infinium.global.mixin;
+package com.infinium.global.mixin.server;
 
 import com.infinium.api.events.players.ServerPlayerConnectionEvents;
 import net.minecraft.network.ClientConnection;

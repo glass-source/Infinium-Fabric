@@ -1,33 +1,46 @@
 package com.infinium.networking.packets.flashbang;
 
-import com.infinium.Infinium;
-import com.mojang.blaze3d.systems.RenderSystem;
+import com.infinium.global.utils.EntityDataSaver;
+import lombok.Getter;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gl.SimpleFramebuffer;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
-import net.minecraft.client.render.*;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.util.Identifier;
 
 public class FlashbangS2CPacket {
 
-    private static final Identifier FLASHBANG = Infinium.id("textures/sanity/white_box.png");
+    private static @Getter float opacity;
+    private static @Getter int flashSeconds;
+    private static @Getter int opaqueSeconds;
+    private static PacketByteBuf packetByteBuf;
 
-    public static void receive(MinecraftClient minecraftClient, ClientPlayNetworkHandler clientPlayNetworkHandler, PacketByteBuf packetByteBuf, PacketSender packetSender) {
-        minecraftClient.execute(() -> {
-            if (minecraftClient.player == null) return;
-            var window = minecraftClient.getWindow();
-            MatrixStack matrixStack = new MatrixStack();
-            RenderSystem.setShader(GameRenderer::getPositionTexShader);
-            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-            RenderSystem.setShaderTexture(0, FLASHBANG);
-            DrawableHelper.drawTexture(matrixStack, 0, 0, 0, 0, window.getScaledWidth(), window.getScaledHeight(), 1920, 1080);
-            DrawableHelper.fill(matrixStack, 0, 0, window.getWidth(), window.getHeight(), 0xffffff);
-        });
+    public FlashbangS2CPacket(float opacity, int flashSeconds, int opaqueSeconds) {
+        FlashbangS2CPacket.opacity = opacity;
+        FlashbangS2CPacket.flashSeconds = flashSeconds;
+        FlashbangS2CPacket.opaqueSeconds = opaqueSeconds;
+        packetByteBuf = PacketByteBufs.create();
     }
 
+    public static void receive(MinecraftClient client, ClientPlayNetworkHandler clientPlayNetworkHandler, PacketByteBuf buf, PacketSender packetSender) {
+        FlashbangManager.reset();
+        FlashbangManager.opacity = buf.readFloat();
+        FlashbangManager.flashSeconds = buf.readInt();
+        FlashbangManager.opaqueTicks = buf.readInt();
+        MinecraftClient.getInstance().execute(() -> {
+            if (client.getWindow().getWidth() > 0 && client.getWindow().getHeight() > 0)
+                FlashbangManager.framebuffer = FlashbangManager.copyColorsFrom(client.getFramebuffer(), new SimpleFramebuffer(client.getWindow().getWidth(), client.getWindow().getHeight(), true, false));
+            FlashbangManager.shouldTick = true;
+        });
 
+
+    }
+    public PacketByteBuf write() {
+        packetByteBuf.writeFloat(opacity);
+        packetByteBuf.writeInt(flashSeconds);
+        packetByteBuf.writeInt(opaqueSeconds);
+        return packetByteBuf;
+    }
 
 }

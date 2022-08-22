@@ -5,6 +5,7 @@ import com.infinium.networking.InfiniumPackets;
 import com.infinium.global.utils.ChatFormatter;
 import com.infinium.global.utils.DateUtils;
 import com.infinium.global.utils.EntityDataSaver;
+import com.infinium.networking.packets.flashbang.FlashbangS2CPacket;
 import com.infinium.server.InfiniumServerManager;
 import com.infinium.server.eclipse.SolarEclipseManager;
 import com.infinium.server.sanity.SanityManager;
@@ -33,11 +34,9 @@ public class StaffCommand {
         LiteralArgumentBuilder<ServerCommandSource> literalArgumentBuilder = CommandManager.literal("staff").requires(source -> source.hasPermissionLevel(4));
 
         literalArgumentBuilder
-
                 .then(CommandManager.literal("flashbang")
                         .then(CommandManager.argument("player", EntityArgumentType.player())
                                 .executes(StaffCommand::showFlashbang)))
-
                 .then(CommandManager.literal("cordura")
                         .then(CommandManager.literal("add")
                                 .then(CommandManager.argument("player", EntityArgumentType.players())
@@ -60,7 +59,6 @@ public class StaffCommand {
                                                         changeSanity(context, EntityArgumentType.getPlayers(context, "player"),
                                                                 IntegerArgumentType.getInteger(context, "newSanity"), true, false, false))
                                         ))))
-
                 .then(CommandManager.literal("days")
                         .then(CommandManager.literal("set")
                                 .then(CommandManager.argument("days", IntegerArgumentType.integer())
@@ -80,7 +78,6 @@ public class StaffCommand {
                                                         setTotems(context, EntityArgumentType.getPlayers(context, "player"),
                                                                 IntegerArgumentType.getInteger(context, "totems")))
                                         ))))
-
                 .then(CommandManager.literal("eclipse")
                         .then(CommandManager.literal("end")
                                 .executes(StaffCommand::endEclipse))
@@ -97,7 +94,7 @@ public class StaffCommand {
 
     private static int showFlashbang(CommandContext<ServerCommandSource> source) {
         try{
-            ServerPlayNetworking.send(source.getSource().getPlayer(), InfiniumPackets.FLASHBANG_SYNC_ID, PacketByteBufs.create());
+            ServerPlayNetworking.send(source.getSource().getPlayer(), InfiniumPackets.FLASHBANG_SYNC_ID, new FlashbangS2CPacket(255, 10, 10).write());
             return 1;
         }catch (Exception ex){
             return -1;

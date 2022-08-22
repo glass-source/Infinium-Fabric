@@ -1,4 +1,4 @@
-package com.infinium.global.mixin.render.screen;
+package com.infinium.global.mixin.client.renderer.game;
 
 import com.infinium.client.events.ClientPlayerPauseEvent;
 import net.minecraft.client.MinecraftClient;

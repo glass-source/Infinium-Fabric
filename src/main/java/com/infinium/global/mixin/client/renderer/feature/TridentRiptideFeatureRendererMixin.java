@@ -1,4 +1,4 @@
-package com.infinium.global.mixin.render;
+package com.infinium.global.mixin.client.renderer.feature;
 
 import com.infinium.server.items.InfiniumItems;
 import net.minecraft.client.render.RenderLayer;

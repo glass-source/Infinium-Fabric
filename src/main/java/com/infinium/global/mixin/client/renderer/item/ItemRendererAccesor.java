@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.infinium.global.mixin.render;
+package com.infinium.global.mixin.client.renderer.item;
 
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.item.ItemModels;
