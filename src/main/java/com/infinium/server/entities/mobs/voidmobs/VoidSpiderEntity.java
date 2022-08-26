@@ -48,10 +48,10 @@ public class VoidSpiderEntity extends SpiderEntity implements IAnimatable {
     public boolean tryAttack(Entity target) {
         if (target instanceof LivingEntity entity) {
             StatusEffectInstance[] effects = {
-                    new StatusEffectInstance(StatusEffects.WITHER, 20 * 10, 4),
-                    new StatusEffectInstance(StatusEffects.BLINDNESS, 20 * 10, 0),
-                    new StatusEffectInstance(StatusEffects.SLOWNESS, 20 * 10, 4),
-                    new StatusEffectInstance(StatusEffects.GLOWING, 20 * 10, 0),
+                    new StatusEffectInstance(StatusEffects.WITHER, 200, 4),
+                    new StatusEffectInstance(StatusEffects.BLINDNESS, 200, 0),
+                    new StatusEffectInstance(StatusEffects.SLOWNESS, 200, 4),
+                    new StatusEffectInstance(StatusEffects.GLOWING, 200, 0),
             };
             int randomNumber = random.nextInt(effects.length);
             entity.addStatusEffect(effects[randomNumber]);
@@ -62,9 +62,9 @@ public class VoidSpiderEntity extends SpiderEntity implements IAnimatable {
 
     public static DefaultAttributeContainer.Builder createVoidSpiderAttributes() {
         return HostileEntity.createHostileAttributes()
-                .add(EntityAttributes.GENERIC_MAX_HEALTH, 50.0)
+                .add(EntityAttributes.GENERIC_MAX_HEALTH, 100.0)
                 .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.35)
-                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 20.0)
+                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 40.0)
                 .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 50.0);
     }
 

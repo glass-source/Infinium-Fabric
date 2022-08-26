@@ -48,17 +48,17 @@ public class GhoulSpiderEntity extends SpiderEntity implements IAnimatable {
         .add(EntityAttributes.GENERIC_MAX_HEALTH, 50.0)
         .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.45f)
         .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 20.0)
-        .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 35.0);
+        .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 50.0);
     }
 
     @Override
     public boolean tryAttack(Entity target) {
         if (target instanceof LivingEntity entity) {
             StatusEffectInstance[] effects = {
-                    new StatusEffectInstance(StatusEffects.POISON, 20 * 10, 4),
-                    new StatusEffectInstance(StatusEffects.SLOWNESS, 20 * 10, 1),
-                    new StatusEffectInstance(StatusEffects.NAUSEA, 20 * 10, 4),
-                    new StatusEffectInstance(StatusEffects.HUNGER, 20 * 10, 9),
+                    new StatusEffectInstance(StatusEffects.POISON, 200, 4),
+                    new StatusEffectInstance(StatusEffects.SLOWNESS, 200, 1),
+                    new StatusEffectInstance(StatusEffects.NAUSEA, 200, 0),
+                    new StatusEffectInstance(StatusEffects.HUNGER, 200, 9),
             };
             int randomNumber = random.nextInt(effects.length);
             entity.addStatusEffect(effects[randomNumber]);
@@ -73,6 +73,8 @@ public class GhoulSpiderEntity extends SpiderEntity implements IAnimatable {
             controller.setAnimation(new AnimationBuilder().addAnimation("animation.ghoul_spider.tracked"));
         } else if (e.isMoving()) {
             controller.setAnimation(new AnimationBuilder().addAnimation("animation.ghoul_spider.walk"));
+        } else {
+            controller.setAnimation(new AnimationBuilder().addAnimation("animation.ghoul_spider.idle"));
         }
         return PlayState.CONTINUE;
 
