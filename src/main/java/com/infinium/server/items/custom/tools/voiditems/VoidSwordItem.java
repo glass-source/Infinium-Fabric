@@ -1,6 +1,6 @@
 package com.infinium.server.items.custom.tools.voiditems;
 
-import com.infinium.server.items.custom.tools.InfiniumToolItem;
+import com.infinium.server.items.custom.InfiniumItem;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -8,11 +8,10 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
 import net.minecraft.item.ToolMaterial;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class VoidSwordItem extends SwordItem implements InfiniumToolItem {
+public class VoidSwordItem extends SwordItem implements InfiniumItem {
 
     public VoidSwordItem(ToolMaterial toolMaterial, int attackDamage, float attackSpeed, Settings settings) {
         super(toolMaterial, attackDamage, attackSpeed, settings);

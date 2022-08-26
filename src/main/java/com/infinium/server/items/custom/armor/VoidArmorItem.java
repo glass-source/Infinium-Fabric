@@ -1,5 +1,6 @@
 package com.infinium.server.items.custom.armor;
 
+import com.infinium.server.items.custom.InfiniumItem;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
@@ -10,13 +11,14 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterial;
+import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.Arrays;
 
-public class VoidArmorItem extends ArmorItem {
+public class VoidArmorItem extends ArmorItem implements ItemConvertible, InfiniumItem {
 
     public VoidArmorItem(ArmorMaterial material, EquipmentSlot slot, Settings settings) {
         super(material, slot, settings);
@@ -50,7 +52,6 @@ public class VoidArmorItem extends ArmorItem {
     public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
         if (world.isClient()) return;
         if (!(entity instanceof PlayerEntity p)) return;
-        if (!hasFullArmor(p)) return;
         if (!hasVoidArmor(p)) return;
 
         StatusEffect[] effects = {
@@ -63,7 +64,7 @@ public class VoidArmorItem extends ArmorItem {
         });
     }
 
-    private boolean hasFullArmor(PlayerEntity user) {
+    private static boolean hasFullArmor(PlayerEntity user) {
         var inventory = user.getInventory();
         var boots = inventory.getArmorStack(0);
         var leggings = inventory.getArmorStack(1);
@@ -72,14 +73,14 @@ public class VoidArmorItem extends ArmorItem {
         return !boots.isEmpty() && !leggings.isEmpty() && !chestplate.isEmpty() && !helmet.isEmpty();
     }
 
-    private boolean hasVoidArmor(PlayerEntity user) {
+    public static boolean hasVoidArmor(PlayerEntity user) {
         var inventory = user.getInventory();
         var boots = inventory.getArmorStack(0).getItem();
         var leggings = inventory.getArmorStack(1).getItem();
         var chestplate = inventory.getArmorStack(2).getItem();
         var helmet = inventory.getArmorStack(3).getItem();
 
-        return helmet instanceof VoidArmorItem && chestplate instanceof VoidArmorItem
+        return hasFullArmor(user) && helmet instanceof VoidArmorItem && chestplate instanceof VoidArmorItem
         && leggings instanceof VoidArmorItem && boots instanceof VoidArmorItem;
     }
 

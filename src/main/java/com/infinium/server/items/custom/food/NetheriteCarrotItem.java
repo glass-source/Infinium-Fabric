@@ -1,5 +1,6 @@
 package com.infinium.server.items.custom.food;
 
+import com.infinium.server.items.custom.InfiniumItem;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -8,7 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.UseAction;
 import net.minecraft.world.World;
 
-public class NetheriteCarrotItem extends Item {
+public class NetheriteCarrotItem extends Item implements InfiniumItem {
 
     public NetheriteCarrotItem(Settings settings) {
         super(settings);

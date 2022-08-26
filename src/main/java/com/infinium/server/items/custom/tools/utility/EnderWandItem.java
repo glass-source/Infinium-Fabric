@@ -1,8 +1,6 @@
 package com.infinium.server.items.custom.tools.utility;
 
-import com.infinium.server.items.custom.tools.InfiniumToolItem;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.LivingEntity;
+import com.infinium.server.items.custom.InfiniumItem;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
 import net.minecraft.sound.SoundEvents;
@@ -11,7 +9,7 @@ import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class EnderWandItem extends ToolItem implements InfiniumToolItem {
+public class EnderWandItem extends ToolItem implements InfiniumItem {
 
 
     public EnderWandItem(ToolMaterial material, Settings settings) {

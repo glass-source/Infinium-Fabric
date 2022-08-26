@@ -1,14 +1,12 @@
 package com.infinium.server.items.custom.tools.magmaitems;
 
-import com.infinium.server.items.custom.tools.InfiniumToolItem;
+import com.infinium.server.items.custom.InfiniumItem;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.mob.EndermanEntity;
-import net.minecraft.entity.mob.ShulkerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
@@ -22,7 +20,7 @@ import net.minecraft.stat.Stats;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class MagmaBowItem extends BowItem implements InfiniumToolItem {
+public class MagmaBowItem extends BowItem implements InfiniumItem {
 
     public MagmaBowItem(Settings settings) {
         super(settings);

@@ -29,11 +29,5 @@ public class GhoulSpiderEntityModel extends AnimatedGeoModel<GhoulSpiderEntity> 
     @Override
     public void setLivingAnimations(GhoulSpiderEntity entity, Integer uniqueID, AnimationEvent customPredicate) {
         super.setLivingAnimations(entity, uniqueID, customPredicate);
-        IBone head = this.getAnimationProcessor().getBone("head");
-        EntityModelData data = (EntityModelData) customPredicate.getExtraDataOfType(EntityModelData.class).get(0);
-
-        if (head == null) return;
-        head.setRotationX(data.headPitch * ((float) Math.PI / 180F));
-        head.setRotationY(data.headPitch * ((float) Math.PI / 180F));
     }
 }

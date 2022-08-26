@@ -1,6 +1,6 @@
 package com.infinium.server.items.custom.tools.runes;
 
-import com.infinium.server.items.custom.tools.InfiniumToolItem;
+import com.infinium.server.items.custom.InfiniumItem;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -14,7 +14,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
-public class ResistanceRuneItem extends ToolItem implements InfiniumToolItem {
+public class ResistanceRuneItem extends ToolItem implements InfiniumItem {
 
     public ResistanceRuneItem(ToolMaterial material, Settings settings) {
         super(material, settings);

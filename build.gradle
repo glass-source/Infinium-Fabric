@@ -11,6 +11,16 @@ repositories {
         name = "sonatype-oss-snapshots1"
         url = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
     }
+
+    maven {
+        name = 'Ladysnake Mods'
+        url = 'https://ladysnake.jfrog.io/artifactory/mods'
+        content {
+            includeGroup 'io.github.ladysnake'
+            includeGroupByRegex 'io\\.github\\.onyxstudios.*'
+        }
+    }
+
     maven { url "https://cfa2.cursemaven.com" }
     maven { url "https://maven.shedaniel.me/" }
     maven { url 'https://plugins.gradle.org/m2/' }
@@ -39,10 +49,9 @@ dependencies {
         exclude(group: "net.fabricmc.fabric-api")
     }
 
-
-
-
-
+    modImplementation "io.github.ladysnake:satin:${satin_version}"
+    // Include Satin as a Jar-in-Jar dependency (optional)
+    include "io.github.ladysnake:satin:${satin_version}"
 }
 
 processResources {

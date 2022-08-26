@@ -2,7 +2,9 @@ package com.infinium.server.sanity;
 
 import com.infinium.global.utils.DateUtils;
 import com.infinium.server.effects.InfiniumEffects;
-import net.minecraft.entity.attribute.EntityAttribute;
+import com.infinium.server.items.custom.armor.MagmaArmorItem;
+import com.infinium.server.items.custom.armor.VoidArmorItem;
+import com.infinium.server.items.custom.tools.voiditems.VoidAxeItem;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -29,24 +31,11 @@ public class SanityTask {
 
     private void sanityDeBuffs(ServerPlayerEntity p) {
         int sanity = manager.get(p, manager.SANITY);
-        double baseValue = p.getAttributeBaseValue(EntityAttributes.GENERIC_MAX_HEALTH);
         var world = p.getWorld();
 
-        if (sanity >= 90) {
-            if (baseValue < 20.0f + 4) p.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue(baseValue + 4);
-
-        } else {
-            if (baseValue >= 20.0f + 4){
-                p.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue(baseValue - 4);
-                p.damage(DamageSource.GENERIC, 0.001f);
-            }
-
-            if (sanity < 50) if (world.getRandom().nextInt(250) == 1) p.addStatusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 160, 0));
-            if (sanity < 40) if (world.getRandom().nextInt(250) == 1) p.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 160, 0));
-            if (sanity < 30) if (world.getRandom().nextInt(250) == 1) p.addStatusEffect(new StatusEffectInstance(InfiniumEffects.MADNESS, 160, 0));
-
-
-        }
+        if (sanity < 50) if (world.getRandom().nextInt(250) == 1) p.addStatusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 160, 0));
+        if (sanity < 40) if (world.getRandom().nextInt(250) == 1) p.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 160, 0));
+        if (sanity < 30) if (world.getRandom().nextInt(250) == 1) p.addStatusEffect(new StatusEffectInstance(InfiniumEffects.MADNESS, 160, 0));
 
     }
 

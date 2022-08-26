@@ -35,18 +35,18 @@ public class GhoulSpiderEntity extends SpiderEntity implements IAnimatable {
     protected void initGoals() {
         this.goalSelector.add(1, new SwimGoal(this));
         this.goalSelector.add(1, new PounceAtTargetGoal(this, 0.4F));
-        this.goalSelector.add(1, new VoidSpiderEntity.AttackGoal(this));
         this.goalSelector.add(5, new WanderAroundFarGoal(this, 0.8));
         this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
         this.goalSelector.add(6, new LookAroundGoal(this));
         this.targetSelector.add(1, new RevengeGoal(this));
+        this.goalSelector.add(1, new VoidSpiderEntity.AttackGoal(this));
         this.targetSelector.add(1, new VoidSpiderEntity.TargetGoal<>(this, PlayerEntity.class));
     }
 
     public static DefaultAttributeContainer.Builder createGhoulSpiderAttributes() {
         return HostileEntity.createHostileAttributes()
         .add(EntityAttributes.GENERIC_MAX_HEALTH, 50.0)
-        .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.35)
+        .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.45f)
         .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 20.0)
         .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 35.0);
     }
@@ -68,11 +68,12 @@ public class GhoulSpiderEntity extends SpiderEntity implements IAnimatable {
     }
 
     private <E extends IAnimatable> PlayState state(AnimationEvent<E> e) {
-        if (e.isMoving()) {
-            e.getController().setAnimation(new AnimationBuilder().addAnimation("animation.ghoul_spider.walk"));
-            return PlayState.CONTINUE;
+        var controller = e.getController();
+        if (this.getTarget() != null) {
+            controller.setAnimation(new AnimationBuilder().addAnimation("animation.ghoul_spider.tracked"));
+        } else if (e.isMoving()) {
+            controller.setAnimation(new AnimationBuilder().addAnimation("animation.ghoul_spider.walk"));
         }
-        e.getController().setAnimation(new AnimationBuilder().addAnimation("animation.ghoul_spider.idle"));
         return PlayState.CONTINUE;
 
     }

@@ -1,6 +1,6 @@
 package com.infinium.server.items.custom.tools.magmaitems;
 
-import com.infinium.server.items.custom.tools.InfiniumToolItem;
+import com.infinium.server.items.custom.InfiniumItem;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -13,7 +13,7 @@ import net.minecraft.item.ToolMaterial;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class MagmaSwordItem extends SwordItem implements InfiniumToolItem {
+public class MagmaSwordItem extends SwordItem implements InfiniumItem {
 
     public MagmaSwordItem(ToolMaterial toolMaterial, int attackDamage, float attackSpeed, Settings settings) {
         super(toolMaterial, attackDamage, attackSpeed, settings);

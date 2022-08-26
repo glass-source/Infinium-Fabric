@@ -1,8 +1,7 @@
 package com.infinium.global.mixin.server.block;
 
 import com.infinium.global.utils.DateUtils;
-import com.infinium.server.items.custom.tools.InfiniumToolItem;
-import com.infinium.server.items.custom.tools.voiditems.VoidAxeItem;
+import com.infinium.server.items.custom.InfiniumItem;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
@@ -35,7 +34,7 @@ public abstract class BlockMixin extends AbstractBlock implements ItemConvertibl
         if (world.isClient) return;
         var item = player.getMainHandStack().getItem();
         var day = DateUtils.getDay();
-        if (item instanceof InfiniumToolItem) return;
+        if (item instanceof InfiniumItem) return;
 
         if (day >= 7) {
             if (state.getBlock().equals(Blocks.ANCIENT_DEBRIS)) {
