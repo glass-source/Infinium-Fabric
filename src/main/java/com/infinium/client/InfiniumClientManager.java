@@ -33,7 +33,7 @@ public class InfiniumClientManager {
         registerHudElements();
         checkKeyInput();
         registerPackets();
-        registerShaderCallback();
+       // registerShaderCallback();
     }
 
     private void registerPackets(){
@@ -45,7 +45,7 @@ public class InfiniumClientManager {
 
         ShaderEffectRenderCallback.EVENT.register(tickDelta -> {
             if (Infinium.getInstance().getCore().getEclipseManager().isActive()) {
-                BLOODMOON_SHADER.render(tickDelta);
+               BLOODMOON_SHADER.render(tickDelta);
             }
         });
     }

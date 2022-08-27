@@ -11,6 +11,7 @@ import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.SpiderEntity;
 import net.minecraft.entity.passive.IronGolemEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -34,14 +35,14 @@ public class VoidSpiderEntity extends SpiderEntity implements IAnimatable {
 
     @Override
     protected void initGoals() {
-        this.goalSelector.add(1, new SwimGoal(this));
+        this.goalSelector.add(6, new SwimGoal(this));
         this.goalSelector.add(1, new PounceAtTargetGoal(this, 0.4F));
-        this.goalSelector.add(1, new AttackGoal(this));
-        this.goalSelector.add(5, new WanderAroundFarGoal(this, 0.8));
-        this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
-        this.goalSelector.add(6, new LookAroundGoal(this));
-        this.targetSelector.add(1, new RevengeGoal(this));
-        this.targetSelector.add(1, new TargetGoal<>(this, PlayerEntity.class));
+        this.goalSelector.add(4, new WanderAroundFarGoal(this, 0.8));
+        this.goalSelector.add(4, new LookAtEntityGoal(this, MobEntity.class, 16.0F));
+        this.goalSelector.add(4, new LookAtEntityGoal(this, PlayerEntity.class, 16.0F));
+        this.goalSelector.add(4, new LookAroundGoal(this));
+        this.goalSelector.add(1, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
+        this.goalSelector.add(1, new MeleeAttackGoal(this, 1.0D, true));
     }
 
     @Override

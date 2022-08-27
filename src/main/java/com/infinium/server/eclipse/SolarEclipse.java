@@ -3,21 +3,17 @@ package com.infinium.server.eclipse;
 import com.infinium.Infinium;
 import com.infinium.global.utils.ChatFormatter;
 import com.infinium.global.utils.DateUtils;
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;
-import net.minecraft.util.math.Vec3f;
 import net.minecraft.world.GameRules;
 
 import java.time.Duration;
 import java.util.Date;
 import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
@@ -156,7 +152,6 @@ public class SolarEclipse {
         audience.showBossBar(BOSS_BAR);
         audience.playSound(Sound.sound(Key.key("infinium:eclipse_start"), Sound.Source.PLAYER, 10, 0.5f));
         gamerules.get(GameRules.DO_DAYLIGHT_CYCLE).set(false, server);
-
         if (day < 42) return;
         ChatFormatter.broadcastMessageWithPrefix("&7Se ha activado el modo &4UHC!");
         gamerules.get(GameRules.NATURAL_REGENERATION).set(false, server);

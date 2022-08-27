@@ -52,7 +52,7 @@ public class FlashbangS2CPacket {
         packetByteBuf.writeInt(flashSeconds);
         packetByteBuf.writeInt(opaqueSeconds);
         packetByteBuf.writeInt(red);
-        packetByteBuf.writeInt(blue);
+        packetByteBuf.writeInt(green);
         packetByteBuf.writeInt(blue);
         return packetByteBuf;
     }

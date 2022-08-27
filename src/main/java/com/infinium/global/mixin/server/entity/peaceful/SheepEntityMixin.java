@@ -2,12 +2,16 @@ package com.infinium.global.mixin.server.entity.peaceful;
 
 import com.infinium.global.utils.DateUtils;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.passive.SheepEntity;
+import net.minecraft.util.DyeColor;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -16,8 +20,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(SheepEntity.class)
 public abstract class SheepEntityMixin extends MobEntity {
 
+    @Shadow public abstract void setColor(DyeColor color);
+
     protected SheepEntityMixin(EntityType<? extends MobEntity> entityType, World world) {
         super(entityType, world);
+
     }
 
     @Inject(method = "createSheepAttributes", at = @At("RETURN"))
@@ -28,8 +35,8 @@ public abstract class SheepEntityMixin extends MobEntity {
     @Inject(method = "initGoals", at = @At("HEAD"))
     private void addGoals(CallbackInfo ci){
         if (DateUtils.getDay() >= 7) {
-           // targetSelector.add(1, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
-           // goalSelector.add(1, new MeleeAttackGoal(((PathAwareEntity) (Object) this), 3.0D, true));
+            //targetSelector.add(1, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
+            //goalSelector.add(1, new MeleeAttackGoal(((PathAwareEntity) (Object) this), 3.0D, true));
         }
     }
 

@@ -11,6 +11,8 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.mob.SpiderEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
@@ -33,14 +35,14 @@ public class GhoulSpiderEntity extends SpiderEntity implements IAnimatable {
 
     @Override
     protected void initGoals() {
-        this.goalSelector.add(1, new SwimGoal(this));
+        this.goalSelector.add(6, new SwimGoal(this));
         this.goalSelector.add(1, new PounceAtTargetGoal(this, 0.4F));
-        this.goalSelector.add(5, new WanderAroundFarGoal(this, 0.8));
-        this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
-        this.goalSelector.add(6, new LookAroundGoal(this));
-        this.targetSelector.add(1, new RevengeGoal(this));
-        this.goalSelector.add(1, new VoidSpiderEntity.AttackGoal(this));
-        this.targetSelector.add(1, new VoidSpiderEntity.TargetGoal<>(this, PlayerEntity.class));
+        this.goalSelector.add(4, new WanderAroundFarGoal(this, 0.8));
+        this.goalSelector.add(4, new LookAtEntityGoal(this, MobEntity.class, 16.0F));
+        this.goalSelector.add(4, new LookAtEntityGoal(this, PlayerEntity.class, 16.0F));
+        this.goalSelector.add(4, new LookAroundGoal(this));
+        this.goalSelector.add(1, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
+        this.goalSelector.add(1, new MeleeAttackGoal(this, 1.0D, true));
     }
 
     public static DefaultAttributeContainer.Builder createGhoulSpiderAttributes() {
@@ -55,10 +57,10 @@ public class GhoulSpiderEntity extends SpiderEntity implements IAnimatable {
     public boolean tryAttack(Entity target) {
         if (target instanceof LivingEntity entity) {
             StatusEffectInstance[] effects = {
-                    new StatusEffectInstance(StatusEffects.POISON, 200, 4),
-                    new StatusEffectInstance(StatusEffects.SLOWNESS, 200, 1),
-                    new StatusEffectInstance(StatusEffects.NAUSEA, 200, 0),
-                    new StatusEffectInstance(StatusEffects.HUNGER, 200, 9),
+            new StatusEffectInstance(StatusEffects.POISON, 200, 4),
+            new StatusEffectInstance(StatusEffects.SLOWNESS, 200, 1),
+            new StatusEffectInstance(StatusEffects.NAUSEA, 200, 0),
+            new StatusEffectInstance(StatusEffects.HUNGER, 200, 9),
             };
             int randomNumber = random.nextInt(effects.length);
             entity.addStatusEffect(effects[randomNumber]);
@@ -71,13 +73,16 @@ public class GhoulSpiderEntity extends SpiderEntity implements IAnimatable {
         var controller = e.getController();
         if (this.getTarget() != null) {
             controller.setAnimation(new AnimationBuilder().addAnimation("animation.ghoul_spider.tracked"));
+            return PlayState.CONTINUE;
+
         } else if (e.isMoving()) {
             controller.setAnimation(new AnimationBuilder().addAnimation("animation.ghoul_spider.walk"));
+            return PlayState.CONTINUE;
+
         } else {
             controller.setAnimation(new AnimationBuilder().addAnimation("animation.ghoul_spider.idle"));
+            return PlayState.CONTINUE;
         }
-        return PlayState.CONTINUE;
-
     }
 
     @Override

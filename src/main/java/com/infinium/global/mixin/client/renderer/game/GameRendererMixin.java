@@ -1,5 +1,6 @@
 package com.infinium.global.mixin.client.renderer.game;
 
+
 import com.infinium.networking.packets.flashbang.FlashbangManager;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.GameRenderer;
@@ -21,8 +22,12 @@ public class GameRendererMixin {
     @Inject(method = "render", at = @At("TAIL"))
     private void injectOnRender(float tickDelta, long startTime, boolean tick, CallbackInfo ci) {
         if (client.options.hudHidden) {
-            FlashbangManager.render(new MatrixStack(), (int) FlashbangManager.opacity, scaledWidth, scaledHeight, FlashbangManager.red, FlashbangManager.green, FlashbangManager.blue);
+            MatrixStack matrixStack = new MatrixStack();
+            FlashbangManager.render(matrixStack, (int) FlashbangManager.opacity, scaledWidth, scaledHeight, FlashbangManager.red, FlashbangManager.green, FlashbangManager.blue);
         }
+
+
+
     }
 
 }

@@ -57,34 +57,4 @@ public class FlashbangManager {
         GlStateManager._glBindFramebuffer(GlConst.GL_FRAMEBUFFER, 0);
         return copy;
     }
-
-    public static void renderStaticFrame(Framebuffer framebuffer, float opacity, int width, int height) {
-        if (opacity > 0 && opaqueTicks <= 0 && shouldTick && framebuffer != null) {
-            float scaledOpacity = opacity / (255f * 3);
-            RenderSystem.backupProjectionMatrix();
-
-            var shaderColorModulator = MinecraftClient.getInstance().gameRenderer.blitScreenShader.colorModulator;
-            if (shaderColorModulator == null) throw new IllegalStateException("This function must never be called without a color modulator instance.");
-
-            RenderSystem.enableBlend();
-            RenderSystem.defaultBlendFunc();
-            shaderColorModulator.set(1.0f, 1.0f, 1.0f, scaledOpacity);
-            framebuffer.draw(width, height, false);
-            RenderSystem.disableBlend();
-
-            RenderSystem.restoreProjectionMatrix();
-        }
-    }
-
-
-    public static NativeImage takeScreenshot(Framebuffer framebuffer) {
-        int i = framebuffer.textureWidth;
-        int j = framebuffer.textureHeight;
-        NativeImage nativeImage = new NativeImage(i, j, false);
-        RenderSystem.bindTexture(framebuffer.getColorAttachment());
-        nativeImage.loadFromTextureImage(0, true);
-        nativeImage.mirrorVertically();
-        return nativeImage;
-    }
-
 }

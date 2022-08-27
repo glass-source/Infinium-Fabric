@@ -9,14 +9,12 @@ import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class EnderWandItem extends ToolItem implements InfiniumItem {
+public class EnderWandItem extends Item implements InfiniumItem {
 
 
-    public EnderWandItem(ToolMaterial material, Settings settings) {
-        super(material, settings);
+    public EnderWandItem(Settings settings) {
+        super(settings);
     }
-
-
 
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
@@ -36,7 +34,7 @@ public class EnderWandItem extends ToolItem implements InfiniumItem {
                         if (world.getBlockState(blockPos).getBlock().asItem().equals(Items.AIR)) {
                             user.teleport(locToTP.getX(), locToTP.getY(), locToTP.getZ());
                             user.getStackInHand(hand).damage(1, user, p -> p.sendToolBreakStatus(user.getActiveHand()));
-                            i = 0;
+                            break;
                         }
                     }
                 }
