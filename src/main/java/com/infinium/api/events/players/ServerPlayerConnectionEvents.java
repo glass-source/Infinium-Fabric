@@ -34,7 +34,7 @@ public class ServerPlayerConnectionEvents {
                         if (result != ActionResult.PASS) {
                             return result;
                         }
-                    }
+                    } //Es necesario esto ? Porque el verificas el result si es pass returna pass pero si no returna el que no osea ??
                     return ActionResult.PASS;
                 });
 
