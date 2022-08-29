@@ -7,12 +7,13 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.text.TranslatableText;
 
 public class KairosCheckC2SPacket {
     public static void receive(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
         var sanityManager = Infinium.getInstance().getCore().getSanityManager();
         sanityManager.set(player, (20 * 60) * 120, sanityManager.TIME_COOLDOWN);
-        player.sendMessage(ChatFormatter.textWithPrefix("&7Has revisado la hora!"), false);
+        player.sendMessage(new TranslatableText("infinium.kairos_check"), true);
     }
 
 }

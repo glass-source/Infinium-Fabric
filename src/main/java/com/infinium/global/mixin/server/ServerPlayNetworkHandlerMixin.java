@@ -1,6 +1,6 @@
 package com.infinium.global.mixin.server;
 
-import com.infinium.api.events.players.ServerPlayerConnectionEvents;
+import com.infinium.server.events.players.ServerPlayerConnectionEvents;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;

@@ -2,7 +2,7 @@ package com.infinium.client;
 
 import com.infinium.Infinium;
 import com.infinium.client.renderer.ModelPredicateProvider;
-import com.infinium.client.renderer.player.hud.SanityHudOverlay;
+import com.infinium.client.renderer.game.hud.SanityHudOverlay;
 import com.infinium.networking.InfiniumPackets;
 import ladysnake.satin.api.event.ShaderEffectRenderCallback;
 import ladysnake.satin.api.managed.ManagedShaderEffect;

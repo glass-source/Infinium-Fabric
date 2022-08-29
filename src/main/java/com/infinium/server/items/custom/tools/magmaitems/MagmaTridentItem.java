@@ -27,6 +27,8 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
+import static com.infinium.server.items.custom.tools.magmaitems.MagmaAxeItem.fromHit;
+
 public class MagmaTridentItem extends TridentItem implements InfiniumItem {
 
     EntityType<? extends MagmaTridentEntity> type;
@@ -111,22 +113,7 @@ public class MagmaTridentItem extends TridentItem implements InfiniumItem {
 
     @Override
     public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        if (!target.getWorld().isClient()) {
-            stack.damage(1, attacker, p -> p.sendToolBreakStatus(attacker.getActiveHand()));
-            if (target instanceof EndermanEntity || target instanceof ShulkerEntity) {
-                target.addStatusEffect(new StatusEffectInstance(StatusEffects.GLOWING, 160, 0));
-                target.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 160, 4));
-                target.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 160, 4));
-            } else {
-                target.addStatusEffect(new StatusEffectInstance(StatusEffects.GLOWING, 160, 0));
-                target.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 160, 4));
-                target.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 160, 4));
-                target.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 160, 4));
-            }
-
-            return true;
-        }
-        return false;
+        return fromHit(stack, target, attacker);
     }
 
     @Override

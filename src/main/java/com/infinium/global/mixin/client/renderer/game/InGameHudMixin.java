@@ -19,18 +19,18 @@ public class InGameHudMixin {
     @Shadow private int scaledWidth;
     @Shadow private int scaledHeight;
     @Shadow @Final private MinecraftClient client;
-    private int opacity = 0;
+    private int opacity = -25;
 
     @Inject(method = "render", at = @At("TAIL"))
-    private void injectOnHead(MatrixStack matrices, float tickDelta, CallbackInfo ci) {
+    private void injectOnTail(MatrixStack matrices, float tickDelta, CallbackInfo ci) {
         if (!client.options.hudHidden) {
             FlashbangManager.render(matrices, (int) FlashbangManager.opacity, scaledWidth, scaledHeight, FlashbangManager.red, FlashbangManager.green, FlashbangManager.blue);
             if (Infinium.getInstance().getCore().getEclipseManager().isActive()) {
                 if (opacity < 50) opacity++;
             } else {
-                if (opacity > 1) opacity--;
+                if (opacity > -24) opacity--;
             }
-            DrawableHelper.fill(matrices, 0, 0, scaledWidth, scaledHeight, ColorHelper.Argb.getArgb(opacity, 20, 30, 75));
+            DrawableHelper.fill(matrices, 0, 0, scaledWidth, scaledHeight, ColorHelper.Argb.getArgb(Math.max(opacity, 0), 50, 100, 255));
         }
     }
 

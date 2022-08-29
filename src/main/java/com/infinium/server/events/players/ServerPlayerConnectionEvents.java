@@ -1,4 +1,4 @@
-package com.infinium.api.events.players;
+package com.infinium.server.events.players;
 
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;

@@ -1,8 +1,7 @@
 package com.infinium.global.utils;
 
 import com.infinium.Infinium;
-import com.infinium.api.config.InfiniumConfig;
-import eu.midnightdust.lib.config.MidnightConfig;
+import com.infinium.global.config.InfiniumConfig;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;

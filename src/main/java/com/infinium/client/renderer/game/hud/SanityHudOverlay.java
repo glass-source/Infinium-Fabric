@@ -1,4 +1,4 @@
-package com.infinium.client.renderer.player.hud;
+package com.infinium.client.renderer.game.hud;
 
 import com.infinium.Infinium;
 import com.infinium.global.utils.ChatFormatter;
@@ -21,30 +21,19 @@ public class SanityHudOverlay implements HudRenderCallback {
 
     @Override
     public void onHudRender(MatrixStack matrixStack, float tickDelta) {
-        int x;
-        int y;
         var client = MinecraftClient.getInstance();
         if (client == null || client.player == null) return;
-        int width = client.getWindow().getScaledWidth();
-        int height = client.getWindow().getScaledHeight();
         var p = client.player;
         if (p.isSpectator() || p.isCreative()) return;
+        var window = client.getWindow();
         var s = ((EntityDataSaver) p).getPersistentData().getInt("infinium.sanity");
 
-        x = width;
-        y = height / 2;
+        int x = window.getScaledWidth();
+        int y = window.getScaledHeight() / 2;
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, SANITY_EMPTY);
         DrawableHelper.drawTexture(matrixStack, x - 54, y - 74 + 10, 0, 0, 16, 48, 16, 48);
-
-        for (int i = 0; i < 10; i++) {
-
-
-        }
-
-
-
         DrawableHelper.drawTextWithShadow(matrixStack, client.textRenderer, ChatFormatter.text(s + "%"), x - 34, y - 54 + (9), 0xffffff);
     }
 }

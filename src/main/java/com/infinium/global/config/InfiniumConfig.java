@@ -1,4 +1,4 @@
-package com.infinium.api.config;
+package com.infinium.global.config;
 
 import com.infinium.Infinium;
 import com.infinium.server.eclipse.SolarEclipseManager;

@@ -10,6 +10,8 @@ import net.minecraft.entity.mob.ShulkerEntity;
 import net.minecraft.item.AxeItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.stat.Stats;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -21,6 +23,10 @@ public class MagmaAxeItem extends AxeItem implements InfiniumItem {
 
     @Override
     public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+        return fromHit(stack, target, attacker);
+    }
+
+    static boolean fromHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         if (!target.getWorld().isClient()) {
             stack.damage(1, attacker, p -> p.sendToolBreakStatus(attacker.getActiveHand()));
             if (target instanceof EndermanEntity || target instanceof ShulkerEntity) {
@@ -33,7 +39,6 @@ public class MagmaAxeItem extends AxeItem implements InfiniumItem {
                 target.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 160, 4));
                 target.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 160, 4));
             }
-
             return true;
         }
         return false;
@@ -41,7 +46,10 @@ public class MagmaAxeItem extends AxeItem implements InfiniumItem {
 
     @Override
     public boolean postMine(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner) {
-        if (!world.isClient) stack.damage(1, miner, p -> p.sendToolBreakStatus(miner.getActiveHand()));
+        if (!world.isClient) {
+            stack.damage(1, miner, p -> p.sendToolBreakStatus(miner.getActiveHand()));
+            if (miner instanceof ServerPlayerEntity user) user.incrementStat(Stats.MINED.getOrCreateStat(state.getBlock()));
+        }
         return true;
     }
 

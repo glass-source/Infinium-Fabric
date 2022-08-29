@@ -1,7 +1,7 @@
 package com.infinium.server;
 
 import com.infinium.Infinium;
-import com.infinium.api.config.InfiniumConfig;
+import com.infinium.global.config.InfiniumConfig;
 import com.infinium.networking.InfiniumPackets;
 import com.infinium.server.blocks.InfiniumBlocks;
 import com.infinium.server.eclipse.SolarEclipseManager;
@@ -31,7 +31,6 @@ public class InfiniumServerManager {
         this.eclipseManager = new SolarEclipseManager(this.instance);
         this.sanityManager = new SanityManager(this.instance);
     }
-
     public void initMod(){
         onServerStart();
         onServerStop();

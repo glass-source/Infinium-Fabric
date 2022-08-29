@@ -1,8 +1,9 @@
 package com.infinium.server.eclipse;
 
 import com.infinium.Infinium;
-import com.infinium.api.config.InfiniumConfig;
+import com.infinium.global.config.InfiniumConfig;
 import net.kyori.adventure.bossbar.BossBar;
+import net.minecraft.client.MinecraftClient;
 
 public class SolarEclipseManager {
     private final Infinium instance;
@@ -19,7 +20,7 @@ public class SolarEclipseManager {
 
     public void load() {
         if (instance.getCore().getServer() == null) {
-            System.out.println("null");
+            Infinium.getInstance().LOGGER.error("Server was null");
         } else {
             eclipse.lastTimeChecked = InfiniumConfig.lastTimeChecked;
             eclipse.endsIn = InfiniumConfig.endsIn;

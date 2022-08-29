@@ -1,4 +1,4 @@
-package com.infinium.api.events.entity;
+package com.infinium.server.events.entity;
 
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;

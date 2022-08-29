@@ -1,7 +1,7 @@
 package com.infinium.server.listeners.entity;
 
 import com.infinium.Infinium;
-import com.infinium.api.events.entity.EntitySpawnEvent;
+import com.infinium.server.events.entity.EntitySpawnEvent;
 import com.infinium.global.utils.ChatFormatter;
 import com.infinium.global.utils.DateUtils;
 import com.infinium.server.InfiniumServerManager;

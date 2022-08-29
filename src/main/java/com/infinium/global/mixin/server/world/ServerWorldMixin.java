@@ -1,6 +1,6 @@
 package com.infinium.global.mixin.server.world;
 
-import com.infinium.api.events.entity.EntitySpawnEvent;
+import com.infinium.server.events.entity.EntitySpawnEvent;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.packet.s2c.play.WorldTimeUpdateS2CPacket;
 import net.minecraft.server.network.ServerPlayerEntity;

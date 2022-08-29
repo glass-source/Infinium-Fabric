@@ -13,6 +13,8 @@ import net.minecraft.item.ToolMaterial;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import static com.infinium.server.items.custom.tools.magmaitems.MagmaAxeItem.fromHit;
+
 public class MagmaShovelItem extends ShovelItem implements InfiniumItem {
 
     public MagmaShovelItem(ToolMaterial material, float attackDamage, float attackSpeed, Settings settings) {
@@ -21,22 +23,7 @@ public class MagmaShovelItem extends ShovelItem implements InfiniumItem {
 
     @Override
     public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        if (!target.getWorld().isClient()) {
-            stack.damage(1, attacker, p -> p.sendToolBreakStatus(attacker.getActiveHand()));
-            if (target instanceof EndermanEntity || target instanceof ShulkerEntity) {
-                target.addStatusEffect(new StatusEffectInstance(StatusEffects.GLOWING, 160, 0));
-                target.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 160, 4));
-                target.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 160, 4));
-            } else {
-                target.addStatusEffect(new StatusEffectInstance(StatusEffects.GLOWING, 160, 0));
-                target.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 160, 4));
-                target.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 160, 4));
-                target.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 160, 4));
-            }
-
-            return true;
-        }
-        return false;
+        return fromHit(stack, target, attacker);
     }
 
     @Override

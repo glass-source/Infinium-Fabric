@@ -1,9 +1,10 @@
 package com.infinium.server.listeners.player;
 
 import com.infinium.Infinium;
-import com.infinium.api.events.players.ServerPlayerConnectionEvents;
+import com.infinium.server.events.players.ServerPlayerConnectionEvents;
 import com.infinium.server.InfiniumServerManager;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.ActionResult;
 
 public class PlayerConnectionListeners {
@@ -28,6 +29,8 @@ public class PlayerConnectionListeners {
             if (!sanityManager.totalPlayers.contains(player)) sanityManager.totalPlayers.add(player);
 
             if (core.getEclipseManager().isActive()) audience.showBossBar(core.getEclipseManager().getBossBar());
+
+            if (sanityManager.getData(player).get(sanityManager.SANITY) == null) sanityManager.set(player, 100, sanityManager.SANITY);
 
             if (sanityManager.getData(player).get(sanityManager.TIME_COOLDOWN) == null) sanityManager.set(player, 100, sanityManager.TIME_COOLDOWN);
 
