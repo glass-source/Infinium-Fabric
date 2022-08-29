@@ -19,7 +19,7 @@ public class InGameHudMixin {
     @Shadow private int scaledWidth;
     @Shadow private int scaledHeight;
     @Shadow @Final private MinecraftClient client;
-    private int opacity = -25;
+    private int opacity = -15;
 
     @Inject(method = "render", at = @At("TAIL"))
     private void injectOnTail(MatrixStack matrices, float tickDelta, CallbackInfo ci) {
@@ -28,7 +28,7 @@ public class InGameHudMixin {
             if (Infinium.getInstance().getCore().getEclipseManager().isActive()) {
                 if (opacity < 50) opacity++;
             } else {
-                if (opacity > -24) opacity--;
+                if (opacity > -14) opacity--;
             }
             DrawableHelper.fill(matrices, 0, 0, scaledWidth, scaledHeight, ColorHelper.Argb.getArgb(Math.max(opacity, 0), 50, 100, 200));
         }
