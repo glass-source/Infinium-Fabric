@@ -26,11 +26,11 @@ public class InGameHudMixin {
         if (!client.options.hudHidden) {
             FlashbangManager.render(matrices, (int) FlashbangManager.opacity, scaledWidth, scaledHeight, FlashbangManager.red, FlashbangManager.green, FlashbangManager.blue);
             if (Infinium.getInstance().getCore().getEclipseManager().isActive()) {
-                if (opacity < 50) opacity++;
+                if (opacity < 40) opacity++;
             } else {
                 if (opacity > -24) opacity--;
             }
-            DrawableHelper.fill(matrices, 0, 0, scaledWidth, scaledHeight, ColorHelper.Argb.getArgb(Math.max(opacity, 0), 50, 100, 255));
+            DrawableHelper.fill(matrices, 0, 0, scaledWidth, scaledHeight, ColorHelper.Argb.getArgb(Math.max(opacity, 0), 50, 100, 150));
         }
     }
 

@@ -5,6 +5,7 @@ import com.infinium.server.InfiniumServerManager;
 import com.mojang.logging.LogUtils;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.impl.util.log.Log;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 

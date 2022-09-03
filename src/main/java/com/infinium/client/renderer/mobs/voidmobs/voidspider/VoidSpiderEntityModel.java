@@ -10,7 +10,6 @@ import software.bernie.geckolib3.model.provider.data.EntityModelData;
 
 public class VoidSpiderEntityModel extends AnimatedGeoModel<VoidSpiderEntity> {
 
-
     @Override
     public Identifier getModelLocation(VoidSpiderEntity object) {
         return new Identifier(Infinium.MOD_ID, "geo/voidmobs/void_spider/void_spider.geo.json");

@@ -14,7 +14,6 @@ public class InfiniumPackets {
     public static final Identifier TIME_CHECK_ID = Infinium.id("time_check");
     public static final Identifier FLASHBANG_SYNC_ID = Infinium.id("flashbang_sync");
 
-
     public static void registerC2SPackets(){
         ServerPlayNetworking.registerGlobalReceiver(TIME_CHECK_ID, KairosCheckC2SPacket::receive);
     }

@@ -19,9 +19,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(SheepEntity.class)
 public abstract class SheepEntityMixin extends MobEntity {
-
-    @Shadow public abstract void setColor(DyeColor color);
-
     protected SheepEntityMixin(EntityType<? extends MobEntity> entityType, World world) {
         super(entityType, world);
 

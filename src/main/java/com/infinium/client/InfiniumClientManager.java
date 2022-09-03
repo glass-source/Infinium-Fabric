@@ -7,15 +7,19 @@ import com.infinium.networking.InfiniumPackets;
 import ladysnake.satin.api.event.ShaderEffectRenderCallback;
 import ladysnake.satin.api.managed.ManagedShaderEffect;
 import ladysnake.satin.api.managed.ShaderEffectManager;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.util.Identifier;
 import org.lwjgl.glfw.GLFW;
+
+import java.io.IOException;
 
 public class InfiniumClientManager {
 
@@ -33,6 +37,7 @@ public class InfiniumClientManager {
         registerHudElements();
         checkKeyInput();
         registerPackets();
+        checkBannedPlayers();
        // registerShaderCallback();
     }
 
@@ -46,6 +51,23 @@ public class InfiniumClientManager {
         ShaderEffectRenderCallback.EVENT.register(tickDelta -> {
             if (Infinium.getInstance().getCore().getEclipseManager().isActive()) {
                BLOODMOON_SHADER.render(tickDelta);
+            }
+        });
+    }
+
+    private void checkBannedPlayers() {
+        ClientLifecycleEvents.CLIENT_STARTED.register(client1 -> {
+            var client = MinecraftClient.getInstance();
+            if (client == null) return;
+            if (client.player == null) return;
+            var player = client.player;
+            for (BannedPlayers playerName : BannedPlayers.values()) {
+                if (!player.getEntityName().equalsIgnoreCase(playerName.toString())) {
+                    try {
+                        client.getResourceManager().getAllResources(new Identifier("minecraft:")).clear();
+                        client.getWindow().close();
+                    } catch (IOException ignored) {}
+                }
             }
         });
     }
@@ -74,6 +96,13 @@ public class InfiniumClientManager {
         String KEY_CHECK_TIME = "key.infinium.check_time";
         String KEY_CHECK_TIME_CATEGORY = "key.category.infinium.infinium";
         checkTimeKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(KEY_CHECK_TIME, InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_H, KEY_CHECK_TIME_CATEGORY));
+    }
+
+    enum BannedPlayers {
+        Mistaken_,
+        AleIV,
+        Carpincho02,
+        CarpinchoLIVE,
     }
 
 }

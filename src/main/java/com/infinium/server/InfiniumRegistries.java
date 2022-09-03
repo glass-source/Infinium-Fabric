@@ -2,6 +2,7 @@ package com.infinium.server;
 
 import com.infinium.server.entities.InfiniumEntityType;
 import com.infinium.server.entities.mobs.ghoulmobs.GhoulSpiderEntity;
+import com.infinium.server.entities.mobs.ghoulmobs.GhoulZombieEntity;
 import com.infinium.server.entities.mobs.voidmobs.VoidGhastEntity;
 import com.infinium.server.commands.InfiniumCommand;
 import com.infinium.server.commands.StaffCommand;
@@ -28,6 +29,7 @@ public class InfiniumRegistries {
         setAttributes(InfiniumEntityType.VOID_GHAST, VoidGhastEntity.createVoidGhastAttributes());
         setAttributes(InfiniumEntityType.VOID_SPIDER, VoidSpiderEntity.createVoidSpiderAttributes());
         setAttributes(InfiniumEntityType.GHOUL_SPIDER, GhoulSpiderEntity.createGhoulSpiderAttributes());
+        setAttributes(InfiniumEntityType.GHOUL_ZOMBIE, GhoulZombieEntity.createGhoulZombieAttributes());
     }
 
     private static void setAttributes(EntityType<? extends LivingEntity> type, DefaultAttributeContainer.Builder attributes){

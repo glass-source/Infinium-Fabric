@@ -1,17 +1,25 @@
 package com.infinium.server.eclipse;
 
+import com.eliotlash.mclib.math.functions.limit.Min;
 import com.infinium.Infinium;
 import com.infinium.global.utils.ChatFormatter;
 import com.infinium.global.utils.DateUtils;
+import com.infinium.networking.InfiniumPackets;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.world.GameRules;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
 import java.util.concurrent.ScheduledExecutorService;
@@ -19,6 +27,8 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 public class SolarEclipse {
+
+
     public final String TITLE = ChatFormatter.format("&k| &6&l☀ &7&lEclipse Solar: &e&l%time% &6&l☀ &r&k|");
     public final BossBar BOSS_BAR = BossBar.bossBar(Component.text(TITLE.replaceAll("%time%", "0:00:00")), 1, BossBar.Color.PURPLE, BossBar.Overlay.NOTCHED_6);
     public long endsIn;
@@ -33,7 +43,7 @@ public class SolarEclipse {
         this.service = Infinium.getInstance().getExecutor();
     }
 
-    public void initBossbarTask(){
+    public void initBossBarTask(){
         if (service == null) service = Infinium.getInstance().getExecutor();
 
         try {
@@ -126,7 +136,7 @@ public class SolarEclipse {
     public void start(double hours){
         if (hours <= 0) return;
         if (!isActive()) {
-            initBossbarTask();
+            initBossBarTask();
             endsIn = 0L;
         }
 
@@ -138,7 +148,6 @@ public class SolarEclipse {
         var day = DateUtils.getDay();
         var core = manager.getInstance().getCore();
         var server = core.getServer();
-
 
         if (server == null) return;
         var world = server.getOverworld();
@@ -209,4 +218,7 @@ public class SolarEclipse {
     public boolean isActive() {
         return getTimeToEnd() > 0L;
     }
+
+
+
 }

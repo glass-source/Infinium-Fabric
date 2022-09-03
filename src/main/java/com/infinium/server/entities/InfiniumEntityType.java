@@ -2,6 +2,7 @@ package com.infinium.server.entities;
 
 import com.infinium.Infinium;
 import com.infinium.server.entities.mobs.ghoulmobs.GhoulSpiderEntity;
+import com.infinium.server.entities.mobs.ghoulmobs.GhoulZombieEntity;
 import com.infinium.server.entities.mobs.voidmobs.VoidGhastEntity;
 import com.infinium.server.entities.mobs.voidmobs.VoidSpiderEntity;
 import com.infinium.server.entities.projectiles.MagmaTridentEntity;
@@ -19,8 +20,9 @@ public class InfiniumEntityType {
     public static EntityType<MagmaTridentEntity> MAGMA_TRIDENT;
     public static EntityType<VoidGhastEntity> VOID_GHAST;
     public static EntityType<VoidSpiderEntity> VOID_SPIDER;
-
     public static EntityType<GhoulSpiderEntity> GHOUL_SPIDER;
+
+    public static EntityType<GhoulZombieEntity> GHOUL_ZOMBIE;
 
     public static void init() {
         MAGMA_TRIDENT = register("magma_trident", createEntityType(MagmaTridentEntity::new));
@@ -39,7 +41,13 @@ public class InfiniumEntityType {
                 FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, GhoulSpiderEntity::new)
                         .dimensions(EntityDimensions
                         .fixed(1.4F, 1.0F)).build());
+
+        GHOUL_ZOMBIE = Registry.register(Registry.ENTITY_TYPE, new Identifier(Infinium.MOD_ID, "ghoul_zombie"),
+                FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, GhoulZombieEntity::new)
+                        .dimensions(EntityDimensions
+                        .fixed(0.7F, 2.15F)).build());
     }
+
 
     private static <T extends Entity> EntityType<T> register(String s, EntityType<T> bombEntityType) {
         return Registry.register(Registry.ENTITY_TYPE, new Identifier(Infinium.MOD_ID + ":" + s), bombEntityType);

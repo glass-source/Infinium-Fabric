@@ -15,7 +15,6 @@ import java.util.concurrent.TimeUnit;
 public class Animation {
     private static ScheduledFuture<?> task;
 
-    //mi diosito aleencuarto, clipear y elFelDiesisiete
     public static void initImageForAll() {
         var instance = Infinium.getInstance();
         var core = instance.getCore();
