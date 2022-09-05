@@ -27,12 +27,6 @@ public class VoidBowItem extends BowItem implements InfiniumItem {
     public boolean postMine(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner) {
         return super.postMine(stack, world, state, pos, miner);
     }
-
-    @Override
-    public boolean isDamageable() {
-        return super.isDamageable();
-    }
-
     @Override
     public boolean canRepair(ItemStack stack, ItemStack ingredient) {
         return true;
@@ -96,4 +90,5 @@ public class VoidBowItem extends BowItem implements InfiniumItem {
             }
         }
     }
+
 }

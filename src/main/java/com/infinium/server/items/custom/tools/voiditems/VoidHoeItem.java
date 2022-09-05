@@ -34,9 +34,4 @@ public class VoidHoeItem extends HoeItem implements InfiniumItem {
         return true;
     }
 
-    @Override
-    public boolean isDamageable() {
-        return false;
-    }
-
 }

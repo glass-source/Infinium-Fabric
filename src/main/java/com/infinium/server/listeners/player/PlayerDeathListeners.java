@@ -13,6 +13,8 @@ import net.kyori.adventure.key.Key;
 import net.kyori.adventure.sound.Sound;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.entity.EntityStatuses;
+import net.minecraft.entity.attribute.EntityAttributeModifier;
+import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -24,13 +26,15 @@ import net.minecraft.stat.Stats;
 import net.minecraft.util.Hand;
 import net.minecraft.world.GameMode;
 
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 public class PlayerDeathListeners {
 
     private final Infinium instance;
     private final InfiniumServerManager core;
-
+    public static final EntityAttributeModifier firstTotemDebuff = new EntityAttributeModifier(UUID.randomUUID(), "Totem Debuff", -4, EntityAttributeModifier.Operation.ADDITION);
+    public static final EntityAttributeModifier secondTotemDebuff = new EntityAttributeModifier(UUID.randomUUID(), "Totem Debuff", -100, EntityAttributeModifier.Operation.ADDITION);
     public PlayerDeathListeners(Infinium instance){
         this.instance = instance;
         this.core = instance.getCore();
@@ -39,7 +43,6 @@ public class PlayerDeathListeners {
     public void registerListener(){
         playerDeathCallback();
     }
-
     private void playerDeathCallback(){
         ServerPlayerEvents.ALLOW_DEATH.register((player, damageSource, damageAmount) -> {
             if (core.getServer() == null) return false;
@@ -51,12 +54,13 @@ public class PlayerDeathListeners {
         });
     }
 
-    private void onTotemUse(ServerPlayerEntity player){
+    private void onTotemUse(ServerPlayerEntity player) {
         var sanityManager = instance.getCore().getSanityManager();
-        ItemStack totemStack = null;
         var data = ((EntityDataSaver) player).getPersistentData();
         var message = "";
-        int totems = data.getInt("infinium.totems");
+        var totemString = "infinium.totems";
+        int totems = data.getInt(totemString);
+        ItemStack totemStack = null;
 
         Hand[] handValue = Hand.values();
         for (Hand hand : handValue) {
@@ -84,31 +88,48 @@ public class PlayerDeathListeners {
 
         if (totemItem.equals(InfiniumItems.VOID_TOTEM)) {
             player.addStatusEffect(new StatusEffectInstance(InfiniumEffects.IMMUNITY, 20 * 15, 0));
-            data.putInt("infinium.totems", totems + 3);
+            data.putInt(totemString, totems + 3);
             message = ChatFormatter.formatWithPrefix("&8El jugador &5&l" + playerName + " &8ha consumido un &b&lVoid Tótem" + " &8(Tótem #%.%)".replaceAll("%.%", String.valueOf(totems + 3)));
 
         } else if (totemItem.equals(InfiniumItems.MAGMA_TOTEM)) {
-            data.putInt("infinium.totems", totems + 1);
+            data.putInt(totemString, totems + 1);
             message = ChatFormatter.formatWithPrefix("&8El jugador &5&l" + playerName + " &8ha consumido un \n&c&lMagma Tótem" + " &8(Tótem #%.%)".replaceAll("%.%", String.valueOf(totems + 1)));
 
         } else {
-            data.putInt("infinium.totems", totems + 1);
+            data.putInt(totemString, totems + 1);
             message = ChatFormatter.formatWithPrefix("&8El jugador &5&l" + playerName + " &8ha consumido un \n&6&lTótem de la Inmortalidad" + " &8(Tótem #%.%)".replaceAll("%.%", String.valueOf(totems + 1)));
         }
         sanityManager.decrease(player, 40, sanityManager.SANITY);
         ChatFormatter.broadcastMessage(message);
+
+        totemEffects(player);
     }
 
-    private boolean onPlayerDeath(ServerPlayerEntity playerDied){
-        var pos = playerDied.getBlockPos();
-        var audience = core.getAdventure(). audience(PlayerLookup.all(core.getServer()));
+    private void totemEffects(ServerPlayerEntity user) {
+        var data = ((EntityDataSaver) user).getPersistentData();
+        int totems = data.getInt("infinium.totems");
+        var attributeInstance = user.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH);
 
-        if (pos.getY() < -64) playerDied.teleport(pos.getX(), -64, pos.getZ());
+        if (totems >= 25) {
+            if (!attributeInstance.hasModifier(firstTotemDebuff)) attributeInstance.addPersistentModifier(firstTotemDebuff);
+        }
+
+        if (totems >= 30) {
+            if (attributeInstance.hasModifier(firstTotemDebuff)) attributeInstance.removeModifier(firstTotemDebuff);
+            if (!attributeInstance.hasModifier(secondTotemDebuff)) attributeInstance.addPersistentModifier(secondTotemDebuff);
+        }
+
+    }
+    private boolean onPlayerDeath(ServerPlayerEntity playerDied) {
         if (playerDied.isSpectator()) {
             playerDied.setHealth(playerDied.getMaxHealth());
             return false;
         }
 
+        var pos = playerDied.getBlockPos();
+        var audience = core.getAdventure(). audience(PlayerLookup.all(core.getServer()));
+
+        if (pos.getY() < -64) playerDied.teleport(pos.getX(), -64, pos.getZ());
         instance.getExecutor().schedule(core.getEclipseManager()::startFromDeath, 13, TimeUnit.SECONDS);
         ChatFormatter.broadcastMessage(ChatFormatter.formatWithPrefix("&7El jugador &6&l%player% &7sucumbio ante el\n&5&lVacío Infinito".replaceAll("%player%", playerDied.getEntityName())));
         playerDied.setHealth(20.0f);

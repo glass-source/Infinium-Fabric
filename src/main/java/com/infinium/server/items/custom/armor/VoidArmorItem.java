@@ -5,6 +5,8 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.attribute.EntityAttributeModifier;
+import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -17,9 +19,11 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.Arrays;
+import java.util.UUID;
 
 public class VoidArmorItem extends ArmorItem implements ItemConvertible, InfiniumItem {
 
+    private static final EntityAttributeModifier EXTRA_HEALTH_BOOST = new EntityAttributeModifier(UUID.randomUUID(), "Void Armor Healthboost", 16, EntityAttributeModifier.Operation.ADDITION);;
     public VoidArmorItem(ArmorMaterial material, EquipmentSlot slot, Settings settings) {
         super(material, slot, settings);
     }
@@ -52,16 +56,26 @@ public class VoidArmorItem extends ArmorItem implements ItemConvertible, Infiniu
     public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
         if (world.isClient()) return;
         if (!(entity instanceof PlayerEntity p)) return;
-        if (!hasVoidArmor(p)) return;
+        var entityAttributeInstance = p.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH);
 
-        StatusEffect[] effects = {
-        StatusEffects.RESISTANCE,
-        StatusEffects.SPEED};
+        if (hasVoidArmor(p)) {
+            if (!entityAttributeInstance.hasModifier(EXTRA_HEALTH_BOOST)) entityAttributeInstance.addTemporaryModifier(EXTRA_HEALTH_BOOST);
 
-        Arrays.stream(effects).toList().forEach(status -> {
-            if (!p.hasStatusEffect(status)) p.addStatusEffect(new StatusEffectInstance(status, 280, 0));
-            if (p.getStatusEffect(status).getDuration() < 120) p.addStatusEffect(new StatusEffectInstance(status, 280, 0));
-        });
+            StatusEffect[] effects = {
+            StatusEffects.RESISTANCE,
+            StatusEffects.SPEED};
+
+            Arrays.stream(effects).toList().forEach(status -> {
+                if (!p.hasStatusEffect(status)) p.addStatusEffect(new StatusEffectInstance(status, 280, 0));
+                if (p.getStatusEffect(status).getDuration() < 120)
+                    p.addStatusEffect(new StatusEffectInstance(status, 280, 0));
+            });
+        } else {
+            if (entityAttributeInstance.hasModifier(EXTRA_HEALTH_BOOST)) {
+                entityAttributeInstance.removeModifier(EXTRA_HEALTH_BOOST);
+                p.setHealth(p.getMaxHealth());
+            }
+        }
     }
 
     private static boolean hasFullArmor(PlayerEntity user) {

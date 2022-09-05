@@ -3,12 +3,14 @@ package com.infinium.client.renderer;
 import com.infinium.client.renderer.item.InfiniumElytraFeatureRenderer;
 import com.infinium.client.renderer.mobs.ghoulmobs.ghoulspider.GhoulSpiderEntityRenderer;
 import com.infinium.client.renderer.mobs.ghoulmobs.ghoulzombie.GhoulZombieEntityRenderer;
+import com.infinium.client.renderer.mobs.voidmobs.voidenderman.VoidEndermanEntityRenderer;
 import com.infinium.client.renderer.projectiles.magmatrident.MagmaTridentEntityRenderer;
 import com.infinium.client.renderer.item.MagmaTridentItemRenderer;
 import com.infinium.client.renderer.mobs.voidmobs.voidghast.VoidGhastEntityModel;
 import com.infinium.client.renderer.mobs.voidmobs.voidghast.VoidGhastEntityRenderer;
 import com.infinium.client.renderer.mobs.voidmobs.voidspider.VoidSpiderEntityRenderer;
 import com.infinium.server.entities.InfiniumEntityType;
+import com.infinium.server.entities.mobs.voidmobs.voidenderman.VoidEndermanEntity;
 import com.infinium.server.items.InfiniumItems;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
@@ -34,6 +36,7 @@ public class ModelPredicateProvider {
     public static void registerEntityRenderer() {
         EntityRendererRegistry.register(InfiniumEntityType.VOID_GHAST, VoidGhastEntityRenderer::new);
         EntityRendererRegistry.register(InfiniumEntityType.VOID_SPIDER, VoidSpiderEntityRenderer::new);
+        EntityRendererRegistry.register(InfiniumEntityType.VOID_ENDERMAN, VoidEndermanEntityRenderer::new);
         EntityRendererRegistry.register(InfiniumEntityType.GHOUL_SPIDER, GhoulSpiderEntityRenderer::new);
         EntityRendererRegistry.register(InfiniumEntityType.GHOUL_ZOMBIE, GhoulZombieEntityRenderer::new);
         EntityRendererRegistry.register(InfiniumEntityType.MAGMA_TRIDENT, MagmaTridentEntityRenderer::new);

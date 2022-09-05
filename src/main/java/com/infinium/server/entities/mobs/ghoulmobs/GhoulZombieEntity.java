@@ -1,5 +1,6 @@
 package com.infinium.server.entities.mobs.ghoulmobs;
 
+import com.infinium.global.utils.ChatFormatter;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityGroup;
@@ -48,6 +49,7 @@ public class GhoulZombieEntity extends HostileEntity implements IAnimatable {
     protected void initDataTracker() {
         super.initDataTracker();
         this.dataTracker.startTracking(PLAYING_ATTACK_ANIMATION, false);
+        this.setCustomName(ChatFormatter.text("&cGhoul Zombie"));
     }
 
     public boolean isPlayingAttackAnimation() {

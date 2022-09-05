@@ -1,19 +1,21 @@
-package com.infinium.server.entities.mobs.voidmobs;
+package com.infinium.server.entities.mobs.voidmobs.voidspider;
 
 import com.infinium.global.utils.ChatFormatter;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.ai.pathing.EntityNavigation;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.effect.StatusEffect;
+import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.SpiderEntity;
-import net.minecraft.entity.passive.IronGolemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
 import software.bernie.geckolib3.core.IAnimatable;
@@ -26,13 +28,22 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 public class VoidSpiderEntity extends SpiderEntity implements IAnimatable {
 
+    protected static final TrackedData<Boolean> STARTED_WALKING = DataTracker.registerData(VoidSpiderEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+
     private final AnimationFactory factory = new AnimationFactory(this);
 
     public VoidSpiderEntity(EntityType<? extends SpiderEntity> entityType, World world) {
         super(entityType, world);
         this.setCustomName(ChatFormatter.text("&bVoid Spider"));
+        this.navigation = createNavigation(this.world);
+
     }
 
+    @Override
+    protected void initDataTracker() {
+        super.initDataTracker();
+        this.dataTracker.startTracking(STARTED_WALKING, false);
+    }
     @Override
     protected void initGoals() {
         this.goalSelector.add(6, new SwimGoal(this));
@@ -43,6 +54,14 @@ public class VoidSpiderEntity extends SpiderEntity implements IAnimatable {
         this.goalSelector.add(4, new LookAroundGoal(this));
         this.goalSelector.add(1, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
         this.goalSelector.add(1, new MeleeAttackGoal(this, 1.0D, true));
+    }
+
+    protected EntityNavigation createNavigation(World world) {
+        return new VoidSpiderNavigation(this, world);
+    }
+
+    protected void setStartedWalking(boolean started){
+        this.dataTracker.set(STARTED_WALKING, started);
     }
 
     @Override
@@ -76,7 +95,6 @@ public class VoidSpiderEntity extends SpiderEntity implements IAnimatable {
         }
         e.getController().setAnimation(new AnimationBuilder().addAnimation("animation.void_spider.idle"));
         return PlayState.CONTINUE;
-
     }
 
     @Override
@@ -87,39 +105,5 @@ public class VoidSpiderEntity extends SpiderEntity implements IAnimatable {
     @Override
     public AnimationFactory getFactory() {
         return this.factory;
-    }
-
-    public static class TargetGoal<T extends LivingEntity> extends ActiveTargetGoal<T> {
-        public TargetGoal(SpiderEntity spider, Class<T> targetEntityClass) {
-            super(spider, targetEntityClass, true);
-        }
-
-        public boolean canStart() {
-            return super.canStart();
-        }
-    }
-
-    public static class AttackGoal extends MeleeAttackGoal {
-        public AttackGoal(SpiderEntity spider) {
-            super(spider, 1.0, true);
-        }
-
-        public boolean canStart() {
-            return super.canStart() && !this.mob.hasPassengers();
-        }
-
-        public boolean shouldContinue() {
-            float f = this.mob.getBrightnessAtEyes();
-            if (f >= 0.5F && this.mob.getRandom().nextInt(100) == 0) {
-                this.mob.setTarget(null);
-                return false;
-            } else {
-                return super.shouldContinue();
-            }
-        }
-
-        protected double getSquaredMaxAttackDistance(LivingEntity entity) {
-            return 4.0F + entity.getWidth();
-        }
     }
 }

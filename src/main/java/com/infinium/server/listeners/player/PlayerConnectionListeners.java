@@ -34,6 +34,7 @@ public class PlayerConnectionListeners {
 
             if (sanityManager.getData(player).get(sanityManager.TIME_COOLDOWN) == null) sanityManager.set(player, 100, sanityManager.TIME_COOLDOWN);
 
+            sanityManager.syncSanity(player, sanityManager.get(player, sanityManager.SANITY));
             return ActionResult.PASS;
         });
 

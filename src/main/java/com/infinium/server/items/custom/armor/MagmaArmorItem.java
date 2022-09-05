@@ -12,6 +12,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttribute;
+import net.minecraft.entity.attribute.EntityAttributeInstance;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
@@ -28,6 +29,7 @@ import java.util.UUID;
 
 public class MagmaArmorItem extends ArmorItem implements ItemConvertible, InfiniumItem {
 
+    private static final EntityAttributeModifier EXTRA_HEALTH_BOOST = new EntityAttributeModifier(UUID.randomUUID(), "Magma Armor Healthboost", 22, EntityAttributeModifier.Operation.ADDITION);;
     public MagmaArmorItem(ArmorMaterial material, EquipmentSlot slot, Settings settings) {
         super(material, slot, settings);
 
@@ -47,18 +49,27 @@ public class MagmaArmorItem extends ArmorItem implements ItemConvertible, Infini
     public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
         if (world.isClient()) return;
         if (!(entity instanceof PlayerEntity p)) return;
-        if (!hasMagmaArmor(p)) return;
+        var entityAttributeInstance = p.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH);
 
-        StatusEffect[] effects = {
-        StatusEffects.RESISTANCE,
-        StatusEffects.SPEED,
-        StatusEffects.FIRE_RESISTANCE};
+        if (hasMagmaArmor(p)) {
+            if (!entityAttributeInstance.hasModifier(EXTRA_HEALTH_BOOST)) entityAttributeInstance.addTemporaryModifier(EXTRA_HEALTH_BOOST);
 
-        Arrays.stream(effects).toList().forEach(status -> {
+            StatusEffect[] effects = {
+            StatusEffects.RESISTANCE,
+            StatusEffects.SPEED,
+            StatusEffects.FIRE_RESISTANCE};
+
+            Arrays.stream(effects).toList().forEach(status -> {
             if (!p.hasStatusEffect(status)) p.addStatusEffect(new StatusEffectInstance(status, 280, 1));
             if (p.getStatusEffect(status).getDuration() < 120)
                 p.addStatusEffect(new StatusEffectInstance(status, 280, 1));
-        });
+            });
+        } else {
+            if (entityAttributeInstance.hasModifier(EXTRA_HEALTH_BOOST)) {
+                entityAttributeInstance.removeModifier(EXTRA_HEALTH_BOOST);
+                p.setHealth(p.getMaxHealth());
+            }
+        }
     }
 
     private static boolean hasFullArmor(PlayerEntity user) {

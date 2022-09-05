@@ -32,9 +32,4 @@ public class VoidAxeItem extends AxeItem implements InfiniumItem {
         return true;
     }
 
-    @Override
-    public boolean isDamageable() {
-        return false;
-    }
-
 }

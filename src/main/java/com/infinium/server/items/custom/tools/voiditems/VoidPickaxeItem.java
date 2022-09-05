@@ -2,9 +2,11 @@ package com.infinium.server.items.custom.tools.voiditems;
 
 import com.infinium.server.items.custom.InfiniumItem;
 import net.minecraft.block.BlockState;
+import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.PickaxeItem;
 import net.minecraft.item.ToolMaterial;
@@ -35,8 +37,10 @@ public class VoidPickaxeItem extends PickaxeItem implements InfiniumItem {
     }
 
     @Override
-    public boolean isDamageable() {
-        return false;
+    public void onCraft(ItemStack stack, World world, PlayerEntity player) {
+        super.onCraft(stack, world, player);
+        stack.addEnchantment(Enchantments.EFFICIENCY, 7);
+        stack.addEnchantment(Enchantments.UNBREAKING, 5);
+        stack.addEnchantment(Enchantments.MENDING, 1);
     }
-
 }

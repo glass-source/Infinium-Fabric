@@ -33,9 +33,4 @@ public class VoidSwordItem extends SwordItem implements InfiniumItem {
         if (!world.isClient) stack.damage(1, miner, p -> p.sendToolBreakStatus(miner.getActiveHand()));
         return true;
     }
-
-    @Override
-    public boolean isDamageable() {
-        return false;
-    }
 }

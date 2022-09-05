@@ -5,7 +5,7 @@ import com.infinium.server.events.entity.EntitySpawnEvent;
 import com.infinium.global.utils.ChatFormatter;
 import com.infinium.global.utils.DateUtils;
 import com.infinium.server.InfiniumServerManager;
-import com.infinium.server.entities.mobs.voidmobs.VoidSpiderEntity;
+import com.infinium.server.entities.mobs.voidmobs.voidspider.VoidSpiderEntity;
 import net.minecraft.util.ActionResult;
 
 
@@ -29,16 +29,16 @@ public class EntitySpawnListeners {
 
             switch (world.getRegistryKey().getValue().toString()) {
                 case "minecraft:overworld" -> {
-                    if (entity instanceof VoidSpiderEntity) ChatFormatter.broadcastMessage("world!");
+
                 }
 
                 case "minecraft:the_nether" -> {
-                    if (entity instanceof VoidSpiderEntity) ChatFormatter.broadcastMessage("nether!");
+
 
                 }
 
                 case "minecraft:the_end" -> {
-                    if (entity instanceof VoidSpiderEntity) ChatFormatter.broadcastMessage("end!");
+
 
                 }
 

@@ -4,7 +4,8 @@ import com.infinium.Infinium;
 import com.infinium.server.entities.mobs.ghoulmobs.GhoulSpiderEntity;
 import com.infinium.server.entities.mobs.ghoulmobs.GhoulZombieEntity;
 import com.infinium.server.entities.mobs.voidmobs.VoidGhastEntity;
-import com.infinium.server.entities.mobs.voidmobs.VoidSpiderEntity;
+import com.infinium.server.entities.mobs.voidmobs.voidenderman.VoidEndermanEntity;
+import com.infinium.server.entities.mobs.voidmobs.voidspider.VoidSpiderEntity;
 import com.infinium.server.entities.projectiles.MagmaTridentEntity;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.entity.Entity;
@@ -21,8 +22,8 @@ public class InfiniumEntityType {
     public static EntityType<VoidGhastEntity> VOID_GHAST;
     public static EntityType<VoidSpiderEntity> VOID_SPIDER;
     public static EntityType<GhoulSpiderEntity> GHOUL_SPIDER;
-
     public static EntityType<GhoulZombieEntity> GHOUL_ZOMBIE;
+    public static EntityType<VoidEndermanEntity> VOID_ENDERMAN;
 
     public static void init() {
         MAGMA_TRIDENT = register("magma_trident", createEntityType(MagmaTridentEntity::new));
@@ -35,17 +36,22 @@ public class InfiniumEntityType {
         VOID_SPIDER = Registry.register(Registry.ENTITY_TYPE, new Identifier(Infinium.MOD_ID, "void_spider"),
                 FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, VoidSpiderEntity::new)
                 .dimensions(EntityDimensions
-                .fixed(1.4F, 1.0F)).build());
+                .fixed(2F, 1.35F)).build());
+
+        VOID_ENDERMAN = Registry.register(Registry.ENTITY_TYPE, new Identifier(Infinium.MOD_ID, "void_enderman"),
+                FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, VoidEndermanEntity::new)
+                        .dimensions(EntityDimensions
+                                .fixed(0.95F, 4.0F)).build());
 
         GHOUL_SPIDER = Registry.register(Registry.ENTITY_TYPE, new Identifier(Infinium.MOD_ID, "ghoul_spider"),
                 FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, GhoulSpiderEntity::new)
                         .dimensions(EntityDimensions
-                        .fixed(1.4F, 1.0F)).build());
+                        .fixed(1.5F, 1.07F)).build());
 
         GHOUL_ZOMBIE = Registry.register(Registry.ENTITY_TYPE, new Identifier(Infinium.MOD_ID, "ghoul_zombie"),
                 FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, GhoulZombieEntity::new)
                         .dimensions(EntityDimensions
-                        .fixed(0.7F, 2.15F)).build());
+                        .fixed(0.8F, 1.95F)).build());
     }
 
 

@@ -6,7 +6,8 @@ import com.infinium.server.entities.mobs.ghoulmobs.GhoulZombieEntity;
 import com.infinium.server.entities.mobs.voidmobs.VoidGhastEntity;
 import com.infinium.server.commands.InfiniumCommand;
 import com.infinium.server.commands.StaffCommand;
-import com.infinium.server.entities.mobs.voidmobs.VoidSpiderEntity;
+import com.infinium.server.entities.mobs.voidmobs.voidenderman.VoidEndermanEntity;
+import com.infinium.server.entities.mobs.voidmobs.voidspider.VoidSpiderEntity;
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.minecraft.entity.EntityType;
@@ -30,6 +31,7 @@ public class InfiniumRegistries {
         setAttributes(InfiniumEntityType.VOID_SPIDER, VoidSpiderEntity.createVoidSpiderAttributes());
         setAttributes(InfiniumEntityType.GHOUL_SPIDER, GhoulSpiderEntity.createGhoulSpiderAttributes());
         setAttributes(InfiniumEntityType.GHOUL_ZOMBIE, GhoulZombieEntity.createGhoulZombieAttributes());
+        setAttributes(InfiniumEntityType.VOID_ENDERMAN, VoidEndermanEntity.createVoidEndermanAttributes());
     }
 
     private static void setAttributes(EntityType<? extends LivingEntity> type, DefaultAttributeContainer.Builder attributes){

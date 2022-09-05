@@ -1,12 +1,17 @@
 package com.infinium.server.sanity;
 
-import com.infinium.networking.packets.sanity.KairosCheckC2SPacket;
 import com.infinium.server.effects.InfiniumEffects;
+import net.minecraft.entity.attribute.EntityAttributeModifier;
+import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 
+import java.util.UUID;
+
 public class SanityTask {
+
+    private static final EntityAttributeModifier EXTRA_HEALTH_BOOST = new EntityAttributeModifier(UUID.randomUUID(), "Sanity Healthboost", 4, EntityAttributeModifier.Operation.ADDITION);;
 
     private final SanityManager manager;
     public SanityTask(SanityManager manager){
@@ -17,18 +22,30 @@ public class SanityTask {
         manager.totalPlayers.forEach((p) -> {
             if (p.isCreative() || p.isSpectator()) return;
             calcSanity(p);
-            sanityDeBuffs(p);
+            sanityEffects(p);
         });
     }
 
-    private void sanityDeBuffs(PlayerEntity p) {
+    private void sanityEffects(PlayerEntity p) {
         if (p.isCreative() || p.isSpectator()) return;
         int sanity = manager.get(p, manager.SANITY);
         var world = p.getWorld();
+        var entityAttributeInstance = p.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH);
 
-        if (sanity < 50) if (world.getRandom().nextInt(250) == 1) p.addStatusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 160, 0));
-        if (sanity < 40) if (world.getRandom().nextInt(250) == 1) p.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 160, 0));
-        if (sanity < 30) if (world.getRandom().nextInt(250) == 1) p.addStatusEffect(new StatusEffectInstance(InfiniumEffects.MADNESS, 160, 0));
+        if (sanity >= 90) {
+            if (!entityAttributeInstance.hasModifier(EXTRA_HEALTH_BOOST)) entityAttributeInstance.addTemporaryModifier(EXTRA_HEALTH_BOOST);
+
+        } else {
+            if (entityAttributeInstance.hasModifier(EXTRA_HEALTH_BOOST)) {
+                entityAttributeInstance.removeModifier(EXTRA_HEALTH_BOOST);
+                p.setHealth(p.getMaxHealth());
+            }
+
+            var random = world.getRandom();
+            if (sanity < 50) if (random.nextInt(250) == 1) p.addStatusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 160, 0));
+            if (sanity < 40) if (random.nextInt(250) == 1) p.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 160, 0));
+            if (sanity < 30) if (random.nextInt(250) == 1) p.addStatusEffect(new StatusEffectInstance(InfiniumEffects.MADNESS, 160, random.nextInt(5)));
+        }
     }
 
     private void calcSanity(PlayerEntity p) {

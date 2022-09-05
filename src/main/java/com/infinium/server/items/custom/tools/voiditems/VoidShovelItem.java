@@ -34,9 +34,4 @@ public class VoidShovelItem extends ShovelItem implements InfiniumItem {
         return true;
     }
 
-    @Override
-    public boolean isDamageable() {
-        return false;
-    }
-
 }
