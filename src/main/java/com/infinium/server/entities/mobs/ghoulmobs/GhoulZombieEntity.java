@@ -1,6 +1,7 @@
 package com.infinium.server.entities.mobs.ghoulmobs;
 
 import com.infinium.global.utils.ChatFormatter;
+import com.infinium.server.entities.InfiniumEntity;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityGroup;
@@ -36,7 +37,7 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 import java.util.EnumSet;
 
-public class GhoulZombieEntity extends HostileEntity implements IAnimatable {
+public class GhoulZombieEntity extends HostileEntity implements IAnimatable, InfiniumEntity {
 
     private static final TrackedData<Boolean> PLAYING_ATTACK_ANIMATION = DataTracker.registerData(GhoulZombieEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
     private final AnimationFactory factory = new AnimationFactory(this);

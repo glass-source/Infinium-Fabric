@@ -1,10 +1,10 @@
 package com.infinium.server.entities.mobs.voidmobs.voidenderman;
 
 import com.infinium.global.utils.ChatFormatter;
+import com.infinium.server.entities.InfiniumEntity;
 import com.infinium.server.entities.mobs.voidmobs.voidenderman.goals.VoidEndermanChasePlayerGoal;
 import com.infinium.server.entities.mobs.voidmobs.voidenderman.goals.VoidEndermanTeleportGoal;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -22,7 +22,6 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.Angerable;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.TimeHelper;
@@ -42,7 +41,7 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 import java.util.UUID;
 
-public class VoidEndermanEntity extends HostileEntity implements IAnimatable, Angerable {
+public class VoidEndermanEntity extends HostileEntity implements IAnimatable, Angerable, InfiniumEntity {
     private static final UUID ATTACKING_SPEED_BOOST_ID = UUID.fromString("020E0DFB-87AE-4653-9556-831010E291A0");
     private static final EntityAttributeModifier ATTACKING_SPEED_BOOST = new EntityAttributeModifier(ATTACKING_SPEED_BOOST_ID, "Attacking speed boost", 0.15000000596046448, EntityAttributeModifier.Operation.ADDITION);
     private static final TrackedData<Boolean> ANGRY = DataTracker.registerData(VoidEndermanEntity.class, TrackedDataHandlerRegistry.BOOLEAN);

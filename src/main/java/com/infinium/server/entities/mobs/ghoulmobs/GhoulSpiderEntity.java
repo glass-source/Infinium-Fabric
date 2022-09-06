@@ -1,6 +1,7 @@
 package com.infinium.server.entities.mobs.ghoulmobs;
 
 import com.infinium.global.utils.ChatFormatter;
+import com.infinium.server.entities.InfiniumEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -22,7 +23,7 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
-public class GhoulSpiderEntity extends SpiderEntity implements IAnimatable {
+public class GhoulSpiderEntity extends SpiderEntity implements IAnimatable, InfiniumEntity {
 
     private final AnimationFactory factory = new AnimationFactory(this);
 

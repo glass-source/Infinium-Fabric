@@ -1,6 +1,7 @@
-package com.infinium.server.entities.mobs.voidmobs;
+package com.infinium.server.entities.mobs.voidmobs.voidghast;
 
 import com.infinium.global.utils.ChatFormatter;
+import com.infinium.server.entities.InfiniumEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.control.MoveControl;
@@ -30,7 +31,7 @@ import java.util.EnumSet;
 import java.util.Random;
 
 
-public class VoidGhastEntity extends FlyingEntity implements Monster {
+public class VoidGhastEntity extends FlyingEntity implements Monster, InfiniumEntity {
 
     private static final TrackedData<Boolean> SHOOTING;
 

@@ -1,0 +1,12 @@
+{
+  "type": "infinium:the_nightmare",
+  "generator": {
+    "type": "minecraft:noise",
+    "seed": 417572322,
+    "settings": "minecraft:overworld",
+    "biome_source": {
+      "type": "minecraft:fixed",
+      "biome": "infinium:the_nightmare"
+    }
+  }
+}

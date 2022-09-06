@@ -3,7 +3,7 @@ package com.infinium.server;
 import com.infinium.server.entities.InfiniumEntityType;
 import com.infinium.server.entities.mobs.ghoulmobs.GhoulSpiderEntity;
 import com.infinium.server.entities.mobs.ghoulmobs.GhoulZombieEntity;
-import com.infinium.server.entities.mobs.voidmobs.VoidGhastEntity;
+import com.infinium.server.entities.mobs.voidmobs.voidghast.VoidGhastEntity;
 import com.infinium.server.commands.InfiniumCommand;
 import com.infinium.server.commands.StaffCommand;
 import com.infinium.server.entities.mobs.voidmobs.voidenderman.VoidEndermanEntity;

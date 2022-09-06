@@ -1,11 +1,11 @@
 package com.infinium.server.listeners.entity;
 
 import com.infinium.Infinium;
-import com.infinium.server.events.entity.EntitySpawnEvent;
-import com.infinium.global.utils.ChatFormatter;
 import com.infinium.global.utils.DateUtils;
 import com.infinium.server.InfiniumServerManager;
-import com.infinium.server.entities.mobs.voidmobs.voidspider.VoidSpiderEntity;
+import com.infinium.server.events.entity.EntitySpawnEvent;
+import net.minecraft.block.FluidBlock;
+import net.minecraft.entity.Entity;
 import net.minecraft.util.ActionResult;
 
 
@@ -26,6 +26,12 @@ public class EntitySpawnListeners {
             if (entity.getWorld().isClient) return ActionResult.FAIL;
             var day = DateUtils.getDay();
             var world = entity.getWorld();
+            var blockPos = entity.getBlockPos();
+
+            if (world.getBlockState(blockPos.down()).getBlock() instanceof FluidBlock) {
+                entity.remove(Entity.RemovalReason.DISCARDED);
+                return ActionResult.FAIL;
+            }
 
             switch (world.getRegistryKey().getValue().toString()) {
                 case "minecraft:overworld" -> {

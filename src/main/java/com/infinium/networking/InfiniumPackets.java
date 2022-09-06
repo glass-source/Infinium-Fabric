@@ -14,11 +14,11 @@ public class InfiniumPackets {
     public static final Identifier TIME_CHECK_ID = Infinium.id("time_check");
     public static final Identifier FLASHBANG_SYNC_ID = Infinium.id("flashbang_sync");
 
-    public static void registerC2SPackets(){
+    public static void initC2SPackets(){
         ServerPlayNetworking.registerGlobalReceiver(TIME_CHECK_ID, KairosCheckC2SPacket::receive);
     }
 
-    public static void registerS2CPackets(){
+    public static void initS2CPackets(){
         ClientPlayNetworking.registerGlobalReceiver(SANITY_SYNC_ID, SanitySyncS2CPacket::receive);
         ClientPlayNetworking.registerGlobalReceiver(FLASHBANG_SYNC_ID, FlashbangS2CPacket::receive);
     }

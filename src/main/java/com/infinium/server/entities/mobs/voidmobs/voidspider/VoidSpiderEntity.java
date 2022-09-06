@@ -1,6 +1,7 @@
 package com.infinium.server.entities.mobs.voidmobs.voidspider;
 
 import com.infinium.global.utils.ChatFormatter;
+import com.infinium.server.entities.InfiniumEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -26,7 +27,7 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
-public class VoidSpiderEntity extends SpiderEntity implements IAnimatable {
+public class VoidSpiderEntity extends SpiderEntity implements IAnimatable, InfiniumEntity {
 
     protected static final TrackedData<Boolean> STARTED_WALKING = DataTracker.registerData(VoidSpiderEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 

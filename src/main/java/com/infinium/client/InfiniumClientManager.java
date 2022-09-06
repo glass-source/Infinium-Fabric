@@ -42,7 +42,7 @@ public class InfiniumClientManager {
     }
 
     private void registerPackets(){
-        InfiniumPackets.registerS2CPackets();
+        InfiniumPackets.initS2CPackets();
     }
 
     private void registerShaderCallback(){
