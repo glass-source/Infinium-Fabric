@@ -49,12 +49,16 @@ public class VoidBowItem extends BowItem implements InfiniumItem {
                     if (!world.isClient) {
 
                         ArrowItem arrowItem = (ArrowItem)(itemStack.getItem() instanceof ArrowItem ? itemStack.getItem() : Items.ARROW);
-                        ArrowEntity arrowEntity = (ArrowEntity) arrowItem.createArrow(world, itemStack, playerEntity);
+                        PersistentProjectileEntity arrowEntity = arrowItem.createArrow(world, itemStack, playerEntity);
                         arrowEntity.setVelocity(playerEntity, playerEntity.getPitch(), playerEntity.getYaw(), 0.0F, f * 3.0F, 1.0F);
                         arrowEntity.setCritical(true);
                         arrowEntity.setDamage(arrowEntity.getDamage() * 2);
-                        arrowEntity.addEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 160, 7));
-                        arrowEntity.addEffect(new StatusEffectInstance(StatusEffects.GLOWING, 160, 7));
+
+                        if (arrowEntity instanceof ArrowEntity entity) {
+                            entity.addEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 160, 7));
+                            entity.addEffect(new StatusEffectInstance(StatusEffects.GLOWING, 160, 7));
+                        }
+
 
                         int j = EnchantmentHelper.getLevel(Enchantments.POWER, stack);
                         if (j > 0) {

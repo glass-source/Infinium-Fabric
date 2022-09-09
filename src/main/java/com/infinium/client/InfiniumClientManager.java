@@ -1,12 +1,8 @@
 package com.infinium.client;
 
-import com.infinium.Infinium;
 import com.infinium.client.renderer.ModelPredicateProvider;
 import com.infinium.client.renderer.game.hud.SanityHudOverlay;
 import com.infinium.networking.InfiniumPackets;
-import ladysnake.satin.api.event.ShaderEffectRenderCallback;
-import ladysnake.satin.api.managed.ManagedShaderEffect;
-import ladysnake.satin.api.managed.ShaderEffectManager;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
@@ -44,17 +40,6 @@ public class InfiniumClientManager {
     private void registerPackets(){
         InfiniumPackets.initS2CPackets();
     }
-
-    private void registerShaderCallback(){
-        ManagedShaderEffect BLOODMOON_SHADER = ShaderEffectManager.getInstance().manage(new Identifier("infinium", "shaders/post/bloodmoon.json"));
-
-        ShaderEffectRenderCallback.EVENT.register(tickDelta -> {
-            if (Infinium.getInstance().getCore().getEclipseManager().isActive()) {
-               BLOODMOON_SHADER.render(tickDelta);
-            }
-        });
-    }
-
     private void checkBannedPlayers() {
         ClientLifecycleEvents.CLIENT_STARTED.register(client1 -> {
             var client = MinecraftClient.getInstance();

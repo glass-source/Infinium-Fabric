@@ -36,22 +36,18 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
     modImplementation include("net.kyori:adventure-platform-fabric:5.2.1")
-    modImplementation 'software.bernie.geckolib:geckolib-fabric-1.18:3.0.56'
-    modImplementation "maven.modrinth:midnightlib:0.4.0"
-    modImplementation ("me.shedaniel.cloth:basic-math:0.6.1")
+    modImplementation include('software.bernie.geckolib:geckolib-fabric-1.18:3.0.56')
+    modImplementation include("maven.modrinth:midnightlib:0.4.0")
+    modImplementation include("me.shedaniel.cloth:basic-math:0.6.1")
     implementation 'com.google.code.gson:gson:2.9.1'
-    implementation 'org.projectlombok:lombok:1.18.22'
+    implementation 'org.projectlombok:lombok:1.18.24'
 
-    modImplementation("curse.maven:modmenu-308702:3472549") {
+    modImplementation include("curse.maven:modmenu-308702:3472549") {
         exclude(group: "net.fabricmc.fabric-api")
     }
-    modApi("me.shedaniel.cloth:cloth-config-fabric:6.2.57") {
+    modApi include("me.shedaniel.cloth:cloth-config-fabric:6.2.57") {
         exclude(group: "net.fabricmc.fabric-api")
     }
-
-    modImplementation "io.github.ladysnake:satin:${satin_version}"
-    // Include Satin as a Jar-in-Jar dependency (optional)
-    include "io.github.ladysnake:satin:${satin_version}"
 }
 
 processResources {

@@ -42,11 +42,7 @@ public abstract class LivingEntityMixin extends Entity {
     @Shadow public abstract boolean hasStatusEffect(StatusEffect effect);
     @Shadow @Nullable public abstract StatusEffectInstance getStatusEffect(StatusEffect effect);
     @Shadow public abstract boolean damage(DamageSource source, float amount);
-    @Shadow public abstract boolean isAlive();
-    @Shadow public abstract void kill();
 
-
-    @Shadow @Nullable public abstract EntityAttributeInstance getAttributeInstance(EntityAttribute attribute);
 
     @Inject(method = "damage", at = @At("HEAD"), cancellable = true)
     private void applyImmunity(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {

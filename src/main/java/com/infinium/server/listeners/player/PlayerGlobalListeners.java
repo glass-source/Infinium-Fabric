@@ -5,6 +5,7 @@ import com.infinium.global.utils.ChatFormatter;
 import com.infinium.global.utils.DateUtils;
 import com.infinium.server.InfiniumServerManager;
 import com.infinium.server.effects.InfiniumEffects;
+import com.infinium.server.world.dimensions.InfiniumDimensions;
 import net.fabricmc.fabric.api.entity.event.v1.EntitySleepEvents;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -24,7 +25,6 @@ public class PlayerGlobalListeners {
         this.instance = instance;
         this.core = instance.getCore();
     }
-
     public void registerListener(){
         playerBedCallback();
     }
@@ -38,14 +38,14 @@ public class PlayerGlobalListeners {
             var random = new Random().nextInt(100);
             if (day < 35) {
                 if (random < day) {
-                    tpToWorld(World.NETHER, p, 2000);
+                    tpToWorld(InfiniumDimensions.THE_NIGHTMARE, p, 2000);
                     ChatFormatter.broadcastMessageWithPrefix("&7El jugador &6&l" + name + " &7ha entrado a la &4&lNightmare &7" + "\nProbabilidad: " + random + " < " + day);
                 } else {
                     p.sendMessage(ChatFormatter.textWithPrefix("&7Has Dormido. Probabilidad de ir a la &4&lNightmare&7: " + random + " > " + day), false);
                 }
             } else {
                 if (random < day / 2) {
-                    tpToWorld(World.END, p, 5000);
+                    tpToWorld(InfiniumDimensions.THE_NIGHTMARE, p, 5000);
                     ChatFormatter.broadcastMessageWithPrefix("&7El jugador &6&l" + name + " &7ha entrado a la &4&lNightmare &7" + "\nProbabilidad: " + random + " < " + day / 2);
                 } else {
                     p.sendMessage(ChatFormatter.textWithPrefix("&7Has Dormido. Probabilidad de ir a la &4&lNightmare&7: " + random + " > " + day / 2), false);

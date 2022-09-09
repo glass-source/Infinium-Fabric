@@ -68,13 +68,17 @@ public class MagmaBowItem extends BowItem implements InfiniumItem {
                     if (!world.isClient) {
 
                         ArrowItem arrowItem = (ArrowItem)(itemStack.getItem() instanceof ArrowItem ? itemStack.getItem() : Items.ARROW);
-                        ArrowEntity arrowEntity = (ArrowEntity) arrowItem.createArrow(world, itemStack, playerEntity);
+                        PersistentProjectileEntity arrowEntity = arrowItem.createArrow(world, itemStack, playerEntity);
                         arrowEntity.setVelocity(playerEntity, playerEntity.getPitch(), playerEntity.getYaw(), 0.0F, pullProgress * 3.0F, 1.0F);
                         arrowEntity.setCritical(true);
                         arrowEntity.setDamage(arrowEntity.getDamage() * 2);
-                        arrowEntity.addEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 160, 4));
-                        arrowEntity.addEffect(new StatusEffectInstance(StatusEffects.POISON, 160, 4));
-                        arrowEntity.addEffect(new StatusEffectInstance(StatusEffects.GLOWING, 160, 0));
+
+                        if (arrowEntity instanceof ArrowEntity entity) {
+                            entity.addEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 160, 4));
+                            entity.addEffect(new StatusEffectInstance(StatusEffects.POISON, 160, 4));
+                            entity.addEffect(new StatusEffectInstance(StatusEffects.GLOWING, 160, 0));
+                        }
+
 
                         int powerLevel = EnchantmentHelper.getLevel(Enchantments.POWER, stack);
                         if (powerLevel > 0) {

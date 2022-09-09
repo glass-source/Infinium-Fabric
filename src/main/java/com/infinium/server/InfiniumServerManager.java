@@ -13,6 +13,7 @@ import com.infinium.server.listeners.player.PlayerConnectionListeners;
 import com.infinium.server.listeners.player.PlayerDeathListeners;
 import com.infinium.server.listeners.player.PlayerGlobalListeners;
 import com.infinium.server.sanity.SanityManager;
+import com.infinium.server.world.biomes.InfiniumBiomes;
 import com.infinium.server.world.dimensions.InfiniumDimensions;
 import eu.midnightdust.lib.config.MidnightConfig;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
@@ -66,6 +67,7 @@ public class InfiniumServerManager {
         InfiniumEntityType.init();
         InfiniumRegistries.init();
         InfiniumDimensions.init();
+        InfiniumBiomes.init();
         InfiniumPackets.initC2SPackets();
     }
 
