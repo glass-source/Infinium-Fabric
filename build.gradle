@@ -45,6 +45,7 @@ dependencies {
     modImplementation include("curse.maven:modmenu-308702:3472549") {
         exclude(group: "net.fabricmc.fabric-api")
     }
+
     modApi include("me.shedaniel.cloth:cloth-config-fabric:6.2.57") {
         exclude(group: "net.fabricmc.fabric-api")
     }

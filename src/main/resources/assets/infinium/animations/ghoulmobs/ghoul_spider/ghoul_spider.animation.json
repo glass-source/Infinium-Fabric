@@ -1,6 +1,9 @@
 {
 	"format_version": "1.8.0",
 	"animations": {
+		"animation.ghoul_spider.attack": {
+			"loop": false
+		},
 		"animation.ghoul_spider.idle": {
 			"loop": true
 		},

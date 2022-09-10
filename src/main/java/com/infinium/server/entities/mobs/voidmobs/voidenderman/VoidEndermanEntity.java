@@ -2,8 +2,8 @@ package com.infinium.server.entities.mobs.voidmobs.voidenderman;
 
 import com.infinium.global.utils.ChatFormatter;
 import com.infinium.server.entities.InfiniumEntity;
-import com.infinium.server.entities.mobs.voidmobs.voidenderman.goals.VoidEndermanChasePlayerGoal;
-import com.infinium.server.entities.mobs.voidmobs.voidenderman.goals.VoidEndermanTeleportGoal;
+import com.infinium.server.entities.goals.voidmobs.voidenderman.VoidEndermanChasePlayerGoal;
+import com.infinium.server.entities.goals.voidmobs.voidenderman.VoidEndermanTeleportGoal;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;

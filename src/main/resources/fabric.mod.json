@@ -21,7 +21,7 @@
       "com.infinium.Infinium"
     ],
     "modmenu": [
-      "com.infinium.api.config.InfiniumModMenu"
+      "com.infinium.global.config.InfiniumModMenu"
     ]
   },
   "mixins": [

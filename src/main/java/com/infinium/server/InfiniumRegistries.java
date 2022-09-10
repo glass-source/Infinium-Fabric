@@ -1,8 +1,8 @@
 package com.infinium.server;
 
 import com.infinium.server.entities.InfiniumEntityType;
-import com.infinium.server.entities.mobs.ghoulmobs.GhoulSpiderEntity;
-import com.infinium.server.entities.mobs.ghoulmobs.GhoulZombieEntity;
+import com.infinium.server.entities.mobs.ghoulmobs.ghoulspider.GhoulSpiderEntity;
+import com.infinium.server.entities.mobs.ghoulmobs.ghoulzombie.GhoulZombieEntity;
 import com.infinium.server.entities.mobs.voidmobs.voidghast.VoidGhastEntity;
 import com.infinium.server.commands.InfiniumCommand;
 import com.infinium.server.commands.StaffCommand;

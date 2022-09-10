@@ -188,6 +188,7 @@
 			}
 		},
 		"animation.ghoul_zombie.attack": {
+			"loop": false,
 			"animation_length": 2,
 			"bones": {
 				"left_arm": {

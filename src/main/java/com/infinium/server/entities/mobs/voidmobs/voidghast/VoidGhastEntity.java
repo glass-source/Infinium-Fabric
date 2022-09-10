@@ -33,11 +33,7 @@ import java.util.Random;
 
 public class VoidGhastEntity extends FlyingEntity implements Monster, InfiniumEntity {
 
-    private static final TrackedData<Boolean> SHOOTING;
-
-    static {
-        SHOOTING = DataTracker.registerData(VoidGhastEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-    }
+    private static final TrackedData<Boolean> SHOOTING = DataTracker.registerData(VoidGhastEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 
     public VoidGhastEntity(EntityType<? extends VoidGhastEntity> entityType, World world) {
         super(entityType, world);

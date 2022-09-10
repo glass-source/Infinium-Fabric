@@ -16,14 +16,12 @@ public class Infinium implements ModInitializer {
     private InfiniumServerManager core;
     private static Infinium instance;
     private final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
-
-    public static final String MOD_ID = "infinium";
-
     public final Logger LOGGER = LogUtils.getLogger();
-
     public static Identifier id(String arg) {
         return new Identifier(MOD_ID, arg);
     }
+
+    public static final String MOD_ID = "infinium";
 
     @Override
     public void onInitialize() {

@@ -1,12 +1,10 @@
 package com.infinium.client.renderer.mobs.ghoulmobs.ghoulspider;
 
 import com.infinium.Infinium;
-import com.infinium.server.entities.mobs.ghoulmobs.GhoulSpiderEntity;
+import com.infinium.server.entities.mobs.ghoulmobs.ghoulspider.GhoulSpiderEntity;
 import net.minecraft.util.Identifier;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
-import software.bernie.geckolib3.core.processor.IBone;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
-import software.bernie.geckolib3.model.provider.data.EntityModelData;
 
 public class GhoulSpiderEntityModel extends AnimatedGeoModel<GhoulSpiderEntity> {
 

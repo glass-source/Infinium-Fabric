@@ -14,4 +14,5 @@ public class InfiniumModMenu implements ModMenuApi {
     public ConfigScreenFactory<?> getModConfigScreenFactory() {
         return parent -> MidnightConfig.getScreen(parent, Infinium.MOD_ID);
     }
+
 }

@@ -1,9 +1,7 @@
 package com.infinium.client.renderer.mobs.ghoulmobs.ghoulzombie;
 
 import com.infinium.Infinium;
-import com.infinium.client.renderer.mobs.ghoulmobs.ghoulspider.GhoulSpiderEntityModel;
-import com.infinium.server.entities.mobs.ghoulmobs.GhoulSpiderEntity;
-import com.infinium.server.entities.mobs.ghoulmobs.GhoulZombieEntity;
+import com.infinium.server.entities.mobs.ghoulmobs.ghoulzombie.GhoulZombieEntity;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.util.Identifier;
 import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;

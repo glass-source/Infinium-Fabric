@@ -1,13 +1,17 @@
-package com.infinium.server.entities.mobs.ghoulmobs;
+package com.infinium.server.entities.mobs.ghoulmobs.ghoulspider;
 
 import com.infinium.global.utils.ChatFormatter;
 import com.infinium.server.entities.InfiniumEntity;
+import com.infinium.server.entities.goals.global.IEntityAttackGoal;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.HostileEntity;
@@ -25,11 +29,21 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 public class GhoulSpiderEntity extends SpiderEntity implements IAnimatable, InfiniumEntity {
 
+    private static final TrackedData<Boolean> PLAYING_ATTACK_ANIMATION = DataTracker.registerData(GhoulSpiderEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
     private final AnimationFactory factory = new AnimationFactory(this);
-
     public GhoulSpiderEntity(EntityType<? extends SpiderEntity> entityType, World world) {
         super(entityType, world);
         this.setCustomName(ChatFormatter.text("&cGhoul Spider"));
+    }
+
+    @Override
+    protected void initDataTracker() {
+        super.initDataTracker();
+        this.dataTracker.startTracking(PLAYING_ATTACK_ANIMATION, false);
+    }
+
+    public boolean isPlayingAttackAnimation() {
+        return this.dataTracker.get(PLAYING_ATTACK_ANIMATION);
     }
 
     @Override
@@ -41,7 +55,7 @@ public class GhoulSpiderEntity extends SpiderEntity implements IAnimatable, Infi
         this.goalSelector.add(4, new LookAtEntityGoal(this, PlayerEntity.class, 16.0F));
         this.goalSelector.add(4, new LookAroundGoal(this));
         this.goalSelector.add(1, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
-        this.goalSelector.add(1, new MeleeAttackGoal(this, 1.0D, true));
+        this.goalSelector.add(1, new IEntityAttackGoal(this, 1.0D, true, PLAYING_ATTACK_ANIMATION));
     }
 
     public static DefaultAttributeContainer.Builder createGhoulSpiderAttributes() {
@@ -68,25 +82,28 @@ public class GhoulSpiderEntity extends SpiderEntity implements IAnimatable, Infi
         return super.tryAttack(target);
     }
 
+    private <E extends IAnimatable> PlayState playStatePredicateForAttack(AnimationEvent<E> event) {
+        if (isPlayingAttackAnimation()) {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.ghoul_spider.attack", true));
+            return PlayState.CONTINUE;
+        }
+        return PlayState.STOP;
+    }
     private <E extends IAnimatable> PlayState state(AnimationEvent<E> e) {
         var controller = e.getController();
-        if (this.getTarget() != null) {
-            controller.setAnimation(new AnimationBuilder().addAnimation("animation.ghoul_spider.tracked"));
-            return PlayState.CONTINUE;
-
-        } else if (e.isMoving()) {
+        if (e.isMoving()) {
             controller.setAnimation(new AnimationBuilder().addAnimation("animation.ghoul_spider.walk"));
-            return PlayState.CONTINUE;
 
         } else {
             controller.setAnimation(new AnimationBuilder().addAnimation("animation.ghoul_spider.idle"));
-            return PlayState.CONTINUE;
         }
+        return PlayState.CONTINUE;
     }
 
     @Override
     public void registerControllers(AnimationData animationData) {
         animationData.addAnimationController(new AnimationController<>(this, "controller", 0, this::state));
+        animationData.addAnimationController(new AnimationController<>(this, "attackController", 0, this::playStatePredicateForAttack));
     }
 
     @Override
