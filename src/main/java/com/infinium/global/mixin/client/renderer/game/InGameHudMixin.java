@@ -20,11 +20,8 @@ public abstract class InGameHudMixin {
     @Shadow private int scaledWidth;
     @Shadow private int scaledHeight;
     @Shadow @Final private MinecraftClient client;
-
     @Shadow public abstract void render(MatrixStack matrices, float tickDelta);
-
     private int opacity = -25;
-
     @Inject(method = "render", at = @At("TAIL"))
     private void injectOnTail(MatrixStack matrices, float tickDelta, CallbackInfo ci) {
         if (!client.options.hudHidden) {

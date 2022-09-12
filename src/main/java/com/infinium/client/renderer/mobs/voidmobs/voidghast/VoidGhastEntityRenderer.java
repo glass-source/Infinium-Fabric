@@ -25,9 +25,6 @@ public class VoidGhastEntityRenderer extends MobEntityRenderer<VoidGhastEntity, 
 
     @Override
     protected void scale(VoidGhastEntity ghastEntity, MatrixStack matrixStack, float f) {
-        float g = 1.0F;
-        float h = 4.5F;
-        float i = 4.5F;
         matrixStack.scale(4.5F, 4.5F, 4.5F);
     }
 }

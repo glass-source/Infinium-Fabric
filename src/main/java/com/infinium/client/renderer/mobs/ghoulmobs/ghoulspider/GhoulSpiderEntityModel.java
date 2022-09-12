@@ -8,7 +8,6 @@ import software.bernie.geckolib3.model.AnimatedGeoModel;
 
 public class GhoulSpiderEntityModel extends AnimatedGeoModel<GhoulSpiderEntity> {
 
-
     @Override
     public Identifier getModelLocation(GhoulSpiderEntity object) {
         return new Identifier(Infinium.MOD_ID, "geo/ghoulmobs/ghoul_spider/ghoul_spider.geo.json");

@@ -9,7 +9,6 @@ import net.fabricmc.api.Environment;
 
 @Environment(EnvType.CLIENT)
 public class InfiniumModMenu implements ModMenuApi {
-
     @Override
     public ConfigScreenFactory<?> getModConfigScreenFactory() {
         return parent -> MidnightConfig.getScreen(parent, Infinium.MOD_ID);

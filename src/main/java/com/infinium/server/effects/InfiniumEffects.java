@@ -10,7 +10,6 @@ import net.minecraft.util.registry.Registry;
 public class InfiniumEffects {
     public static StatusEffect IMMUNITY;
     public static StatusEffect MADNESS;
-
     private static StatusEffect register(String key, StatusEffect effect) {
         return Registry.register(Registry.STATUS_EFFECT, new Identifier(Infinium.MOD_ID, key), effect);
     }

@@ -17,14 +17,25 @@ public class InfiniumDimensions {
 
     public static void init() {
 
-        THE_NIGHTMARE = RegistryKey.of(Registry.WORLD_KEY, new Identifier(Infinium.MOD_ID, "the_nightmare"));
-        THE_NIGHTMARE_TYPE = RegistryKey.of(Registry.DIMENSION_TYPE_KEY, THE_NIGHTMARE.getValue());
+        THE_NIGHTMARE = registerWorld("the_nightmare");
+        THE_VOID = registerWorld("the_void");
 
-        THE_VOID = RegistryKey.of(Registry.WORLD_KEY, new Identifier(Infinium.MOD_ID, "the_void"));
-        THE_VOID_TYPE = RegistryKey.of(Registry.DIMENSION_TYPE_KEY, THE_VOID.getValue());
-        THE_VOID_NOISE = RegistryKey.of(Registry.NOISE_WORLDGEN, THE_VOID.getValue());
+        THE_NIGHTMARE_TYPE = registerDimension(THE_NIGHTMARE.getValue());
+        THE_VOID_TYPE = registerDimension(THE_VOID.getValue());
+
+        THE_VOID_NOISE = registerNoise(THE_VOID.getValue());
     }
 
+    private static RegistryKey<World> registerWorld(String id) {
+        return RegistryKey.of(Registry.WORLD_KEY, new Identifier(Infinium.MOD_ID, id));
+    }
 
+    private static RegistryKey<DimensionType> registerDimension(Identifier id) {
+        return RegistryKey.of(Registry.DIMENSION_TYPE_KEY, id);
+    }
+
+    private static RegistryKey<DoublePerlinNoiseSampler.NoiseParameters> registerNoise(Identifier id){
+        return RegistryKey.of(Registry.NOISE_WORLDGEN, id);
+    }
 
 }

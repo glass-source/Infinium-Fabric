@@ -7,6 +7,7 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -59,7 +60,10 @@ public class VoidArmorItem extends ArmorItem implements ItemConvertible, Infiniu
         var entityAttributeInstance = p.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH);
 
         if (hasVoidArmor(p)) {
-            if (!entityAttributeInstance.hasModifier(EXTRA_HEALTH_BOOST)) entityAttributeInstance.addTemporaryModifier(EXTRA_HEALTH_BOOST);
+            if (!entityAttributeInstance.hasModifier(EXTRA_HEALTH_BOOST)) {
+                entityAttributeInstance.addTemporaryModifier(EXTRA_HEALTH_BOOST);
+                p.setHealth(p.getHealth());
+            }
 
             StatusEffect[] effects = {
             StatusEffects.RESISTANCE,
@@ -73,7 +77,7 @@ public class VoidArmorItem extends ArmorItem implements ItemConvertible, Infiniu
         } else {
             if (entityAttributeInstance.hasModifier(EXTRA_HEALTH_BOOST)) {
                 entityAttributeInstance.removeModifier(EXTRA_HEALTH_BOOST);
-                p.setHealth(p.getMaxHealth());
+                p.damage(DamageSource.OUT_OF_WORLD, 0.0001f);
             }
         }
     }

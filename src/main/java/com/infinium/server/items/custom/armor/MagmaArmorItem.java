@@ -1,18 +1,9 @@
 package com.infinium.server.items.custom.armor;
 
-import com.google.common.collect.ImmutableMultimap;
-import com.google.common.collect.Multimap;
-import com.infinium.server.items.InfiniumItems;
 import com.infinium.server.items.custom.InfiniumItem;
-import net.minecraft.block.BlockState;
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.Enchantments;
-import net.minecraft.enchantment.MendingEnchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.attribute.EntityAttribute;
-import net.minecraft.entity.attribute.EntityAttributeInstance;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
@@ -20,8 +11,10 @@ import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.*;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.item.ArmorItem;
+import net.minecraft.item.ArmorMaterial;
+import net.minecraft.item.ItemConvertible;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 import java.util.Arrays;
@@ -29,7 +22,7 @@ import java.util.UUID;
 
 public class MagmaArmorItem extends ArmorItem implements ItemConvertible, InfiniumItem {
 
-    private static final EntityAttributeModifier EXTRA_HEALTH_BOOST = new EntityAttributeModifier(UUID.randomUUID(), "Magma Armor Healthboost", 22, EntityAttributeModifier.Operation.ADDITION);;
+    private static final EntityAttributeModifier EXTRA_HEALTH_BOOST = new EntityAttributeModifier(UUID.randomUUID(), "Magma Armor Healthboost", 24, EntityAttributeModifier.Operation.ADDITION);;
     public MagmaArmorItem(ArmorMaterial material, EquipmentSlot slot, Settings settings) {
         super(material, slot, settings);
 
@@ -42,7 +35,7 @@ public class MagmaArmorItem extends ArmorItem implements ItemConvertible, Infini
 
     @Override
     public boolean canRepair(ItemStack stack, ItemStack ingredient) {
-        return true;
+        return super.canRepair(stack, ingredient);
     }
 
     @Override
@@ -52,7 +45,10 @@ public class MagmaArmorItem extends ArmorItem implements ItemConvertible, Infini
         var entityAttributeInstance = p.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH);
 
         if (hasMagmaArmor(p)) {
-            if (!entityAttributeInstance.hasModifier(EXTRA_HEALTH_BOOST)) entityAttributeInstance.addTemporaryModifier(EXTRA_HEALTH_BOOST);
+            if (!entityAttributeInstance.hasModifier(EXTRA_HEALTH_BOOST)) {
+                entityAttributeInstance.addTemporaryModifier(EXTRA_HEALTH_BOOST);
+                p.setHealth(p.getHealth());
+            }
 
             StatusEffect[] effects = {
             StatusEffects.RESISTANCE,
@@ -67,7 +63,7 @@ public class MagmaArmorItem extends ArmorItem implements ItemConvertible, Infini
         } else {
             if (entityAttributeInstance.hasModifier(EXTRA_HEALTH_BOOST)) {
                 entityAttributeInstance.removeModifier(EXTRA_HEALTH_BOOST);
-                p.setHealth(p.getMaxHealth());
+                p.damage(DamageSource.OUT_OF_WORLD, 0.0001f);
             }
         }
     }
@@ -98,7 +94,7 @@ public class MagmaArmorItem extends ArmorItem implements ItemConvertible, Infini
 
         stack.addEnchantment(Enchantments.PROTECTION, 4);
         stack.addEnchantment(Enchantments.UNBREAKING, 4);
-        stack.addEnchantment(Enchantments.MENDING, 0);
+        stack.addEnchantment(Enchantments.MENDING, 1);
 
         super.onCraft(stack, world, player);
     }

@@ -1,21 +1,14 @@
 package com.infinium.global.mixin.server.entity;
 
 import com.infinium.global.utils.DateUtils;
-import com.infinium.global.utils.EntityDataSaver;
 import com.infinium.server.effects.InfiniumEffects;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.attribute.EntityAttribute;
-import net.minecraft.entity.attribute.EntityAttributeInstance;
-import net.minecraft.entity.attribute.EntityAttributeModifier;
-import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.passive.GolemEntity;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -26,15 +19,11 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.UUID;
-
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity {
     protected LivingEntityMixin(EntityType<?> type, World world) {
         super(type, world);
     }
-
-
 
     @Shadow public abstract boolean addStatusEffect(StatusEffectInstance effect);
     @Shadow public abstract void readCustomDataFromNbt(NbtCompound nbt);
@@ -42,8 +31,6 @@ public abstract class LivingEntityMixin extends Entity {
     @Shadow public abstract boolean hasStatusEffect(StatusEffect effect);
     @Shadow @Nullable public abstract StatusEffectInstance getStatusEffect(StatusEffect effect);
     @Shadow public abstract boolean damage(DamageSource source, float amount);
-
-
     @Inject(method = "damage", at = @At("HEAD"), cancellable = true)
     private void applyImmunity(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
         if(this.hasStatusEffect(InfiniumEffects.IMMUNITY)) {
@@ -71,9 +58,9 @@ public abstract class LivingEntityMixin extends Entity {
         if (this.getType().equals(EntityType.IRON_GOLEM)) {
             if (day >= 7) {
                 ci.cancel();
-
             }
         }
-
     }
+
+
 }
