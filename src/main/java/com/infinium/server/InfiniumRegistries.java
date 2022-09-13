@@ -8,6 +8,7 @@ import com.infinium.server.commands.InfiniumCommand;
 import com.infinium.server.commands.StaffCommand;
 import com.infinium.server.entities.mobs.voidmobs.voidenderman.VoidEndermanEntity;
 import com.infinium.server.entities.mobs.voidmobs.voidspider.VoidSpiderEntity;
+import com.infinium.server.entities.mobs.voidmobs.voidzombie.VoidZombieEntity;
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.minecraft.entity.EntityType;
@@ -18,7 +19,8 @@ public class InfiniumRegistries {
 
     public static void init() {
         registerCommands();
-        registerEntityAttributes();
+        registerVoidMobAttributes();
+        registerGhoulMobAttributes();
     }
 
     private static void registerCommands(){
@@ -26,12 +28,15 @@ public class InfiniumRegistries {
         CommandRegistrationCallback.EVENT.register(InfiniumCommand::register);
     }
 
-    private static void registerEntityAttributes(){
-        setAttributes(InfiniumEntityType.VOID_GHAST, VoidGhastEntity.createVoidGhastAttributes());
-        setAttributes(InfiniumEntityType.VOID_SPIDER, VoidSpiderEntity.createVoidSpiderAttributes());
+    private static void registerGhoulMobAttributes(){
         setAttributes(InfiniumEntityType.GHOUL_SPIDER, GhoulSpiderEntity.createGhoulSpiderAttributes());
         setAttributes(InfiniumEntityType.GHOUL_ZOMBIE, GhoulZombieEntity.createGhoulZombieAttributes());
+    }
+    private static void registerVoidMobAttributes(){
+        setAttributes(InfiniumEntityType.VOID_GHAST, VoidGhastEntity.createVoidGhastAttributes());
+        setAttributes(InfiniumEntityType.VOID_SPIDER, VoidSpiderEntity.createVoidSpiderAttributes());
         setAttributes(InfiniumEntityType.VOID_ENDERMAN, VoidEndermanEntity.createVoidEndermanAttributes());
+        setAttributes(InfiniumEntityType.VOID_ZOMBIE, VoidZombieEntity.createVoidZombieAttributes());
     }
 
     private static void setAttributes(EntityType<? extends LivingEntity> type, DefaultAttributeContainer.Builder attributes){

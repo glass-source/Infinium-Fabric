@@ -4,6 +4,7 @@ import com.infinium.client.renderer.item.InfiniumElytraFeatureRenderer;
 import com.infinium.client.renderer.mobs.ghoulmobs.ghoulspider.GhoulSpiderEntityRenderer;
 import com.infinium.client.renderer.mobs.ghoulmobs.ghoulzombie.GhoulZombieEntityRenderer;
 import com.infinium.client.renderer.mobs.voidmobs.voidenderman.VoidEndermanEntityRenderer;
+import com.infinium.client.renderer.mobs.voidmobs.voidzombie.VoidZombieEntityRenderer;
 import com.infinium.client.renderer.projectiles.magmatrident.MagmaTridentEntityRenderer;
 import com.infinium.client.renderer.item.MagmaTridentItemRenderer;
 import com.infinium.client.renderer.mobs.voidmobs.voidghast.VoidGhastEntityModel;
@@ -34,14 +35,23 @@ public class ModelPredicateProvider {
     }
 
     public static void registerEntityRenderer() {
-        EntityRendererRegistry.register(InfiniumEntityType.VOID_GHAST, VoidGhastEntityRenderer::new);
-        EntityRendererRegistry.register(InfiniumEntityType.VOID_SPIDER, VoidSpiderEntityRenderer::new);
-        EntityRendererRegistry.register(InfiniumEntityType.VOID_ENDERMAN, VoidEndermanEntityRenderer::new);
-        EntityRendererRegistry.register(InfiniumEntityType.GHOUL_SPIDER, GhoulSpiderEntityRenderer::new);
-        EntityRendererRegistry.register(InfiniumEntityType.GHOUL_ZOMBIE, GhoulZombieEntityRenderer::new);
+        registerVoidMobRenderer();
+        registerGhoulMobsRenderer();
         EntityRendererRegistry.register(InfiniumEntityType.MAGMA_TRIDENT, MagmaTridentEntityRenderer::new);
     }
 
+    private static void registerVoidMobRenderer(){
+        EntityRendererRegistry.register(InfiniumEntityType.VOID_ZOMBIE, VoidZombieEntityRenderer::new);
+        EntityRendererRegistry.register(InfiniumEntityType.VOID_GHAST, VoidGhastEntityRenderer::new);
+        EntityRendererRegistry.register(InfiniumEntityType.VOID_SPIDER, VoidSpiderEntityRenderer::new);
+        EntityRendererRegistry.register(InfiniumEntityType.VOID_ENDERMAN, VoidEndermanEntityRenderer::new);
+        EntityRendererRegistry.register(InfiniumEntityType.VOID_ZOMBIE, VoidZombieEntityRenderer::new);
+    }
+
+    private static void registerGhoulMobsRenderer(){
+        EntityRendererRegistry.register(InfiniumEntityType.GHOUL_SPIDER, GhoulSpiderEntityRenderer::new);
+        EntityRendererRegistry.register(InfiniumEntityType.GHOUL_ZOMBIE, GhoulZombieEntityRenderer::new);
+    }
 
     public static void registerEntityModelLayers(){
         EntityModelLayerRegistry.registerModelLayer(VoidGhastEntityRenderer.VOID_GHAST, VoidGhastEntityModel::getTexturedModelData);

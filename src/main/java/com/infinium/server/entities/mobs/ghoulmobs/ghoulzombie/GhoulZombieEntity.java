@@ -53,12 +53,9 @@ public class GhoulZombieEntity extends HostileEntity implements IAnimatable, Inf
         this.dataTracker.startTracking(PLAYING_ATTACK_ANIMATION, false);
     }
 
-    public boolean isPlayingAttackAnimation() {
-        return this.dataTracker.get(PLAYING_ATTACK_ANIMATION);
-    }
-
-
+    @Override
     protected void initGoals() {
+        super.initGoals();
         this.goalSelector.add(4, new SwimGoal(this));
         this.goalSelector.add(8, new WanderAroundFarGoal(this, 0.8));
         this.goalSelector.add(5, new LookAtEntityGoal(this, MobEntity.class, 16.0F));
@@ -68,29 +65,27 @@ public class GhoulZombieEntity extends HostileEntity implements IAnimatable, Inf
         this.goalSelector.add(1, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
     }
 
+    public boolean isPlayingAttackAnimation() {
+        return this.dataTracker.get(PLAYING_ATTACK_ANIMATION);
+    }
     protected SoundEvent getAmbientSound() {
         return SoundEvents.ENTITY_ZOMBIE_AMBIENT;
     }
-
     protected SoundEvent getHurtSound(DamageSource source) {
         return SoundEvents.ENTITY_ZOMBIE_HURT;
     }
-
     protected SoundEvent getDeathSound() {
         return SoundEvents.ENTITY_ZOMBIE_DEATH;
     }
     protected SoundEvent getStepSound() {
         return SoundEvents.ENTITY_ZOMBIE_STEP;
     }
-
     protected void playStepSound(BlockPos pos, BlockState state) {
         this.playSound(this.getStepSound(), 0.15F, 1.0F);
     }
-
     public EntityGroup getGroup() {
         return EntityGroup.UNDEAD;
     }
-
     public static DefaultAttributeContainer.Builder createGhoulZombieAttributes() {
         return HostileEntity.createHostileAttributes()
         .add(EntityAttributes.GENERIC_MAX_HEALTH, 75.0)

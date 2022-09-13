@@ -7,15 +7,13 @@ import net.fabricmc.api.Environment;
 
 @Environment(EnvType.CLIENT)
 public class InfiniumClient implements ClientModInitializer {
-    private InfiniumClientManager clManager;
+    private static InfiniumClientManager clManager;
 
     @Override
     public void onInitializeClient() {
         clManager = new InfiniumClientManager(this);
         clManager.onClientStart();
     }
-
-
 
 
 }

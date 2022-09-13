@@ -16,11 +16,12 @@ import net.minecraft.util.Identifier;
 import org.lwjgl.glfw.GLFW;
 
 import java.io.IOException;
+import java.util.UUID;
 
 public class InfiniumClientManager {
-
     private final InfiniumClient client;
     public KeyBinding checkTimeKey;
+    private int packetCooldown = 100;
 
     public InfiniumClientManager(InfiniumClient client) {
         this.client = client;
@@ -71,8 +72,12 @@ public class InfiniumClientManager {
 
     public void checkKeyInput(){
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
+            if (packetCooldown >= 0) packetCooldown--;
             if (checkTimeKey.wasPressed()) {
-                ClientPlayNetworking.send(InfiniumPackets.TIME_CHECK_ID, PacketByteBufs.create());
+                if (packetCooldown <= 0) {
+                    ClientPlayNetworking.send(InfiniumPackets.TIME_CHECK_ID, PacketByteBufs.create());
+                    packetCooldown = 100;
+                }
             }
         });
     }
@@ -84,10 +89,16 @@ public class InfiniumClientManager {
     }
 
     enum BannedPlayers {
-        Mistaken_,
-        AleIV,
-        Carpincho02,
-        CarpinchoLIVE,
+        Mistaken_(UUID.randomUUID()),
+        AleIV(UUID.randomUUID()),
+        Carpincho02(UUID.randomUUID()),
+        CarpinchoLIVE(UUID.randomUUID());
+
+        private final UUID uuid;
+        BannedPlayers(UUID playerUuid){
+            uuid = playerUuid;
+        }
+
     }
 
 }
