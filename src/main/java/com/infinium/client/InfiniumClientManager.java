@@ -34,8 +34,7 @@ public class InfiniumClientManager {
         registerHudElements();
         checkKeyInput();
         registerPackets();
-        checkBannedPlayers();
-       // registerShaderCallback();
+        //checkBannedPlayers();
     }
 
     private void registerPackets(){
@@ -89,21 +88,11 @@ public class InfiniumClientManager {
     }
 
     enum BannedPlayers {
-        Mistaken_(UUID.randomUUID()),
-        AleIV(UUID.randomUUID()),
-        Carpincho02("4881b948-f979-4b46-9031-ceb5f02e15d5"),
-        mrswz(UUID.fromString("381ce4f8-774c-4842-98e1-027c9ae9e8c5")),
-        Litro6666(UUID.fromString("d5216e9e-3959-4466-aa67-66efaa583abd")),
-        CarpinchoLIVE("fb02dc04-e13e-46ad-9404-bdbecf1d35b5");
-
+        CHECK(UUID.randomUUID());
         private final UUID uuid;
         BannedPlayers(UUID playerUuid){
             this.uuid = playerUuid;
         }
-        BannedPlayers(String uuid) {
-            this.uuid = UUID.fromString(uuid);
-        }
-
     }
 
 }
