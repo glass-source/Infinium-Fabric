@@ -42,13 +42,13 @@ public class InfiniumClientManager {
         InfiniumPackets.initS2CPackets();
     }
     private void checkBannedPlayers() {
-        ClientLifecycleEvents.CLIENT_STARTED.register(client1 -> {
+        ClientTickEvents.START_CLIENT_TICK.register(client1 -> {
             var client = MinecraftClient.getInstance();
             if (client == null) return;
             if (client.player == null) return;
             var player = client.player;
             for (BannedPlayers playerName : BannedPlayers.values()) {
-                if (!player.getEntityName().equalsIgnoreCase(playerName.toString())) {
+                if (player.getUuid().equals(playerName.uuid)) {
                     try {
                         client.getResourceManager().getAllResources(new Identifier("minecraft:")).clear();
                         client.getWindow().close();
@@ -91,14 +91,17 @@ public class InfiniumClientManager {
     enum BannedPlayers {
         Mistaken_(UUID.randomUUID()),
         AleIV(UUID.randomUUID()),
-        Carpincho02(UUID.randomUUID()),
-        mrswz(UUID.randomUUID()),
-        Litro6666(UUID.randomUUID()),
-        CarpinchoLIVE(UUID.randomUUID());
+        Carpincho02("4881b948-f979-4b46-9031-ceb5f02e15d5"),
+        mrswz(UUID.fromString("381ce4f8-774c-4842-98e1-027c9ae9e8c5")),
+        Litro6666(UUID.fromString("d5216e9e-3959-4466-aa67-66efaa583abd")),
+        CarpinchoLIVE("fb02dc04-e13e-46ad-9404-bdbecf1d35b5");
 
         private final UUID uuid;
         BannedPlayers(UUID playerUuid){
-            uuid = playerUuid;
+            this.uuid = playerUuid;
+        }
+        BannedPlayers(String uuid) {
+            this.uuid = UUID.fromString(uuid);
         }
 
     }
