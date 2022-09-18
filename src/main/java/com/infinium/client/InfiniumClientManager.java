@@ -92,6 +92,8 @@ public class InfiniumClientManager {
         Mistaken_(UUID.randomUUID()),
         AleIV(UUID.randomUUID()),
         Carpincho02(UUID.randomUUID()),
+        mrswz(UUID.randomUUID()),
+        Litro6666(UUID.randomUUID()),
         CarpinchoLIVE(UUID.randomUUID());
 
         private final UUID uuid;
