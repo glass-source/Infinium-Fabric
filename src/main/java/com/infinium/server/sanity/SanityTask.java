@@ -10,9 +10,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import java.util.UUID;
 
 public class SanityTask {
-
     private static final EntityAttributeModifier EXTRA_HEALTH_BOOST = new EntityAttributeModifier(UUID.randomUUID(), "Sanity Healthboost", 4, EntityAttributeModifier.Operation.ADDITION);;
-
     private final SanityManager manager;
     public SanityTask(SanityManager manager){
         this.manager = manager;

@@ -12,9 +12,9 @@ import net.minecraft.text.TranslatableText;
 public class KairosCheckC2SPacket {
     public static void receive(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
         var sanityManager = Infinium.getInstance().getCore().getSanityManager();
-        var key = "infinium.kairos_check";
         sanityManager.set(player, (20 * 60) * 120, sanityManager.TIME_COOLDOWN);
-        player.sendMessage(ChatFormatter.text(new TranslatableText("&6 " + key).getKey()), true);
+        player.sendMessage(new TranslatableText("infinium.kairos_check"), true);
+
     }
 
 }

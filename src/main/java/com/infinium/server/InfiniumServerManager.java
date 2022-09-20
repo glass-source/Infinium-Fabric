@@ -50,9 +50,7 @@ public class InfiniumServerManager {
     }
 
     private void onServerStop(){
-        ServerLifecycleEvents.SERVER_STOPPED.register(server -> {
-            this.eclipseManager.disable();
-        });
+        ServerLifecycleEvents.SERVER_STOPPED.register(server -> this.eclipseManager.disable());
     }
 
     private void initConfig(){

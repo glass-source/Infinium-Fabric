@@ -9,11 +9,9 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.util.Identifier;
 
 public class InfiniumPackets {
-
     public static final Identifier SANITY_SYNC_ID = Infinium.id("sanity_sync");
     public static final Identifier TIME_CHECK_ID = Infinium.id("time_check");
     public static final Identifier FLASHBANG_SYNC_ID = Infinium.id("flashbang_sync");
-
     public static void initC2SPackets(){
         ServerPlayNetworking.registerGlobalReceiver(TIME_CHECK_ID, KairosCheckC2SPacket::receive);
     }

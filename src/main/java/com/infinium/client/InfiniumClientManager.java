@@ -1,5 +1,6 @@
 package com.infinium.client;
 
+import com.infinium.Infinium;
 import com.infinium.client.renderer.ModelPredicateProvider;
 import com.infinium.client.renderer.game.hud.SanityHudOverlay;
 import com.infinium.networking.InfiniumPackets;
@@ -12,6 +13,7 @@ import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
 import org.lwjgl.glfw.GLFW;
 
@@ -22,8 +24,10 @@ public class InfiniumClientManager {
     private final InfiniumClient client;
     public KeyBinding checkTimeKey;
     private int packetCooldown = 100;
+    private static InfiniumClientManager cManager;
 
     public InfiniumClientManager(InfiniumClient client) {
+        cManager = this;
         this.client = client;
     }
 
@@ -34,27 +38,22 @@ public class InfiniumClientManager {
         registerHudElements();
         checkKeyInput();
         registerPackets();
-        //checkBannedPlayers();
     }
 
     private void registerPackets(){
         InfiniumPackets.initS2CPackets();
     }
-    private void checkBannedPlayers() {
-        ClientTickEvents.START_CLIENT_TICK.register(client1 -> {
-            var client = MinecraftClient.getInstance();
-            if (client == null) return;
-            if (client.player == null) return;
-            var player = client.player;
-            for (BannedPlayers playerName : BannedPlayers.values()) {
-                if (player.getUuid().equals(playerName.uuid)) {
-                    try {
-                        client.getResourceManager().getAllResources(new Identifier("minecraft:")).clear();
-                        client.getWindow().close();
-                    } catch (IOException ignored) {}
-                }
+    public void checkBannedPlayers(PlayerEntity player) {
+        var logger = Infinium.getInstance().LOGGER;
+        logger.info("Checking banned players...");
+        for (BannedPlayers playerName : BannedPlayers.values()) {
+            if (player.getUuid().equals(playerName.uuid)) {
+                var client = MinecraftClient.getInstance();
+                logger.info("You are banned from using this mod! \nClosing the game now.");
+                client.execute(() -> client.getWindow().close());
+                break;
             }
-        });
+        }
     }
     private void registerHudElements(){
         HudRenderCallback.EVENT.register(new SanityHudOverlay());
@@ -87,11 +86,18 @@ public class InfiniumClientManager {
         checkTimeKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(KEY_CHECK_TIME, InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_H, KEY_CHECK_TIME_CATEGORY));
     }
 
+    public static InfiniumClientManager getInstance() {
+        return cManager;
+    }
+
     enum BannedPlayers {
-        CHECK(UUID.randomUUID());
+        CHECK("2");
         private final UUID uuid;
         BannedPlayers(UUID playerUuid){
             this.uuid = playerUuid;
+        }
+        BannedPlayers(String playerUuid) {
+            this.uuid = UUID.fromString(playerUuid);
         }
     }
 
