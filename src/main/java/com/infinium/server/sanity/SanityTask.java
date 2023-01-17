@@ -36,7 +36,7 @@ public class SanityTask {
         } else {
             if (entityAttributeInstance.hasModifier(EXTRA_HEALTH_BOOST)) {
                 entityAttributeInstance.removeModifier(EXTRA_HEALTH_BOOST);
-                p.setHealth(p.getMaxHealth());
+                p.setHealth(p.getHealth());
             }
 
             var random = world.getRandom();
@@ -67,7 +67,9 @@ public class SanityTask {
         if (world.getRandom().nextInt(500) == 1) manager.decrease(p, 1, manager.TIME_COOLDOWN);
 
         if (manager.get(p, manager.TIME_COOLDOWN) <= 0) {
-            if (p.getWorld().getRandom().nextInt(100) == 1) manager.decrease(p, 1, manager.SANITY);
+            if (p.getWorld().getRandom().nextInt(100) == 1) {
+                manager.decrease(p, 1, manager.SANITY);
+            }
 
         }
     }

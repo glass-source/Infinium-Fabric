@@ -47,8 +47,10 @@ public abstract class BlockMixin extends AbstractBlock implements ItemConvertibl
     public void onStepped(World world, BlockPos pos, BlockState state, Entity entity, CallbackInfo ci){
         var block = state.getBlock();
         var day = DateUtils.getDay();
-        if (!isBlock(block) || day < 7) return;
+
         if (!(entity instanceof ServerPlayerEntity p)) return;
+        if (!isBlock(block, p) || day < 7) return;
+
         addBedrockEffects(p);
     }
 
@@ -105,7 +107,7 @@ public abstract class BlockMixin extends AbstractBlock implements ItemConvertibl
             });
         }
     }
-    private boolean isBlock(Block block) {
+    private boolean isBlock(Block block, ServerPlayerEntity p) {
         var item = block.asItem();
         var day = DateUtils.getDay();
 
@@ -117,7 +119,7 @@ public abstract class BlockMixin extends AbstractBlock implements ItemConvertibl
                 || item.equals(Items.MAGMA_BLOCK);
         } else {
             return block instanceof LeavesBlock
-            || block instanceof FluidBlock
+            || p.isTouchingWater()
             || item.equals(Items.BEDROCK)
             || item.equals(Items.IRON_BLOCK)
             || item.equals(Items.MAGMA_BLOCK);
