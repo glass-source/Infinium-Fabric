@@ -28,7 +28,7 @@ import java.util.concurrent.TimeUnit;
 
 public class SolarEclipse {
 
-
+    public static boolean isEclipseActive = false;
     public final String TITLE = ChatFormatter.format("&k| &6&l☀ &7&lEclipse Solar: &e&l%time% &6&l☀ &r&k|");
     public final BossBar BOSS_BAR = BossBar.bossBar(Component.text(TITLE.replaceAll("%time%", "0:00:00")), 1, BossBar.Color.PURPLE, BossBar.Overlay.NOTCHED_6);
     public long endsIn;
@@ -144,6 +144,7 @@ public class SolarEclipse {
         endsIn += addedTime;
         totalTime += addedTime;
         lastTimeChecked = (new Date()).getTime();
+        isEclipseActive = true;
 
         var day = DateUtils.getDay();
         var core = manager.getInstance().getCore();
@@ -178,6 +179,7 @@ public class SolarEclipse {
             service = null;
         }
 
+        isEclipseActive = false;
         endsIn = 0L;
         totalTime = 0L;
         lastTimeChecked = 0;

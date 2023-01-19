@@ -29,6 +29,8 @@ import net.minecraft.world.GameMode;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+import static com.infinium.server.items.custom.misc.InfiniumTotemItem.MAGMA_TOTEM_HEALTHBOOST;
+
 public class PlayerDeathListeners {
 
     private final Infinium instance;
@@ -92,6 +94,13 @@ public class PlayerDeathListeners {
             message = ChatFormatter.formatWithPrefix("&8El jugador &5&l" + playerName + " &8ha consumido un &b&lVoid Tótem" + " &8(Tótem #%.%)".replaceAll("%.%", String.valueOf(totems + 3)));
 
         } else if (totemItem.equals(InfiniumItems.MAGMA_TOTEM)) {
+            var entityAttributeInstance = player.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH);
+
+            if (entityAttributeInstance == null) return;
+            if (entityAttributeInstance.hasModifier(MAGMA_TOTEM_HEALTHBOOST)) {
+                entityAttributeInstance.removeModifier(MAGMA_TOTEM_HEALTHBOOST);
+            }
+
             data.putInt(totemString, totems + 1);
             message = ChatFormatter.formatWithPrefix("&8El jugador &5&l" + playerName + " &8ha consumido un \n&c&lMagma Tótem" + " &8(Tótem #%.%)".replaceAll("%.%", String.valueOf(totems + 1)));
 
@@ -99,6 +108,7 @@ public class PlayerDeathListeners {
             data.putInt(totemString, totems + 1);
             message = ChatFormatter.formatWithPrefix("&8El jugador &5&l" + playerName + " &8ha consumido un \n&6&lTótem de la Inmortalidad" + " &8(Tótem #%.%)".replaceAll("%.%", String.valueOf(totems + 1)));
         }
+
         sanityManager.decrease(player, 40, sanityManager.SANITY);
         ChatFormatter.broadcastMessage(message);
 
@@ -143,8 +153,11 @@ public class PlayerDeathListeners {
     private static boolean playerHasTotem(PlayerEntity player, DamageSource damageSource) {
         if (damageSource.isOutOfWorld()) return false;
 
-        for(ItemStack stack : player.getItemsHand()) {
-            if (stack.isOf(Items.TOTEM_OF_UNDYING) || stack.isOf(InfiniumItems.MAGMA_TOTEM) || stack.isOf(InfiniumItems.VOID_TOTEM)) return true;
+
+
+        for (ItemStack stack : player.getItemsHand()) {
+            if (stack.isOf(Items.TOTEM_OF_UNDYING) || stack.isOf(InfiniumItems.MAGMA_TOTEM) || stack.isOf(InfiniumItems.VOID_TOTEM))
+                return true;
         }
         return false;
     }

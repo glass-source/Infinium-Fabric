@@ -2,6 +2,7 @@ package com.infinium.global.mixin.client.renderer.game;
 
 import com.infinium.Infinium;
 import com.infinium.networking.packets.flashbang.FlashbangManager;
+import com.infinium.server.eclipse.SolarEclipse;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.hud.InGameHud;
@@ -29,7 +30,8 @@ public abstract class InGameHudMixin {
             var world = client.player.world;
             if (!world.getRegistryKey().equals(World.OVERWORLD)) return;
             FlashbangManager.render(matrices, (int) FlashbangManager.opacity, scaledWidth, scaledHeight, FlashbangManager.red, FlashbangManager.green, FlashbangManager.blue);
-            if (Infinium.getInstance().getCore().getEclipseManager().isActive()) {
+
+            if (SolarEclipse.isEclipseActive) {
                 if (opacity < 40) opacity++;
             } else {
                 if (opacity > -24) opacity--;

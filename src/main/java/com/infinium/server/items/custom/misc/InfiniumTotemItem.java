@@ -8,7 +8,6 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.world.World;
 
@@ -16,7 +15,7 @@ import java.util.UUID;
 
 public class InfiniumTotemItem extends Item implements InfiniumItem {
 
-    private static final EntityAttributeModifier EXTRA_HEALTH_BOOST = new EntityAttributeModifier(UUID.randomUUID(), "Magma Totem Healthboost", 8, EntityAttributeModifier.Operation.ADDITION);;
+    public static final EntityAttributeModifier MAGMA_TOTEM_HEALTHBOOST = new EntityAttributeModifier(UUID.randomUUID(), "Magma Totem Healthboost", 8, EntityAttributeModifier.Operation.ADDITION);;
 
     public InfiniumTotemItem(Settings settings) {
         super(settings);
@@ -29,14 +28,14 @@ public class InfiniumTotemItem extends Item implements InfiniumItem {
         var entityAttributeInstance = p.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH);
 
         if (hasMagmaTotem(p)) {
-            if (!entityAttributeInstance.hasModifier(EXTRA_HEALTH_BOOST)) {
-                entityAttributeInstance.addTemporaryModifier(EXTRA_HEALTH_BOOST);
+            if (!entityAttributeInstance.hasModifier(MAGMA_TOTEM_HEALTHBOOST)) {
+                entityAttributeInstance.addTemporaryModifier(MAGMA_TOTEM_HEALTHBOOST);
                 p.setHealth(p.getHealth());
 
             }
         } else {
-            if (entityAttributeInstance.hasModifier(EXTRA_HEALTH_BOOST)) {
-                entityAttributeInstance.removeModifier(EXTRA_HEALTH_BOOST);
+            if (entityAttributeInstance.hasModifier(MAGMA_TOTEM_HEALTHBOOST)) {
+                entityAttributeInstance.removeModifier(MAGMA_TOTEM_HEALTHBOOST);
                 p.damage(DamageSource.OUT_OF_WORLD, 0.0001f);
             }
         }

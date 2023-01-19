@@ -42,6 +42,7 @@ public class InfiniumItems {
     public static Item VOID_WINGS;
 
     public static Item VOID_TOTEM;
+    public static Item VOID_EYE;
 
     public static Item MAGMA_PICKAXE;
     public static Item MAGMA_SWORD;
@@ -125,12 +126,13 @@ public class InfiniumItems {
         MAGMA_HOE = registerItem("magma_hoe", new MagmaHoeItem(InfiniumToolMaterials.MAGMA, -4, 0.0F, new FabricItemSettings().group(ItemGroup.TOOLS).rarity(Rarity.UNCOMMON).maxDamage(4570).fireproof()));
         MAGMA_BOW = registerItem("magma_bow", new MagmaBowItem(new FabricItemSettings().group(ItemGroup.COMBAT).rarity(Rarity.UNCOMMON).maxDamage(4570).fireproof()));
         MAGMA_TRIDENT = registerItem("magma_trident", new MagmaTridentItem(new FabricItemSettings().group(ItemGroup.COMBAT).rarity(Rarity.UNCOMMON).maxDamage(3450).fireproof(), InfiniumEntityType.MAGMA_TRIDENT));
-        MAGMA_SHIELD = registerItem("magma_shield", new ShieldItem(new FabricItemSettings().group(ItemGroup.COMBAT).rarity(Rarity.RARE).maxDamage(4570).fireproof()));
+        MAGMA_SHIELD = registerItem("magma_shield", new ShieldItem(new FabricItemSettings().group(ItemGroup.COMBAT).rarity(Rarity.UNCOMMON).maxDamage(4570).fireproof()));
     }
 
     private static void registerMisc() {
         GRAPPLING_HOOK = registerItem("grappling_hook", new GrapplingHookItem(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC).maxDamage(450)));
         ENDER_WAND = registerItem("ender_wand", new EnderWandItem(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC).maxDamage(225)));
+        VOID_EYE = registerItem("void_eye", new VoidEyeItem(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC).maxCount(64)));
     }
 
     private static void registerMusicDiscs(){

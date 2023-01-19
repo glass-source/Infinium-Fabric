@@ -3,6 +3,7 @@ package com.infinium.global.mixin.client.renderer.game;
 
 import com.infinium.Infinium;
 import com.infinium.networking.packets.flashbang.FlashbangManager;
+import com.infinium.server.eclipse.SolarEclipse;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.render.GameRenderer;
@@ -27,7 +28,7 @@ public class GameRendererMixin {
         if (client.options.hudHidden) {
             MatrixStack matrices = new MatrixStack();
             FlashbangManager.render(matrices, (int) FlashbangManager.opacity, scaledWidth, scaledHeight, FlashbangManager.red, FlashbangManager.green, FlashbangManager.blue);
-            if (Infinium.getInstance().getCore().getEclipseManager().isActive()) {
+            if (SolarEclipse.isEclipseActive) {
                 if (opacity < 50) opacity++;
             } else {
                 if (opacity > -14) opacity--;
