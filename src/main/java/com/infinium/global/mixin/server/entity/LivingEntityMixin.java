@@ -1,5 +1,6 @@
 package com.infinium.global.mixin.server.entity;
 
+import com.infinium.Infinium;
 import com.infinium.global.utils.DateUtils;
 import com.infinium.server.effects.InfiniumEffects;
 import net.minecraft.entity.Entity;
@@ -8,6 +9,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -31,6 +33,11 @@ public abstract class LivingEntityMixin extends Entity {
     @Shadow public abstract boolean hasStatusEffect(StatusEffect effect);
     @Shadow @Nullable public abstract StatusEffectInstance getStatusEffect(StatusEffect effect);
     @Shadow public abstract boolean damage(DamageSource source, float amount);
+
+    @Shadow public abstract boolean canSee(Entity entity);
+
+    @Shadow @Nullable public abstract LivingEntity getAttacker();
+
     @Inject(method = "damage", at = @At("HEAD"), cancellable = true)
     private void applyImmunity(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
         if(this.hasStatusEffect(InfiniumEffects.IMMUNITY)) {
@@ -60,6 +67,52 @@ public abstract class LivingEntityMixin extends Entity {
                 ci.cancel();
             }
         }
+    }
+
+    @Inject(method = "dropLoot", at = @At("HEAD"), cancellable = true)
+    private void solarEclipseRemoveLoot(DamageSource source, boolean causedByPlayer, CallbackInfo ci){
+        var eclipseManager = Infinium.getInstance().getCore().getEclipseManager();
+        if (!eclipseManager.isActive()) return;
+        var day = DateUtils.getDay();
+
+
+        if (day >= 7 && day < 14) {
+
+            switch  (this.getType().toString()) {
+
+                case "entity.minecraft.wither_skeleton" -> {
+                    if (random.nextInt(10) >= 6) {
+                        var item = Items.WITHER_SKELETON_SKULL.getDefaultStack();
+                        item.increment(1);
+                        dropStack(item);
+                    }
+
+                }
+
+                case "entity.infinium.ghoul_spider" -> {
+                    var item = Items.FERMENTED_SPIDER_EYE.getDefaultStack();
+                    item.increment(random.nextInt(6));
+                    dropStack(item);
+                }
+
+                case  "entity.minecraft.pillager"
+                    , "entity.minecraft.vindicator"
+                    , "entity.minecraft.evoker" -> {
+
+                    if (random.nextInt(10) >= 3) {
+                        var item = Items.EMERALD_BLOCK.getDefaultStack();
+                        item.increment(1 + random.nextInt(3));
+                        dropStack(item);
+                    }
+
+                }
+
+
+
+
+            }
+        }
+
     }
 
 

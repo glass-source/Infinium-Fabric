@@ -2,6 +2,7 @@ package com.infinium.server.entities.mobs.ghoulmobs.ghoulzombie;
 
 import com.infinium.global.utils.ChatFormatter;
 import com.infinium.server.entities.InfiniumEntity;
+import com.infinium.server.entities.InfiniumEntityType;
 import com.infinium.server.entities.goals.global.IEntityAttackGoal;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;

@@ -25,6 +25,7 @@ public class SanityItem extends Item implements InfiniumItem {
             var sanityManager = Infinium.getInstance().getCore().getSanityManager();
             pl.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 240, 3));
             pl.addStatusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 240, 3));
+            pl.addStatusEffect(new StatusEffectInstance(StatusEffects.HUNGER, 240, 3));
             pl.removeStatusEffect(InfiniumEffects.MADNESS);
             sanityManager.add(pl, 40, sanityManager.SANITY);
         }

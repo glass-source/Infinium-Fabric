@@ -230,7 +230,7 @@ public class StaffCommand {
             return -1;
         }
 
-        source.getSource().sendFeedback(ChatFormatter.text("&7Quedan " + eclipseManager.getTimeToString() + " &7 de Solar Eclipse."), false);
+        source.getSource().sendFeedback(ChatFormatter.text("&7Quedan " + eclipseManager.getTimeToString() + "&7 de Solar Eclipse."), false);
         return 1;
     }
 
