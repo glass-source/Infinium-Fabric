@@ -24,8 +24,8 @@
 
 package com.infinium.client.renderer.item;
 
-import com.infinium.client.renderer.mobs.voidmobs.voidghast.VoidGhastEntityModel;
 import com.infinium.client.renderer.projectiles.magmatrident.MagmaTridentEntityModel;
+import com.infinium.client.renderer.projectiles.magmatrident.MagmaTridentEntityRenderer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.item.ItemRenderer;
@@ -36,12 +36,13 @@ import net.minecraft.item.ItemStack;
 import static com.infinium.Infinium.id;
 
 public class MagmaTridentItemRenderer {
-
-    private static final MagmaTridentEntityModel modelTrident = new MagmaTridentEntityModel(MagmaTridentEntityModel.getTexturedModelData().createModel());
+    private static final MagmaTridentEntityModel modelTrident = MagmaTridentEntityRenderer.getModel();
 
     public static void render(ItemStack stack, Mode mode, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
         matrices.push();
-        matrices.scale(1.0F, -1.0F, -1.0F);
+        matrices.scale(1.65F, 1.65F, 1.65f);
+
+
         VertexConsumer vertexConsumer2 = ItemRenderer.getDirectItemGlintConsumer(vertexConsumers, modelTrident.getLayer(id("textures/entity/magma_trident.png")), false, stack.hasGlint());
         modelTrident.render(matrices, vertexConsumer2, light, overlay, 1.0F, 1.0F, 1.0F, 1.0F);
         matrices.pop();

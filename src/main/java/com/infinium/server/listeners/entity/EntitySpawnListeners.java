@@ -3,32 +3,27 @@ package com.infinium.server.listeners.entity;
 import com.infinium.Infinium;
 import com.infinium.global.utils.ChatFormatter;
 import com.infinium.global.utils.DateUtils;
+import com.infinium.global.utils.EntityDataSaver;
 import com.infinium.server.InfiniumServerManager;
 import com.infinium.server.eclipse.SolarEclipseManager;
-import com.infinium.server.entities.InfiniumEntity;
 import com.infinium.server.entities.InfiniumEntityType;
 import com.infinium.server.events.entity.EntitySpawnEvent;
-import com.infinium.server.items.InfiniumItems;
-import net.minecraft.block.AirBlock;
-import net.minecraft.block.FluidBlock;
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.*;
-import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.CreeperEntity;
 import net.minecraft.entity.mob.SkeletonEntity;
 import net.minecraft.entity.mob.WitherSkeletonEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemConvertible;
-import net.minecraft.item.ItemStack;
+import net.minecraft.entity.passive.SquidEntity;
 import net.minecraft.item.Items;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
-import org.apache.logging.log4j.core.jmx.Server;
+import net.minecraft.world.World;
+import net.minecraft.world.explosion.Explosion;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Random;
 
@@ -51,15 +46,13 @@ public class EntitySpawnListeners {
 
     private void entitySpawnCallback(){
         EntitySpawnEvent.EVENT.register((entity) -> {
-
-            if (!(entity instanceof LivingEntity livingEntity)) return ActionResult.FAIL;
+            var livingEntity = entity instanceof LivingEntity ? (LivingEntity) entity : entity;
             if (livingEntity.getWorld().isClient) return ActionResult.FAIL;
 
             var day = DateUtils.getDay();
-            var world = (ServerWorld) livingEntity.getWorld();
-            var blockPos = livingEntity.getBlockPos();
-            var block = world.getBlockState(blockPos.down()).getBlock();
-            var entityTypeString =  livingEntity.getType().toString();
+            var world = (ServerWorld) entity.getWorld();
+            var blockPos = entity.getBlockPos();
+            var entityTypeString = entity.getType().toString();
 
             switch (world.getRegistryKey().getValue().toString()) {
 
@@ -71,12 +64,14 @@ public class EntitySpawnListeners {
                             switch (entityTypeString) {
 
                                 case "entity.minecraft.creeper" -> {
+                                    assert livingEntity instanceof CreeperEntity;
                                     var creeper = (CreeperEntity) livingEntity;
                                     creeper.setCustomName(ChatFormatter.text("&6Charged Creeper"));
                                     creeper.onStruckByLightning(world, null);
                                 }
 
                                 case "entity.minecraft.skeleton" -> {
+                                    assert livingEntity instanceof SkeletonEntity;
                                     var skelly = (SkeletonEntity) livingEntity;
                                     var bow = Items.BOW.getDefaultStack();
                                     bow.addEnchantment(Enchantments.POWER, 25);
@@ -85,20 +80,49 @@ public class EntitySpawnListeners {
                                     skelly.setCustomName(ChatFormatter.text("&6Power XXV Skeleton"));
                                 }
 
+                                case "entity.minecraft.evoker_fangs" -> {
+                                    if (new Random().nextInt(10) >= 8) createExplosionFromEntity(livingEntity, world, blockPos, 3.0f, false);
+                                }
+
                             }
                         } else {
 
                             switch (entityTypeString) {
 
-                                case "entity.minecraft.zombie" -> spawnEntity(livingEntity, InfiniumEntityType.GHOUL_ZOMBIE, world, blockPos);
+                                case "entity.minecraft.zombie" -> {
+                                    assert livingEntity instanceof LivingEntity;
+                                    spawnEntity((LivingEntity) livingEntity, InfiniumEntityType.GHOUL_ZOMBIE, world, blockPos);
+                                }
 
-                                case "entity.minecraft.spider" -> spawnEntity(livingEntity, InfiniumEntityType.GHOUL_SPIDER, world, blockPos);
+                                case "entity.minecraft.spider" -> {
+                                    assert livingEntity instanceof LivingEntity;
+                                    spawnEntity((LivingEntity) livingEntity, InfiniumEntityType.GHOUL_SPIDER, world, blockPos);
+                                }
 
                             }
                         }
 
 
                     }
+
+                    if (day >= 14) {
+                        switch (entityTypeString) {
+
+                            case "entity.minecraft.evoker_fangs" -> {
+                                if (new Random().nextInt(10) >= 8) createExplosionFromEntity(livingEntity, world, blockPos, 3.0f, false);
+                            }
+
+                            case "entity.minecraft.glow_squid"
+                               , "entity.minecraft.squid"-> {
+                                assert livingEntity instanceof SquidEntity;
+                                var nuclearBomb = (SquidEntity) livingEntity;
+                                nuclearBomb.setCustomName(ChatFormatter.text("&6BOMBA NUCLEAR"));
+                                nuclearBomb.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, Integer.MAX_VALUE, 3));
+                                nuclearBomb.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, Integer.MAX_VALUE, 9));
+                            }
+                        }
+                    }
+
                 }
 
                 case "minecraft:the_nether" -> {
@@ -127,12 +151,11 @@ public class EntitySpawnListeners {
         EntitySpawnEvent.EVENT.register((entity) -> {
 
             if (!(entity instanceof LivingEntity livingEntity)) return ActionResult.FAIL;
-            if (livingEntity.getWorld().isClient || !solarEclipseManager.isActive()) return ActionResult.FAIL;
+            if (livingEntity.getWorld().isClient || !solarEclipseManager.isActive()) return ActionResult.PASS;
 
             var day = DateUtils.getDay();
             var world = (ServerWorld) livingEntity.getWorld();
             var blockPos = livingEntity.getBlockPos();
-            var block = world.getBlockState(blockPos.down()).getBlock();
             var entityTypeString =  livingEntity.getType().toString();
 
             switch (world.getRegistryKey().getValue().toString()) {
@@ -150,15 +173,9 @@ public class EntitySpawnListeners {
                             switch (entityTypeString) {
 
                                 case "entity.minecraft.spider"
-                                   , "entity.minecraft.cave_spider"-> {
-                                    spawnEntity(livingEntity, InfiniumEntityType.GHOUL_SPIDER, world, blockPos);
-                                }
+                                   , "entity.minecraft.cave_spider"-> spawnEntity(livingEntity, InfiniumEntityType.GHOUL_SPIDER, world, blockPos);
 
-                                case "entity.minecraft.zombie" -> {
-
-                                    spawnEntity(livingEntity, InfiniumEntityType.GHOUL_ZOMBIE, world, blockPos);
-
-                                }
+                                case "entity.minecraft.zombie" -> spawnEntity(livingEntity, InfiniumEntityType.GHOUL_ZOMBIE, world, blockPos);
 
                                 case "entity.minecraft.skeleton" -> {
 
@@ -232,6 +249,10 @@ public class EntitySpawnListeners {
     private void spawnEntity(LivingEntity entityToRemove, EntityType<?> type, ServerWorld world, BlockPos pos) {
         entityToRemove.remove(Entity.RemovalReason.DISCARDED);
         type.spawn(world, null, null, null, pos, SpawnReason.NATURAL, true, false);
+    }
+
+    private void createExplosionFromEntity(@Nullable Entity entity, World world, BlockPos position, float explosionPower, boolean breakBlocks) {
+        world.createExplosion(entity, position.getX(), position.getY(), position.getZ(), explosionPower,  breakBlocks ? Explosion.DestructionType.DESTROY : Explosion.DestructionType.NONE);
     }
 
 }

@@ -3,15 +3,19 @@ package com.infinium.global.mixin.server.entity;
 import com.infinium.Infinium;
 import com.infinium.global.utils.DateUtils;
 import com.infinium.server.effects.InfiniumEffects;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.explosion.Explosion;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -34,8 +38,6 @@ public abstract class LivingEntityMixin extends Entity {
     @Shadow @Nullable public abstract StatusEffectInstance getStatusEffect(StatusEffect effect);
     @Shadow public abstract boolean damage(DamageSource source, float amount);
 
-    @Shadow public abstract boolean canSee(Entity entity);
-
     @Shadow @Nullable public abstract LivingEntity getAttacker();
 
     @Inject(method = "damage", at = @At("HEAD"), cancellable = true)
@@ -46,9 +48,11 @@ public abstract class LivingEntityMixin extends Entity {
         }
     }
 
+
     @ModifyVariable(method = "damage", at = @At("TAIL"), ordinal = 0, argsOnly = true)
     private float applyImmunityAndMadness(float amount) {
         if (this.hasStatusEffect(InfiniumEffects.IMMUNITY)) {
+
             return 0;
         } else if (this.hasStatusEffect(InfiniumEffects.MADNESS)) {
             var level = this.getStatusEffect(InfiniumEffects.MADNESS).getAmplifier();
@@ -56,6 +60,48 @@ public abstract class LivingEntityMixin extends Entity {
         } else {
             return amount;
         }
+    }
+    @Inject(method = "damage", at = @At("HEAD"), cancellable = true)
+    private void onDamage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
+        if (!source.isExplosive()) return;
+        var day = DateUtils.getDay();
+        var entityTypeString = this.getType().toString();
+
+        if (day >= 7) {
+            switch (entityTypeString) {
+
+                case  "entity.minecraft.pillager"
+                    , "entity.minecraft.vindicator"
+                    , "entity.minecraft.evoker" -> {
+                    cir.setReturnValue(false);
+                    cir.cancel();
+                }
+            }
+        }
+
+        if (day >= 14) {
+            if (this.isPlayer()) return;
+            cir.setReturnValue(false);
+            cir.cancel();
+        }
+    }
+
+    @Inject(method = "onDeath", at = @At("HEAD"))
+    private void onDeath(DamageSource source, CallbackInfo ci) {
+        var day = DateUtils.getDay();
+        var world = this.getWorld();
+        var blockPos = this.getBlockPos();
+
+        if (day >= 14) {
+            if (random.nextInt(100) == 1) createExplosionFromEntity(null, world, blockPos, 2.5f);
+
+            switch (this.getType().toString()) {
+                case "entity.minecraft.glow_squid"
+                   , "entity.minecraft.squid"-> createExplosionFromEntity(null, world, blockPos, 40.0f, false);
+            }
+
+        }
+
     }
 
     @Inject(method = "dropLoot", at = @At("HEAD"), cancellable = true)
@@ -104,16 +150,18 @@ public abstract class LivingEntityMixin extends Entity {
                         item.increment(1 + random.nextInt(3));
                         dropStack(item);
                     }
-
                 }
-
-
-
-
             }
         }
 
     }
 
+    private void createExplosionFromEntity(@Nullable LivingEntity entity, World world, BlockPos position, float explosionPower) {
+        world.createExplosion(entity, position.getX(), position.getY(), position.getZ(), explosionPower, Explosion.DestructionType.DESTROY);
+    }
+
+    private void createExplosionFromEntity(@Nullable LivingEntity entity, World world, BlockPos position, float explosionPower, boolean breakBlocks) {
+        world.createExplosion(entity, position.getX(), position.getY(), position.getZ(), explosionPower,  breakBlocks ? Explosion.DestructionType.DESTROY : Explosion.DestructionType.NONE);
+    }
 
 }

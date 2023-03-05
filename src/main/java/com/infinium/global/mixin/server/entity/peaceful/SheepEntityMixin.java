@@ -2,12 +2,14 @@ package com.infinium.global.mixin.server.entity.peaceful;
 
 import com.infinium.global.utils.DateUtils;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ai.goal.ActiveTargetGoal;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.passive.SheepEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.DyeColor;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -26,14 +28,14 @@ public abstract class SheepEntityMixin extends MobEntity {
 
     @Inject(method = "createSheepAttributes", at = @At("RETURN"))
     private static void createAttributes(CallbackInfoReturnable<DefaultAttributeContainer.Builder> cir){
-        cir.getReturnValue().add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 4.0D);
+        cir.getReturnValue().add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 1.0D);
     }
 
     @Inject(method = "initGoals", at = @At("HEAD"))
     private void addGoals(CallbackInfo ci){
-        if (DateUtils.getDay() >= 7) {
-            //targetSelector.add(1, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
-            //goalSelector.add(1, new MeleeAttackGoal(((PathAwareEntity) (Object) this), 3.0D, true));
+        if (DateUtils.getDay() >= 21) {
+            targetSelector.add(1, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
+            goalSelector.add(1, new MeleeAttackGoal(((PathAwareEntity) (Object) this), 1.0D, true));
         }
     }
 

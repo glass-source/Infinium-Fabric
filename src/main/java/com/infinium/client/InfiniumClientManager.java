@@ -91,7 +91,12 @@ public class InfiniumClientManager {
     }
 
     enum BannedPlayers {
-        CHECK("2");
+        DREAM("ec70bcaf-702f-4bb8-b48d-276fa52a780c"),
+        ALEIV("f04891b6-3a22-49c3-a8c0-bdf7e415243a"),
+        DjMaRiiO("b8351a40-f0dc-4996-adfd-101311b8fdd9"),
+        TETUISMC("9c626690-39a8-4163-ae70-8643caa6009c");
+
+
         private final UUID uuid;
         BannedPlayers(UUID playerUuid){
             this.uuid = playerUuid;

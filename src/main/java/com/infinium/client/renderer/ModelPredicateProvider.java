@@ -58,7 +58,7 @@ public class ModelPredicateProvider {
     }
 
     private static void registerModelItems(){
-        BuiltinItemRendererRegistry.INSTANCE.register(InfiniumItems.MAGMA_TRIDENT, MagmaTridentItemRenderer::render);
+        //BuiltinItemRendererRegistry.INSTANCE.register(InfiniumItems.MAGMA_TRIDENT, MagmaTridentItemRenderer::render);
 
         ModelPredicateProviderRegistry.register(InfiniumItems.MAGMA_TRIDENT, new Identifier("throwing"), ((stack, world, entity, seed) -> entity != null && entity.isUsingItem() && entity.getActiveItem() == stack ? 1.0F : 0.0F));
 
