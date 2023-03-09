@@ -64,6 +64,7 @@ public abstract class LivingEntityMixin extends Entity {
     @Inject(method = "damage", at = @At("HEAD"), cancellable = true)
     private void onDamage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
         if (!source.isExplosive()) return;
+        if (this.isPlayer()) return;
         var day = DateUtils.getDay();
         var entityTypeString = this.getType().toString();
 
@@ -80,7 +81,6 @@ public abstract class LivingEntityMixin extends Entity {
         }
 
         if (day >= 14) {
-            if (this.isPlayer()) return;
             cir.setReturnValue(false);
             cir.cancel();
         }

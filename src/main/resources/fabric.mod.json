@@ -5,9 +5,10 @@
   "name": "Infinium Fabric",
   "description": "Infinium SMP, recreated in Fabric.",
   "authors": [
-    "mrswz", "ITzFel17"
+    "Asunder", "ITzFel17"
   ],
   "contact": {
+    "twitter": "https://twitter.com/InfiniumSMP",
     "sources": "https://github.com/InfiniumMC/InfiniumT1-FabricMC"
   },
   "license": "MIT",
