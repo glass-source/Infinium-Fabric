@@ -18,14 +18,14 @@ public class SanityTask {
     
     public void run(){
         manager.totalPlayers.forEach((p) -> {
-            if (p.isCreative() || p.isSpectator()) return;
+            if (shouldPreventEffects(p)) return;
             calcSanity(p);
             sanityEffects(p);
         });
     }
 
     private void sanityEffects(PlayerEntity p) {
-        if (p.isCreative() || p.isSpectator()) return;
+        if (shouldPreventEffects(p)) return;
         int sanity = manager.get(p, manager.SANITY);
         var world = p.getWorld();
         var entityAttributeInstance = p.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH);
@@ -47,7 +47,7 @@ public class SanityTask {
     }
 
     private void calcSanity(PlayerEntity p) {
-        if (p.isCreative() || p.isSpectator()) return;
+        if (shouldPreventEffects(p)) return;
         var worldRandom = p.getWorld().getRandom();
 
         if (p.getHealth() >= p.getMaxHealth() - 3.0D) manager.decrease(p, 1, manager.POSITIVE_HEALTH_COOLDOWN);
@@ -74,6 +74,8 @@ public class SanityTask {
         }
     }
 
-
+    private boolean shouldPreventEffects(PlayerEntity p) {
+        return p.isCreative() || p.isSpectator() || p.isDead() || p.isCreativeLevelTwoOp() || p.getAbilities().creativeMode;
+    }
 
 }
