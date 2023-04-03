@@ -153,8 +153,6 @@ public class PlayerDeathListeners {
     private static boolean playerHasTotem(PlayerEntity player, DamageSource damageSource) {
         if (damageSource.isOutOfWorld()) return false;
 
-
-
         for (ItemStack stack : player.getItemsHand()) {
             if (stack.isOf(Items.TOTEM_OF_UNDYING) || stack.isOf(InfiniumItems.MAGMA_TOTEM) || stack.isOf(InfiniumItems.VOID_TOTEM))
                 return true;

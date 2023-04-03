@@ -1,51 +1,73 @@
-/*
- * MIT License
- *
- * Copyright (c) 2021 OroArmor (Eli Orona)
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
-
 package com.infinium.client.renderer.item;
 
-import com.infinium.client.renderer.projectiles.magmatrident.MagmaTridentEntityModel;
-import com.infinium.client.renderer.projectiles.magmatrident.MagmaTridentEntityRenderer;
+import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
+import net.fabricmc.fabric.api.resource.ResourceReloadListenerKeys;
+import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.client.render.item.ItemRenderer;
-import net.minecraft.client.render.model.json.ModelTransformation.Mode;
+import net.minecraft.client.render.model.BakedModel;
+import net.minecraft.client.render.model.json.ModelTransformation;
+import net.minecraft.client.util.ModelIdentifier;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
+import net.minecraft.resource.ResourceManager;
+import net.minecraft.util.Identifier;
 
-import static com.infinium.Infinium.id;
+import java.util.Collection;
+import java.util.Collections;
 
-public class MagmaTridentItemRenderer {
-    private static final MagmaTridentEntityModel modelTrident = MagmaTridentEntityRenderer.getModel();
-
-    public static void render(ItemStack stack, Mode mode, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
-        matrices.push();
-        matrices.scale(1.65F, 1.65F, 1.65f);
+public class MagmaTridentItemRenderer implements BuiltinItemRendererRegistry.DynamicItemRenderer, SimpleSynchronousResourceReloadListener {
 
 
-        VertexConsumer vertexConsumer2 = ItemRenderer.getDirectItemGlintConsumer(vertexConsumers, modelTrident.getLayer(id("textures/entity/magma_trident.png")), false, stack.hasGlint());
-        modelTrident.render(matrices, vertexConsumer2, light, overlay, 1.0F, 1.0F, 1.0F, 1.0F);
-        matrices.pop();
+    private final Identifier id;
+    private final Identifier tridentId;
+    private final Identifier texture;
+    private final EntityModelLayer modelLayer;
+    private ItemRenderer itemRenderer;
+    private MagmaTridentEntityModel tridentModel;
+    private BakedModel inventoryTridentModel;
+
+    public MagmaTridentItemRenderer(Identifier tridentId, Identifier texture, EntityModelLayer modelLayer) {
+        this.id = new Identifier(tridentId.getNamespace(), tridentId.getPath() + "_renderer");
+        this.tridentId = tridentId;
+        this.texture = texture;
+        this.modelLayer = modelLayer;
     }
 
+    @Override
+    public Identifier getFabricId() {
+        return this.id;
+    }
+
+    @Override
+    public Collection<Identifier> getFabricDependencies() {
+        return Collections.singletonList(ResourceReloadListenerKeys.MODELS);
+    }
+
+    @Override
+    public void render(ItemStack stack, ModelTransformation.Mode renderMode, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
+        assert this.tridentModel != null;
+        if (renderMode == ModelTransformation.Mode.GUI || renderMode == ModelTransformation.Mode.GROUND || renderMode == ModelTransformation.Mode.FIXED) {
+            matrices.pop(); // cancel the previous transformation and pray that we are not breaking the state
+            matrices.push();
+            itemRenderer.renderItem(stack, renderMode, false, matrices, vertexConsumers, light, overlay, this.inventoryTridentModel);
+        } else {
+            matrices.push();
+            matrices.scale(1.0F, -1.0F, -1.0F);
+            VertexConsumer vertexConsumer = ItemRenderer.getDirectItemGlintConsumer(vertexConsumers, this.tridentModel.getLayer(this.texture), false, stack.hasGlint());
+            this.tridentModel.render(matrices, vertexConsumer, light, overlay, 1.0F, 1.0F, 1.0F, 1.0F);
+            matrices.pop();
+        }
+    }
+
+    @Override
+    public void reload(ResourceManager manager) {
+        MinecraftClient mc = MinecraftClient.getInstance();
+        this.itemRenderer = mc.getItemRenderer();
+        this.tridentModel = new MagmaTridentEntityModel(mc.getEntityModelLoader().getModelPart(this.modelLayer));
+        this.inventoryTridentModel = mc.getBakedModelManager().getModel(new ModelIdentifier(this.tridentId + "_in_inventory", "inventory"));
+    }
 }

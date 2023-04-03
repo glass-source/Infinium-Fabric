@@ -21,8 +21,6 @@
     "client.renderer.game.GameMenuScreenMixin",
     "client.renderer.game.GameRendererMixin",
     "client.renderer.game.InGameHudMixin",
-    "client.renderer.item.ItemRendererAccesor",
-    "client.renderer.item.ItemRendererMixin",
     "client.renderer.world.WorldRendererMixin"
   ],
   "injectors": {

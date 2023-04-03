@@ -21,24 +21,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.infinium.global.mixin.client.renderer.item;
 
-import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.item.ItemModels;
-import net.minecraft.client.render.item.ItemRenderer;
-import net.minecraft.client.render.model.BakedModel;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.item.ItemStack;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.gen.Accessor;
-import org.spongepowered.asm.mixin.gen.Invoker;
+package com.infinium.client.renderer.item;
 
-@Mixin(ItemRenderer.class)
-public interface ItemRendererAccesor {
+import com.infinium.server.entities.projectiles.MagmaTridentEntity;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.client.render.entity.EntityRenderer;
+import net.minecraft.client.render.entity.EntityRendererFactory;
+import net.minecraft.client.render.entity.TridentEntityRenderer;
+import net.minecraft.client.render.entity.model.EntityModelLayer;
+import net.minecraft.client.render.entity.model.EntityModelLayers;
+import net.minecraft.entity.projectile.TridentEntity;
+import net.minecraft.util.Identifier;
 
-    @Accessor("models")
-    ItemModels infinium$getModels();
+import static com.infinium.Infinium.id;
 
-    @Invoker("renderBakedItemModel")
-    void infinium$renderBakedItemModel(BakedModel model, ItemStack stack, int light, int overlay, MatrixStack matrices, VertexConsumer vertexConsumer4);
+@Environment(EnvType.CLIENT)
+public class MagmaTridentRenderer extends EntityRenderer<MagmaTridentEntity> {
+    private final Identifier TEXTURE = id("textures/entity/magma_trident.png");
+
+
+    public MagmaTridentRenderer(EntityRendererFactory.Context ctx, Identifier texture, EntityModelLayer modelLayer) {
+        super(ctx);
+    }
+
+
+    @Override
+    public Identifier getTexture(MagmaTridentEntity entity) {
+        return this.TEXTURE;
+    }
 }

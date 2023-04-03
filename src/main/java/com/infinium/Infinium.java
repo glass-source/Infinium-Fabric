@@ -1,8 +1,13 @@
 package com.infinium;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.infinium.client.InfiniumClientManager;
+import com.infinium.global.config.data.DataManager;
+import com.infinium.global.config.data.adapters.ScheduledFutureInstanceCreator;
 import com.infinium.server.InfiniumServerManager;
 import com.mojang.logging.LogUtils;
+import lombok.Getter;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.impl.util.log.Log;
 import net.minecraft.client.MinecraftClient;
@@ -11,9 +16,11 @@ import org.slf4j.Logger;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 
 public class Infinium implements ModInitializer {
     private InfiniumServerManager core;
+    private InfiniumClientManager clientCore;
     private static Infinium instance;
     private final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
     public final Logger LOGGER = LogUtils.getLogger();
@@ -22,6 +29,12 @@ public class Infinium implements ModInitializer {
     }
 
     public static final String MOD_ID = "infinium";
+
+    private static final Gson gson = new GsonBuilder()
+            .registerTypeAdapter(ScheduledFuture.class, new ScheduledFutureInstanceCreator())
+            .setPrettyPrinting()
+            .serializeNulls()
+            .create();
 
     @Override
     public void onInitialize() {
@@ -34,11 +47,19 @@ public class Infinium implements ModInitializer {
         return core;
     }
 
+    public InfiniumClientManager getClientCore() {
+        return clientCore;
+    }
+
     public ScheduledExecutorService getExecutor(){
         return executorService;
     }
 
     public static Infinium getInstance(){
         return instance;
+    }
+
+    public static Gson getGson() {
+        return gson;
     }
 }

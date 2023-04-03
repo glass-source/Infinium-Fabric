@@ -2,6 +2,7 @@ package com.infinium.server;
 
 import com.infinium.Infinium;
 import com.infinium.global.config.InfiniumConfig;
+import com.infinium.global.config.data.DataManager;
 import com.infinium.networking.InfiniumPackets;
 import com.infinium.server.blocks.InfiniumBlocks;
 import com.infinium.server.eclipse.SolarEclipseManager;
@@ -19,7 +20,10 @@ import eu.midnightdust.lib.config.MidnightConfig;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.kyori.adventure.platform.fabric.FabricServerAudiences;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.world.GameRules;
+
+import java.util.List;
 
 public class InfiniumServerManager {
     private final Infinium instance;
@@ -27,6 +31,7 @@ public class InfiniumServerManager {
     private MinecraftServer server;
     private final SanityManager sanityManager;
     private final SolarEclipseManager eclipseManager;
+    private DataManager dataManager;
     public InfiniumServerManager(final Infinium instance) {
         this.instance = instance;
         this.eclipseManager = new SolarEclipseManager(this.instance);
@@ -46,11 +51,22 @@ public class InfiniumServerManager {
             this.eclipseManager.load();
             this.server.getGameRules().get(GameRules.DO_IMMEDIATE_RESPAWN).set(true, this.server);
             this.initListeners();
+
+            try {
+                this.dataManager = new DataManager(this.instance);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+
+            this.dataManager.restore();
         });
     }
 
     private void onServerStop(){
-        ServerLifecycleEvents.SERVER_STOPPED.register(server -> this.eclipseManager.disable());
+        ServerLifecycleEvents.SERVER_STOPPED.register(server -> {
+            this.eclipseManager.disable();
+            this.dataManager.save();
+        });
     }
 
     private void initConfig(){
@@ -91,6 +107,10 @@ public class InfiniumServerManager {
 
     public FabricServerAudiences getAdventure(){
         return adventure;
+    }
+
+    public List<ServerPlayerEntity> getTotalPlayers() {
+        return sanityManager.totalPlayers;
     }
 
 }

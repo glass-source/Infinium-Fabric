@@ -11,7 +11,7 @@ public class InfiniumClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        clManager = new InfiniumClientManager(this);
+        clManager = new InfiniumClientManager();
         clManager.onClientStart();
     }
 

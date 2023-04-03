@@ -48,7 +48,7 @@ public class SanityTask {
 
     private void calcSanity(PlayerEntity p) {
         if (p.isCreative() || p.isSpectator()) return;
-        var world = p.getWorld();
+        var worldRandom = p.getWorld().getRandom();
 
         if (p.getHealth() >= p.getMaxHealth() - 3.0D) manager.decrease(p, 1, manager.POSITIVE_HEALTH_COOLDOWN);
 
@@ -64,10 +64,10 @@ public class SanityTask {
             manager.set(p, 6000, manager.NEGATIVE_HEALTH_COOLDOWN);
         }
 
-        if (world.getRandom().nextInt(500) == 1) manager.decrease(p, 1, manager.TIME_COOLDOWN);
+        if (worldRandom.nextInt(500) == 1) manager.decrease(p, 1, manager.TIME_COOLDOWN);
 
         if (manager.get(p, manager.TIME_COOLDOWN) <= 0) {
-            if (p.getWorld().getRandom().nextInt(100) == 1) {
+            if (worldRandom.nextInt(100) == 1) {
                 manager.decrease(p, 1, manager.SANITY);
             }
 

@@ -33,13 +33,12 @@ public class MagmaTridentItem extends TridentItem implements InfiniumItem {
 
     EntityType<? extends MagmaTridentEntity> type;
 
-    public MagmaTridentItem(Settings settings) {
-        super(settings);
-    }
+
 
     public MagmaTridentItem(Settings settings, EntityType<? extends MagmaTridentEntity> entityType) {
         super(settings);
         this.type = entityType;
+        
         this.getDefaultStack().addEnchantment(Enchantments.RIPTIDE, 5);
     }
 
@@ -47,14 +46,15 @@ public class MagmaTridentItem extends TridentItem implements InfiniumItem {
         return type;
     }
 
+
     @Override
     public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
 
         if (!world.isClient) stack.damage(1, user, p -> p.sendToolBreakStatus(user.getActiveHand()));
 
         if (user instanceof PlayerEntity playerEntity) {
-            int i = this.getMaxUseTime(stack) - remainingUseTicks;
-            if (i >= 10) {
+            int useTimeTicks = this.getMaxUseTime(stack) - remainingUseTicks;
+            if (useTimeTicks >= 10) {
 
                 int riptideLevel = EnchantmentHelper.getRiptide(stack);
 

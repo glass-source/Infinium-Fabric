@@ -2,6 +2,7 @@ package com.infinium.server.eclipse;
 
 import com.infinium.Infinium;
 import com.infinium.global.config.InfiniumConfig;
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.kyori.adventure.bossbar.BossBar;
 import net.minecraft.client.MinecraftClient;
 
@@ -27,6 +28,8 @@ public class SolarEclipseManager {
             if (eclipse.endsIn > 0) {
                 eclipse.totalTime = InfiniumConfig.totalTime;
                 start(startFromLoad());
+                var audience = instance.getCore().getAdventure().audience(PlayerLookup.all(instance.getCore().getServer()));
+                audience.showBossBar(this.BOSS_BAR);
             }
 
             InfiniumConfig.write(Infinium.MOD_ID);
@@ -48,6 +51,7 @@ public class SolarEclipseManager {
     public void start(double hours){
         if (hours <= 0) eclipse.start(0.5f);
         else eclipse.start(hours);
+
     }
 
     public void end(){

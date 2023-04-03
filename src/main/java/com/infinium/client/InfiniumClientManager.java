@@ -10,62 +10,44 @@ import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.recipe.Recipe;
+import net.minecraft.recipe.RecipeManager;
+import net.minecraft.recipe.RecipeType;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 import org.lwjgl.glfw.GLFW;
 
 import java.io.IOException;
 import java.util.UUID;
 
 public class InfiniumClientManager {
-    private final InfiniumClient client;
     public KeyBinding checkTimeKey;
     private int packetCooldown = 100;
-    private static InfiniumClientManager cManager;
+    private final ModelPredicateProvider modelPredicateProvider;
 
-    public InfiniumClientManager(InfiniumClient client) {
-        cManager = this;
-        this.client = client;
+    public InfiniumClientManager() {
+        this.modelPredicateProvider = new ModelPredicateProvider();
     }
 
     public void onClientStart(){
-        registerItemModels();
-        registerEntityRenderers();
         registerKeys();
         registerHudElements();
         checkKeyInput();
         registerPackets();
+        modelPredicateProvider.init();
     }
+
 
     private void registerPackets(){
         InfiniumPackets.initS2CPackets();
     }
-    public void checkBannedPlayers(PlayerEntity player) {
-        var logger = Infinium.getInstance().LOGGER;
-        logger.info("Checking banned players...");
-        for (BannedPlayers playerName : BannedPlayers.values()) {
-            if (player.getUuid().equals(playerName.uuid)) {
-                var client = MinecraftClient.getInstance();
-                logger.info("You are banned from using this mod! \nClosing the game now.");
-                client.execute(() -> client.getWindow().close());
-                break;
-            }
-        }
-    }
     private void registerHudElements(){
         HudRenderCallback.EVENT.register(new SanityHudOverlay());
-    }
-
-    private void registerItemModels(){
-        ModelPredicateProvider.initItemModels();
-    }
-
-    private void registerEntityRenderers(){
-        ModelPredicateProvider.registerEntityRenderer();
-        ModelPredicateProvider.registerEntityModelLayers();
     }
 
     public void checkKeyInput(){
@@ -85,12 +67,19 @@ public class InfiniumClientManager {
         String KEY_CHECK_TIME_CATEGORY = "key.category.infinium.infinium";
         checkTimeKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(KEY_CHECK_TIME, InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_H, KEY_CHECK_TIME_CATEGORY));
     }
-
-    public static InfiniumClientManager getInstance() {
-        return cManager;
+    public void checkBannedPlayers(PlayerEntity player) {
+        var logger = Infinium.getInstance().LOGGER;
+        logger.info("Checking banned players...");
+        for (BannedPlayers playerName : BannedPlayers.values()) {
+            if (player.getUuid().equals(playerName.uuid)) {
+                var client = MinecraftClient.getInstance();
+                logger.info("You are banned from using this mod! \nClosing the game now.");
+                client.execute(() -> client.getWindow().close());
+                break;
+            }
+        }
     }
-
-    enum BannedPlayers {
+    private enum BannedPlayers {
         DREAM("ec70bcaf-702f-4bb8-b48d-276fa52a780c"),
         ALEIV("f04891b6-3a22-49c3-a8c0-bdf7e415243a"),
         DjMaRiiO("b8351a40-f0dc-4996-adfd-101311b8fdd9"),

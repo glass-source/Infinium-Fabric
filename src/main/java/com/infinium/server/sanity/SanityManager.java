@@ -3,6 +3,7 @@ package com.infinium.server.sanity;
 import com.infinium.Infinium;
 import com.infinium.networking.InfiniumPackets;
 import com.infinium.global.utils.EntityDataSaver;
+import lombok.Getter;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -11,16 +12,19 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SanityManager {
     public ArrayList<ServerPlayerEntity> totalPlayers = new ArrayList<>();
     private final SanityTask task;
+    private final Infinium instance;
     public final String SANITY = "infinium.sanity";
     public final String TIME_COOLDOWN = "infinium.timeCooldown";
     public final String POSITIVE_HEALTH_COOLDOWN = "infinium.positiveHealth";
     public final String NEGATIVE_HEALTH_COOLDOWN = "infinium.negativeHealth";
 
-    public SanityManager(Infinium instance){
+    public SanityManager(final Infinium instance){
+        this.instance = instance;
         this.task = new SanityTask(this);
     }
 
@@ -59,4 +63,5 @@ public class SanityManager {
         buffer.writeInt(amount);
         ServerPlayNetworking.send(player, InfiniumPackets.SANITY_SYNC_ID, buffer);
     }
+
 }
