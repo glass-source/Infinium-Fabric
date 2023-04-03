@@ -53,11 +53,11 @@ public class InfiniumClientManager {
     public void checkKeyInput(){
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if (packetCooldown >= 0) packetCooldown--;
-            if (checkTimeKey.wasPressed()) {
-                if (packetCooldown <= 0) {
-                    ClientPlayNetworking.send(InfiniumPackets.TIME_CHECK_ID, PacketByteBufs.create());
-                    packetCooldown = 100;
-                }
+            if (!checkTimeKey.wasPressed()) return;
+
+            if (packetCooldown <= 0) {
+                ClientPlayNetworking.send(InfiniumPackets.TIME_CHECK_ID, PacketByteBufs.create());
+                packetCooldown = 100;
             }
         });
     }

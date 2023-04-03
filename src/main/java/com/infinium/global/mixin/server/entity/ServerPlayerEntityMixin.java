@@ -1,5 +1,6 @@
 package com.infinium.global.mixin.server.entity;
 
+import com.infinium.Infinium;
 import com.infinium.global.utils.DateUtils;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.entity.player.PlayerEntity;
@@ -18,7 +19,8 @@ public class ServerPlayerEntityMixin extends PlayerEntity {
     @Inject(method = "updatePotionVisibility", at = @At("TAIL"), cancellable = true)
     private void removePotionVisibility(CallbackInfo ci) {
         if (this.isSpectator()) return;
-        var day = DateUtils.getDay();
+        if (Infinium.getInstance().getDateUtils() == null) return;
+        var day = Infinium.getInstance().getDateUtils().getCurrentDay();
 
         if (day >= 14) {
             ci.cancel();

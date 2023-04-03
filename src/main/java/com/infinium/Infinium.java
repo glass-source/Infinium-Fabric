@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.infinium.client.InfiniumClientManager;
 import com.infinium.global.config.data.DataManager;
 import com.infinium.global.config.data.adapters.ScheduledFutureInstanceCreator;
+import com.infinium.global.utils.DateUtils;
 import com.infinium.server.InfiniumServerManager;
 import com.mojang.logging.LogUtils;
 import lombok.Getter;
@@ -20,7 +21,8 @@ import java.util.concurrent.ScheduledFuture;
 
 public class Infinium implements ModInitializer {
     private InfiniumServerManager core;
-    private InfiniumClientManager clientCore;
+
+
     private static Infinium instance;
     private final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
     public final Logger LOGGER = LogUtils.getLogger();
@@ -39,16 +41,13 @@ public class Infinium implements ModInitializer {
     @Override
     public void onInitialize() {
         instance = this;
-        core = new InfiniumServerManager(this);
-        core.initMod();
+        this.core = new InfiniumServerManager(this);
+        this.core.initMod();
+
     }
 
     public InfiniumServerManager getCore(){
         return core;
-    }
-
-    public InfiniumClientManager getClientCore() {
-        return clientCore;
     }
 
     public ScheduledExecutorService getExecutor(){
@@ -62,4 +61,9 @@ public class Infinium implements ModInitializer {
     public static Gson getGson() {
         return gson;
     }
+
+    public DateUtils getDateUtils() {
+        return this.core.getDateUtils();
+    }
+
 }

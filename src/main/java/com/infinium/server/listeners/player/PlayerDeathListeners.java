@@ -59,9 +59,9 @@ public class PlayerDeathListeners {
     private void onTotemUse(ServerPlayerEntity player) {
         var sanityManager = instance.getCore().getSanityManager();
         var data = ((EntityDataSaver) player).getPersistentData();
-        var message = "";
         var totemString = "infinium.totems";
         int totems = data.getInt(totemString);
+        var message = "";
         ItemStack totemStack = null;
 
         Hand[] handValue = Hand.values();

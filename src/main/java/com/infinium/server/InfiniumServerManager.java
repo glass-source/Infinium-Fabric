@@ -3,6 +3,8 @@ package com.infinium.server;
 import com.infinium.Infinium;
 import com.infinium.global.config.InfiniumConfig;
 import com.infinium.global.config.data.DataManager;
+import com.infinium.global.config.data.world.WorldData;
+import com.infinium.global.utils.DateUtils;
 import com.infinium.networking.InfiniumPackets;
 import com.infinium.server.blocks.InfiniumBlocks;
 import com.infinium.server.eclipse.SolarEclipseManager;
@@ -32,6 +34,7 @@ public class InfiniumServerManager {
     private final SanityManager sanityManager;
     private final SolarEclipseManager eclipseManager;
     private DataManager dataManager;
+    private DateUtils dateUtils;
     public InfiniumServerManager(final Infinium instance) {
         this.instance = instance;
         this.eclipseManager = new SolarEclipseManager(this.instance);
@@ -48,24 +51,28 @@ public class InfiniumServerManager {
             this.server = server1;
             this.adventure = FabricServerAudiences.of(this.server);
             this.sanityManager.registerSanityTask();
-            this.eclipseManager.load();
+
             this.server.getGameRules().get(GameRules.DO_IMMEDIATE_RESPAWN).set(true, this.server);
             this.initListeners();
 
             try {
                 this.dataManager = new DataManager(this.instance);
+
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
 
-            this.dataManager.restore();
+            this.dateUtils = new DateUtils(this.instance);
+            this.dataManager.restoreWorldData();
+            this.dataManager.restorePlayerData();
+            this.eclipseManager.load();
         });
     }
 
     private void onServerStop(){
         ServerLifecycleEvents.SERVER_STOPPED.register(server -> {
             this.eclipseManager.disable();
-            this.dataManager.save();
+            this.dataManager.savePlayerData();
         });
     }
 
@@ -111,6 +118,14 @@ public class InfiniumServerManager {
 
     public List<ServerPlayerEntity> getTotalPlayers() {
         return sanityManager.totalPlayers;
+    }
+
+    public DataManager getDataManager() {
+        return this.dataManager;
+    }
+
+    public DateUtils getDateUtils() {
+        return this.dateUtils;
     }
 
 }

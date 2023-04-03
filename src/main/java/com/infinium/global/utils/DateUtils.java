@@ -1,49 +1,64 @@
 package com.infinium.global.utils;
 
+import com.google.gson.JsonObject;
 import com.infinium.Infinium;
-import com.infinium.global.config.InfiniumConfig;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
 public class DateUtils {
-    private static final LocalDate actualDate = LocalDate.now();
-    public static LocalDate startDate = LocalDate.parse(String.valueOf(InfiniumConfig.startDate));
-    private static int day = (int) ChronoUnit.DAYS.between(startDate, actualDate);
 
-    public static int getDay(){
-        return day;
+    private final Infinium instance;
+    private final JsonObject gameData;
+    private final LocalDate actualDate;
+    private LocalDate startDate;
+    private int currentDay;
+
+    public DateUtils(Infinium instance) {
+        this.instance = instance;
+        this.gameData = this.instance.getCore().getDataManager().getGameData();
+        this.actualDate = LocalDate.now();
+        this.startDate = gameData.get("startDate") == null ? actualDate: LocalDate.parse(gameData.get("startDate").getAsString());
+        this.currentDay = (int) ChronoUnit.DAYS.between(startDate, actualDate);
     }
 
-    public static void setDay(int newDay){
-        day = newDay;
-        int nD;
+    public int getCurrentDay(){
+        return currentDay;
+    }
+
+    public void setCurrentDay(int newDay){
+        currentDay = newDay;
+        int dayToChange;
 
         try {
-            nD = Math.max(0, Math.min(120, newDay));
+            //Max day is 120
+            dayToChange = Math.max(0, Math.min(120, newDay));
         } catch(NumberFormatException ignored) {
             return;
         }
 
-        LocalDate add = LocalDate.now().minusDays(nD);
+        LocalDate add = LocalDate.now().minusDays(dayToChange);
         int month = add.getMonthValue();
         int day = add.getDayOfMonth();
-        String s;
+        String dateString;
 
         if (month < 10) {
-            s = add.getYear() + "-0" + month + "-";
+            dateString = add.getYear() + "-0" + month + "-";
         } else {
-            s = add.getYear() + "-" + month + "-";
+            dateString = add.getYear() + "-" + month + "-";
         }
 
         if (day < 10) {
-            s = s + "0" + day;
+            dateString = dateString + "0" + day;
         } else {
-            s = s + day;
+            dateString = dateString + day;
         }
 
-        InfiniumConfig.startDate = String.valueOf(LocalDate.parse(s));
-        InfiniumConfig.write(Infinium.MOD_ID);
-        startDate = LocalDate.parse(s);
+        gameData.addProperty("startDate", String.valueOf(LocalDate.parse(dateString)));
+        startDate = LocalDate.parse(dateString);
+    }
+
+    public LocalDate getStartDate() {
+        return this.startDate;
     }
 }

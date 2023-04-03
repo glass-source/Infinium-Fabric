@@ -3,7 +3,6 @@ package com.infinium.server.listeners.entity;
 import com.infinium.Infinium;
 import com.infinium.global.utils.ChatFormatter;
 import com.infinium.global.utils.DateUtils;
-import com.infinium.global.utils.EntityDataSaver;
 import com.infinium.server.InfiniumServerManager;
 import com.infinium.server.eclipse.SolarEclipseManager;
 import com.infinium.server.entities.InfiniumEntityType;
@@ -48,8 +47,9 @@ public class EntitySpawnListeners {
         EntitySpawnEvent.EVENT.register((entity) -> {
             var livingEntity = entity instanceof LivingEntity ? (LivingEntity) entity : entity;
             if (livingEntity.getWorld().isClient) return ActionResult.FAIL;
+            if (Infinium.getInstance().getDateUtils() == null) return ActionResult.FAIL;
 
-            var day = DateUtils.getDay();
+            var day = Infinium.getInstance().getDateUtils().getCurrentDay();
             var world = (ServerWorld) entity.getWorld();
             var blockPos = entity.getBlockPos();
             var entityTypeString = entity.getType().toString();
@@ -152,8 +152,8 @@ public class EntitySpawnListeners {
 
             if (!(entity instanceof LivingEntity livingEntity)) return ActionResult.FAIL;
             if (livingEntity.getWorld().isClient || !solarEclipseManager.isActive()) return ActionResult.PASS;
-
-            var day = DateUtils.getDay();
+            if (Infinium.getInstance().getDateUtils() == null) return ActionResult.FAIL;
+            var day = Infinium.getInstance().getDateUtils().getCurrentDay();
             var world = (ServerWorld) livingEntity.getWorld();
             var blockPos = livingEntity.getBlockPos();
             var entityTypeString =  livingEntity.getType().toString();

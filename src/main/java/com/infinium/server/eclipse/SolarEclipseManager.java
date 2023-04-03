@@ -1,46 +1,51 @@
 package com.infinium.server.eclipse;
 
 import com.infinium.Infinium;
-import com.infinium.global.config.InfiniumConfig;
+import com.infinium.server.InfiniumServerManager;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.kyori.adventure.bossbar.BossBar;
-import net.minecraft.client.MinecraftClient;
 
 public class SolarEclipseManager {
     private final Infinium instance;
     private final SolarEclipse eclipse;
-    private final String TITLE;
     private final BossBar BOSS_BAR;
 
     public SolarEclipseManager(Infinium instance){
         this.instance = instance;
         this.eclipse = new SolarEclipse(this);
-        this.TITLE = eclipse.TITLE;
         this.BOSS_BAR = eclipse.BOSS_BAR;
     }
 
     public void load() {
-        if (instance.getCore().getServer() == null) {
+        if (this.instance.getCore() == null || this.instance.getCore().getServer() == null) {
             Infinium.getInstance().LOGGER.error("Server was null");
         } else {
-            eclipse.lastTimeChecked = InfiniumConfig.lastTimeChecked;
-            eclipse.endsIn = InfiniumConfig.endsIn;
-            if (eclipse.endsIn > 0) {
-                eclipse.totalTime = InfiniumConfig.totalTime;
-                start(startFromLoad());
-                var audience = instance.getCore().getAdventure().audience(PlayerLookup.all(instance.getCore().getServer()));
-                audience.showBossBar(this.BOSS_BAR);
-            }
+            var dataManager = this.instance.getCore().getDataManager();
+            var gameData = dataManager.getGameData();
 
-            InfiniumConfig.write(Infinium.MOD_ID);
+            if (!gameData.entrySet().isEmpty()) {
+                eclipse.endsIn = gameData.get("endsIn").getAsLong();
+                eclipse.totalTime = gameData.get("totalTime").getAsLong();
+                eclipse.lastTimeChecked = gameData.get("lastTimeChecked").getAsLong();
+
+                if (eclipse.endsIn > 0) {
+
+                    start(startFromLoad());
+                    var audience = this.instance.getCore().getAdventure().audience(PlayerLookup.all(this.instance.getCore().getServer()));
+                    audience.showBossBar(this.BOSS_BAR);
+                }
+            }
+            
         }
     }
 
     public void disable(){
-        InfiniumConfig.endsIn = getTimeToEnd();
-        InfiniumConfig.totalTime = eclipse.totalTime;
-        InfiniumConfig.lastTimeChecked = eclipse.lastTimeChecked;
-        InfiniumConfig.write(Infinium.MOD_ID);
+        var dataManager = this.instance.getCore().getDataManager();
+        var gameData = dataManager.getGameData();
+        gameData.addProperty("endsIn", eclipse.endsIn);
+        gameData.addProperty("totalTime", eclipse.totalTime);
+        gameData.addProperty("lastTimeChecked", eclipse.lastTimeChecked);
+        dataManager.saveWorldData();
         eclipse.end();
     }
 
@@ -68,10 +73,6 @@ public class SolarEclipseManager {
 
     public BossBar getBossBar(){
         return BOSS_BAR;
-    }
-
-    public String getTitle(){
-        return TITLE;
     }
 
     public Infinium getInstance(){

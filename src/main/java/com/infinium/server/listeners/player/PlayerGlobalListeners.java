@@ -31,7 +31,8 @@ public class PlayerGlobalListeners {
 
     private void playerBedCallback() {
         EntitySleepEvents.START_SLEEPING.register((entity, sleepingPos) -> {
-            var day = DateUtils.getDay();
+            if (Infinium.getInstance().getDateUtils() == null) return;
+            var day = Infinium.getInstance().getDateUtils().getCurrentDay();
             if (day < 7) return;
             if (!(entity instanceof ServerPlayerEntity p)) return;
             var name = p.getEntityName();

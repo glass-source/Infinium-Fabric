@@ -50,7 +50,7 @@ public class SanityManager {
         if (arg.equals(SANITY)) syncSanity((ServerPlayerEntity) player, Math.max(0, Math.min(100, amount)));
     }
 
-    public int get(PlayerEntity player, String arg){
+    public int get(PlayerEntity player, String arg) {
         NbtCompound data = getData(player);
         return data.getInt(arg);
     }

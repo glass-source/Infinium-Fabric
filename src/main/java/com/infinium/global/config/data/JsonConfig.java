@@ -11,7 +11,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 /**
- * A class designed to save any state from objects to json files.
+ * A class designed to savePlayerData any state from objects to json files.
  * @author Jcedeno.
  * @author zLofro
  */
@@ -43,7 +43,7 @@ public class JsonConfig {
      * @throws Exception If the file cannot be created.
      */
     public static JsonConfig config(String filename) throws Exception {
-        Infinium.getInstance().LOGGER.info(Infinium.getInstance().getCore().getServer().getRunDirectory().getAbsolutePath());
+        Infinium.getInstance().LOGGER.info(Infinium.getInstance().getCore().getServer().getFile("saves").getAbsolutePath());
         return new JsonConfig(filename, Infinium.getInstance().getCore().getServer().getFile("world").getAbsolutePath());
     }
 

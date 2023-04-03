@@ -1,5 +1,6 @@
 package com.infinium.server.commands;
 
+import com.infinium.Infinium;
 import com.infinium.global.utils.ChatFormatter;
 import com.infinium.global.utils.EntityDataSaver;
 import com.infinium.global.utils.DateUtils;
@@ -34,7 +35,7 @@ public class InfiniumCommand {
 
     private static int days(CommandContext<ServerCommandSource> source) {
         try{
-            source.getSource().sendFeedback(ChatFormatter.textWithPrefix("&7Estamos en el día &6&l" + DateUtils.getDay()), false);
+            source.getSource().sendFeedback(ChatFormatter.textWithPrefix("&7Estamos en el día &6&l" + Infinium.getInstance().getDateUtils().getCurrentDay()), false);
         }catch (ExceptionInInitializerError | DateTimeParseException ex) {
             ex.printStackTrace();
             source.getSource().sendError(ChatFormatter.text("&c¡Error! notificale esto a algun developer..."));

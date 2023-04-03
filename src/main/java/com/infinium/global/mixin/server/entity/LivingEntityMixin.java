@@ -3,14 +3,12 @@ package com.infinium.global.mixin.server.entity;
 import com.infinium.Infinium;
 import com.infinium.global.utils.DateUtils;
 import com.infinium.server.effects.InfiniumEffects;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.BlockPos;
@@ -65,7 +63,8 @@ public abstract class LivingEntityMixin extends Entity {
     private void onDamage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
         if (!source.isExplosive()) return;
         if (this.isPlayer()) return;
-        var day = DateUtils.getDay();
+        if (Infinium.getInstance().getDateUtils() == null) return;
+        var day = Infinium.getInstance().getDateUtils().getCurrentDay();;
         var entityTypeString = this.getType().toString();
 
         if (day >= 7) {
@@ -88,7 +87,8 @@ public abstract class LivingEntityMixin extends Entity {
 
     @Inject(method = "onDeath", at = @At("HEAD"))
     private void onDeath(DamageSource source, CallbackInfo ci) {
-        var day = DateUtils.getDay();
+        if (Infinium.getInstance().getDateUtils() == null) return;
+        var day = Infinium.getInstance().getDateUtils().getCurrentDay();
         var world = this.getWorld();
         var blockPos = this.getBlockPos();
 
@@ -106,7 +106,8 @@ public abstract class LivingEntityMixin extends Entity {
 
     @Inject(method = "dropLoot", at = @At("HEAD"), cancellable = true)
     private void removeLoot(DamageSource source, boolean causedByPlayer, CallbackInfo ci){
-        var day = DateUtils.getDay();
+        if (Infinium.getInstance().getDateUtils() == null) return;
+        var day = Infinium.getInstance().getDateUtils().getCurrentDay();
 
         if (this.getType().equals(EntityType.IRON_GOLEM)) {
             if (day >= 7) {
@@ -117,9 +118,10 @@ public abstract class LivingEntityMixin extends Entity {
 
     @Inject(method = "dropLoot", at = @At("HEAD"), cancellable = true)
     private void solarEclipseRemoveLoot(DamageSource source, boolean causedByPlayer, CallbackInfo ci){
+        if (Infinium.getInstance().getDateUtils() == null) return;
         var eclipseManager = Infinium.getInstance().getCore().getEclipseManager();
         if (!eclipseManager.isActive()) return;
-        var day = DateUtils.getDay();
+        var day = Infinium.getInstance().getDateUtils().getCurrentDay();
 
 
         if (day >= 7 && day < 14) {

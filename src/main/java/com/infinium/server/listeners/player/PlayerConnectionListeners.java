@@ -28,29 +28,32 @@ public class PlayerConnectionListeners {
 
     private void playerConnectCallback(){
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
-            var sanityManager = core.getSanityManager();
             var player = handler.getPlayer();
             var infPlayer = InfiniumPlayer.getInfiniumPlayer(player);
-            infPlayer.onJoin();
             var audience = core.getAdventure().audience(PlayerLookup.all(core.getServer()));
-            if (!sanityManager.totalPlayers.contains(player)) sanityManager.totalPlayers.add(player);
             if (core.getEclipseManager().isActive()) audience.showBossBar(core.getEclipseManager().getBossBar());
-            if (sanityManager.getData(player).get(sanityManager.SANITY) == null) sanityManager.set(player, 100, sanityManager.SANITY);
-            if (sanityManager.getData(player).get(sanityManager.TIME_COOLDOWN) == null) sanityManager.set(player, 100, sanityManager.TIME_COOLDOWN);
-
-            sanityManager.syncSanity(player, sanityManager.get(player, sanityManager.SANITY));
+            initSanity(player);
+            infPlayer.onJoin();
         });
     }
 
-    private void playerDisconnectCallback(){
+    private void initSanity(ServerPlayerEntity player) {
+        var sanityManager = core.getSanityManager();
+        if (sanityManager.getData(player).get(sanityManager.SANITY) == null) sanityManager.set(player, 100, sanityManager.SANITY);
+        if (sanityManager.getData(player).get(sanityManager.TIME_COOLDOWN) == null) sanityManager.set(player, 100, sanityManager.TIME_COOLDOWN);
+        if (!sanityManager.totalPlayers.contains(player)) sanityManager.totalPlayers.add(player);
+        sanityManager.syncSanity(player, sanityManager.get(player, sanityManager.SANITY));
+    }
 
+    private void playerDisconnectCallback(){
         ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> {
             var player = handler.player;
             var sanityManager = instance.getCore().getSanityManager();
             var infPlayer = InfiniumPlayer.getInfiniumPlayer(player);
+            sanityManager.syncSanity(player, sanityManager.get(player, sanityManager.SANITY));
+            sanityManager.totalPlayers.remove(player);
             infPlayer.onQuit();
 
-            sanityManager.totalPlayers.remove(player);
         });
 
     }

@@ -2,7 +2,6 @@ package com.infinium.server.commands;
 
 import com.infinium.Infinium;
 import com.infinium.global.utils.ChatFormatter;
-import com.infinium.global.utils.DateUtils;
 import com.infinium.global.utils.EntityDataSaver;
 import com.infinium.networking.InfiniumPackets;
 import com.infinium.networking.packets.flashbang.FlashbangS2CPacket;
@@ -21,6 +20,7 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
+
 import java.util.Collection;
 
 import static com.infinium.server.listeners.player.PlayerDeathListeners.firstTotemDebuff;
@@ -39,6 +39,7 @@ public class StaffCommand {
                 .then(CommandManager.literal("flashbang")
                         .then(CommandManager.argument("player", EntityArgumentType.player())
                                 .executes(StaffCommand::showFlashbang)))
+
                 .then(CommandManager.literal("cordura")
                         .then(CommandManager.literal("add")
                                 .then(CommandManager.argument("player", EntityArgumentType.players())
@@ -71,13 +72,13 @@ public class StaffCommand {
 
                 .then(CommandManager.literal("totems")
                         .then(CommandManager.literal("get")
-                                .then(CommandManager.argument("player", EntityArgumentType.players())
+                                .then(CommandManager.argument("player", EntityArgumentType.player())
                                         .executes(StaffCommand::getTotems)))
                         .then(CommandManager.literal("set")
-                                .then(CommandManager.argument("player", EntityArgumentType.players())
+                                .then(CommandManager.argument("player", EntityArgumentType.player())
                                         .then(CommandManager.argument("totems", IntegerArgumentType.integer())
                                                 .executes(context ->
-                                                        setTotems(context, EntityArgumentType.getPlayers(context, "player"),
+                                                        setTotems(context, EntityArgumentType.getPlayer(context, "player"),
                                                                 IntegerArgumentType.getInteger(context, "totems")))
                                         ))))
                 .then(CommandManager.literal("eclipse")
@@ -126,12 +127,13 @@ public class StaffCommand {
             ex.printStackTrace();
             source.getSource().sendError(ChatFormatter.text("&c¡Error! ese no es un número valido!"));
         }
+
         return -1;
     }
 
     private static int setDays(CommandContext<ServerCommandSource> source, int newDay) {
         try {
-            DateUtils.setDay(newDay);
+            Infinium.getInstance().getDateUtils().setCurrentDay(newDay);
             source.getSource().sendFeedback(ChatFormatter.textWithPrefix("&7El día se ha cambiado a: &6&l" + newDay), true);
             return 1;
         }catch (Exception ex){
@@ -142,7 +144,7 @@ public class StaffCommand {
 
     private static int getDay(CommandContext<ServerCommandSource> source) {
         try {
-            source.getSource().sendFeedback(ChatFormatter.textWithPrefix("&7El día actual es: &6&l" + DateUtils.getDay()), false);
+            source.getSource().sendFeedback(ChatFormatter.textWithPrefix("&7El día actual es: &6&l" + Infinium.getInstance().getDateUtils().getCurrentDay()), false);
             return 1;
         }catch (Exception ex){
             ex.printStackTrace();
@@ -164,40 +166,29 @@ public class StaffCommand {
         }
     }
 
-    private static int setTotems(CommandContext<ServerCommandSource> source, Collection<ServerPlayerEntity> players, int values) {
+    private static int setTotems(CommandContext<ServerCommandSource> source, ServerPlayerEntity player, int values) {
         try {
-            players.forEach(player -> {
-                var data = ((EntityDataSaver) player).getPersistentData();
-                var totemString = "infinium.totems";
-                data.putInt(totemString, values);
-                var attributeInstance = player.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH);
 
-                if (values >= 30) {
-                    if (attributeInstance.hasModifier(firstTotemDebuff)) attributeInstance.removeModifier(firstTotemDebuff);
-                    if (!attributeInstance.hasModifier(secondTotemDebuff)) attributeInstance.addPersistentModifier(secondTotemDebuff);
-                    player.setHealth(player.getMaxHealth());
+            var data = ((EntityDataSaver) player).getPersistentData();
+            var totemString = "infinium.totems";
+            data.putInt(totemString, values);
+            var attributeInstance = player.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH);
 
-                } else if (values >= 25) {
-                    if (attributeInstance.hasModifier(secondTotemDebuff)) attributeInstance.removeModifier(secondTotemDebuff);
-                    if (!attributeInstance.hasModifier(firstTotemDebuff)) attributeInstance.addPersistentModifier(firstTotemDebuff);
-
-                } else {
-                    attributeInstance.removeModifier(firstTotemDebuff);
-                    attributeInstance.removeModifier(secondTotemDebuff);
-                }
-
+            if (values >= 30) {
+                if (attributeInstance.hasModifier(firstTotemDebuff)) attributeInstance.removeModifier(firstTotemDebuff);
+                if (!attributeInstance.hasModifier(secondTotemDebuff)) attributeInstance.addPersistentModifier(secondTotemDebuff);
                 player.setHealth(player.getMaxHealth());
 
-                if (players.size() <= 1) {
-                    source.getSource().sendFeedback(ChatFormatter.textWithPrefix("&7Los Tótems del jugador &6&l" + player.getName().asString() + " &7han sido cambiados a &6&l" + values), true);
-                }
-            });
+            } else if (values >= 25) {
+                if (attributeInstance.hasModifier(secondTotemDebuff)) attributeInstance.removeModifier(secondTotemDebuff);
+                if (!attributeInstance.hasModifier(firstTotemDebuff)) attributeInstance.addPersistentModifier(firstTotemDebuff);
 
-            if (players.size() > 1) {
-                source.getSource().sendFeedback(ChatFormatter.textWithPrefix("&7Los Tótems de los jugadores seleccionados han sido cambiados a &6&l" + values), true);
+            } else {
+                attributeInstance.removeModifier(firstTotemDebuff);
+                attributeInstance.removeModifier(secondTotemDebuff);
             }
 
-
+            player.setHealth(player.getMaxHealth());
 
             return 1;
         } catch (Exception ex) {

@@ -1,5 +1,6 @@
 package com.infinium.global.mixin.server.block;
 
+import com.infinium.Infinium;
 import com.infinium.global.utils.DateUtils;
 import com.infinium.server.items.custom.InfiniumItem;
 import net.minecraft.block.*;
@@ -32,8 +33,9 @@ public abstract class BlockMixin extends AbstractBlock implements ItemConvertibl
     @Inject(method = "afterBreak", at = @At("HEAD"))
     public void afterBreak(World world, PlayerEntity player, BlockPos pos, BlockState state, BlockEntity blockEntity, ItemStack stack, CallbackInfo ci){
         if (world.isClient) return;
+        if (Infinium.getInstance().getDateUtils() == null) return;
         var item = player.getMainHandStack().getItem();
-        var day = DateUtils.getDay();
+        var day = Infinium.getInstance().getDateUtils().getCurrentDay();
         if (item instanceof InfiniumItem) return;
 
         if (day >= 7) {
@@ -45,8 +47,9 @@ public abstract class BlockMixin extends AbstractBlock implements ItemConvertibl
 
     @Inject(method = "onSteppedOn", at = @At("HEAD"))
     public void onStepped(World world, BlockPos pos, BlockState state, Entity entity, CallbackInfo ci){
+        if (Infinium.getInstance().getDateUtils() == null) return;
         var block = state.getBlock();
-        var day = DateUtils.getDay();
+        var day = Infinium.getInstance().getDateUtils().getCurrentDay();
 
         if (!(entity instanceof ServerPlayerEntity p)) return;
         if (!isBlock(block, p) || day < 7) return;
@@ -55,7 +58,8 @@ public abstract class BlockMixin extends AbstractBlock implements ItemConvertibl
     }
 
     private void addBedrockEffects(ServerPlayerEntity p) {
-        var day = DateUtils.getDay();
+        if (Infinium.getInstance().getDateUtils() == null) return;
+        var day = Infinium.getInstance().getDateUtils().getCurrentDay();
 
         if (day >= 7) {
             if (!p.hasStatusEffect(StatusEffects.SLOWNESS)) p.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 280, 1));
@@ -108,8 +112,9 @@ public abstract class BlockMixin extends AbstractBlock implements ItemConvertibl
         }
     }
     private boolean isBlock(Block block, ServerPlayerEntity p) {
+        if (Infinium.getInstance().getDateUtils() == null) return false;
         var item = block.asItem();
-        var day = DateUtils.getDay();
+        var day = Infinium.getInstance().getDateUtils().getCurrentDay();
 
         if (day >= 7 && day < 21) {
             return item.equals(Items.BEDROCK);
