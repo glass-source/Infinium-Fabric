@@ -1,19 +1,19 @@
 package com.infinium.server.eclipse;
 
 import com.infinium.Infinium;
-import com.infinium.server.InfiniumServerManager;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.kyori.adventure.bossbar.BossBar;
+import net.minecraft.entity.boss.ServerBossBar;
 
 public class SolarEclipseManager {
     private final Infinium instance;
     private final SolarEclipse eclipse;
-    private final BossBar BOSS_BAR;
+    private final ServerBossBar serverBossBar;
 
     public SolarEclipseManager(Infinium instance){
         this.instance = instance;
         this.eclipse = new SolarEclipse(this);
-        this.BOSS_BAR = eclipse.BOSS_BAR;
+        this.serverBossBar = eclipse.serverBossBar;
     }
 
     public void load() {
@@ -31,8 +31,8 @@ public class SolarEclipseManager {
                 if (eclipse.endsIn > 0) {
 
                     start(startFromLoad());
-                    var audience = this.instance.getCore().getAdventure().audience(PlayerLookup.all(this.instance.getCore().getServer()));
-                    audience.showBossBar(this.BOSS_BAR);
+                    serverBossBar.setVisible(true);
+                    instance.getCore().getTotalPlayers().forEach(serverBossBar::addPlayer);
                 }
             }
             
@@ -71,8 +71,8 @@ public class SolarEclipseManager {
         return eclipse.getTimeToEnd() > 0L;
     }
 
-    public BossBar getBossBar(){
-        return BOSS_BAR;
+    public ServerBossBar getBossBar(){
+        return this.serverBossBar;
     }
 
     public Infinium getInstance(){

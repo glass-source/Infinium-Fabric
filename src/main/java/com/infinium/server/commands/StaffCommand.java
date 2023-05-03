@@ -97,6 +97,7 @@ public class StaffCommand {
 
     private static int showFlashbang(CommandContext<ServerCommandSource> source) {
         try{
+
             ServerPlayNetworking.send(source.getSource().getPlayer(), InfiniumPackets.FLASHBANG_SYNC_ID, new FlashbangS2CPacket(100, 25, 6, 0, 125, 0).write());
             return 1;
         }catch (Exception ex){
@@ -184,6 +185,7 @@ public class StaffCommand {
                 if (!attributeInstance.hasModifier(firstTotemDebuff)) attributeInstance.addPersistentModifier(firstTotemDebuff);
 
             } else {
+                assert attributeInstance != null;
                 attributeInstance.removeModifier(firstTotemDebuff);
                 attributeInstance.removeModifier(secondTotemDebuff);
             }

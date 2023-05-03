@@ -1,9 +1,7 @@
 package com.infinium.server;
 
 import com.infinium.Infinium;
-import com.infinium.global.config.InfiniumConfig;
 import com.infinium.global.config.data.DataManager;
-import com.infinium.global.config.data.world.WorldData;
 import com.infinium.global.utils.DateUtils;
 import com.infinium.networking.InfiniumPackets;
 import com.infinium.server.blocks.InfiniumBlocks;
@@ -18,7 +16,6 @@ import com.infinium.server.listeners.player.PlayerGlobalListeners;
 import com.infinium.server.sanity.SanityManager;
 import com.infinium.server.world.biomes.InfiniumBiomes;
 import com.infinium.server.world.dimensions.InfiniumDimensions;
-import eu.midnightdust.lib.config.MidnightConfig;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.kyori.adventure.platform.fabric.FabricServerAudiences;
 import net.minecraft.server.MinecraftServer;
@@ -43,7 +40,6 @@ public class InfiniumServerManager {
     public void initMod(){
         onServerStart();
         onServerStop();
-        initConfig();
         initRegistries();
     }
     private void onServerStart(){
@@ -76,9 +72,7 @@ public class InfiniumServerManager {
         });
     }
 
-    private void initConfig(){
-        MidnightConfig.init(Infinium.MOD_ID, InfiniumConfig.class);
-    }
+
     private void initRegistries(){
         InfiniumItems.init();
         InfiniumBlocks.init();

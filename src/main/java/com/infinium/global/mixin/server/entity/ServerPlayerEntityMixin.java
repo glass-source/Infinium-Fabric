@@ -2,7 +2,9 @@ package com.infinium.global.mixin.server.entity;
 
 import com.infinium.Infinium;
 import com.infinium.global.utils.DateUtils;
+import com.infinium.server.events.players.PlayerDamageEvent;
 import com.mojang.authlib.GameProfile;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.math.BlockPos;
@@ -11,11 +13,15 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ServerPlayerEntity.class)
 public class ServerPlayerEntityMixin extends PlayerEntity {
 
-
+    @Inject(method = "damage", at = @At("TAIL"), cancellable = true)
+    private void onPlayerDamage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
+        PlayerDamageEvent.EVENT.invoker().onPlayerDamage(this.getUuid());
+    }
     @Inject(method = "updatePotionVisibility", at = @At("TAIL"), cancellable = true)
     private void removePotionVisibility(CallbackInfo ci) {
         if (this.isSpectator()) return;

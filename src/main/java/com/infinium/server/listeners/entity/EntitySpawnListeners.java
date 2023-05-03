@@ -68,6 +68,7 @@ public class EntitySpawnListeners {
                                     var creeper = (CreeperEntity) livingEntity;
                                     creeper.setCustomName(ChatFormatter.text("&6Charged Creeper"));
                                     creeper.onStruckByLightning(world, null);
+                                    creeper.setFireTicks(0);
                                 }
 
                                 case "entity.minecraft.skeleton" -> {

@@ -1,15 +1,10 @@
 package com.infinium.server.listeners.player;
 
 import com.infinium.Infinium;
-import com.infinium.client.InfiniumClientManager;
 import com.infinium.global.config.data.player.InfiniumPlayer;
-import com.infinium.server.events.players.ServerPlayerConnectionEvents;
 import com.infinium.server.InfiniumServerManager;
-import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.util.ActionResult;
 
 public class PlayerConnectionListeners {
 
@@ -30,8 +25,11 @@ public class PlayerConnectionListeners {
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
             var player = handler.getPlayer();
             var infPlayer = InfiniumPlayer.getInfiniumPlayer(player);
-            var audience = core.getAdventure().audience(PlayerLookup.all(core.getServer()));
-            if (core.getEclipseManager().isActive()) audience.showBossBar(core.getEclipseManager().getBossBar());
+            var eclipseManager = core.getEclipseManager();
+            if (eclipseManager.isActive()) {
+                eclipseManager.getBossBar().setVisible(true);
+                eclipseManager.getBossBar().addPlayer(player);
+            }
             initSanity(player);
             infPlayer.onJoin();
         });
@@ -50,10 +48,12 @@ public class PlayerConnectionListeners {
             var player = handler.player;
             var sanityManager = instance.getCore().getSanityManager();
             var infPlayer = InfiniumPlayer.getInfiniumPlayer(player);
+            var eclipseManager = core.getEclipseManager();
+
+            eclipseManager.getBossBar().removePlayer(player);
             sanityManager.syncSanity(player, sanityManager.get(player, sanityManager.SANITY));
             sanityManager.totalPlayers.remove(player);
             infPlayer.onQuit();
-
         });
 
     }

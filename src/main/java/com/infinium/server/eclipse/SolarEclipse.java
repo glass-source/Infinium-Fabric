@@ -2,13 +2,12 @@ package com.infinium.server.eclipse;
 
 import com.infinium.Infinium;
 import com.infinium.global.utils.ChatFormatter;
-import com.infinium.global.utils.DateUtils;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
-import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.sound.Sound;
-import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;
+import net.minecraft.entity.boss.BossBar;
+import net.minecraft.entity.boss.ServerBossBar;
 import net.minecraft.world.GameRules;
 
 import java.time.Duration;
@@ -21,8 +20,8 @@ import java.util.concurrent.TimeUnit;
 public class SolarEclipse {
 
     public static boolean isEclipseActive = false;
-    public final String TITLE = ChatFormatter.format("&k| &6&l☀ &7&lEclipse Solar: &e&l%time% &6&l☀ &r&k|");
-    public final BossBar BOSS_BAR = BossBar.bossBar(Component.text(TITLE.replaceAll("%time%", "0:00:00")), 1, BossBar.Color.PURPLE, BossBar.Overlay.NOTCHED_6);
+    public final String bossBarTitle = ChatFormatter.format("&k| &6&l☀ &7&lEclipse Solar: &e&l%time% &6&l☀ &r&k|");
+    public final ServerBossBar serverBossBar = new ServerBossBar(ChatFormatter.text(bossBarTitle.replaceAll("%time%", "0:00:00")), BossBar.Color.PURPLE, BossBar.Style.NOTCHED_6);
     public long endsIn;
     public long totalTime = 0L;
     public long lastTimeChecked;
@@ -36,14 +35,15 @@ public class SolarEclipse {
     }
 
     public void initBossBarTask(){
+
         if (service == null) service = Infinium.getInstance().getExecutor();
 
         try {
             Runnable runnable = () -> {
                 var progress = (float) Math.max(0d, Math.min(1d, (double) getTimeToEnd() / getTotalTime()));
-                var name = Component.text(ChatFormatter.format(TITLE.replaceAll("%time%", getTimeToString())));
-                BOSS_BAR.name(name);
-                BOSS_BAR.progress(progress);
+                var name = ChatFormatter.text(ChatFormatter.format(bossBarTitle.replaceAll("%time%", getTimeToString())));
+                serverBossBar.setName(name);
+                serverBossBar.setPercent(progress);
 
                 if (getTimeToEnd() <= 0){
                     end();
@@ -151,9 +151,11 @@ public class SolarEclipse {
         var title = Title.title(ChatFormatter.stringToComponent("&8&k&l? &7Eclipse Solar &8&k&l?"), ChatFormatter.stringToComponent("&7Duración: &8" + getTimeToString()), times);
         var gamerules = server.getGameRules();
 
+        serverBossBar.setVisible(true);
+        core.getTotalPlayers().forEach(serverBossBar::addPlayer);
         world.setTimeOfDay(18000);
         audience.showTitle(title);
-        audience.showBossBar(BOSS_BAR);
+
         audience.playSound(Sound.sound(Key.key("infinium:eclipse_start"), Sound.Source.PLAYER, 10, 0.5f));
         gamerules.get(GameRules.DO_DAYLIGHT_CYCLE).set(false, server);
         if (day < 42) return;
@@ -179,7 +181,8 @@ public class SolarEclipse {
         lastTimeChecked = 0;
         gamerules.get(GameRules.DO_DAYLIGHT_CYCLE).set(true, server);
         gamerules.get(GameRules.NATURAL_REGENERATION).set(true, server);
-        audience.hideBossBar(BOSS_BAR);
+        serverBossBar.setVisible(false);
+        serverBossBar.clearPlayers();
         audience.playSound(Sound.sound(Key.key("minecraft:item.trident.return"), Sound.Source.AMBIENT, 10, 0.05f));
     }
 

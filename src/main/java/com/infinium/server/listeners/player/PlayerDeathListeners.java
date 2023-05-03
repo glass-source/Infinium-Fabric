@@ -6,6 +6,7 @@ import com.infinium.global.utils.ChatFormatter;
 import com.infinium.global.utils.EntityDataSaver;
 import com.infinium.server.InfiniumServerManager;
 import com.infinium.server.effects.InfiniumEffects;
+import com.infinium.server.events.players.PlayerDamageEvent;
 import com.infinium.server.items.InfiniumItems;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
@@ -23,6 +24,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.stat.Stats;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.GameMode;
 
@@ -44,6 +46,7 @@ public class PlayerDeathListeners {
 
     public void registerListener(){
         playerDeathCallback();
+        playerDamageCallback();
     }
     private void playerDeathCallback(){
         ServerPlayerEvents.ALLOW_DEATH.register((player, damageSource, damageAmount) -> {
@@ -53,6 +56,22 @@ public class PlayerDeathListeners {
                 return false;
             }
             return onPlayerDeath(player);
+        });
+    }
+
+    private void playerDamageCallback() {
+        PlayerDamageEvent.EVENT.register((playerUUID) -> {
+            var player = core.getServer().getPlayerManager().getPlayer(playerUUID);
+            if (player == null) return ActionResult.FAIL;
+            if (!player.isBlocking()) return ActionResult.FAIL;
+
+            var day = core.getDateUtils().getCurrentDay();
+
+            if (day >= 14) {
+                player.getItemCooldownManager().set(Items.SHIELD, 60);
+            }
+
+            return null;
         });
     }
 
@@ -114,7 +133,6 @@ public class PlayerDeathListeners {
 
         totemEffects(player);
     }
-
     private void totemEffects(ServerPlayerEntity user) {
         var data = ((EntityDataSaver) user).getPersistentData();
         int totems = data.getInt("infinium.totems");
@@ -149,7 +167,6 @@ public class PlayerDeathListeners {
 
         return true;
     }
-
     private static boolean playerHasTotem(PlayerEntity player, DamageSource damageSource) {
         if (damageSource.isOutOfWorld()) return false;
 
