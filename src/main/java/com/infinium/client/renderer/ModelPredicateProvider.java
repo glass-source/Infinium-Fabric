@@ -3,13 +3,14 @@ package com.infinium.client.renderer;
 import com.infinium.client.renderer.item.InfiniumElytraFeatureRenderer;
 import com.infinium.client.renderer.item.MagmaTridentItemRenderer;
 import com.infinium.client.renderer.item.MagmaTridentRenderer;
-import com.infinium.client.renderer.mobs.ghoulmobs.ghoulspider.GhoulSpiderEntityRenderer;
-import com.infinium.client.renderer.mobs.ghoulmobs.ghoulzombie.GhoulZombieEntityRenderer;
-import com.infinium.client.renderer.mobs.voidmobs.voidenderman.VoidEndermanEntityRenderer;
-import com.infinium.client.renderer.mobs.voidmobs.voidghast.VoidGhastEntityModel;
-import com.infinium.client.renderer.mobs.voidmobs.voidghast.VoidGhastEntityRenderer;
-import com.infinium.client.renderer.mobs.voidmobs.voidspider.VoidSpiderEntityRenderer;
-import com.infinium.client.renderer.mobs.voidmobs.voidzombie.VoidZombieEntityRenderer;
+import com.infinium.client.renderer.mobs.hostile.ghoulmobs.ghoulspider.GhoulSpiderEntityRenderer;
+import com.infinium.client.renderer.mobs.hostile.ghoulmobs.ghoulzombie.GhoulZombieEntityRenderer;
+import com.infinium.client.renderer.mobs.hostile.voidmobs.voidenderman.VoidEndermanEntityRenderer;
+import com.infinium.client.renderer.mobs.hostile.voidmobs.voidghast.VoidGhastEntityModel;
+import com.infinium.client.renderer.mobs.hostile.voidmobs.voidghast.VoidGhastEntityRenderer;
+import com.infinium.client.renderer.mobs.hostile.voidmobs.voidspider.VoidSpiderEntityRenderer;
+import com.infinium.client.renderer.mobs.hostile.voidmobs.voidzombie.VoidZombieEntityRenderer;
+import com.infinium.client.renderer.mobs.neutral.pepfrog.PepFrogEntityRenderer;
 import com.infinium.server.entities.InfiniumEntityType;
 import com.infinium.server.items.InfiniumItems;
 import net.fabricmc.fabric.api.client.model.ModelLoadingRegistry;
@@ -24,6 +25,7 @@ import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.client.render.entity.model.EntityModelLayers;
 import net.minecraft.client.util.ModelIdentifier;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Item;
 import net.minecraft.resource.ResourceType;
@@ -45,6 +47,7 @@ public class ModelPredicateProvider {
     private void registerEntityRenderer() {
         registerVoidMobRenderer();
         registerGhoulMobsRenderer();
+        registerNeutralMobsRenderer();
         registerMagmaTrident();
         registerEntityModelLayers();
     }
@@ -72,6 +75,10 @@ public class ModelPredicateProvider {
     private void registerGhoulMobsRenderer(){
         EntityRendererRegistry.register(InfiniumEntityType.GHOUL_SPIDER, GhoulSpiderEntityRenderer::new);
         EntityRendererRegistry.register(InfiniumEntityType.GHOUL_ZOMBIE, GhoulZombieEntityRenderer::new);
+    }
+
+    private void registerNeutralMobsRenderer() {
+        EntityRendererRegistry.register(InfiniumEntityType.PEP_FROG, PepFrogEntityRenderer::new);
     }
 
     private void registerEntityModelLayers(){

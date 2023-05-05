@@ -29,6 +29,7 @@ public class ServerPlayerEntityMixin extends PlayerEntity {
 
     @Inject(method = "damage", at = @At("TAIL"))
     private void onPlayerDamage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
+        if (cir.isCancelled() || source == null || amount < 0) return;
         PlayerDamageEvent.EVENT.invoker().onPlayerDamage(this.getUuid(), source);
     }
     @Inject(method = "updatePotionVisibility", at = @At("TAIL"), cancellable = true)

@@ -64,19 +64,38 @@ public class PlayerDeathListeners {
         PlayerDamageEvent.EVENT.register((playerUUID, damageSource) -> {
             var player = core.getServer().getPlayerManager().getPlayer(playerUUID);
             if (player == null) return ActionResult.FAIL;
-            if (!player.isBlocking()) return ActionResult.FAIL;
-            if (!damageSource.isExplosive()) return ActionResult.FAIL;
-            var day = core.getDateUtils().getCurrentDay();
+            if (!player.interactionManager.getGameMode().isSurvivalLike()) return ActionResult.FAIL;
 
-            if (day >= 14) {
-                var cooldownManager = player.getItemCooldownManager();
-                player.clearActiveItem();
-                cooldownManager.set(Items.SHIELD, 80);
-                cooldownManager.set(InfiniumItems.VOID_SHIELD, 20);
+            var day = core.getDateUtils().getCurrentDay();
+            switch (damageSource.name) {
+                case "cactus" -> {
+                    if (day >= 14) {
+                        if (player.isBlocking()) return ActionResult.FAIL;
+                        if (playerHasTotem(player, damageSource)) {
+                            var vec = player.getRotationVector().multiply(-1);
+                            player.setVelocity(vec.getX(), vec.getY() + 0.1f, vec.getZ());
+                            onTotemUse(player);
+                            return ActionResult.FAIL;
+                        } else {
+                            player.kill();
+                            return ActionResult.SUCCESS;
+                        }
+                    }
+                }
+
+                case "fireworks", "explosion.player", "explosion" -> {
+                    if (day >= 14) {
+                        var cooldownManager = player.getItemCooldownManager();
+                        player.clearActiveItem();
+                        cooldownManager.set(Items.SHIELD, 80);
+                        cooldownManager.set(InfiniumItems.VOID_SHIELD, 20);
+                        return ActionResult.SUCCESS;
+                    }
+                }
 
             }
 
-            return null;
+            return ActionResult.PASS;
         });
     }
 

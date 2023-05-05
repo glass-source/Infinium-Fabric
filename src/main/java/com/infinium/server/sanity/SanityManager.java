@@ -29,7 +29,7 @@ public class SanityManager {
     }
 
     public void registerSanityTask(){
-        ServerTickEvents.START_SERVER_TICK.register(server -> task.run());
+        ServerTickEvents.START_SERVER_TICK.register(task::run);
     }
 
     public void add(PlayerEntity player, int amount, String arg){

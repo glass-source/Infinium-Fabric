@@ -26,7 +26,8 @@ public class ResistanceRuneItem extends ToolItem implements InfiniumItem {
         if (!cooldownManager.isCoolingDown(this)) {
             if (!world.isClient()) {
                 user.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 20 * 60, 3));
-                cooldownManager.set(this, 20 * (60 * 5));
+                setCooldown(user, this, 20 * (60 * 5));
+
             }
 
             if (user.getEquippedStack(EquipmentSlot.MAINHAND).getItem().equals(this)) {

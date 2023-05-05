@@ -23,10 +23,11 @@ public class ImmunityRuneItem extends ToolItem implements InfiniumItem {
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         var cooldownManager = user.getItemCooldownManager();
+
         if (!cooldownManager.isCoolingDown(this)) {
             if (!world.isClient()) {
                 user.addStatusEffect(new StatusEffectInstance(InfiniumEffects.IMMUNITY, 20 * 25));
-                cooldownManager.set(this, 20 * (60 * 2));
+                setCooldown(user, this, 20 * (60 * 2));
             }
 
             if (user.getEquippedStack(EquipmentSlot.MAINHAND).getItem().equals(this)) {
@@ -38,5 +39,7 @@ public class ImmunityRuneItem extends ToolItem implements InfiniumItem {
         }
         return super.use(world, user, hand);
     }
+
+
 
 }

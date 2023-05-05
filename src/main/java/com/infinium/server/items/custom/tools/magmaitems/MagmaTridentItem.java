@@ -38,8 +38,6 @@ public class MagmaTridentItem extends TridentItem implements InfiniumItem {
     public MagmaTridentItem(Settings settings, EntityType<? extends MagmaTridentEntity> entityType) {
         super(settings);
         this.type = entityType;
-        
-        this.getDefaultStack().addEnchantment(Enchantments.RIPTIDE, 5);
     }
 
     public EntityType<? extends MagmaTridentEntity> getEntityType() {
@@ -49,13 +47,10 @@ public class MagmaTridentItem extends TridentItem implements InfiniumItem {
 
     @Override
     public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
-
-        if (!world.isClient) stack.damage(1, user, p -> p.sendToolBreakStatus(user.getActiveHand()));
-
         if (user instanceof PlayerEntity playerEntity) {
             int useTimeTicks = this.getMaxUseTime(stack) - remainingUseTicks;
             if (useTimeTicks >= 10) {
-
+                if (!world.isClient) stack.damage(1, user, p -> p.sendToolBreakStatus(user.getActiveHand()));
                 int riptideLevel = EnchantmentHelper.getRiptide(stack);
 
                 if (riptideLevel <= 0) {
@@ -106,7 +101,6 @@ public class MagmaTridentItem extends TridentItem implements InfiniumItem {
                         world.playSoundFromEntity(null, playerEntity, soundEvent3, SoundCategory.PLAYERS, 1.0F, 0.04F);
                     }
                 }
-
             }
         }
     }

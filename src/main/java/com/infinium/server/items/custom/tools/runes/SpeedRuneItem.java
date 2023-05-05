@@ -26,7 +26,7 @@ public class SpeedRuneItem extends ToolItem implements InfiniumItem {
         if (!cooldownManager.isCoolingDown(this)) {
             if (!world.isClient()) {
                 user.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 20 * 60, 4));
-                cooldownManager.set(this, 20 * (60 * 4));
+                setCooldown(user, this, 20 * (60 * 4));
             }
 
             if (user.getEquippedStack(EquipmentSlot.MAINHAND).getItem().equals(this)) {

@@ -6,6 +6,7 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.server.MinecraftServer;
 
 import java.util.UUID;
 
@@ -16,7 +17,7 @@ public class SanityTask {
         this.manager = manager;
     }
     
-    public void run(){
+    public void run(MinecraftServer server){
         manager.totalPlayers.forEach((p) -> {
             if (shouldPreventEffects(p)) return;
             calcSanity(p);

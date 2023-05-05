@@ -1,14 +1,15 @@
 package com.infinium.server;
 
 import com.infinium.server.entities.InfiniumEntityType;
-import com.infinium.server.entities.mobs.ghoulmobs.ghoulspider.GhoulSpiderEntity;
-import com.infinium.server.entities.mobs.ghoulmobs.ghoulzombie.GhoulZombieEntity;
-import com.infinium.server.entities.mobs.voidmobs.voidghast.VoidGhastEntity;
+import com.infinium.server.entities.mobs.hostile.ghoulmobs.ghoulspider.GhoulSpiderEntity;
+import com.infinium.server.entities.mobs.hostile.ghoulmobs.ghoulzombie.GhoulZombieEntity;
+import com.infinium.server.entities.mobs.hostile.voidmobs.voidghast.VoidGhastEntity;
 import com.infinium.server.commands.InfiniumCommand;
 import com.infinium.server.commands.StaffCommand;
-import com.infinium.server.entities.mobs.voidmobs.voidenderman.VoidEndermanEntity;
-import com.infinium.server.entities.mobs.voidmobs.voidspider.VoidSpiderEntity;
-import com.infinium.server.entities.mobs.voidmobs.voidzombie.VoidZombieEntity;
+import com.infinium.server.entities.mobs.hostile.voidmobs.voidenderman.VoidEndermanEntity;
+import com.infinium.server.entities.mobs.hostile.voidmobs.voidspider.VoidSpiderEntity;
+import com.infinium.server.entities.mobs.hostile.voidmobs.voidzombie.VoidZombieEntity;
+import com.infinium.server.entities.mobs.neutral.PepFrogEntity;
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.minecraft.entity.EntityType;
@@ -21,6 +22,7 @@ public class InfiniumRegistries {
         registerCommands();
         registerVoidMobAttributes();
         registerGhoulMobAttributes();
+        registerNeutralMobAttributes();
     }
 
     private static void registerCommands(){
@@ -37,6 +39,10 @@ public class InfiniumRegistries {
         setAttributes(InfiniumEntityType.VOID_SPIDER, VoidSpiderEntity.createVoidSpiderAttributes());
         setAttributes(InfiniumEntityType.VOID_ENDERMAN, VoidEndermanEntity.createVoidEndermanAttributes());
         setAttributes(InfiniumEntityType.VOID_ZOMBIE, VoidZombieEntity.createVoidZombieAttributes());
+    }
+
+    private static void registerNeutralMobAttributes() {
+        setAttributes(InfiniumEntityType.PEP_FROG, PepFrogEntity.createPepAttributes());
     }
 
     private static void setAttributes(EntityType<? extends LivingEntity> type, DefaultAttributeContainer.Builder attributes){

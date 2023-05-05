@@ -1,7 +1,7 @@
 package com.infinium.server.entities.goals.voidmobs.voidenderman;
 
 
-import com.infinium.server.entities.mobs.voidmobs.voidenderman.VoidEndermanEntity;
+import com.infinium.server.entities.mobs.hostile.voidmobs.voidenderman.VoidEndermanEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.entity.ai.goal.ActiveTargetGoal;
