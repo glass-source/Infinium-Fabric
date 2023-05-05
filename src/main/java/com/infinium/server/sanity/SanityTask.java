@@ -75,7 +75,7 @@ public class SanityTask {
     }
 
     private boolean shouldPreventEffects(PlayerEntity p) {
-        return p.isCreative() || p.isSpectator() || p.isDead() || p.isCreativeLevelTwoOp() || p.getAbilities().creativeMode;
+        return p.isCreative() || p.isSpectator() || p.isDead() || p.isCreativeLevelTwoOp() || p.getAbilities().creativeMode || p.getAbilities().invulnerable;
     }
 
 }

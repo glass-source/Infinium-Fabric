@@ -9,7 +9,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 
 public class InfiniumItemGroups {
-
-    public static final ItemGroup INFINIUM = FabricItemGroupBuilder.build(new Identifier(Infinium.MOD_ID, "infinium"), () -> new ItemStack(InfiniumItems.GRAPPLING_HOOK));
+    public static final ItemGroup INFINIUM = FabricItemGroupBuilder.build(new Identifier(Infinium.MOD_ID, "infinium"), () -> new ItemStack(InfiniumItems.VOID_EYE));
 
 }

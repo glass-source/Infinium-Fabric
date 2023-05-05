@@ -8,8 +8,8 @@
     "Asunder", "ITzFel17"
   ],
   "contact": {
-    "twitter": "https://twitter.com/InfiniumSMP",
-    "sources": "https://github.com/InfiniumMC/InfiniumT1-FabricMC"
+    "sources": "https://github.com/InfiniumMC/InfiniumT1-FabricMC",
+    "homepage": "https://twitter.com/InfiniumSMP"
   },
   "license": "MIT",
   "icon": "assets/infinium/pack.png",
@@ -20,10 +20,8 @@
     ],
     "main": [
       "com.infinium.Infinium"
-    ],
-    "modmenu": [
-      "com.infinium.global.config.InfiniumModMenu"
     ]
+
   },
   "mixins": [
     "infinium.mixins.json"

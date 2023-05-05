@@ -14,6 +14,7 @@ import java.nio.file.Paths;
  * A class designed to savePlayerData any state from objects to json files.
  * @author Jcedeno.
  * @author zLofro
+ * //Gracias cdeno mi dios carreaste este proyecto con esta util y no lo sabes.
  */
 public class JsonConfig {
     private final Gson gson = new GsonBuilder()

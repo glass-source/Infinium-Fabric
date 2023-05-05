@@ -1,15 +1,19 @@
 package com.infinium.global.mixin.server.entity;
 
 import com.infinium.Infinium;
-import com.infinium.global.utils.DateUtils;
 import com.infinium.server.events.players.PlayerDamageEvent;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.network.ServerPlayerInteractionManager;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.GameMode;
 import net.minecraft.world.World;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -17,15 +21,22 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ServerPlayerEntity.class)
 public class ServerPlayerEntityMixin extends PlayerEntity {
+    @Shadow @Final public ServerPlayerInteractionManager interactionManager;
 
-    @Inject(method = "damage", at = @At("TAIL"), cancellable = true)
+    public ServerPlayerEntityMixin(World world, BlockPos pos, float yaw, GameProfile profile) {
+        super(world, pos, yaw, profile);
+    }
+
+    @Inject(method = "damage", at = @At("TAIL"))
     private void onPlayerDamage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
-        PlayerDamageEvent.EVENT.invoker().onPlayerDamage(this.getUuid());
+        PlayerDamageEvent.EVENT.invoker().onPlayerDamage(this.getUuid(), source);
     }
     @Inject(method = "updatePotionVisibility", at = @At("TAIL"), cancellable = true)
-    private void removePotionVisibility(CallbackInfo ci) {
-        if (this.isSpectator()) return;
+    private void removeInvisPotion(CallbackInfo ci) {
+        if (!this.hasStatusEffect(StatusEffects.INVISIBILITY)) return;
+        if (!this.interactionManager.getGameMode().isSurvivalLike()) return;
         if (Infinium.getInstance().getDateUtils() == null) return;
+
         var day = Infinium.getInstance().getDateUtils().getCurrentDay();
 
         if (day >= 14) {
@@ -33,22 +44,16 @@ public class ServerPlayerEntityMixin extends PlayerEntity {
             this.setInvisible(false);
         }
     }
-    public ServerPlayerEntityMixin(World world, BlockPos pos, float yaw, GameProfile profile) {
-        super(world, pos, yaw, profile);
-    }
 
     @Override
     public boolean isSpectator() {
-        return false;
+        return this.interactionManager.getGameMode() == GameMode.SPECTATOR;
     }
 
     @Override
     public boolean isCreative() {
-        return false;
+        return this.getAbilities().creativeMode;
     }
 
-    @Override
-    public boolean cannotBeSilenced() {
-        return super.cannotBeSilenced();
-    }
+
 }

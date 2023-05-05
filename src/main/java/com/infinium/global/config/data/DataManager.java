@@ -1,6 +1,5 @@
 package com.infinium.global.config.data;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.infinium.Infinium;
 import com.infinium.global.config.data.player.InfiniumPlayer;
@@ -19,32 +18,32 @@ public class DataManager {
     private final SolarEclipseManager manager = Infinium.getInstance().getCore().getEclipseManager();
 
     public DataManager(final Infinium infinium) throws Exception {
-    this.infinium = infinium;
-    this.core = this.infinium.getCore();
-    this.gameData = JsonConfig.config("WorldData.json");
+        this.infinium = infinium;
+        this.core = this.infinium.getCore();
+        this.gameData = JsonConfig.config("WorldData.json");
     }
     public void savePlayerData() {
-      core.getTotalPlayers().forEach(serverPlayerEntity -> {
-        var infPlayer = InfiniumPlayer.getInfiniumPlayer(serverPlayerEntity);
-        infPlayer.save(infPlayer.getUserJson());
-      });
+        core.getTotalPlayers().forEach(serverPlayerEntity -> {
+            var infPlayer = InfiniumPlayer.getInfiniumPlayer(serverPlayerEntity);
+            infPlayer.save(infPlayer.getUserJson());
+        });
     }
 
     public void restorePlayerData() {
-      core.getTotalPlayers().forEach(serverPlayerEntity -> {
-        var infPlayer = InfiniumPlayer.getInfiniumPlayer(serverPlayerEntity);
-        infPlayer.restore(infPlayer.getUserJson());
-      });
+        core.getTotalPlayers().forEach(serverPlayerEntity -> {
+            var infPlayer = InfiniumPlayer.getInfiniumPlayer(serverPlayerEntity);
+            infPlayer.restore(infPlayer.getUserJson());
+        });
     }
     public void saveWorldData() {
         var startDate = core.getDateUtils().getStartDate().toString();
 
         gameData.setJsonObject(Infinium.getGson().toJsonTree(new WorldData(startDate, manager.getTimeToEnd(), manager.getTotalTime(), manager.getLastTimeChecked())).getAsJsonObject());
-      try {
+        try {
 
-          gameData.save();
+            gameData.save();
 
-      } catch (Exception ex) {ex.printStackTrace();}
+        } catch (Exception ex) {ex.printStackTrace();}
     }
 
     public void restoreWorldData() {

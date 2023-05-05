@@ -27,6 +27,7 @@ import net.minecraft.stat.Stats;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.GameMode;
+import xyz.nucleoid.disguiselib.api.EntityDisguise;
 
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -60,15 +61,19 @@ public class PlayerDeathListeners {
     }
 
     private void playerDamageCallback() {
-        PlayerDamageEvent.EVENT.register((playerUUID) -> {
+        PlayerDamageEvent.EVENT.register((playerUUID, damageSource) -> {
             var player = core.getServer().getPlayerManager().getPlayer(playerUUID);
             if (player == null) return ActionResult.FAIL;
             if (!player.isBlocking()) return ActionResult.FAIL;
-
+            if (!damageSource.isExplosive()) return ActionResult.FAIL;
             var day = core.getDateUtils().getCurrentDay();
 
             if (day >= 14) {
-                player.getItemCooldownManager().set(Items.SHIELD, 60);
+                var cooldownManager = player.getItemCooldownManager();
+                player.clearActiveItem();
+                cooldownManager.set(Items.SHIELD, 80);
+                cooldownManager.set(InfiniumItems.VOID_SHIELD, 20);
+
             }
 
             return null;
@@ -158,12 +163,18 @@ public class PlayerDeathListeners {
         var audience = core.getAdventure(). audience(PlayerLookup.all(core.getServer()));
 
         if (pos.getY() < -64) playerDied.teleport(pos.getX(), -64, pos.getZ());
-        instance.getExecutor().schedule(core.getEclipseManager()::startFromDeath, 13, TimeUnit.SECONDS);
-        ChatFormatter.broadcastMessage(ChatFormatter.formatWithPrefix("&7El jugador &6&l%player% &7sucumbio ante el\n&5&lVacío Infinito".replaceAll("%player%", playerDied.getEntityName())));
+
+        ((EntityDisguise) playerDied).removeDisguise();
+
         playerDied.setHealth(20.0f);
         playerDied.changeGameMode(GameMode.SPECTATOR);
+
         audience.playSound(Sound.sound(Key.key("infinium:player_death"), Sound.Source.PLAYER, 10, 0.7f));
+
+        ChatFormatter.broadcastMessage(ChatFormatter.formatWithPrefix("&7El jugador &6&l%player% &7sucumbio ante el\n&5&lVacío Infinito".replaceAll("%player%", playerDied.getEntityName())));
         Animation.initImageForAll();
+
+        instance.getExecutor().schedule(core.getEclipseManager()::startFromDeath, 13, TimeUnit.SECONDS);
 
         return true;
     }
