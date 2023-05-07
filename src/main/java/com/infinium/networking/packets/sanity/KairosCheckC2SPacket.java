@@ -1,7 +1,6 @@
 package com.infinium.networking.packets.sanity;
 
 import com.infinium.Infinium;
-import com.infinium.global.utils.ChatFormatter;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.MinecraftServer;

@@ -1,11 +1,8 @@
 package com.infinium.server.events.players;
 
-import com.infinium.server.events.entity.EntitySpawnEvent;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.ActionResult;
 
 import java.util.UUID;

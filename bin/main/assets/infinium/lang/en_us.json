@@ -1,0 +1,84 @@
+{
+  "item.infinium.void_pickaxe" : "Void Pickaxe",
+  "item.infinium.void_sword" : "Void Sword",
+  "item.infinium.void_axe" : "Void Axe",
+  "item.infinium.void_shovel" : "Void Shovel",
+  "item.infinium.void_hoe" : "Void Hoe",
+  "item.infinium.void_bow" : "Void Bow",
+  "item.infinium.void_shield" : "Void Shield",
+
+  "item.infinium.void_helmet" : "Void Helmet",
+  "item.infinium.void_chestplate" : "Void Chestplate",
+  "item.infinium.void_leggings" : "Void Leggings",
+  "item.infinium.void_boots" : "Void Boots",
+  "item.infinium.void_wings": "Void Wings",
+
+  "item.infinium.void_totem" : "Void Totem",
+  "item.infinium.void_eye" : "Void Eye",
+
+  "item.infinium.magma_pickaxe" : "Magma Pickaxe",
+  "item.infinium.magma_sword" : "Magma Sword",
+  "item.infinium.magma_axe" : "Magma Axe",
+  "item.infinium.magma_shovel" : "Magma Shovel",
+  "item.infinium.magma_hoe" : "Magma Hoe",
+  "item.infinium.magma_bow" : "Magma Bow",
+  "item.infinium.magma_shield" : "Magma Shield",
+  "item.infinium.magma_trident" : "Magma Trident",
+
+  "item.infinium.magma_helmet" : "Magma Helmet",
+  "item.infinium.magma_chestplate" : "Magma Chestplate",
+  "item.infinium.magma_leggings" : "Magma Leggings",
+  "item.infinium.magma_boots" : "Magma Boots",
+  "item.infinium.magma_wings": "Magma Wings",
+
+  "item.infinium.magma_totem" : "Magma Totem",
+
+  "item.infinium.grappling_hook" : "Grappling Hook",
+
+  "category.minecraft.infinium": "Infinium Category",
+  "itemGroup.infinium.infinium": "Infinium Group",
+
+  "item.infinium.immunity_rune" : "Immunity Rune",
+  "item.infinium.wither_rune" : "Wither Rune",
+  "item.infinium.speed_rune" : "Speed Rune",
+  "item.infinium.resistance_rune" : "Resistance Rune",
+  "item.infinium.fire_rune" : "Fire Rune",
+
+  "item.infinium.ender_wand": "Ender Wand",
+
+  "item.infinium.duet_music_disc": "Music Disc",
+  "item.infinium.duet_music_disc.desc": "Pedro Silva - Final Duet",
+  "item.infinium.fall_in_love_music_disc": "Music Disc",
+  "item.infinium.fall_in_love_music_disc.desc": "Fabo - Hoe Does It Feel To Fall In Love",
+
+  "item.infinium.sanity_pill" : "Sanity Pill",
+  "item.infinium.netherite_carrot" : "Netherite Carrot",
+
+  "effect.infinium.immunity": "Immunity",
+  "effect.infinium.madness": "Madness",
+
+  "block.infinium.void_stone": "Void Stone",
+  "block.infinium.void_stone_ore": "Void Stone Ore",
+
+  "entity.infinium.void_ghast" : "Void Ghast",
+  "entity.infinium.void_spider" : "Void Spider",
+
+
+  "infinium.player_died": "Player Died",
+  "infinium.eclipse_started": "Solar Eclipse Started",
+  "infinium.duet_started": "Dead Sister Sounds",
+  "infinium.fall_in_love": "Mysterious Music",
+
+  "infinium.midnightconfig.title" : "Infinium Config",
+  "infinium.midnightconfig.startDate" : "Start Date",
+  "infinium.midnightconfig.endsIn" : "",
+  "infinium.midnightconfig.totalTime" : "",
+  "infinium.midnightconfig.lastTimeChecked" : "",
+
+  "key.category.infinium.infinium" : "Infinium",
+  "key.infinium.check_time" : "Check Kairo's Clock",
+  "infinium.kairos_check" : "§6Has revisado la hora!"
+
+
+
+}

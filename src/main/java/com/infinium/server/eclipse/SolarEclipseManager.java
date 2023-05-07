@@ -1,8 +1,6 @@
 package com.infinium.server.eclipse;
 
 import com.infinium.Infinium;
-import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
-import net.kyori.adventure.bossbar.BossBar;
 import net.minecraft.entity.boss.ServerBossBar;
 
 public class SolarEclipseManager {

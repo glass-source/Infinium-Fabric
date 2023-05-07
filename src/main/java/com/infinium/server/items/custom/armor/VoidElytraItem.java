@@ -11,7 +11,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.ElytraItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Wearable;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
@@ -22,7 +21,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
-public class VoidElytraItem extends VoidArmorItem implements FabricElytraItem, Wearable {
+public class VoidElytraItem extends VoidArmorItem implements FabricElytraItem {
 
 
     public VoidElytraItem(ArmorMaterial material, EquipmentSlot slot, Settings settings) {

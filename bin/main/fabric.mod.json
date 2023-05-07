@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "id": "infinium",
+  "version": "${version}",
+  "name": "Infinium Fabric",
+  "description": "Infinium SMP, recreated in Fabric.",
+  "authors": [
+    "Asunder", "ITzFel17"
+  ],
+  "contact": {
+    "sources": "https://github.com/InfiniumMC/InfiniumT1-FabricMC",
+    "homepage": "https://twitter.com/InfiniumSMP"
+  },
+  "license": "MIT",
+  "icon": "assets/infinium/pack.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "com.infinium.client.InfiniumClient"
+    ],
+    "main": [
+      "com.infinium.Infinium"
+    ]
+
+  },
+  "mixins": [
+    "infinium.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.14.1",
+    "fabric": "*",
+    "minecraft": "1.18.2",
+    "java": ">=17"
+  }
+}

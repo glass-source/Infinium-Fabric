@@ -13,14 +13,13 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterial;
-import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 import java.util.Arrays;
 import java.util.UUID;
 
-public class MagmaArmorItem extends ArmorItem implements ItemConvertible, InfiniumItem {
+public class MagmaArmorItem extends ArmorItem implements InfiniumItem {
 
     private static final EntityAttributeModifier EXTRA_HEALTH_BOOST = new EntityAttributeModifier(UUID.randomUUID(), "Magma Armor Healthboost", 24, EntityAttributeModifier.Operation.ADDITION);;
     public MagmaArmorItem(ArmorMaterial material, EquipmentSlot slot, Settings settings) {

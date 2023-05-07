@@ -3,7 +3,6 @@ package com.infinium.server.items.custom.food;
 import com.infinium.Infinium;
 import com.infinium.server.effects.InfiniumEffects;
 import com.infinium.server.items.custom.InfiniumItem;
-import com.infinium.server.sanity.SanityManager;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;

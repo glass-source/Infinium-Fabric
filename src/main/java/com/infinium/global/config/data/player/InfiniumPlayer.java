@@ -16,8 +16,7 @@ public class InfiniumPlayer {
     private final PlayerEntity player;
 
     private final SanityManager sanityManager = Infinium.getInstance().getCore().getSanityManager();
-    private UserData userData;
-
+    
     public InfiniumPlayer(PlayerEntity player) {
         this.player = player;
         try {
@@ -68,9 +67,9 @@ public class InfiniumPlayer {
         int totems = data.getInt(totemString);
 
         if (jsonConfig.getJsonObject().entrySet().isEmpty()) {
-            this.userData = new UserData(player.getUuid(), player.getEntityName() ,sanityManager.get(player, sanityManager.SANITY), totems);
+            new UserData(player.getUuid(), player.getEntityName() ,sanityManager.get(player, sanityManager.SANITY), totems);
         } else {
-            this.userData = Infinium.getGson().fromJson(jsonConfig.getJsonObject(), UserData.class);
+            Infinium.getGson().fromJson(jsonConfig.getJsonObject(), UserData.class);
         }
     }
 

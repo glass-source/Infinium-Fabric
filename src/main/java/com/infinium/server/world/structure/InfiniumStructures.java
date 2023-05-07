@@ -1,2 +1,24 @@
-package com.infinium.server.world.structure;public class InfiniumStructures {
+package com.infinium.server.world.structure;
+
+import com.infinium.Infinium;
+import com.infinium.global.mixin.server.world.structure.StructureFeatureAccessor;
+import net.minecraft.world.gen.GenerationStep;
+import net.minecraft.world.gen.feature.StructureFeature;
+
+public class InfiniumStructures {
+
+
+     /*
+     * Registers the structure itself and sets what its path is. In this case, the
+     * structure will have the Identifier of structure_tutorial:sky_structures.
+     * It is always a good idea to register your Structures so that other mods and datapacks can
+     * use them too directly from the registries. It's great for mod/datapacks compatibility.
+     */
+    public static StructureFeature<?> SKY_STRUCTURES = new SkyStructures();
+
+    public static void registerStructureFeatures() {
+        // The generation step for when to generate the structure. there are 10 stages you can pick from!
+        // This surface structure stage places the structure before plants and ores are generated.
+        StructureFeatureAccessor.callRegister(Infinium.MOD_ID + ":sky_structures", SKY_STRUCTURES, GenerationStep.Feature.SURFACE_STRUCTURES);
+    }
 }

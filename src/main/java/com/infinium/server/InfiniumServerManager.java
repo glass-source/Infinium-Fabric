@@ -13,9 +13,11 @@ import com.infinium.server.listeners.entity.EntitySpawnListeners;
 import com.infinium.server.listeners.player.PlayerConnectionListeners;
 import com.infinium.server.listeners.player.PlayerDeathListeners;
 import com.infinium.server.listeners.player.PlayerGlobalListeners;
+import com.infinium.server.listeners.world.ServerWorldListeners;
 import com.infinium.server.sanity.SanityManager;
 import com.infinium.server.world.biomes.InfiniumBiomes;
 import com.infinium.server.world.dimensions.InfiniumDimensions;
+import com.infinium.server.world.structure.InfiniumStructures;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.kyori.adventure.platform.fabric.FabricServerAudiences;
 import net.minecraft.server.MinecraftServer;
@@ -48,9 +50,6 @@ public class InfiniumServerManager {
             this.adventure = FabricServerAudiences.of(this.server);
             this.sanityManager.registerSanityTask();
 
-            this.server.getGameRules().get(GameRules.DO_IMMEDIATE_RESPAWN).set(true, this.server);
-            this.initListeners();
-
             try {
                 this.dataManager = new DataManager(this.instance);
 
@@ -58,12 +57,15 @@ public class InfiniumServerManager {
                 throw new RuntimeException(e);
             }
 
+            this.initListeners();
             this.dateUtils = new DateUtils(this.instance);
             this.dataManager.restoreWorldData();
             this.dataManager.restorePlayerData();
             this.eclipseManager.load();
         });
     }
+
+
 
     private void onServerStop(){
         ServerLifecycleEvents.SERVER_STOPPED.register(server -> {
@@ -72,6 +74,18 @@ public class InfiniumServerManager {
         });
     }
 
+    private void configureWorlds() {
+        var nightmareWorld = this.server.getWorld(InfiniumDimensions.THE_NIGHTMARE);
+        var serverRules = this.server.getGameRules();
+        serverRules.get(GameRules.DO_IMMEDIATE_RESPAWN).set(true, this.server);
+        nightmareWorld.getGameRules().get(GameRules.DO_DAYLIGHT_CYCLE).set(false, this.server);
+        nightmareWorld.setTimeOfDay(18000);
+
+        if (dateUtils.getCurrentDay() >= 42 && eclipseManager.isActive()) {
+            serverRules.get(GameRules.NATURAL_REGENERATION).set(false, this.server);
+        }
+
+    }
 
     private void initRegistries(){
         InfiniumItems.init();
@@ -82,6 +96,8 @@ public class InfiniumServerManager {
         InfiniumDimensions.init();
         InfiniumBiomes.init();
         InfiniumPackets.initC2SPackets();
+        InfiniumStructures.registerStructureFeatures();
+        this.configureWorlds();
     }
 
     private void initListeners(){
@@ -90,9 +106,10 @@ public class InfiniumServerManager {
     }
 
     private void registerPlayerListeners(){
-        new PlayerDeathListeners(instance).registerListener();
-        new PlayerConnectionListeners(instance).registerListener();
-        new PlayerGlobalListeners(instance).registerListener();
+        new PlayerDeathListeners(instance).registerListeners();
+        new PlayerConnectionListeners(instance).registerListeners();
+        new PlayerGlobalListeners(instance).registerListeners();
+        new ServerWorldListeners().registerListeners();
     }
     public SanityManager getSanityManager(){
         return sanityManager;

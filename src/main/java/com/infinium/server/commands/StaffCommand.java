@@ -3,18 +3,17 @@ package com.infinium.server.commands;
 import com.infinium.Infinium;
 import com.infinium.global.utils.ChatFormatter;
 import com.infinium.global.utils.EntityDataSaver;
-import com.infinium.networking.InfiniumPackets;
-import com.infinium.networking.packets.flashbang.FlashbangS2CPacket;
 import com.infinium.server.InfiniumServerManager;
 import com.infinium.server.eclipse.SolarEclipseManager;
+import com.infinium.server.listeners.world.ServerWorldListeners;
 import com.infinium.server.sanity.SanityManager;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.FloatArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
+import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.server.command.CommandManager;
@@ -36,9 +35,11 @@ public class StaffCommand {
         LiteralArgumentBuilder<ServerCommandSource> literalArgumentBuilder = CommandManager.literal("staff").requires(source -> source.hasPermissionLevel(4));
 
         literalArgumentBuilder
-                .then(CommandManager.literal("flashbang")
-                        .then(CommandManager.argument("player", EntityArgumentType.player())
-                                .executes(StaffCommand::showFlashbang)))
+                .then(CommandManager.literal("loadstructure")
+                        .then(CommandManager.argument("filename", StringArgumentType.string())
+                                .executes(context ->
+                                        loadStructure(context, StringArgumentType.getString(context, "filename"))
+                                 )))
 
                 .then(CommandManager.literal("cordura")
                         .then(CommandManager.literal("add")
@@ -95,10 +96,11 @@ public class StaffCommand {
     }
 
 
-    private static int showFlashbang(CommandContext<ServerCommandSource> source) {
+    private static int loadStructure(CommandContext<ServerCommandSource> source, String filename) {
         try{
-
-            ServerPlayNetworking.send(source.getSource().getPlayer(), InfiniumPackets.FLASHBANG_SYNC_ID, new FlashbangS2CPacket(100, 25, 6, 0, 125, 0).write());
+            var player = source.getSource().getPlayer();
+            ServerWorldListeners.loadSchem(filename, player.getWorld(), player.getBlockX(), player.getBlockY(), player.getBlockZ());
+            Infinium.getInstance().LOGGER.info("Generated ${} at: ${}, ${}, ${}", filename ,player.getBlockX(), player.getBlockY(), player.getBlockZ());
             return 1;
         }catch (Exception ex){
             return -1;

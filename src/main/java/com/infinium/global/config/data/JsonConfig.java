@@ -44,7 +44,7 @@ public class JsonConfig {
      * @throws Exception If the file cannot be created.
      */
     public static JsonConfig config(String filename) throws Exception {
-        Infinium.getInstance().LOGGER.info(Infinium.getInstance().getCore().getServer().getFile("saves").getAbsolutePath());
+        Infinium.getInstance().LOGGER.info(Infinium.getInstance().getCore().getServer().getFile("world").getAbsolutePath() + "/schematics/" + "nightmare_bastion" + ".schem");
         return new JsonConfig(filename, Infinium.getInstance().getCore().getServer().getFile("world").getAbsolutePath());
     }
 

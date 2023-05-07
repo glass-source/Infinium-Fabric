@@ -19,7 +19,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
-public class MagmaElytraItem extends MagmaArmorItem implements FabricElytraItem, Wearable {
+public class MagmaElytraItem extends MagmaArmorItem implements FabricElytraItem {
 
 
     public MagmaElytraItem(ArmorMaterial material, EquipmentSlot slot, Settings settings) {

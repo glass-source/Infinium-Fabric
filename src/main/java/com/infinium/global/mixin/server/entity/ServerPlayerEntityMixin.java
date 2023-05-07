@@ -7,26 +7,20 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.network.ServerPlayerInteractionManager;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.GameMode;
 import net.minecraft.world.World;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ServerPlayerEntity.class)
-public class ServerPlayerEntityMixin extends PlayerEntity {
-    @Shadow @Final public ServerPlayerInteractionManager interactionManager;
+public abstract class ServerPlayerEntityMixin extends PlayerEntity {
 
     public ServerPlayerEntityMixin(World world, BlockPos pos, float yaw, GameProfile profile) {
         super(world, pos, yaw, profile);
     }
-
     @Inject(method = "damage", at = @At("TAIL"))
     private void onPlayerDamage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
         if (cir.isCancelled() || source == null || amount < 0) return;
@@ -35,7 +29,6 @@ public class ServerPlayerEntityMixin extends PlayerEntity {
     @Inject(method = "updatePotionVisibility", at = @At("TAIL"), cancellable = true)
     private void removeInvisPotion(CallbackInfo ci) {
         if (!this.hasStatusEffect(StatusEffects.INVISIBILITY)) return;
-        if (!this.interactionManager.getGameMode().isSurvivalLike()) return;
         if (Infinium.getInstance().getDateUtils() == null) return;
 
         var day = Infinium.getInstance().getDateUtils().getCurrentDay();
@@ -46,15 +39,6 @@ public class ServerPlayerEntityMixin extends PlayerEntity {
         }
     }
 
-    @Override
-    public boolean isSpectator() {
-        return this.interactionManager.getGameMode() == GameMode.SPECTATOR;
-    }
-
-    @Override
-    public boolean isCreative() {
-        return this.getAbilities().creativeMode;
-    }
 
 
 }

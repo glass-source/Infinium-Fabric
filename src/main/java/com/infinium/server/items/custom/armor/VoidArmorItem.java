@@ -14,7 +14,6 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterial;
-import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -22,7 +21,7 @@ import net.minecraft.world.World;
 import java.util.Arrays;
 import java.util.UUID;
 
-public class VoidArmorItem extends ArmorItem implements ItemConvertible, InfiniumItem {
+public class VoidArmorItem extends ArmorItem implements InfiniumItem {
 
     private static final EntityAttributeModifier EXTRA_HEALTH_BOOST = new EntityAttributeModifier(UUID.randomUUID(), "Void Armor Healthboost", 16, EntityAttributeModifier.Operation.ADDITION);;
     public VoidArmorItem(ArmorMaterial material, EquipmentSlot slot, Settings settings) {

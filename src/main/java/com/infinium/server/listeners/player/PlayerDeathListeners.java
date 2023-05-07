@@ -45,7 +45,7 @@ public class PlayerDeathListeners {
         this.core = instance.getCore();
     }
 
-    public void registerListener(){
+    public void registerListeners(){
         playerDeathCallback();
         playerDamageCallback();
     }
@@ -63,8 +63,8 @@ public class PlayerDeathListeners {
     private void playerDamageCallback() {
         PlayerDamageEvent.EVENT.register((playerUUID, damageSource) -> {
             var player = core.getServer().getPlayerManager().getPlayer(playerUUID);
-            if (player == null) return ActionResult.FAIL;
-            if (!player.interactionManager.getGameMode().isSurvivalLike()) return ActionResult.FAIL;
+            if (player == null) return ActionResult.PASS;
+            if (!player.interactionManager.getGameMode().isSurvivalLike()) return ActionResult.PASS;
 
             var day = core.getDateUtils().getCurrentDay();
             switch (damageSource.name) {
@@ -75,7 +75,7 @@ public class PlayerDeathListeners {
                             var vec = player.getRotationVector().multiply(-1);
                             player.setVelocity(vec.getX(), vec.getY() + 0.1f, vec.getZ());
                             onTotemUse(player);
-                            return ActionResult.FAIL;
+                            return ActionResult.PASS;
                         } else {
                             player.kill();
                             return ActionResult.SUCCESS;

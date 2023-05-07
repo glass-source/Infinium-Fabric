@@ -2,7 +2,6 @@ package com.infinium.server.listeners.player;
 
 import com.infinium.Infinium;
 import com.infinium.global.utils.ChatFormatter;
-import com.infinium.global.utils.DateUtils;
 import com.infinium.server.InfiniumServerManager;
 import com.infinium.server.effects.InfiniumEffects;
 import com.infinium.server.world.dimensions.InfiniumDimensions;
@@ -25,7 +24,7 @@ public class PlayerGlobalListeners {
         this.instance = instance;
         this.core = instance.getCore();
     }
-    public void registerListener(){
+    public void registerListeners(){
         playerBedCallback();
     }
 

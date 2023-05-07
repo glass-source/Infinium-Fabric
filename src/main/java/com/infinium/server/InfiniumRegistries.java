@@ -10,6 +10,7 @@ import com.infinium.server.entities.mobs.hostile.voidmobs.voidenderman.VoidEnder
 import com.infinium.server.entities.mobs.hostile.voidmobs.voidspider.VoidSpiderEntity;
 import com.infinium.server.entities.mobs.hostile.voidmobs.voidzombie.VoidZombieEntity;
 import com.infinium.server.entities.mobs.neutral.PepFrogEntity;
+import com.infinium.server.world.gen.InfiniumEntitySpawn;
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.minecraft.entity.EntityType;
@@ -23,6 +24,7 @@ public class InfiniumRegistries {
         registerVoidMobAttributes();
         registerGhoulMobAttributes();
         registerNeutralMobAttributes();
+        new InfiniumEntitySpawn().addSpawnRestrictions();
     }
 
     private static void registerCommands(){

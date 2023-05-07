@@ -1,6 +1,5 @@
 package com.infinium.global.mixin.client.renderer.game;
 
-import com.infinium.Infinium;
 import com.infinium.networking.packets.flashbang.FlashbangManager;
 import com.infinium.server.eclipse.SolarEclipse;
 import net.minecraft.client.MinecraftClient;

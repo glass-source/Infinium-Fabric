@@ -13,6 +13,7 @@ repositories {
         url = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
     }
 
+
     maven {
         name = 'Ladysnake Mods'
         url = 'https://ladysnake.jfrog.io/artifactory/mods'
@@ -22,6 +23,7 @@ repositories {
         }
     }
 
+    maven {url "https://maven.enginehub.org/repo/"}
     maven { url 'https://maven.nucleoid.xyz' }
     maven { url "https://cfa2.cursemaven.com" }
     maven { url "https://maven.shedaniel.me/" }
@@ -29,6 +31,9 @@ repositories {
     maven { url = "https://maven.terraformersmc.com/" }
     maven { url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/' }
     maven { url 'https://jitpack.io' }
+    maven {
+        url "https://cursemaven.com"
+    }
     mavenCentral()
 }
 
@@ -42,6 +47,9 @@ dependencies {
     include implementation ('org.projectlombok:lombok:1.18.24')
     include modImplementation ("xyz.nucleoid:DisguiseLib:1.0.0")
     include modImplementation ("xyz.nucleoid:disguiselib-fabric:1.2.2")
+
+    include modImplementation ("com.sk89q.worldedit:worldedit-core:7.2.10")
+    include modImplementation("curse.maven:worldedit-225608:3697298")
 
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"

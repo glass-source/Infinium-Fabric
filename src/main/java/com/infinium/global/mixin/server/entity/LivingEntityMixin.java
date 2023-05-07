@@ -1,7 +1,6 @@
 package com.infinium.global.mixin.server.entity;
 
 import com.infinium.Infinium;
-import com.infinium.global.utils.DateUtils;
 import com.infinium.server.effects.InfiniumEffects;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;

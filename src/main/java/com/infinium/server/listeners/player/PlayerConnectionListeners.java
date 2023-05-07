@@ -6,8 +6,6 @@ import com.infinium.global.utils.EntityDataSaver;
 import com.infinium.server.InfiniumServerManager;
 import com.infinium.server.items.custom.InfiniumItem;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 
 public class PlayerConnectionListeners {
@@ -20,7 +18,7 @@ public class PlayerConnectionListeners {
         this.core = instance.getCore();
     }
 
-    public void registerListener(){
+    public void registerListeners(){
         playerConnectCallback();
         playerDisconnectCallback();
     }
