@@ -5,7 +5,6 @@ import com.infinium.global.utils.ChatFormatter;
 import com.infinium.global.utils.EntityDataSaver;
 import com.infinium.server.InfiniumServerManager;
 import com.infinium.server.eclipse.SolarEclipseManager;
-import com.infinium.server.listeners.world.ServerWorldListeners;
 import com.infinium.server.sanity.SanityManager;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.FloatArgumentType;
@@ -19,9 +18,7 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
-
 import java.util.Collection;
-
 import static com.infinium.server.listeners.player.PlayerDeathListeners.firstTotemDebuff;
 import static com.infinium.server.listeners.player.PlayerDeathListeners.secondTotemDebuff;
 
@@ -99,7 +96,7 @@ public class StaffCommand {
     private static int loadStructure(CommandContext<ServerCommandSource> source, String filename) {
         try{
             var player = source.getSource().getPlayer();
-            ServerWorldListeners.loadSchem(filename, player.getWorld(), player.getBlockX(), player.getBlockY(), player.getBlockZ());
+             core.loadSchem(filename, player.getWorld(), player.getBlockX(), player.getBlockY(), player.getBlockZ());
             Infinium.getInstance().LOGGER.info("Generated ${} at: ${}, ${}, ${}", filename ,player.getBlockX(), player.getBlockY(), player.getBlockZ());
             return 1;
         }catch (Exception ex){

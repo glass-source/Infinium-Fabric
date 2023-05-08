@@ -14,7 +14,6 @@ import java.util.concurrent.TimeUnit;
 
 public class Animation {
     private static ScheduledFuture<?> task;
-
     public static void initImageForAll() {
         var instance = Infinium.getInstance();
         var core = instance.getCore();
@@ -36,7 +35,7 @@ public class Animation {
     }
 
     public static void sendTitle(Audience audience, char character, int fadeIn, int stay, int fadeOut) {
-        audience.showTitle(Title.title(Component.text(Character.toString(character)), Component.text(""), Title.Times.times(Duration.ofSeconds(fadeIn/20), Duration.ofSeconds(fadeOut/20), Duration.ofSeconds(fadeOut/20))));
+        audience.showTitle(Title.title(Component.text(Character.toString(character)), Component.text(""), Title.Times.times(Duration.ofSeconds(fadeIn/20), Duration.ofSeconds(stay/20), Duration.ofSeconds(fadeOut/20))));
     }
 
     public static List<Character> getFramesCharsIntegers(int from, int until) {
@@ -62,7 +61,7 @@ public class Animation {
         for (int i = 0; i < oldstr.length(); i++) {
             int cp = oldstr.codePointAt(i);
             if (oldstr.codePointAt(i) > Character.MAX_VALUE) {
-                i++; /**** WE HATES UTF-16! WE HATES IT FOREVERSES!!! ****/
+                i++; /* WE HATES UTF-16! WE HATES IT FOREVER-SES!!! */
             }
 
             if (!saw_backslash) {

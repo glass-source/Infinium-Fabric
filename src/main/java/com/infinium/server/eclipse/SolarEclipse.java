@@ -2,17 +2,17 @@ package com.infinium.server.eclipse;
 
 import com.infinium.Infinium;
 import com.infinium.global.utils.ChatFormatter;
+import com.infinium.server.sounds.InfiniumSounds;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
-import net.kyori.adventure.key.Key;
-import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.title.Title;
 import net.minecraft.entity.boss.BossBar;
 import net.minecraft.entity.boss.ServerBossBar;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.world.GameRules;
 
 import java.time.Duration;
 import java.util.Date;
-import java.util.Random;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
@@ -55,80 +55,10 @@ public class SolarEclipse {
         } catch(Exception ignored){}
     }
 
-    public void startFromDeath() {
-        if (Infinium.getInstance().getDateUtils() == null) return;
-        int day = Infinium.getInstance().getDateUtils().getCurrentDay();
-
-        if(day == 0) {
-            start(0.5D);
-
-        }else if(day > 0 && day < 7 ){
-            start(day);
-
-        }else if(day == 7){
-            start(0.5D);
-
-        }else if(day > 7 && day < 14) {
-            start(day - 7.5D);
-
-        }else if(day == 14){
-            start(0.5D);
-
-        }else if(day > 14 && day < 21){
-            start(day - 14.5D);
-
-        }else if(day == 21){
-            start(0.5D);
-
-        }else if(day > 21 && day < 28){
-            start(day - 21.5D);
-
-        }else if(day == 28){
-            start(0.5D);
-
-        }else if(day > 28 && day < 35){
-            start(day - 28.5D);
-
-        }else if(day ==35){
-            start(0.5D);
-
-        }else if(day > 35 && day < 42){
-            start(day - 35.5D);
-
-        }else if(day == 42){
-            start(0.5D);
-
-        }else if(day > 42 && day < 49){
-            start(day - 42.5D);
-
-        }else if(day == 49){
-            start(0.5D);
-
-        }else if(day > 49 && day < 56){
-            start(day - 49.5D);
-
-        }else if(day == 56){
-            start(0.5D);
-
-        }else if(day > 56 && day < 63){
-            start(day - 56.5D);
-
-        }else if(day == 63){
-            start(0.5D);
-
-        }else if(day > 63 && day < 70){
-            start(day - 63.5D);
-
-        }else if(day == 70){
-            start(0.5D);
-        } else {
-            start(new Random().nextDouble(0.5, 1.5));
-        }
-    }
-
     public void start(double hours){
         if (Infinium.getInstance().getDateUtils() == null) return;
         if (hours <= 0) return;
+
         if (!isActive()) {
             initBossBarTask();
             endsIn = 0L;
@@ -142,9 +72,8 @@ public class SolarEclipse {
 
         var day = Infinium.getInstance().getDateUtils().getCurrentDay();
         var core = manager.getInstance().getCore();
+        if (core.getServer() == null) return;
         var server = core.getServer();
-
-        if (server == null) return;
         var world = server.getOverworld();
         var audience = core.getAdventure().audience(PlayerLookup.all(server));
         var times = Title.Times.times(Duration.ofSeconds(1), Duration.ofSeconds(5), Duration.ofSeconds(2));
@@ -152,12 +81,14 @@ public class SolarEclipse {
         var gamerules = server.getGameRules();
 
         serverBossBar.setVisible(true);
-        core.getTotalPlayers().forEach(serverBossBar::addPlayer);
         world.setTimeOfDay(18000);
         audience.showTitle(title);
-
-        audience.playSound(Sound.sound(Key.key("infinium:eclipse_start"), Sound.Source.PLAYER, 10, 0.5f));
         gamerules.get(GameRules.DO_DAYLIGHT_CYCLE).set(false, server);
+        core.getTotalPlayers().forEach(player -> {
+            serverBossBar.addPlayer(player);
+            player.playSound(InfiniumSounds.ECLIPSE_START, SoundCategory.AMBIENT, 10, 0.5f);
+        });
+
         if (day < 42) return;
         ChatFormatter.broadcastMessageWithPrefix("&7Se ha activado el modo &4UHC!");
         gamerules.get(GameRules.NATURAL_REGENERATION).set(false, server);
@@ -166,7 +97,6 @@ public class SolarEclipse {
     public void end(){
         var core = manager.getInstance().getCore();
         var server = core.getServer();
-        var audience = core.getAdventure().audience(PlayerLookup.all(server));
         var gamerules = server.getGameRules();
 
         if (task != null) {
@@ -179,11 +109,11 @@ public class SolarEclipse {
         endsIn = 0L;
         totalTime = 0L;
         lastTimeChecked = 0;
-        gamerules.get(GameRules.DO_DAYLIGHT_CYCLE).set(true, server);
-        gamerules.get(GameRules.NATURAL_REGENERATION).set(true, server);
         serverBossBar.setVisible(false);
         serverBossBar.clearPlayers();
-        audience.playSound(Sound.sound(Key.key("minecraft:item.trident.return"), Sound.Source.AMBIENT, 10, 0.05f));
+        gamerules.get(GameRules.DO_DAYLIGHT_CYCLE).set(true, server);
+        gamerules.get(GameRules.NATURAL_REGENERATION).set(true, server);
+        core.getTotalPlayers().forEach(player -> player.playSound(SoundEvents.ITEM_TRIDENT_RETURN, SoundCategory.AMBIENT, 10, 0.05f));
     }
 
     public long getLastTimeChecked(){

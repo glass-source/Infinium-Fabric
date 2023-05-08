@@ -2,16 +2,11 @@ package com.infinium;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.infinium.client.InfiniumClientManager;
-import com.infinium.global.config.data.DataManager;
 import com.infinium.global.config.data.adapters.ScheduledFutureInstanceCreator;
 import com.infinium.global.utils.DateUtils;
 import com.infinium.server.InfiniumServerManager;
 import com.mojang.logging.LogUtils;
-import lombok.Getter;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.loader.impl.util.log.Log;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 

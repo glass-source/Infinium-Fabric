@@ -18,12 +18,29 @@ import com.infinium.server.sanity.SanityManager;
 import com.infinium.server.world.biomes.InfiniumBiomes;
 import com.infinium.server.world.dimensions.InfiniumDimensions;
 import com.infinium.server.world.structure.InfiniumStructures;
+import com.sk89q.worldedit.EditSession;
+import com.sk89q.worldedit.WorldEdit;
+import com.sk89q.worldedit.WorldEditException;
+import com.sk89q.worldedit.extent.clipboard.Clipboard;
+import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormat;
+import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormats;
+import com.sk89q.worldedit.extent.clipboard.io.ClipboardReader;
+import com.sk89q.worldedit.fabric.FabricAdapter;
+import com.sk89q.worldedit.function.operation.Operation;
+import com.sk89q.worldedit.function.operation.Operations;
+import com.sk89q.worldedit.math.BlockVector3;
+import com.sk89q.worldedit.session.ClipboardHolder;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.kyori.adventure.platform.fabric.FabricServerAudiences;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.world.GameRules;
+import net.minecraft.world.World;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.List;
 
 public class InfiniumServerManager {
@@ -40,9 +57,9 @@ public class InfiniumServerManager {
         this.sanityManager = new SanityManager(this.instance);
     }
     public void initMod(){
+        initRegistries();
         onServerStart();
         onServerStop();
-        initRegistries();
     }
     private void onServerStart(){
         ServerLifecycleEvents.SERVER_STARTED.register(server1 -> {
@@ -62,6 +79,17 @@ public class InfiniumServerManager {
             this.dataManager.restoreWorldData();
             this.dataManager.restorePlayerData();
             this.eclipseManager.load();
+
+            var nightmareWorld = this.server.getWorld(InfiniumDimensions.THE_NIGHTMARE);
+            var serverRules = this.server.getGameRules();
+            serverRules.get(GameRules.DO_IMMEDIATE_RESPAWN).set(true, this.server);
+            nightmareWorld.getGameRules().get(GameRules.DO_DAYLIGHT_CYCLE).set(false, this.server);
+            nightmareWorld.setTimeOfDay(18000);
+
+            if (dateUtils.getCurrentDay() >= 42 && eclipseManager.isActive()) {
+                serverRules.get(GameRules.NATURAL_REGENERATION).set(false, this.server);
+            }
+
         });
     }
 
@@ -74,19 +102,6 @@ public class InfiniumServerManager {
         });
     }
 
-    private void configureWorlds() {
-        var nightmareWorld = this.server.getWorld(InfiniumDimensions.THE_NIGHTMARE);
-        var serverRules = this.server.getGameRules();
-        serverRules.get(GameRules.DO_IMMEDIATE_RESPAWN).set(true, this.server);
-        nightmareWorld.getGameRules().get(GameRules.DO_DAYLIGHT_CYCLE).set(false, this.server);
-        nightmareWorld.setTimeOfDay(18000);
-
-        if (dateUtils.getCurrentDay() >= 42 && eclipseManager.isActive()) {
-            serverRules.get(GameRules.NATURAL_REGENERATION).set(false, this.server);
-        }
-
-    }
-
     private void initRegistries(){
         InfiniumItems.init();
         InfiniumBlocks.init();
@@ -97,20 +112,20 @@ public class InfiniumServerManager {
         InfiniumBiomes.init();
         InfiniumPackets.initC2SPackets();
         InfiniumStructures.registerStructureFeatures();
-        this.configureWorlds();
     }
 
     private void initListeners(){
         registerPlayerListeners();
         new EntitySpawnListeners(instance).registerListeners();
+        new ServerWorldListeners(instance).registerListeners();
     }
 
     private void registerPlayerListeners(){
         new PlayerDeathListeners(instance).registerListeners();
         new PlayerConnectionListeners(instance).registerListeners();
         new PlayerGlobalListeners(instance).registerListeners();
-        new ServerWorldListeners().registerListeners();
     }
+
     public SanityManager getSanityManager(){
         return sanityManager;
     }
@@ -137,6 +152,64 @@ public class InfiniumServerManager {
 
     public DateUtils getDateUtils() {
         return this.dateUtils;
+    }
+
+    public void loadSchem(String filename, PlayerEntity player) {
+        var world = player.getWorld();
+        var X = player.getX();
+        var Y = player.getY();
+        var Z = player.getZ();
+        File file = new File(Infinium.getInstance().getCore().getServer().getFile("world").getAbsolutePath() + "/schematics/" + filename + ".schem");
+        com.sk89q.worldedit.world.World adaptedWorld = FabricAdapter.adapt(world);
+        ClipboardFormat format = ClipboardFormats.findByFile(file);
+
+        try {
+            assert format != null;
+            try (ClipboardReader reader = format.getReader(new FileInputStream(file))) {
+                Clipboard clipboard = reader.read();
+
+                try (EditSession editSession = WorldEdit.getInstance().getEditSessionFactory().getEditSession(adaptedWorld,-1)) {
+                    Operation operation = new ClipboardHolder(clipboard).createPaste(editSession).to(BlockVector3.at(X, Y, Z)).copyEntities(true)
+                            .ignoreAirBlocks(true).build();
+                    try {
+                        Operations.complete(operation);
+                        editSession.close();
+
+                    } catch (WorldEditException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void loadSchem(String filename, World world, int X, int Y, int Z) {
+        File file = new File(Infinium.getInstance().getCore().getServer().getFile("world").getAbsolutePath() + "/schematics/" + filename + ".schem");
+        com.sk89q.worldedit.world.World adaptedWorld = FabricAdapter.adapt(world);
+        ClipboardFormat format = ClipboardFormats.findByFile(file);
+
+        try {
+            assert format != null;
+            try (ClipboardReader reader = format.getReader(new FileInputStream(file))) {
+                Clipboard clipboard = reader.read();
+
+                try (EditSession editSession = WorldEdit.getInstance().getEditSessionFactory().getEditSession(adaptedWorld,-1)) {
+                    Operation operation = new ClipboardHolder(clipboard).createPaste(editSession).to(BlockVector3.at(X, Y, Z)).copyEntities(true)
+                            .ignoreAirBlocks(true).build();
+                    try {
+                        Operations.complete(operation);
+                        editSession.close();
+
+                    } catch (WorldEditException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

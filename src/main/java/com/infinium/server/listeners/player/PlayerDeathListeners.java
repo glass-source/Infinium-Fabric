@@ -8,10 +8,8 @@ import com.infinium.server.InfiniumServerManager;
 import com.infinium.server.effects.InfiniumEffects;
 import com.infinium.server.events.players.PlayerDamageEvent;
 import com.infinium.server.items.InfiniumItems;
+import com.infinium.server.sounds.InfiniumSounds;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
-import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
-import net.kyori.adventure.key.Key;
-import net.kyori.adventure.sound.Sound;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.entity.EntityStatuses;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
@@ -23,12 +21,14 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.GameMode;
 import xyz.nucleoid.disguiselib.api.EntityDisguise;
 
+import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -49,14 +49,13 @@ public class PlayerDeathListeners {
         playerDeathCallback();
         playerDamageCallback();
     }
-    private void playerDeathCallback(){
+    private void playerDeathCallback() {
+        if (core.getServer() == null) return;
         ServerPlayerEvents.ALLOW_DEATH.register((player, damageSource, damageAmount) -> {
-            if (core.getServer() == null) return false;
-            if (playerHasTotem(player, damageSource)) {
-                onTotemUse(player);
-                return false;
-            }
-            return onPlayerDeath(player);
+            player.setHealth(player.getMaxHealth());
+            if (playerHasTotem(player, damageSource)) onTotemUse(player);
+            else onPlayerDeath(player);
+            return false;
         });
     }
 
@@ -162,6 +161,7 @@ public class PlayerDeathListeners {
         int totems = data.getInt("infinium.totems");
         var attributeInstance = user.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH);
 
+
         if (totems >= 25) {
             if (!attributeInstance.hasModifier(firstTotemDebuff)) attributeInstance.addPersistentModifier(firstTotemDebuff);
         }
@@ -170,34 +170,32 @@ public class PlayerDeathListeners {
             if (attributeInstance.hasModifier(firstTotemDebuff)) attributeInstance.removeModifier(firstTotemDebuff);
             if (!attributeInstance.hasModifier(secondTotemDebuff)) attributeInstance.addPersistentModifier(secondTotemDebuff);
         }
-
     }
-    private boolean onPlayerDeath(ServerPlayerEntity playerDied) {
-        if (playerDied.isSpectator()) {
-            playerDied.setHealth(playerDied.getMaxHealth());
-            return false;
-        }
-
+    private void onPlayerDeath(ServerPlayerEntity playerDied) {
+        if (playerDied.isSpectator()) return;
         var pos = playerDied.getBlockPos();
-        var audience = core.getAdventure(). audience(PlayerLookup.all(core.getServer()));
-
-        if (pos.getY() < -64) playerDied.teleport(pos.getX(), -64, pos.getZ());
-
         ((EntityDisguise) playerDied).removeDisguise();
-
-        playerDied.setHealth(20.0f);
-        playerDied.changeGameMode(GameMode.SPECTATOR);
-
-        audience.playSound(Sound.sound(Key.key("infinium:player_death"), Sound.Source.PLAYER, 10, 0.7f));
-
-        ChatFormatter.broadcastMessage(ChatFormatter.formatWithPrefix("&7El jugador &6&l%player% &7sucumbio ante el\n&5&lVacío Infinito".replaceAll("%player%", playerDied.getEntityName())));
+        ChatFormatter.broadcastMessage(ChatFormatter.formatWithPrefix("&6&l%player% &7ha sucumbido ante el\n&5&lVacío Infinito".replaceAll("%player%", playerDied.getEntityName())));
         Animation.initImageForAll();
 
-        instance.getExecutor().schedule(core.getEclipseManager()::startFromDeath, 13, TimeUnit.SECONDS);
-
-        return true;
+        core.getTotalPlayers().forEach(player -> player.playSound(InfiniumSounds.PLAYER_DEATH, SoundCategory.AMBIENT, 10, 0.7f));
+        instance.getExecutor().schedule( () -> core.getEclipseManager().start(new Random().nextDouble(0.24, 1.6)) , 13, TimeUnit.SECONDS);
+        playerDied.changeGameMode(GameMode.SPECTATOR);
+        if (pos.getY() < -64) playerDied.teleport(pos.getX(), -64, pos.getZ());
+        generatePlayerTombstone(playerDied);
     }
-    private static boolean playerHasTotem(PlayerEntity player, DamageSource damageSource) {
+
+    private void generatePlayerTombstone(ServerPlayerEntity player) {
+        var world = player.getWorld().getRegistryKey().getValue().toString();
+        switch (world) {
+            case "infinium:the_void" -> core.loadSchem("TumbaVoid", player);
+            case "infinium:the_nightmare" -> core.loadSchem("TumbaNightmare", player);
+            case "minecraft:the_end" -> core.loadSchem("TumbaEnd", player);
+            case "minecraft:nether" -> core.loadSchem("TumbaNether", player);
+            default -> core.loadSchem("TumbaOverworld", player);
+        }
+    }
+    private boolean playerHasTotem(PlayerEntity player, DamageSource damageSource) {
         if (damageSource.isOutOfWorld()) return false;
 
         for (ItemStack stack : player.getItemsHand()) {

@@ -22,7 +22,7 @@ public class GrapplingHookItem extends FishingRodItem implements InfiniumItem {
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         var cooldownManager = user.getItemCooldownManager();
         var itemStack = user.getStackInHand(hand);
-        var vec = user.getRotationVector().multiply(1.25f).add(user.getVelocity().multiply(new Random().nextDouble(0.24, 1.6)));
+        var vec = user.getRotationVector().multiply(1.15f).add(user.getVelocity().multiply(new Random().nextDouble(0.15, 0.75)));
 
         if (!cooldownManager.isCoolingDown(this)) {
             if (!world.isClient) itemStack.damage(1, user, p -> p.sendToolBreakStatus(hand));

@@ -47,14 +47,11 @@ public class SolarEclipseManager {
         eclipse.end();
     }
 
-    public void startFromDeath(){
-        eclipse.startFromDeath();
-    }
+
 
     public void start(double hours){
         if (hours <= 0) eclipse.start(0.5f);
         else eclipse.start(hours);
-
     }
 
     public void end(){
