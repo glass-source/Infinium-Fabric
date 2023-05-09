@@ -2,7 +2,6 @@ package com.infinium.server.listeners.entity;
 
 import com.infinium.Infinium;
 import com.infinium.global.utils.ChatFormatter;
-import com.infinium.global.utils.DateUtils;
 import com.infinium.server.InfiniumServerManager;
 import com.infinium.server.eclipse.SolarEclipseManager;
 import com.infinium.server.entities.InfiniumEntityType;
@@ -92,12 +91,12 @@ public class EntitySpawnListeners {
 
                                 case "entity.minecraft.zombie" -> {
                                     assert livingEntity instanceof LivingEntity;
-                                    spawnEntity((LivingEntity) livingEntity, InfiniumEntityType.GHOUL_ZOMBIE, world, blockPos);
+                                    spawnMobFromEntity((LivingEntity) livingEntity, InfiniumEntityType.GHOUL_ZOMBIE, blockPos);
                                 }
 
                                 case "entity.minecraft.spider" -> {
                                     assert livingEntity instanceof LivingEntity;
-                                    spawnEntity((LivingEntity) livingEntity, InfiniumEntityType.GHOUL_SPIDER, world, blockPos);
+                                    spawnMobFromEntity((LivingEntity) livingEntity, InfiniumEntityType.GHOUL_SPIDER, blockPos);
                                 }
 
                             }
@@ -174,9 +173,9 @@ public class EntitySpawnListeners {
                             switch (entityTypeString) {
 
                                 case "entity.minecraft.spider"
-                                   , "entity.minecraft.cave_spider"-> spawnEntity(livingEntity, InfiniumEntityType.GHOUL_SPIDER, world, blockPos);
+                                   , "entity.minecraft.cave_spider"-> spawnMobFromEntity(livingEntity, InfiniumEntityType.GHOUL_SPIDER, blockPos);
 
-                                case "entity.minecraft.zombie" -> spawnEntity(livingEntity, InfiniumEntityType.GHOUL_ZOMBIE, world, blockPos);
+                                case "entity.minecraft.zombie" -> spawnMobFromEntity(livingEntity, InfiniumEntityType.GHOUL_ZOMBIE, blockPos);
 
                                 case "entity.minecraft.skeleton" -> {
 
@@ -247,9 +246,9 @@ public class EntitySpawnListeners {
         });
     }
 
-    private void spawnEntity(LivingEntity entityToRemove, EntityType<?> type, ServerWorld world, BlockPos pos) {
+    private void spawnMobFromEntity(LivingEntity entityToRemove, EntityType<?> typeToReplace, BlockPos pos) {
         entityToRemove.remove(Entity.RemovalReason.DISCARDED);
-        type.spawn(world, null, null, null, pos, SpawnReason.NATURAL, true, false);
+        typeToReplace.spawn(entityToRemove.getCommandSource().getWorld(), null, null, null, pos, SpawnReason.NATURAL, true, false);
     }
 
     private void createExplosionFromEntity(@Nullable Entity entity, World world, BlockPos position, float explosionPower, boolean breakBlocks) {

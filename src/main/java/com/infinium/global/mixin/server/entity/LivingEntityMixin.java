@@ -27,14 +27,12 @@ public abstract class LivingEntityMixin extends Entity {
     protected LivingEntityMixin(EntityType<?> type, World world) {
         super(type, world);
     }
-
     @Shadow public abstract boolean addStatusEffect(StatusEffectInstance effect);
     @Shadow public abstract void readCustomDataFromNbt(NbtCompound nbt);
     @Shadow public abstract boolean addStatusEffect(StatusEffectInstance effect, @Nullable Entity source);
     @Shadow public abstract boolean hasStatusEffect(StatusEffect effect);
     @Shadow @Nullable public abstract StatusEffectInstance getStatusEffect(StatusEffect effect);
     @Shadow public abstract boolean damage(DamageSource source, float amount);
-
     @Shadow @Nullable public abstract LivingEntity getAttacker();
 
     @Inject(method = "damage", at = @At("HEAD"), cancellable = true)
@@ -121,7 +119,6 @@ public abstract class LivingEntityMixin extends Entity {
         var eclipseManager = Infinium.getInstance().getCore().getEclipseManager();
         if (!eclipseManager.isActive()) return;
         var day = Infinium.getInstance().getDateUtils().getCurrentDay();
-
 
         if (day >= 7 && day < 14) {
 

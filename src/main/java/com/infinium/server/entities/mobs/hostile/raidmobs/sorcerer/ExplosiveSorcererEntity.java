@@ -1,0 +1,223 @@
+package com.infinium.server.entities.mobs.hostile.raidmobs.sorcerer;
+
+import com.infinium.server.entities.InfiniumEntity;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.*;
+import net.minecraft.entity.ai.TargetPredicate;
+import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.attribute.DefaultAttributeContainer;
+import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.mob.*;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.raid.RaiderEntity;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.world.LocalDifficulty;
+import net.minecraft.world.ServerWorldAccess;
+import net.minecraft.world.World;
+import net.minecraft.world.explosion.Explosion;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Random;
+
+public class ExplosiveSorcererEntity extends EvokerEntity implements InfiniumEntity {
+    public ExplosiveSorcererEntity(EntityType<? extends EvokerEntity> entityType, World world) {
+        super(entityType, world);
+
+    }
+    protected void initGoals() {
+        super.initGoals();
+        this.goalSelector.add(0, new SwimGoal(this));
+        this.goalSelector.add(2, new FleeEntityGoal<>(this, PlayerEntity.class, 8.0F, 0.6, 1.0));
+        this.goalSelector.add(4, new ExplosiveSorcererEntity.SummonVexGoal());
+        this.goalSelector.add(2, new ExplosiveSorcererEntity.ConjureFangsGoal());
+        this.goalSelector.add(8, new WanderAroundGoal(this, 0.6));
+        this.goalSelector.add(9, new LookAtEntityGoal(this, PlayerEntity.class, 3.0F, 1.0F));
+        this.goalSelector.add(10, new LookAtEntityGoal(this, MobEntity.class, 8.0F));
+        this.targetSelector.add(1, (new RevengeGoal(this, RaiderEntity.class)).setGroupRevenge());
+        this.targetSelector.add(2, (new ActiveTargetGoal<>(this, PlayerEntity.class, true)).setMaxTimeWithoutVisibility(300));
+    }
+
+    @Nullable @Override
+    public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
+        if (world.getRandom().nextDouble(10) <= 1.25f) {
+            this.equipStack(EquipmentSlot.HEAD, getTransBanner());
+            this.setEquipmentDropChance(EquipmentSlot.HEAD, 100.0f);
+        }
+        return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
+    }
+
+    public static DefaultAttributeContainer.Builder createSorcererAttributes() {
+        return HostileEntity.createHostileAttributes()
+                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.75)
+                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 18.0)
+                .add(EntityAttributes.GENERIC_MAX_HEALTH, 20.0);
+    }
+
+
+
+    protected void initDataTracker() {
+        super.initDataTracker();
+    }
+    public void readCustomDataFromNbt(NbtCompound nbt) {
+        super.readCustomDataFromNbt(nbt);
+    }
+    public void writeCustomDataToNbt(NbtCompound nbt) {
+        super.writeCustomDataToNbt(nbt);
+    }
+    protected void mobTick() {
+        super.mobTick();
+    }
+    public boolean isTeammate(Entity other) {
+        if (other == null) {
+            return false;
+        } else if (other == this) {
+            return true;
+        } else if (super.isTeammate(other)) {
+            return true;
+        } else if (other instanceof VexEntity) {
+            return this.isTeammate(((VexEntity)other).getOwner());
+        } else if (other instanceof LivingEntity && ((LivingEntity)other).getGroup() == EntityGroup.ILLAGER) {
+            return this.getScoreboardTeam() == null && other.getScoreboardTeam() == null;
+        } else {
+            return false;
+        }
+    }
+    private class SummonVexGoal extends SpellcastingIllagerEntity.CastSpellGoal {
+        private final TargetPredicate closeVexPredicate = TargetPredicate.createNonAttackable().setBaseMaxDistance(16.0).ignoreVisibility().ignoreDistanceScalingFactor();
+
+        SummonVexGoal() {
+            super();
+        }
+
+        public boolean canStart() {
+            if (!super.canStart()) {
+                return false;
+            } else {
+                int i = ExplosiveSorcererEntity.this.world.getTargets(VexEntity.class, this.closeVexPredicate, ExplosiveSorcererEntity.this, ExplosiveSorcererEntity.this.getBoundingBox().expand(16.0)).size();
+                return ExplosiveSorcererEntity.this.random.nextInt(8) + 1 > i;
+            }
+        }
+
+        protected int getSpellTicks() {
+            return 100;
+        }
+
+        protected int startTimeDelay() {
+            return 340;
+        }
+
+        protected void castSpell() {
+            ServerWorld serverWorld = (ServerWorld)ExplosiveSorcererEntity.this.world;
+
+            for(int i = 0; i < 3; ++i) {
+                BlockPos blockPos = ExplosiveSorcererEntity.this.getBlockPos().add(-2 + ExplosiveSorcererEntity.this.random.nextInt(5), 1, -2 + ExplosiveSorcererEntity.this.random.nextInt(5));
+                VexEntity vexEntity = EntityType.VEX.create(ExplosiveSorcererEntity.this.world);
+                assert vexEntity != null;
+                vexEntity.refreshPositionAndAngles(blockPos, 0.0F, 0.0F);
+                vexEntity.initialize(serverWorld, ExplosiveSorcererEntity.this.world.getLocalDifficulty(blockPos), SpawnReason.MOB_SUMMONED, null, null);
+                vexEntity.setOwner(ExplosiveSorcererEntity.this);
+                vexEntity.setBounds(blockPos);
+                vexEntity.setLifeTicks(20 * (30 + ExplosiveSorcererEntity.this.random.nextInt(90)));
+                serverWorld.spawnEntityAndPassengers(vexEntity);
+            }
+
+        }
+
+        protected SoundEvent getSoundPrepare() {
+            return SoundEvents.ENTITY_EVOKER_PREPARE_SUMMON;
+        }
+
+        protected SpellcastingIllagerEntity.Spell getSpell() {
+            return Spell.SUMMON_VEX;
+        }
+    }
+
+    private class ConjureFangsGoal extends SpellcastingIllagerEntity.CastSpellGoal {
+        ConjureFangsGoal() {
+            super();
+        }
+
+        protected int getSpellTicks() {
+            return 40;
+        }
+
+        protected int startTimeDelay() {
+            return 100;
+        }
+
+        protected void castSpell() {
+            LivingEntity livingEntity = ExplosiveSorcererEntity.this.getTarget();
+            assert livingEntity != null;
+            double d = Math.min(livingEntity.getY(), ExplosiveSorcererEntity.this.getY());
+            double e = Math.max(livingEntity.getY(), ExplosiveSorcererEntity.this.getY()) + 1.0;
+            float f = (float) MathHelper.atan2(livingEntity.getZ() - ExplosiveSorcererEntity.this.getZ(), livingEntity.getX() - ExplosiveSorcererEntity.this.getX());
+            int i;
+            if (ExplosiveSorcererEntity.this.squaredDistanceTo(livingEntity) < 9.0) {
+                float g;
+                for(i = 0; i < 5; ++i) {
+                    g = f + (float)i * 3.1415927F * 0.4F;
+                    this.conjureFangs(ExplosiveSorcererEntity.this.getX() + (double)MathHelper.cos(g) * 1.5, ExplosiveSorcererEntity.this.getZ() + (double)MathHelper.sin(g) * 1.5, d, e, g, 0);
+                }
+
+                for(i = 0; i < 8; ++i) {
+                    g = f + (float)i * 3.1415927F * 2.0F / 8.0F + 1.2566371F;
+                    this.conjureFangs(ExplosiveSorcererEntity.this.getX() + (double)MathHelper.cos(g) * 2.5, ExplosiveSorcererEntity.this.getZ() + (double)MathHelper.sin(g) * 2.5, d, e, g, 3);
+                }
+            } else {
+                for(i = 0; i < 16; ++i) {
+                    double h = 1.25 * (double)(i + 1);
+                    this.conjureFangs(ExplosiveSorcererEntity.this.getX() + (double)MathHelper.cos(f) * h, ExplosiveSorcererEntity.this.getZ() + (double)MathHelper.sin(f) * h, d, e, f, i);
+                }
+            }
+
+        }
+
+        private void conjureFangs(double x, double z, double maxY, double y, float yaw, int warmup) {
+            BlockPos blockPos = new BlockPos(x, y, z);
+            boolean bl = false;
+            double d = 0.0;
+
+            do {
+                BlockPos blockPos2 = blockPos.down();
+                BlockState blockState = ExplosiveSorcererEntity.this.world.getBlockState(blockPos2);
+                if (blockState.isSideSolidFullSquare(ExplosiveSorcererEntity.this.world, blockPos2, Direction.UP)) {
+                    if (!ExplosiveSorcererEntity.this.world.isAir(blockPos)) {
+                        BlockState blockState2 = ExplosiveSorcererEntity.this.world.getBlockState(blockPos);
+                        VoxelShape voxelShape = blockState2.getCollisionShape(ExplosiveSorcererEntity.this.world, blockPos);
+                        if (!voxelShape.isEmpty()) {
+                            d = voxelShape.getMax(Direction.Axis.Y);
+                        }
+                    }
+
+                    bl = true;
+                    break;
+                }
+
+                blockPos = blockPos.down();
+            } while(blockPos.getY() >= MathHelper.floor(maxY) - 1);
+
+            if (bl) {
+                var world =  ExplosiveSorcererEntity.this.world;
+                world.spawnEntity(new EvokerFangsEntity(ExplosiveSorcererEntity.this.world, x, (double)blockPos.getY() + d, z, yaw, warmup, ExplosiveSorcererEntity.this));
+                if (new Random().nextInt(2) == 1) world.createExplosion(null, x, (double)blockPos.getY() + d, z, 1.75f, Explosion.DestructionType.DESTROY);
+            }
+
+        }
+
+        protected SoundEvent getSoundPrepare() {
+            return SoundEvents.ENTITY_EVOKER_PREPARE_ATTACK;
+        }
+
+        protected SpellcastingIllagerEntity.Spell getSpell() {
+            return Spell.FANGS;
+        }
+    }
+
+}

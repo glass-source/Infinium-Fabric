@@ -49,6 +49,8 @@ dependencies {
     include modImplementation ("xyz.nucleoid:disguiselib-fabric:1.2.2")
 
     include modImplementation ("com.sk89q.worldedit:worldedit-core:7.2.10")
+    include modImplementation ("com.sk89q.worldedit:worldedit-fabric-mc1.18.2:7.2.10")
+
     include modImplementation("curse.maven:worldedit-225608:3697298")
 
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"

@@ -7,10 +7,12 @@ import com.infinium.global.utils.EntityDataSaver;
 import com.infinium.server.InfiniumServerManager;
 import com.infinium.server.effects.InfiniumEffects;
 import com.infinium.server.events.players.PlayerDamageEvent;
+import com.infinium.server.functions.HeadFunctions;
 import com.infinium.server.items.InfiniumItems;
 import com.infinium.server.sounds.InfiniumSounds;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.minecraft.advancement.criterion.Criteria;
+import net.minecraft.block.Block;
 import net.minecraft.entity.EntityStatuses;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -24,6 +26,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.BlockRotation;
 import net.minecraft.util.Hand;
 import net.minecraft.world.GameMode;
 import xyz.nucleoid.disguiselib.api.EntityDisguise;
@@ -124,6 +127,7 @@ public class PlayerDeathListeners {
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 900, 1));
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 100, 1));
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 800, 0));
+        player.getWorld();
         player.world.sendEntityStatus(player, EntityStatuses.USE_TOTEM_OF_UNDYING);
         player.incrementStat(Stats.USED.getOrCreateStat(totemItem));
         totemStack.decrement(1);
@@ -181,19 +185,33 @@ public class PlayerDeathListeners {
         core.getTotalPlayers().forEach(player -> player.playSound(InfiniumSounds.PLAYER_DEATH, SoundCategory.AMBIENT, 10, 0.7f));
         instance.getExecutor().schedule( () -> core.getEclipseManager().start(new Random().nextDouble(0.24, 1.6)) , 13, TimeUnit.SECONDS);
         playerDied.changeGameMode(GameMode.SPECTATOR);
-        if (pos.getY() < -64) playerDied.teleport(pos.getX(), -64, pos.getZ());
+
+        int highestY = playerDied.getWorld().getTopY();
+
+        if (pos.getY() < -64) playerDied.teleport(pos.getX(), highestY, pos.getZ());
         generatePlayerTombstone(playerDied);
     }
 
-    private void generatePlayerTombstone(ServerPlayerEntity player) {
-        var world = player.getWorld().getRegistryKey().getValue().toString();
-        switch (world) {
-            case "infinium:the_void" -> core.loadSchem("TumbaVoid", player);
-            case "infinium:the_nightmare" -> core.loadSchem("TumbaNightmare", player);
-            case "minecraft:the_end" -> core.loadSchem("TumbaEnd", player);
-            case "minecraft:nether" -> core.loadSchem("TumbaNether", player);
-            default -> core.loadSchem("TumbaOverworld", player);
-        }
+    private void generatePlayerTombstone(ServerPlayerEntity player)  {
+
+        try {
+            var world = player.getWorld().getRegistryKey().getValue().toString();
+            switch (world) {
+                case "infinium:the_void" -> core.loadSchem("TumbaVoid", player);
+                case "infinium:the_nightmare" -> core.loadSchem("TumbaNightmare", player);
+                case "minecraft:the_end" -> core.loadSchem("TumbaEnd", player);
+                case "minecraft:the_nether" -> core.loadSchem("TumbaNether", player);
+                default -> core.loadSchem("TumbaOverworld", player);
+            }
+
+            var head = HeadFunctions.getPlayerHead("Asunderer", 1);
+            assert head != null;
+            var block = Block.getBlockFromItem(head.getItem());
+            block.rotate(block.getDefaultState(), BlockRotation.CLOCKWISE_180);
+            player.getWorld().setBlockState(player.getCameraBlockPos(), block.getDefaultState());
+
+        } catch (Exception ignored) {}
+
     }
     private boolean playerHasTotem(PlayerEntity player, DamageSource damageSource) {
         if (damageSource.isOutOfWorld()) return false;

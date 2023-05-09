@@ -18,8 +18,8 @@ import java.nio.file.Paths;
  */
 public class JsonConfig {
     private final Gson gson = new GsonBuilder()
-      .serializeNulls().setPrettyPrinting()
-      .create();
+            .serializeNulls().setPrettyPrinting()
+            .create();
 
     private JsonObject jsonObject = new JsonObject();
     private final File file;
@@ -38,34 +38,20 @@ public class JsonConfig {
     /**
      * A static constructor that creates a new {@link JsonConfig} object in the
      * specified serverWorld's folder.
-     * 
+     *
      * @param filename The name of the file to create.
      * @return A new {@link JsonConfig} object.
      * @throws Exception If the file cannot be created.
      */
     public static JsonConfig config(String filename) throws Exception {
-        Infinium.getInstance().LOGGER.info(Infinium.getInstance().getCore().getServer().getFile("world").getAbsolutePath() + "/schematics/" + "nightmare_bastion" + ".schem");
         return new JsonConfig(filename, Infinium.getInstance().getCore().getServer().getFile("world").getAbsolutePath());
     }
-
-  public static JsonConfig userData(String filename) throws Exception {
-    return new JsonConfig(filename, Infinium.getInstance().getCore().getServer().getFile("world").getAbsolutePath() + File.separatorChar + "user");
-  }
-
-  public static JsonConfig teamData(String filename) throws Exception {
-    return new JsonConfig(filename, Infinium.getInstance().getCore().getServer().getFile("world").getAbsolutePath() + File.separatorChar + "team");
-  }
-
-    public JsonConfig(String filename) throws Exception {
-        this(filename, System.getProperty("user.dir") + File.separatorChar + "secrets");
+    public static JsonConfig userData(String filename) throws Exception {
+        return new JsonConfig(filename, Infinium.getInstance().getCore().getServer().getFile("world").getAbsolutePath() + File.separatorChar + "user");
     }
 
     public void save() throws Exception {
         writeFile(file);
-    }
-
-    public void load() throws Exception {
-        readFile(file);
     }
 
     private void writeFile(File path) throws Exception {
@@ -83,11 +69,6 @@ public class JsonConfig {
         reader.close();
 
         jsonObject = object;
-    }
-
-    public String getRedisUri() {
-        var uri = jsonObject.get("redisUri");
-        return uri != null ? uri.getAsString() : null;
     }
 
     public JsonObject getJsonObject(){

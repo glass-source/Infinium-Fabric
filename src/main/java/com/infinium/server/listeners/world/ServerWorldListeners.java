@@ -4,11 +4,11 @@ import com.infinium.Infinium;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerChunkEvents;
 
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class ServerWorldListeners {
 
     private final Infinium instance;
-
     public ServerWorldListeners(final Infinium instance) {
         this.instance = instance;
     }
@@ -16,11 +16,18 @@ public class ServerWorldListeners {
         chunkLoadCallback();
     }
     private void chunkLoadCallback() {
+        AtomicInteger counter = new AtomicInteger();
         ServerChunkEvents.CHUNK_LOAD.register(((world, chunk) -> {
+
+            if (chunk.isEmpty())
+
             switch (world.getRegistryKey().getValue().toString()) {
                 case "infinium:the_nightmare" -> {
 
-                    if (world.getRandom().nextInt(50) == 1) {
+
+
+                    if (world.getRandom().nextInt(250 + counter.get()) == 1) {
+                        counter.getAndAdd(25);
                         Infinium.getInstance().getExecutor().schedule(() -> {
                             var chunkPos = chunk.getPos();
                             var blockpos = chunkPos.getCenterAtY(0);

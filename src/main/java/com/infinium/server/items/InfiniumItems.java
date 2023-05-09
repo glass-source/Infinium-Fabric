@@ -73,6 +73,8 @@ public class InfiniumItems {
     public static Item SANITY_PILL;
     public static Item  NETHERITE_CARROT;
 
+    public static Item EMPANADA_CARNE;
+
     public static Item DUET_MUSIC_DISC;
     public static Item FALL_IN_LOVE_MUSIC_DISC;
 
@@ -156,5 +158,6 @@ public class InfiniumItems {
     private static void registerFood() {
         SANITY_PILL = registerItem("sanity_pill", new SanityItem(new FabricItemSettings().group(ItemGroup.FOOD).food(InfiniumFoodComponents.SANITY_PILL).rarity(Rarity.EPIC)));
         NETHERITE_CARROT = registerItem("netherite_carrot", new NetheriteCarrotItem(new FabricItemSettings().group(ItemGroup.FOOD).food(FoodComponents.GOLDEN_CARROT).rarity(Rarity.UNCOMMON)));
+        EMPANADA_CARNE = registerItem("empanada_carne", new NetheriteCarrotItem(new FabricItemSettings().group(ItemGroup.FOOD).food(FoodComponents.GOLDEN_CARROT).rarity(Rarity.UNCOMMON)));
     }
 }

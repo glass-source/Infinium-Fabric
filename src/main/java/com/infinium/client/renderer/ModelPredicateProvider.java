@@ -3,8 +3,14 @@ package com.infinium.client.renderer;
 import com.infinium.client.renderer.item.InfiniumElytraFeatureRenderer;
 import com.infinium.client.renderer.item.MagmaTridentItemRenderer;
 import com.infinium.client.renderer.item.MagmaTridentRenderer;
+import com.infinium.client.renderer.mobs.hostile.raidmobs.InfiniumPillagerModel;
+import com.infinium.client.renderer.mobs.hostile.raidmobs.InfiniumVindicatorModel;
 import com.infinium.client.renderer.mobs.hostile.ghoulmobs.ghoulspider.GhoulSpiderEntityRenderer;
 import com.infinium.client.renderer.mobs.hostile.ghoulmobs.ghoulzombie.GhoulZombieEntityRenderer;
+import com.infinium.client.renderer.mobs.hostile.raidmobs.berserker.BerserkerEntityRenderer;
+import com.infinium.client.renderer.mobs.hostile.raidmobs.InfiniumEvokerModel;
+import com.infinium.client.renderer.mobs.hostile.raidmobs.raider.RaiderEntityRenderer;
+import com.infinium.client.renderer.mobs.hostile.raidmobs.sorcerer.SorcererEntityRenderer;
 import com.infinium.client.renderer.mobs.hostile.voidmobs.voidenderman.VoidEndermanEntityRenderer;
 import com.infinium.client.renderer.mobs.hostile.voidmobs.voidghast.VoidGhastEntityModel;
 import com.infinium.client.renderer.mobs.hostile.voidmobs.voidghast.VoidGhastEntityRenderer;
@@ -25,7 +31,6 @@ import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.client.render.entity.model.EntityModelLayers;
 import net.minecraft.client.util.ModelIdentifier;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Item;
 import net.minecraft.resource.ResourceType;
@@ -50,6 +55,7 @@ public class ModelPredicateProvider {
         registerNeutralMobsRenderer();
         registerMagmaTrident();
         registerEntityModelLayers();
+        registerRaidMobsRenderer();
     }
 
     private void registerMagmaTrident() {
@@ -77,11 +83,20 @@ public class ModelPredicateProvider {
         EntityRendererRegistry.register(InfiniumEntityType.GHOUL_ZOMBIE, GhoulZombieEntityRenderer::new);
     }
 
+    private void registerRaidMobsRenderer() {
+        EntityRendererRegistry.register(InfiniumEntityType.EXPLOSIVE_SORCERER, SorcererEntityRenderer::new);
+        EntityRendererRegistry.register(InfiniumEntityType.BERSERKER, BerserkerEntityRenderer::new);
+        EntityRendererRegistry.register(InfiniumEntityType.RAIDER, RaiderEntityRenderer::new);
+    }
+
     private void registerNeutralMobsRenderer() {
         EntityRendererRegistry.register(InfiniumEntityType.PEP_FROG, PepFrogEntityRenderer::new);
     }
 
     private void registerEntityModelLayers(){
+        EntityModelLayerRegistry.registerModelLayer(InfiniumEvokerModel.INFINIUM_EVOKER, InfiniumEvokerModel::getTexturedModelData);
+        EntityModelLayerRegistry.registerModelLayer(InfiniumVindicatorModel.VINDICATOR_INFINIUM, InfiniumVindicatorModel::getTexturedModelData);
+        EntityModelLayerRegistry.registerModelLayer(InfiniumPillagerModel.PILLAGER_INFINIUM, InfiniumPillagerModel::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(VoidGhastEntityRenderer.VOID_GHAST, VoidGhastEntityModel::getTexturedModelData);
     }
 

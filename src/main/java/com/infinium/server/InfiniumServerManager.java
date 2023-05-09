@@ -173,6 +173,7 @@ public class InfiniumServerManager {
                             .ignoreAirBlocks(true).build();
                     try {
                         Operations.complete(operation);
+
                         editSession.close();
 
                     } catch (WorldEditException e) {

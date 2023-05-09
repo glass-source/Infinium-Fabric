@@ -25,16 +25,11 @@ import net.minecraft.world.World;
 import static com.infinium.server.items.custom.tools.magmaitems.MagmaAxeItem.fromHit;
 
 public class MagmaTridentItem extends TridentItem implements InfiniumItem {
-
     EntityType<? extends MagmaTridentEntity> type;
-
-
-
     public MagmaTridentItem(Settings settings, EntityType<? extends MagmaTridentEntity> entityType) {
         super(settings);
         this.type = entityType;
     }
-
     public EntityType<? extends MagmaTridentEntity> getEntityType() {
         return type;
     }
