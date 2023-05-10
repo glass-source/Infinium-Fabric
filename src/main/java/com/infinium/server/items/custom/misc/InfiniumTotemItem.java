@@ -15,7 +15,7 @@ import java.util.UUID;
 
 public class InfiniumTotemItem extends Item implements InfiniumItem {
 
-    public static final EntityAttributeModifier MAGMA_TOTEM_HEALTHBOOST = new EntityAttributeModifier(UUID.randomUUID(), "Magma Totem Healthboost", 8, EntityAttributeModifier.Operation.ADDITION);;
+    private final EntityAttributeModifier MAGMA_TOTEM_HEALTHBOOST = new EntityAttributeModifier(UUID.randomUUID(), "Magma Totem Healthboost", 8, EntityAttributeModifier.Operation.ADDITION);;
 
     public InfiniumTotemItem(Settings settings) {
         super(settings);
@@ -27,6 +27,8 @@ public class InfiniumTotemItem extends Item implements InfiniumItem {
         if (!(entity instanceof ServerPlayerEntity p)) return;
         var entityAttributeInstance = p.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH);
 
+        if (entityAttributeInstance == null) return;
+
         if (hasMagmaTotem(p)) {
             if (!entityAttributeInstance.hasModifier(MAGMA_TOTEM_HEALTHBOOST)) {
                 entityAttributeInstance.addTemporaryModifier(MAGMA_TOTEM_HEALTHBOOST);
@@ -36,7 +38,7 @@ public class InfiniumTotemItem extends Item implements InfiniumItem {
         } else {
             if (entityAttributeInstance.hasModifier(MAGMA_TOTEM_HEALTHBOOST)) {
                 entityAttributeInstance.removeModifier(MAGMA_TOTEM_HEALTHBOOST);
-                p.damage(DamageSource.OUT_OF_WORLD, 0.0001f);
+                p.damage(DamageSource.GENERIC, 0.0001f);
             }
         }
     }

@@ -52,13 +52,13 @@ public class HeadFunctions {
 
             String[] rawValue = profileJsonString.replaceAll(" ", "").split("value\":\"");
 
-            String texturevalue = rawValue[1].split("\"")[0];
-            String d = new String(Base64.getDecoder().decode((texturevalue.getBytes())));
+            String textureValue = rawValue[1].split("\"")[0];
+            String d = new String(Base64.getDecoder().decode((textureValue.getBytes())));
 
             String texture = Base64.getEncoder().encodeToString((("{\"textures\"" + d.split("\"textures\"")[1]).getBytes()));
-            String oldid = new UUID(texture.hashCode(), texture.hashCode()).toString();
+            String oldId = new UUID(texture.hashCode(), texture.hashCode()).toString();
 
-            return HeadFunctions.getTexturedHead(headName + "'s Head", texture, oldid, amount);
+            return HeadFunctions.getTexturedHead(headName + "'s Head", texture, oldId, amount);
         }
         catch (ArrayIndexOutOfBoundsException ignored) { }
 
@@ -66,12 +66,12 @@ public class HeadFunctions {
     }
 
     private static ItemStack getTexturedHead(String headname, String texture, String oldid, Integer amount) {
-        ItemStack texturedhead = new ItemStack(Items.PLAYER_HEAD, amount);
+        ItemStack texturedHead = new ItemStack(Items.PLAYER_HEAD, amount);
 
-        List<Integer> intarray = UUIDFunctions.oldIdToIntArray(oldid);
+        List<Integer> intArray = UUIDFunctions.oldIdToIntArray(oldid);
 
         NbtCompound skullOwner = new NbtCompound();
-        skullOwner.putIntArray("Id", intarray);
+        skullOwner.putIntArray("Id", intArray);
 
         NbtCompound properties = new NbtCompound();
         NbtList textures = new NbtList();
@@ -80,16 +80,10 @@ public class HeadFunctions {
         textures.add(tex);
         properties.put("textures", textures);
         skullOwner.put("Properties", properties);
-        texturedhead.setSubNbt("SkullOwner", skullOwner);
-        texturedhead.setCustomName(Text.of(headname));
-
-        return texturedhead;
+        texturedHead.setSubNbt("SkullOwner", skullOwner);
+        texturedHead.setCustomName(Text.of(headname));
+        return texturedHead;
     }
-
-    public static boolean hasStandardHead(String mobname) {
-        return mobname.equals("creeper") || mobname.equals("zombie") || mobname.equals("skeleton");
-    }
-
     public static String readStringFromURL(String requestURL) {
         String data = "";
         try (Scanner scanner = new Scanner(new URL(requestURL).openStream(), StandardCharsets.UTF_8)) {

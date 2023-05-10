@@ -6,8 +6,8 @@ import com.infinium.server.entities.mobs.hostile.ghoulmobs.ghoulzombie.GhoulZomb
 import com.infinium.server.entities.mobs.hostile.raidmobs.berserker.BerserkerEntity;
 import com.infinium.server.entities.mobs.hostile.raidmobs.raider.RaiderEntity;
 import com.infinium.server.entities.mobs.hostile.raidmobs.sorcerer.ExplosiveSorcererEntity;
-import com.infinium.server.entities.mobs.hostile.voidmobs.voidghast.VoidGhastEntity;
 import com.infinium.server.entities.mobs.hostile.voidmobs.voidenderman.VoidEndermanEntity;
+import com.infinium.server.entities.mobs.hostile.voidmobs.voidghast.VoidGhastEntity;
 import com.infinium.server.entities.mobs.hostile.voidmobs.voidspider.VoidSpiderEntity;
 import com.infinium.server.entities.mobs.hostile.voidmobs.voidzombie.VoidZombieEntity;
 import com.infinium.server.entities.mobs.neutral.PepFrogEntity;
@@ -18,25 +18,39 @@ import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EntityType.EntityFactory;
 import net.minecraft.entity.SpawnGroup;
+import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
-public class InfiniumEntityType {
+import java.util.List;
 
+public class InfiniumEntityType {
     public static EntityType<MagmaTridentEntity> MAGMA_TRIDENT;
     public static EntityType<VoidGhastEntity> VOID_GHAST;
     public static EntityType<VoidSpiderEntity> VOID_SPIDER;
     public static EntityType<GhoulSpiderEntity> GHOUL_SPIDER;
-
     public static EntityType<GhoulZombieEntity> GHOUL_ZOMBIE;
     public static EntityType<VoidEndermanEntity> VOID_ENDERMAN;
     public static EntityType<VoidZombieEntity> VOID_ZOMBIE;
-
     public static EntityType<ExplosiveSorcererEntity> EXPLOSIVE_SORCERER;
     public static EntityType<BerserkerEntity> BERSERKER;
     public static EntityType<RaiderEntity> RAIDER;
-
     public static EntityType<PepFrogEntity> PEP_FROG;
+
+    public static List<EntityType<? extends MobEntity>> getEntityTypes() {
+        return List.of(
+                VOID_GHAST,
+                VOID_SPIDER,
+                GHOUL_SPIDER,
+                GHOUL_ZOMBIE,
+                VOID_ENDERMAN,
+                EXPLOSIVE_SORCERER,
+                BERSERKER,
+                RAIDER,
+                PEP_FROG,
+                VOID_ZOMBIE
+        );
+    }
 
     public static void init() {
         registerVoidMobs();

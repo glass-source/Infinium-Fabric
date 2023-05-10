@@ -4,8 +4,6 @@
   "package": "com.infinium.global.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "server.PlayerManagerMixin",
-    "server.ServerPlayNetworkHandlerMixin",
     "server.block.BlockMixin",
     "server.entity.EntityMixin",
     "server.entity.LivingEntityMixin",

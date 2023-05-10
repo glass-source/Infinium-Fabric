@@ -41,7 +41,6 @@ public class EntitySpawnListeners {
         solarEclipseEntitySpawnCallback();
 
     }
-
     private void entitySpawnCallback(){
         EntitySpawnEvent.EVENT.register((entity) -> {
             var livingEntity = entity instanceof LivingEntity ? (LivingEntity) entity : entity;
@@ -60,6 +59,7 @@ public class EntitySpawnListeners {
                     if (day >= 7 && day < 14) {
 
                         if (new Random().nextInt(10) <= 8) {
+                            assert livingEntity instanceof LivingEntity;
                             switch (entityTypeString) {
 
                                 case "entity.minecraft.creeper" -> {
@@ -80,24 +80,18 @@ public class EntitySpawnListeners {
                                     skelly.setCustomName(ChatFormatter.text("&6Power XXV Skeleton"));
                                 }
 
-                                case "entity.minecraft.evoker_fangs" -> {
-                                    if (new Random().nextInt(10) >= 8) createExplosionFromEntity(livingEntity, world, blockPos, 3.0f, false);
-                                }
-
+                                case "entity.minecraft.evoker" -> spawnMobFromEntity((LivingEntity) livingEntity, InfiniumEntityType.EXPLOSIVE_SORCERER, blockPos);
+                                case "entity.minecraft.vindicator" -> spawnMobFromEntity((LivingEntity) livingEntity, InfiniumEntityType.BERSERKER, blockPos);
+                                case "entity.minecraft.pillager" -> spawnMobFromEntity((LivingEntity) livingEntity, InfiniumEntityType.RAIDER, blockPos);
                             }
                         } else {
-
+                            assert livingEntity instanceof LivingEntity;
                             switch (entityTypeString) {
-
-                                case "entity.minecraft.zombie" -> {
-                                    assert livingEntity instanceof LivingEntity;
-                                    spawnMobFromEntity((LivingEntity) livingEntity, InfiniumEntityType.GHOUL_ZOMBIE, blockPos);
-                                }
-
-                                case "entity.minecraft.spider" -> {
-                                    assert livingEntity instanceof LivingEntity;
-                                    spawnMobFromEntity((LivingEntity) livingEntity, InfiniumEntityType.GHOUL_SPIDER, blockPos);
-                                }
+                                case "entity.minecraft.evoker" -> spawnMobFromEntity((LivingEntity) livingEntity, InfiniumEntityType.EXPLOSIVE_SORCERER, blockPos);
+                                case "entity.minecraft.vindicator" -> spawnMobFromEntity((LivingEntity) livingEntity, InfiniumEntityType.BERSERKER, blockPos);
+                                case "entity.minecraft.pillager" -> spawnMobFromEntity((LivingEntity) livingEntity, InfiniumEntityType.RAIDER, blockPos);
+                                case "entity.minecraft.zombie" -> spawnMobFromEntity((LivingEntity) livingEntity, InfiniumEntityType.GHOUL_ZOMBIE, blockPos);
+                                case "entity.minecraft.spider" -> spawnMobFromEntity((LivingEntity) livingEntity, InfiniumEntityType.GHOUL_SPIDER, blockPos);
 
                             }
                         }
@@ -106,11 +100,14 @@ public class EntitySpawnListeners {
                     }
 
                     if (day >= 14) {
+                        assert livingEntity instanceof LivingEntity;
                         switch (entityTypeString) {
 
-                            case "entity.minecraft.evoker_fangs" -> {
-                                if (new Random().nextInt(10) >= 8) createExplosionFromEntity(livingEntity, world, blockPos, 3.0f, false);
-                            }
+                            case "entity.minecraft.evoker" -> spawnMobFromEntity((LivingEntity) livingEntity, InfiniumEntityType.EXPLOSIVE_SORCERER, blockPos);
+                            case "entity.minecraft.vindicator" -> spawnMobFromEntity((LivingEntity) livingEntity, InfiniumEntityType.BERSERKER, blockPos);
+                            case "entity.minecraft.pillager" -> spawnMobFromEntity((LivingEntity) livingEntity, InfiniumEntityType.RAIDER, blockPos);
+                            case "entity.minecraft.zombie" -> spawnMobFromEntity((LivingEntity) livingEntity, InfiniumEntityType.GHOUL_ZOMBIE, blockPos);
+                            case "entity.minecraft.spider" -> spawnMobFromEntity((LivingEntity) livingEntity, InfiniumEntityType.GHOUL_SPIDER, blockPos);
 
                             case "entity.minecraft.glow_squid"
                                , "entity.minecraft.squid"-> {

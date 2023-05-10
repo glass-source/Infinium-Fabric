@@ -19,8 +19,8 @@ import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import java.util.Collection;
-import static com.infinium.server.listeners.player.PlayerDeathListeners.firstTotemDebuff;
-import static com.infinium.server.listeners.player.PlayerDeathListeners.secondTotemDebuff;
+
+import static com.infinium.server.listeners.player.PlayerDeathListeners.*;
 
 public class StaffCommand {
 
@@ -173,20 +173,24 @@ public class StaffCommand {
             var totemString = "infinium.totems";
             data.putInt(totemString, values);
             var attributeInstance = player.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH);
+            if (attributeInstance == null) return -1;
 
             if (values >= 30) {
-                if (attributeInstance.hasModifier(firstTotemDebuff)) attributeInstance.removeModifier(firstTotemDebuff);
-                if (!attributeInstance.hasModifier(secondTotemDebuff)) attributeInstance.addPersistentModifier(secondTotemDebuff);
-                player.setHealth(player.getMaxHealth());
+                attributeInstance.addPersistentModifier(finalTotemDebuff);
 
             } else if (values >= 25) {
-                if (attributeInstance.hasModifier(secondTotemDebuff)) attributeInstance.removeModifier(secondTotemDebuff);
-                if (!attributeInstance.hasModifier(firstTotemDebuff)) attributeInstance.addPersistentModifier(firstTotemDebuff);
+                attributeInstance.removeModifier(finalTotemDebuff);
+                attributeInstance.addPersistentModifier(secondTotemDebuff);
+
+            } else if(values >= 15) {
+                attributeInstance.removeModifier(finalTotemDebuff);
+                attributeInstance.removeModifier(secondTotemDebuff);
+                attributeInstance.addPersistentModifier(firstTotemDebuff);
 
             } else {
-                assert attributeInstance != null;
-                attributeInstance.removeModifier(firstTotemDebuff);
+                attributeInstance.removeModifier(finalTotemDebuff);
                 attributeInstance.removeModifier(secondTotemDebuff);
+                attributeInstance.removeModifier(firstTotemDebuff);
             }
 
             player.setHealth(player.getMaxHealth());

@@ -159,34 +159,10 @@ public class InfiniumServerManager {
         var X = player.getX();
         var Y = player.getY();
         var Z = player.getZ();
-        File file = new File(Infinium.getInstance().getCore().getServer().getFile("world").getAbsolutePath() + "/schematics/" + filename + ".schem");
-        com.sk89q.worldedit.world.World adaptedWorld = FabricAdapter.adapt(world);
-        ClipboardFormat format = ClipboardFormats.findByFile(file);
-
-        try {
-            assert format != null;
-            try (ClipboardReader reader = format.getReader(new FileInputStream(file))) {
-                Clipboard clipboard = reader.read();
-
-                try (EditSession editSession = WorldEdit.getInstance().getEditSessionFactory().getEditSession(adaptedWorld,-1)) {
-                    Operation operation = new ClipboardHolder(clipboard).createPaste(editSession).to(BlockVector3.at(X, Y, Z)).copyEntities(true)
-                            .ignoreAirBlocks(true).build();
-                    try {
-                        Operations.complete(operation);
-
-                        editSession.close();
-
-                    } catch (WorldEditException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        loadSchem(filename, world, X, Y, Z);
     }
 
-    public void loadSchem(String filename, World world, int X, int Y, int Z) {
+    public void loadSchem(String filename, World world, double X, double Y, double Z) {
         File file = new File(Infinium.getInstance().getCore().getServer().getFile("world").getAbsolutePath() + "/schematics/" + filename + ".schem");
         com.sk89q.worldedit.world.World adaptedWorld = FabricAdapter.adapt(world);
         ClipboardFormat format = ClipboardFormats.findByFile(file);
@@ -196,7 +172,7 @@ public class InfiniumServerManager {
             try (ClipboardReader reader = format.getReader(new FileInputStream(file))) {
                 Clipboard clipboard = reader.read();
 
-                try (EditSession editSession = WorldEdit.getInstance().getEditSessionFactory().getEditSession(adaptedWorld,-1)) {
+                try (EditSession editSession = WorldEdit.getInstance().newEditSessionBuilder().world(adaptedWorld).maxBlocks(-1).build()) {
                     Operation operation = new ClipboardHolder(clipboard).createPaste(editSession).to(BlockVector3.at(X, Y, Z)).copyEntities(true)
                             .ignoreAirBlocks(true).build();
                     try {

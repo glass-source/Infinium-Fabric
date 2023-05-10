@@ -13,6 +13,8 @@ import com.infinium.server.sounds.InfiniumSounds;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.PlayerSkullBlock;
 import net.minecraft.entity.EntityStatuses;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -35,14 +37,13 @@ import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-import static com.infinium.server.items.custom.misc.InfiniumTotemItem.MAGMA_TOTEM_HEALTHBOOST;
-
 public class PlayerDeathListeners {
 
     private final Infinium instance;
     private final InfiniumServerManager core;
-    public static final EntityAttributeModifier firstTotemDebuff = new EntityAttributeModifier(UUID.randomUUID(), "Totem Debuff", -4, EntityAttributeModifier.Operation.ADDITION);
-    public static final EntityAttributeModifier secondTotemDebuff = new EntityAttributeModifier(UUID.randomUUID(), "Totem Debuff", -100, EntityAttributeModifier.Operation.ADDITION);
+    public static final EntityAttributeModifier firstTotemDebuff = new EntityAttributeModifier(UUID.randomUUID(), "First Totem Debuff", -4, EntityAttributeModifier.Operation.ADDITION);
+    public static final EntityAttributeModifier secondTotemDebuff = new EntityAttributeModifier(UUID.randomUUID(), "Second Totem Debuff", -8, EntityAttributeModifier.Operation.ADDITION);
+    public static final EntityAttributeModifier finalTotemDebuff = new EntityAttributeModifier(UUID.randomUUID(), "Third Totem Debuff", -100, EntityAttributeModifier.Operation.ADDITION);
     public PlayerDeathListeners(Infinium instance){
         this.instance = instance;
         this.core = instance.getCore();
@@ -63,7 +64,9 @@ public class PlayerDeathListeners {
     }
 
     private void playerDamageCallback() {
-        PlayerDamageEvent.EVENT.register((playerUUID, damageSource) -> {
+        PlayerDamageEvent.EVENT.register((playerUUID, damageSource, amount, isCancelled) -> {
+            if (isCancelled) return ActionResult.PASS;
+
             var player = core.getServer().getPlayerManager().getPlayer(playerUUID);
             if (player == null) return ActionResult.PASS;
             if (!player.interactionManager.getGameMode().isSurvivalLike()) return ActionResult.PASS;
@@ -137,22 +140,19 @@ public class PlayerDeathListeners {
         if (totemItem.equals(InfiniumItems.VOID_TOTEM)) {
             player.addStatusEffect(new StatusEffectInstance(InfiniumEffects.IMMUNITY, 20 * 15, 0));
             data.putInt(totemString, totems + 3);
-            message = ChatFormatter.formatWithPrefix("&8El jugador &5&l" + playerName + " &8ha consumido un &b&lVoid Tótem" + " &8(Tótem #%.%)".replaceAll("%.%", String.valueOf(totems + 3)));
+            message = ChatFormatter.formatWithPrefix("&5&l" + playerName + " &8ha consumido un &b&lVoid Tótem" + " &8(Tótem #%.%)".replaceAll("%.%", String.valueOf(totems + 3)));
 
         } else if (totemItem.equals(InfiniumItems.MAGMA_TOTEM)) {
             var entityAttributeInstance = player.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH);
 
             if (entityAttributeInstance == null) return;
-            if (entityAttributeInstance.hasModifier(MAGMA_TOTEM_HEALTHBOOST)) {
-                entityAttributeInstance.removeModifier(MAGMA_TOTEM_HEALTHBOOST);
-            }
 
             data.putInt(totemString, totems + 1);
-            message = ChatFormatter.formatWithPrefix("&8El jugador &5&l" + playerName + " &8ha consumido un \n&c&lMagma Tótem" + " &8(Tótem #%.%)".replaceAll("%.%", String.valueOf(totems + 1)));
+            message = ChatFormatter.formatWithPrefix("&5&l" + playerName + " &8ha consumido un \n&c&lMagma Tótem" + " &8(Tótem #%.%)".replaceAll("%.%", String.valueOf(totems + 1)));
 
         } else {
             data.putInt(totemString, totems + 1);
-            message = ChatFormatter.formatWithPrefix("&8El jugador &5&l" + playerName + " &8ha consumido un \n&6&lTótem de la Inmortalidad" + " &8(Tótem #%.%)".replaceAll("%.%", String.valueOf(totems + 1)));
+            message = ChatFormatter.formatWithPrefix("&5&l" + playerName + " &8ha consumido un \n&6&lTótem de la Inmortalidad" + " &8(Tótem #%.%)".replaceAll("%.%", String.valueOf(totems + 1)));
         }
 
         sanityManager.decrease(player, 40, sanityManager.SANITY);
@@ -164,15 +164,37 @@ public class PlayerDeathListeners {
         var data = ((EntityDataSaver) user).getPersistentData();
         int totems = data.getInt("infinium.totems");
         var attributeInstance = user.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH);
+        if (attributeInstance == null) return;
 
+        if (totems >= 5) {
+            user.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 20 * 20, 2));
+            user.addStatusEffect(new StatusEffectInstance(StatusEffects.MINING_FATIGUE, 20 * 20, 2));
+        }
+
+        if (totems >= 10) {
+            user.removeStatusEffect(StatusEffects.REGENERATION);
+            user.removeStatusEffect(StatusEffects.ABSORPTION);
+            user.removeStatusEffect(StatusEffects.FIRE_RESISTANCE);
+        }
+
+        if (totems >= 15) {
+            attributeInstance.addPersistentModifier(firstTotemDebuff);
+            user.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 20 * 20, 4));
+        }
+
+        if (totems >= 20) {
+            user.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 20 * 6, 0));
+            user.addStatusEffect(new StatusEffectInstance(StatusEffects.LEVITATION, 20 * 4, 0));
+
+        }
 
         if (totems >= 25) {
-            if (!attributeInstance.hasModifier(firstTotemDebuff)) attributeInstance.addPersistentModifier(firstTotemDebuff);
+            attributeInstance.addPersistentModifier(secondTotemDebuff);
+            user.addStatusEffect(new StatusEffectInstance(StatusEffects.HUNGER, 20 * 20, 4));
         }
 
         if (totems >= 30) {
-            if (attributeInstance.hasModifier(firstTotemDebuff)) attributeInstance.removeModifier(firstTotemDebuff);
-            if (!attributeInstance.hasModifier(secondTotemDebuff)) attributeInstance.addPersistentModifier(secondTotemDebuff);
+            attributeInstance.addPersistentModifier(finalTotemDebuff);
         }
     }
     private void onPlayerDeath(ServerPlayerEntity playerDied) {
@@ -186,31 +208,34 @@ public class PlayerDeathListeners {
         instance.getExecutor().schedule( () -> core.getEclipseManager().start(new Random().nextDouble(0.24, 1.6)) , 13, TimeUnit.SECONDS);
         playerDied.changeGameMode(GameMode.SPECTATOR);
 
-        int highestY = playerDied.getWorld().getTopY();
 
-        if (pos.getY() < -64) playerDied.teleport(pos.getX(), highestY, pos.getZ());
+
+        if (pos.getY() < -64) playerDied.teleport(pos.getX(), -60, pos.getZ());
         generatePlayerTombstone(playerDied);
     }
 
     private void generatePlayerTombstone(ServerPlayerEntity player)  {
-
         try {
             var world = player.getWorld().getRegistryKey().getValue().toString();
             switch (world) {
-                case "infinium:the_void" -> core.loadSchem("TumbaVoid", player);
-                case "infinium:the_nightmare" -> core.loadSchem("TumbaNightmare", player);
-                case "minecraft:the_end" -> core.loadSchem("TumbaEnd", player);
-                case "minecraft:the_nether" -> core.loadSchem("TumbaNether", player);
-                default -> core.loadSchem("TumbaOverworld", player);
+                case "infinium:the_void" -> core.loadSchem("TumbaVoidFinal", player);
+                case "infinium:the_nightmare" -> core.loadSchem("TumbaNightmareFinal", player);
+                case "minecraft:the_end" -> core.loadSchem("TumbaEndFinal", player);
+                case "minecraft:the_nether" -> core.loadSchem("TumbaNetherFinal", player);
+                default -> core.loadSchem("TumbaOverworldFinal", player);
             }
 
-            var head = HeadFunctions.getPlayerHead("Asunderer", 1);
-            assert head != null;
-            var block = Block.getBlockFromItem(head.getItem());
-            block.rotate(block.getDefaultState(), BlockRotation.CLOCKWISE_180);
-            player.getWorld().setBlockState(player.getCameraBlockPos(), block.getDefaultState());
+        } catch (Exception ex) {ex.printStackTrace();}
 
-        } catch (Exception ignored) {}
+        var head = HeadFunctions.getPlayerHead(player.getEntityName(), 1);
+        var world = player.getWorld();
+        var block = head != null ? Block.getBlockFromItem(head.getItem()) : Blocks.AIR;
+        var state = block.getDefaultState().rotate(BlockRotation.CLOCKWISE_180);
+        world.setBlockState(player.getCameraBlockPos(), state);
+
+        if (block instanceof PlayerSkullBlock playerSkullBlock) {
+           playerSkullBlock.onPlaced(world, player.getCameraBlockPos(), playerSkullBlock.getDefaultState(), player, head);
+        }
 
     }
     private boolean playerHasTotem(PlayerEntity player, DamageSource damageSource) {

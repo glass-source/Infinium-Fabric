@@ -2,9 +2,11 @@ package com.infinium.server.listeners.world;
 
 import com.infinium.Infinium;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerChunkEvents;
+import net.minecraft.world.chunk.Chunk;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class ServerWorldListeners {
 
@@ -15,30 +17,27 @@ public class ServerWorldListeners {
     public void registerListeners() {
         chunkLoadCallback();
     }
+    private final List<Chunk> loadedChunks = new ArrayList<>();
     private void chunkLoadCallback() {
-        AtomicInteger counter = new AtomicInteger();
+
         ServerChunkEvents.CHUNK_LOAD.register(((world, chunk) -> {
 
-            if (chunk.isEmpty())
+            if (loadedChunks.contains(chunk)) return;
 
             switch (world.getRegistryKey().getValue().toString()) {
                 case "infinium:the_nightmare" -> {
-
-
-
-                    if (world.getRandom().nextInt(250 + counter.get()) == 1) {
-                        counter.getAndAdd(25);
+                    loadedChunks.add(chunk);
+                    if (world.getRandom().nextInt(125) == 1) {
                         Infinium.getInstance().getExecutor().schedule(() -> {
                             var chunkPos = chunk.getPos();
                             var blockpos = chunkPos.getCenterAtY(0);
-
                             var posX = blockpos.getX();
                             var posY = 130;
                             var posZ = blockpos.getZ();
-                            chunk.isEmpty();
+
                             Infinium.getInstance().LOGGER.info("Generated Zeppelin at: ${}, ${}, ${}", posX ,posY, posZ);
                             instance.getCore().loadSchem("ZepelinDia0", world, posX, posY, posZ);
-                        }, 750, TimeUnit.MILLISECONDS);
+                        }, 500, TimeUnit.MILLISECONDS);
                     }
                 }
 

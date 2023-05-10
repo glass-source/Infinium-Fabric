@@ -1,12 +1,10 @@
 package com.infinium.global.mixin.server.entity;
 
 import com.infinium.Infinium;
-import com.infinium.server.effects.InfiniumEffects;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
@@ -18,7 +16,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -30,32 +27,8 @@ public abstract class LivingEntityMixin extends Entity {
     @Shadow public abstract boolean addStatusEffect(StatusEffectInstance effect);
     @Shadow public abstract void readCustomDataFromNbt(NbtCompound nbt);
     @Shadow public abstract boolean addStatusEffect(StatusEffectInstance effect, @Nullable Entity source);
-    @Shadow public abstract boolean hasStatusEffect(StatusEffect effect);
-    @Shadow @Nullable public abstract StatusEffectInstance getStatusEffect(StatusEffect effect);
     @Shadow public abstract boolean damage(DamageSource source, float amount);
     @Shadow @Nullable public abstract LivingEntity getAttacker();
-
-    @Inject(method = "damage", at = @At("HEAD"), cancellable = true)
-    private void applyImmunity(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
-        if(this.hasStatusEffect(InfiniumEffects.IMMUNITY)) {
-            cir.setReturnValue(false);
-            cir.cancel();
-        }
-    }
-
-
-    @ModifyVariable(method = "damage", at = @At("TAIL"), ordinal = 0, argsOnly = true)
-    private float applyImmunityAndMadness(float amount) {
-        if (this.hasStatusEffect(InfiniumEffects.IMMUNITY)) {
-
-            return 0;
-        } else if (this.hasStatusEffect(InfiniumEffects.MADNESS)) {
-            var level = this.getStatusEffect(InfiniumEffects.MADNESS).getAmplifier();
-            return amount * (level + (level * 0.15f));
-        } else {
-            return amount;
-        }
-    }
     @Inject(method = "damage", at = @At("HEAD"), cancellable = true)
     private void onDamage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
         if (!source.isExplosive()) return;
@@ -113,7 +86,7 @@ public abstract class LivingEntityMixin extends Entity {
         }
     }
 
-    @Inject(method = "dropLoot", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "dropLoot", at = @At("HEAD"))
     private void solarEclipseRemoveLoot(DamageSource source, boolean causedByPlayer, CallbackInfo ci){
         if (Infinium.getInstance().getDateUtils() == null) return;
         var eclipseManager = Infinium.getInstance().getCore().getEclipseManager();
