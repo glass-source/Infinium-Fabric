@@ -4,6 +4,7 @@
   "package": "com.infinium.global.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "server.ServerPlayNetworkHandlerMixin",
     "server.block.BlockMixin",
     "server.entity.EntityMixin",
     "server.entity.LivingEntityMixin",
@@ -11,16 +12,13 @@
     "server.entity.ServerPlayerEntityMixin",
     "server.entity.boss.EnderDragonEntityMixin",
     "server.entity.peaceful.SheepEntityMixin",
+    "server.world.ServerRecipeBookMixin",
     "server.world.ServerWorldMixin",
     "server.world.structure.StructureFeatureAccessor"
   ],
   "client": [
-    "client.entity.ClientPlayerEntityMixin",
     "client.renderer.entity.TridentEntityRendererMixin",
     "client.renderer.feature.TridentRiptideFeatureRendererMixin",
-    "client.renderer.game.GameMenuScreenMixin",
-    "client.renderer.game.GameRendererMixin",
-    "client.renderer.game.InGameHudMixin",
     "client.renderer.world.WorldRendererMixin"
   ],
   "injectors": {

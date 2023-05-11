@@ -23,11 +23,10 @@ public class ServerWorldListeners {
         ServerChunkEvents.CHUNK_LOAD.register(((world, chunk) -> {
 
             if (loadedChunks.contains(chunk)) return;
-
-            switch (world.getRegistryKey().getValue().toString()) {
-                case "infinium:the_nightmare" -> {
-                    loadedChunks.add(chunk);
-                    if (world.getRandom().nextInt(125) == 1) {
+            if (world.getRandom().nextInt(125) == 1) {
+                loadedChunks.add(chunk);
+                switch (world.getRegistryKey().getValue().toString()) {
+                    case "infinium:the_nightmare" -> {
                         Infinium.getInstance().getExecutor().schedule(() -> {
                             var chunkPos = chunk.getPos();
                             var blockpos = chunkPos.getCenterAtY(0);
@@ -38,18 +37,20 @@ public class ServerWorldListeners {
                             Infinium.getInstance().LOGGER.info("Generated Zeppelin at: ${}, ${}, ${}", posX ,posY, posZ);
                             instance.getCore().loadSchem("ZepelinDia0", world, posX, posY, posZ);
                         }, 500, TimeUnit.MILLISECONDS);
+
                     }
+
+                    case "infinium:the_void" -> {
+
+                    }
+
+                    case "minecraft:overworld" -> {
+
+                    }
+
                 }
-
-                case "infinium:the_void" -> {
-
-                }
-
-                case "minecraft:overworld" -> {
-
-                }
-
             }
+
 
 
 

@@ -13,7 +13,6 @@ public class KairosCheckC2SPacket {
         var sanityManager = Infinium.getInstance().getCore().getSanityManager();
         sanityManager.set(player, (20 * 60) * 120, sanityManager.TIME_COOLDOWN);
         player.sendMessage(new TranslatableText("infinium.kairos_check"), true);
-
     }
 
 }

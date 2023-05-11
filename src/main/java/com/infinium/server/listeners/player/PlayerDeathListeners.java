@@ -38,7 +38,6 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 public class PlayerDeathListeners {
-
     private final Infinium instance;
     private final InfiniumServerManager core;
     public static final EntityAttributeModifier firstTotemDebuff = new EntityAttributeModifier(UUID.randomUUID(), "First Totem Debuff", -4, EntityAttributeModifier.Operation.ADDITION);
@@ -200,7 +199,9 @@ public class PlayerDeathListeners {
     private void onPlayerDeath(ServerPlayerEntity playerDied) {
         if (playerDied.isSpectator()) return;
         var pos = playerDied.getBlockPos();
+
         ((EntityDisguise) playerDied).removeDisguise();
+
         ChatFormatter.broadcastMessage(ChatFormatter.formatWithPrefix("&6&l%player% &7ha sucumbido ante el\n&5&lVacío Infinito".replaceAll("%player%", playerDied.getEntityName())));
         Animation.initImageForAll();
 
@@ -208,13 +209,12 @@ public class PlayerDeathListeners {
         instance.getExecutor().schedule( () -> core.getEclipseManager().start(new Random().nextDouble(0.24, 1.6)) , 13, TimeUnit.SECONDS);
         playerDied.changeGameMode(GameMode.SPECTATOR);
 
-
-
-        if (pos.getY() < -64) playerDied.teleport(pos.getX(), -60, pos.getZ());
+        if (pos.getY() <= -64) playerDied.teleport(pos.getX(), -60, pos.getZ());
         generatePlayerTombstone(playerDied);
     }
 
     private void generatePlayerTombstone(ServerPlayerEntity player)  {
+        player.teleport(player.getX(), player.getY() + 1, player.getZ());
         try {
             var world = player.getWorld().getRegistryKey().getValue().toString();
             switch (world) {
@@ -229,13 +229,11 @@ public class PlayerDeathListeners {
 
         var head = HeadFunctions.getPlayerHead(player.getEntityName(), 1);
         var world = player.getWorld();
-        var block = head != null ? Block.getBlockFromItem(head.getItem()) : Blocks.AIR;
+        var block = head != null ? Block.getBlockFromItem(head.getItem()) : Blocks.PLAYER_HEAD;
         var state = block.getDefaultState().rotate(BlockRotation.CLOCKWISE_180);
         world.setBlockState(player.getCameraBlockPos(), state);
 
-        if (block instanceof PlayerSkullBlock playerSkullBlock) {
-           playerSkullBlock.onPlaced(world, player.getCameraBlockPos(), playerSkullBlock.getDefaultState(), player, head);
-        }
+        if (block instanceof PlayerSkullBlock playerSkullBlock) playerSkullBlock.onPlaced(world, player.getCameraBlockPos(), playerSkullBlock.getDefaultState(), player, head);
 
     }
     private boolean playerHasTotem(PlayerEntity player, DamageSource damageSource) {

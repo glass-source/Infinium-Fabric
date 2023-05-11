@@ -14,7 +14,10 @@ import java.util.concurrent.TimeUnit;
 
 public class Animation {
     private static ScheduledFuture<?> task;
+    private static boolean canStart = true;
     public static void initImageForAll() {
+        if (!canStart) return;
+        canStart = false;
         var instance = Infinium.getInstance();
         var core = instance.getCore();
         var executor = instance.getExecutor();
@@ -29,6 +32,7 @@ public class Animation {
             if(i[0] >= animationList.size()) {
                 task.cancel(true);
                 task = null;
+                canStart = true;
             }
         }, 0, 100, TimeUnit.MILLISECONDS);
 
