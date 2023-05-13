@@ -46,10 +46,7 @@ public class ExplosiveSorcererEntity extends EvokerEntity implements InfiniumEnt
 
     @Nullable @Override
     public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
-        if (world.getRandom().nextDouble(10) <= 1.25f) {
-            this.equipStack(EquipmentSlot.HEAD, getTransBanner());
-            this.setEquipmentDropChance(EquipmentSlot.HEAD, 100.0f);
-        }
+        this.setTransBanner(world, this);
         return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
     }
 

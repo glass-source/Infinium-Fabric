@@ -3,17 +3,26 @@ package com.infinium.client.renderer;
 import com.infinium.client.renderer.item.InfiniumElytraFeatureRenderer;
 import com.infinium.client.renderer.item.MagmaTridentItemRenderer;
 import com.infinium.client.renderer.item.MagmaTridentRenderer;
-import com.infinium.client.renderer.mobs.hostile.raidmobs.InfiniumPillagerModel;
-import com.infinium.client.renderer.mobs.hostile.raidmobs.InfiniumVindicatorModel;
+import com.infinium.client.renderer.mobs.hostile.InfiniumCreeperEntityModel;
+import com.infinium.client.renderer.mobs.hostile.InfiniumSkeletonEntityModel;
+import com.infinium.client.renderer.mobs.hostile.dungeon.pirate.PirateSkeletonEntityRenderer;
+import com.infinium.client.renderer.mobs.hostile.ghoulmobs.ghoulcreeper.GhoulCreeperEntityRenderer;
 import com.infinium.client.renderer.mobs.hostile.ghoulmobs.ghoulspider.GhoulSpiderEntityRenderer;
 import com.infinium.client.renderer.mobs.hostile.ghoulmobs.ghoulzombie.GhoulZombieEntityRenderer;
-import com.infinium.client.renderer.mobs.hostile.raidmobs.berserker.BerserkerEntityRenderer;
+import com.infinium.client.renderer.mobs.hostile.nightmare.nightmarebrute.NightmareBruteEntityRenderer;
+import com.infinium.client.renderer.mobs.hostile.nightmare.nightmareghast.NightmareGhastEntityRenderer;
+import com.infinium.client.renderer.mobs.hostile.nightmare.nightmareskeleton.NightmareSkeletonEntityRenderer;
 import com.infinium.client.renderer.mobs.hostile.raidmobs.InfiniumEvokerModel;
+import com.infinium.client.renderer.mobs.hostile.raidmobs.InfiniumPillagerModel;
+import com.infinium.client.renderer.mobs.hostile.raidmobs.InfiniumVindicatorModel;
+import com.infinium.client.renderer.mobs.hostile.raidmobs.berserker.BerserkerEntityRenderer;
 import com.infinium.client.renderer.mobs.hostile.raidmobs.raider.RaiderEntityRenderer;
 import com.infinium.client.renderer.mobs.hostile.raidmobs.sorcerer.SorcererEntityRenderer;
+import com.infinium.client.renderer.mobs.hostile.voidmobs.voidcreeper.VoidCreeperEntityRenderer;
 import com.infinium.client.renderer.mobs.hostile.voidmobs.voidenderman.VoidEndermanEntityRenderer;
 import com.infinium.client.renderer.mobs.hostile.voidmobs.voidghast.VoidGhastEntityModel;
 import com.infinium.client.renderer.mobs.hostile.voidmobs.voidghast.VoidGhastEntityRenderer;
+import com.infinium.client.renderer.mobs.hostile.voidmobs.voidskeleton.VoidSkeletonEntityRenderer;
 import com.infinium.client.renderer.mobs.hostile.voidmobs.voidspider.VoidSpiderEntityRenderer;
 import com.infinium.client.renderer.mobs.hostile.voidmobs.voidzombie.VoidZombieEntityRenderer;
 import com.infinium.client.renderer.mobs.neutral.pepfrog.PepFrogEntityRenderer;
@@ -56,6 +65,8 @@ public class ModelPredicateProvider {
         registerMagmaTrident();
         registerEntityModelLayers();
         registerRaidMobsRenderer();
+        registerDungeonMobsRenderer();
+        registerNightmareMobsRenderer();
     }
 
     private void registerMagmaTrident() {
@@ -76,17 +87,31 @@ public class ModelPredicateProvider {
         EntityRendererRegistry.register(InfiniumEntityType.VOID_SPIDER, VoidSpiderEntityRenderer::new);
         EntityRendererRegistry.register(InfiniumEntityType.VOID_ENDERMAN, VoidEndermanEntityRenderer::new);
         EntityRendererRegistry.register(InfiniumEntityType.VOID_ZOMBIE, VoidZombieEntityRenderer::new);
+        EntityRendererRegistry.register(InfiniumEntityType.VOID_CREEPER, VoidCreeperEntityRenderer::new);
+        EntityRendererRegistry.register(InfiniumEntityType.VOID_SKELETON, VoidSkeletonEntityRenderer::new);
     }
 
     private void registerGhoulMobsRenderer(){
         EntityRendererRegistry.register(InfiniumEntityType.GHOUL_SPIDER, GhoulSpiderEntityRenderer::new);
         EntityRendererRegistry.register(InfiniumEntityType.GHOUL_ZOMBIE, GhoulZombieEntityRenderer::new);
+        EntityRendererRegistry.register(InfiniumEntityType.GHOUL_CREEPER, GhoulCreeperEntityRenderer::new);
     }
+
+    private void registerNightmareMobsRenderer() {
+        EntityRendererRegistry.register(InfiniumEntityType.NIGHTMARE_SKELETON, NightmareSkeletonEntityRenderer::new);
+        EntityRendererRegistry.register(InfiniumEntityType.NIGHTMARE_GHAST, NightmareGhastEntityRenderer::new);
+        EntityRendererRegistry.register(InfiniumEntityType.NIGHTMARE_BRUTE, NightmareBruteEntityRenderer::new);
+    }
+
 
     private void registerRaidMobsRenderer() {
         EntityRendererRegistry.register(InfiniumEntityType.EXPLOSIVE_SORCERER, SorcererEntityRenderer::new);
         EntityRendererRegistry.register(InfiniumEntityType.BERSERKER, BerserkerEntityRenderer::new);
         EntityRendererRegistry.register(InfiniumEntityType.RAIDER, RaiderEntityRenderer::new);
+    }
+
+    private void registerDungeonMobsRenderer() {
+        EntityRendererRegistry.register(InfiniumEntityType.PIRATE_SKELETON, PirateSkeletonEntityRenderer::new);
     }
 
     private void registerNeutralMobsRenderer() {
@@ -96,8 +121,10 @@ public class ModelPredicateProvider {
     private void registerEntityModelLayers(){
         EntityModelLayerRegistry.registerModelLayer(InfiniumEvokerModel.INFINIUM_EVOKER, InfiniumEvokerModel::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(InfiniumVindicatorModel.VINDICATOR_INFINIUM, InfiniumVindicatorModel::getTexturedModelData);
-        EntityModelLayerRegistry.registerModelLayer(InfiniumPillagerModel.PILLAGER_INFINIUM, InfiniumPillagerModel::getTexturedModelData);
+        EntityModelLayerRegistry.registerModelLayer(InfiniumPillagerModel.INFINIUM_PILLAGER, InfiniumPillagerModel::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(VoidGhastEntityRenderer.VOID_GHAST, VoidGhastEntityModel::getTexturedModelData);
+        EntityModelLayerRegistry.registerModelLayer(InfiniumCreeperEntityModel.INFINIUM_CREEPER, InfiniumCreeperEntityModel::getTexturedModelData);
+        EntityModelLayerRegistry.registerModelLayer(InfiniumSkeletonEntityModel.INFINIUM_SKELETON, InfiniumSkeletonEntityModel::getTexturedModelData);
     }
 
     private void registerModelItems(){

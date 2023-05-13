@@ -5,7 +5,6 @@ import com.infinium.server.items.custom.InfiniumItem;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -38,7 +37,7 @@ public class InfiniumTotemItem extends Item implements InfiniumItem {
         } else {
             if (entityAttributeInstance.hasModifier(MAGMA_TOTEM_HEALTHBOOST)) {
                 entityAttributeInstance.removeModifier(MAGMA_TOTEM_HEALTHBOOST);
-                p.damage(DamageSource.GENERIC, 0.0001f);
+                p.setHealth(p.getHealth());
             }
         }
     }

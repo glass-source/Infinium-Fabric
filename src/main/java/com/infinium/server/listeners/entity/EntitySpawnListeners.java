@@ -19,9 +19,6 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraft.world.explosion.Explosion;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Random;
 
@@ -244,12 +241,11 @@ public class EntitySpawnListeners {
     }
 
     private void spawnMobFromEntity(LivingEntity entityToRemove, EntityType<?> typeToReplace, BlockPos pos) {
-        entityToRemove.remove(Entity.RemovalReason.DISCARDED);
-        typeToReplace.spawn(entityToRemove.getCommandSource().getWorld(), null, null, null, pos, SpawnReason.NATURAL, true, false);
-    }
+        if (entityToRemove.getWorld() instanceof ServerWorld world) {
+            entityToRemove.remove(Entity.RemovalReason.DISCARDED);
+            typeToReplace.spawn(world, null, null, null, pos, SpawnReason.NATURAL, true, false);
+        }
 
-    private void createExplosionFromEntity(@Nullable Entity entity, World world, BlockPos position, float explosionPower, boolean breakBlocks) {
-        world.createExplosion(entity, position.getX(), position.getY(), position.getZ(), explosionPower,  breakBlocks ? Explosion.DestructionType.DESTROY : Explosion.DestructionType.NONE);
     }
 
 }

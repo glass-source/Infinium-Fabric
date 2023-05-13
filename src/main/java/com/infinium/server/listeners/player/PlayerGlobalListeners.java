@@ -12,7 +12,6 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
 
-import java.util.Random;
 import java.util.SplittableRandom;
 
 public class PlayerGlobalListeners {
@@ -22,7 +21,7 @@ public class PlayerGlobalListeners {
 
     public PlayerGlobalListeners(Infinium instance) {
         this.instance = instance;
-        this.core = instance.getCore();
+        this.core = this.instance.getCore();
     }
     public void registerListeners(){
         playerBedCallback();
@@ -30,12 +29,12 @@ public class PlayerGlobalListeners {
 
     private void playerBedCallback() {
         EntitySleepEvents.START_SLEEPING.register((entity, sleepingPos) -> {
-            if (Infinium.getInstance().getDateUtils() == null) return;
-            var day = Infinium.getInstance().getDateUtils().getCurrentDay();
-            if (day < 7) return;
+            if (core.getDateUtils() == null) return;
+            var day = core.getDateUtils().getCurrentDay();
+            if (day < 4) return;
             if (!(entity instanceof ServerPlayerEntity p)) return;
             var name = p.getEntityName();
-            var random = new Random().nextInt(100);
+            var random = entity.getWorld().getRandom().nextInt(100);
             if (day < 35) {
                 if (random < day) {
                     tpToWorld(InfiniumDimensions.THE_NIGHTMARE, p, 2000);
@@ -66,9 +65,9 @@ public class PlayerGlobalListeners {
         int z = (random.nextBoolean() ? 1 : -1) * random.nextInt(maxToTP);
         who.wakeUp(false, true);
         who.teleport(destinationWorld, x, 101.05f, z, who.getYaw(), who.getPitch());
-        who.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING, 20 * 30, 0));
-        who.addStatusEffect(new StatusEffectInstance(StatusEffects.LEVITATION, 20 * 30, 3));
-        who.addStatusEffect(new StatusEffectInstance(InfiniumEffects.IMMUNITY, 20 * 14, 0));
+        who.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING, 20 * 12, 0));
+        who.addStatusEffect(new StatusEffectInstance(StatusEffects.LEVITATION, 20 * 6, 0));
+        who.addStatusEffect(new StatusEffectInstance(InfiniumEffects.IMMUNITY, 20 * 6, 0));
     }
 
 }

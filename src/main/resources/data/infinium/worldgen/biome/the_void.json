@@ -30,10 +30,22 @@
         "maxCount": 1
       },
       {
-        "type": "infinium:void_enderman",
+        "type": "infinium:void_creeper",
+        "weight": 2,
+        "minCount": 1,
+        "maxCount": 3
+      },
+      {
+        "type": "infinium:void_skeleton",
         "weight": 3,
         "minCount": 1,
-        "maxCount": 6
+        "maxCount": 3
+      },
+      {
+        "type": "infinium:void_enderman",
+        "weight": 4,
+        "minCount": 1,
+        "maxCount": 4
       }
     ],
     "creature": [],

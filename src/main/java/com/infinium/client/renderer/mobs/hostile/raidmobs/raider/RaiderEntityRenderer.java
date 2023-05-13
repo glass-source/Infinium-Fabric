@@ -13,7 +13,7 @@ public class RaiderEntityRenderer extends IllagerEntityRenderer<RaiderEntity> {
     private static final Identifier TEXTURE = new Identifier(Infinium.MOD_ID,"textures/entity/raider/raider.png");
 
     public RaiderEntityRenderer(EntityRendererFactory.Context context) {
-        super(context, new InfiniumPillagerModel<>(context.getPart(InfiniumPillagerModel.PILLAGER_INFINIUM)), 0.5F);
+        super(context, new InfiniumPillagerModel<>(context.getPart(InfiniumPillagerModel.INFINIUM_PILLAGER)), 0.5F);
         this.addFeature(new HeldItemFeatureRenderer<>(this));
     }
 

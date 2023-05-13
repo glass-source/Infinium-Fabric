@@ -175,22 +175,24 @@ public class StaffCommand {
             var attributeInstance = player.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH);
             if (attributeInstance == null) return -1;
 
+
             if (values >= 30) {
-                attributeInstance.addPersistentModifier(finalTotemDebuff);
+                if (!attributeInstance.hasModifier(finalTotemDebuff)) attributeInstance.addPersistentModifier(finalTotemDebuff);
 
             } else if (values >= 25) {
                 attributeInstance.removeModifier(finalTotemDebuff);
-                attributeInstance.addPersistentModifier(secondTotemDebuff);
+                if (!attributeInstance.hasModifier(secondTotemDebuff)) attributeInstance.addPersistentModifier(secondTotemDebuff);
 
             } else if(values >= 15) {
                 attributeInstance.removeModifier(finalTotemDebuff);
                 attributeInstance.removeModifier(secondTotemDebuff);
-                attributeInstance.addPersistentModifier(firstTotemDebuff);
+                if (!attributeInstance.hasModifier(firstTotemDebuff)) attributeInstance.addPersistentModifier(firstTotemDebuff);
 
             } else {
                 attributeInstance.removeModifier(finalTotemDebuff);
                 attributeInstance.removeModifier(secondTotemDebuff);
                 attributeInstance.removeModifier(firstTotemDebuff);
+                attributeInstance.setBaseValue(20.0f);
             }
 
             player.setHealth(player.getMaxHealth());

@@ -5,10 +5,16 @@ import com.google.gson.GsonBuilder;
 import com.infinium.global.config.data.adapters.ScheduledFutureInstanceCreator;
 import com.infinium.global.utils.DateUtils;
 import com.infinium.server.InfiniumServerManager;
+import com.infinium.server.blocks.InfiniumBlocks;
+import com.infinium.server.items.InfiniumItems;
 import com.mojang.logging.LogUtils;
 import net.fabricmc.api.ModInitializer;
+import net.kyrptonaught.customportalapi.api.CustomPortalBuilder;
+import net.kyrptonaught.customportalapi.util.CPASoundEventData;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
+
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -36,7 +42,18 @@ public class Infinium implements ModInitializer {
         instance = this;
         this.core = new InfiniumServerManager(this);
         this.core.initMod();
+        initPortals();
+    }
 
+    private void initPortals() {
+        CustomPortalBuilder.beginPortal()
+                .frameBlock(InfiniumBlocks.VOID_STONE)
+                .destDimID(id("the_void"))
+                .tintColor(0, 0, 0)
+                .flatPortal()
+                .registerPostTPPortalAmbience((player) -> new CPASoundEventData(SoundEvents.AMBIENT_CAVE, 1, 100))
+                .lightWithItem(InfiniumItems.VOID_EYE)
+                .registerPortal();
     }
 
     public InfiniumServerManager getCore(){

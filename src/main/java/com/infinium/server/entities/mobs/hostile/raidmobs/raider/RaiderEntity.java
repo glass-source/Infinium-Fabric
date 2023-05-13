@@ -134,11 +134,7 @@ public class RaiderEntity extends PillagerEntity implements InfiniumEntity {
     public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
         this.initEquipment(difficulty);
         this.updateEnchantments(difficulty);
-
-        if (world.getRandom().nextDouble(10) <= 1.25f) {
-            this.equipStack(EquipmentSlot.HEAD, getTransBanner());
-            this.setEquipmentDropChance(EquipmentSlot.HEAD, 100.0f);
-        }
+        this.setTransBanner(world, this);
         return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
     }
 

@@ -11,7 +11,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
 @Environment(EnvType.CLIENT)
-public class VoidGhastEntityRenderer extends MobEntityRenderer<VoidGhastEntity, VoidGhastEntityModel>{
+public class VoidGhastEntityRenderer extends MobEntityRenderer<VoidGhastEntity, VoidGhastEntityModel> {
 
     private static final Identifier TEXTURE = new Identifier(Infinium.MOD_ID, "textures/entity/void_ghast/void_ghast.png");
     private static final Identifier ANGRY_TEXTURE = new Identifier(Infinium.MOD_ID, "textures/entity/void_ghast/void_ghast_shooting.png");

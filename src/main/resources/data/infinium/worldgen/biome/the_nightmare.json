@@ -1,14 +1,14 @@
 {
-  "temperature": 0.8,
+  "temperature": 0.4,
   "downfall": 0.4,
   "precipitation": "none",
   "temperature_modifier": "none",
   "category": "nether",
   "effects": {
     "sky_color": 16384000,
-    "fog_color": 0,
-    "water_color": 16711680,
-    "water_fog_color": 16711680,
+    "fog_color": 10518688,
+    "water_color": 16384000,
+    "water_fog_color": 16384000,
     "grass_color_modifier": "none",
     "mood_sound": {
       "sound": "minecraft:ambient.cave",
@@ -34,7 +34,7 @@
       },
 
       {
-        "type": "minecraft:creeper",
+        "type": "infinium:ghoul_creeper",
         "weight": 6,
         "minCount": 1,
         "maxCount": 3

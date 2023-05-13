@@ -13,7 +13,6 @@ import java.util.Random;
 // Exported for Minecraft version 1.17+ for Yarn
 // Paste this class into your mod and generate all required imports
 public class VoidGhastEntityModel extends EntityModel<VoidGhastEntity> {
-
 	private final ModelPart body;
 	private final ModelPart[] tentacles = new ModelPart[9];
 

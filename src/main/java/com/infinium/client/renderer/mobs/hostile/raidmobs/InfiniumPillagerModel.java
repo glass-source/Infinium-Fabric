@@ -14,7 +14,7 @@ import net.minecraft.util.Identifier;
 // Paste this class into your mod and generate all required imports
 public class InfiniumPillagerModel<T extends IllagerEntity> extends IllagerEntityModel<T> {
 
-	public static final EntityModelLayer PILLAGER_INFINIUM = new EntityModelLayer(new Identifier(Infinium.MOD_ID, "pillager_infinium"), "pillager_infinium");
+	public static final EntityModelLayer INFINIUM_PILLAGER = new EntityModelLayer(new Identifier(Infinium.MOD_ID, "pillager_infinium"), "pillager_infinium");
 
 	public final ModelPart head;
 	public final ModelPart hat;
