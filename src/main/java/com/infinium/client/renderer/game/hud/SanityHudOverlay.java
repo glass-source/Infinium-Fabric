@@ -38,7 +38,8 @@ public class SanityHudOverlay implements HudRenderCallback {
         textMatrix.scale(1.5f, 1.5f, 1.0f);
 
         renderBar(textureMatrix, scaledWidth - 25, scaledHeight - 10, p);
-        DrawableHelper.drawTextWithShadow(textMatrix, client.textRenderer, ChatFormatter.text("&7[&4" + playerSanity + "%&7]"), (scaledWidth * 2) - 45, (scaledHeight * 2) - 50, 0x900D09);
+        String color = playerSanity < 50 ? "&4" : "&6";
+        DrawableHelper.drawTextWithShadow(textMatrix, client.textRenderer, ChatFormatter.text("&7[" + color + playerSanity + "%&7]"), (scaledWidth * 2) - 45, (scaledHeight * 2) - 50, 0x900D09);
     }
 
     private void renderBar(MatrixStack matrices, int x, int y, ClientPlayerEntity p) {

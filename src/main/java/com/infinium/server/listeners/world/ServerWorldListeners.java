@@ -23,7 +23,6 @@ public class ServerWorldListeners {
 
             if (world.getRegistryKey().getValue().toString().equals("infinium:the_nightmare")) {
                 var chunkPos = chunk.getPos();
-
                 if (world.getRandom().nextInt(220) == 1) {
                     Executors.newSingleThreadScheduledExecutor().schedule(() -> {
                         if (chunkRadius.contains(chunkPos.getCenterX(), 0, chunkPos.getCenterZ())) return;

@@ -57,30 +57,32 @@ public class SanityTask {
         var timeCooldownSeconds = timeCooldownTicks / 20;
         var timeCooldownMinutes = timeCooldownSeconds % 3600 / 60;
         var timeCooldownHours = timeCooldownSeconds % 86400 / 3600;
-        var timeCooldownDays = timeCooldownSeconds / 86400;
         timeCooldownSeconds %= 60;
 
-        p.sendMessage(ChatFormatter.text("&6" + ((timeCooldownDays > 0L ? String.format("%02d", timeCooldownDays) + ":" : "") +
-        String.format("%02d:%02d:%02d", timeCooldownHours, timeCooldownMinutes, timeCooldownSeconds))), true);
+        var color = timeCooldownTicks <= 5000 ? "&4" : "&6";
+        var msg = ChatFormatter.text(color+ String.format("%02d:%02d:%02d", timeCooldownHours, timeCooldownMinutes, timeCooldownSeconds));
+        p.sendMessage(msg, true);
     }
 
     private void calcSanity(PlayerEntity p) {
         if (shouldPreventEffects(p)) return;
-
         int timeCooldownTicks = manager.get(p, manager.TIME_COOLDOWN);
-        if (p.getHealth() >= p.getMaxHealth() - 6.0) manager.decrease(p, 1, manager.POSITIVE_HEALTH_COOLDOWN);
-        if (p.getHealth() <= (p.getMaxHealth() * 0.5)) manager.decrease(p, 1, manager.NEGATIVE_HEALTH_COOLDOWN);
+
+        if (p.getHealth() >= p.getMaxHealth() - 4.0) manager.decrease(p, 1, manager.POSITIVE_HEALTH_COOLDOWN);
+        else if (p.getHealth() <= (p.getMaxHealth() * 0.5)) manager.decrease(p, 1, manager.NEGATIVE_HEALTH_COOLDOWN);
+
         if (timeCooldownTicks > 0) manager.decrease (p, 1, manager.TIME_COOLDOWN);
-        if (timeCooldownTicks <= 0) decreaseRandomSanity(p, 50);
-        if (p.getAttacker() != null) decreaseRandomSanity(p, 120);
+        if (timeCooldownTicks <= 5000) decreaseRandomSanity(p, 40);
+
+        if (p.getAttacker() != null) decreaseRandomSanity(p, 80);
         else increaseRandomSanity(p, 120);
-        if (p.age - p.getLastAttackedTime() > 100) decreaseRandomSanity(p, 100);
-        if (hasNegativeEffects(p)) decreaseRandomSanity(p, 100);
+
+        if (hasNegativeEffects(p)) decreaseRandomSanity(p, 50);
         if (hasPositiveEffects(p)) increaseRandomSanity(p, 100);
 
         if (manager.get(p, manager.POSITIVE_HEALTH_COOLDOWN) <= 0) {
             manager.add(p, 1, manager.SANITY);
-            manager.set(p, 80, manager.POSITIVE_HEALTH_COOLDOWN);
+            manager.set(p, 120, manager.POSITIVE_HEALTH_COOLDOWN);
         }
 
         if (manager.get(p, manager.NEGATIVE_HEALTH_COOLDOWN) <= 0) {
