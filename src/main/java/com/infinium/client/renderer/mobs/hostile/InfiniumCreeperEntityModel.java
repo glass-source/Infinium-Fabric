@@ -1,20 +1,16 @@
 package com.infinium.client.renderer.mobs.hostile;
 
-import com.infinium.Infinium;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.client.render.entity.model.SinglePartEntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 
 // Made with Blockbench 4.6.0
 // Exported for Minecraft version 1.17+ for Yarn
 // Paste this class into your mod and generate all required imports
 public class InfiniumCreeperEntityModel<T extends Entity> extends SinglePartEntityModel<T> {
-	public static final EntityModelLayer INFINIUM_CREEPER = new EntityModelLayer(new Identifier(Infinium.MOD_ID, "infinium_creeper"), "infinium_creeper");
 	private final ModelPart root;
 	private final ModelPart head;
 	private final ModelPart body;

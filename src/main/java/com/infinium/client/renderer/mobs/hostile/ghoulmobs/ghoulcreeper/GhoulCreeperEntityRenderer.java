@@ -1,6 +1,7 @@
 package com.infinium.client.renderer.mobs.hostile.ghoulmobs.ghoulcreeper;
 
 import com.infinium.Infinium;
+import com.infinium.client.renderer.mobs.InfiniumModelLayers;
 import com.infinium.client.renderer.mobs.hostile.InfiniumCreeperEntityModel;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -19,7 +20,7 @@ import net.minecraft.util.Identifier;
 public class GhoulCreeperEntityRenderer extends MobEntityRenderer<CreeperEntity, InfiniumCreeperEntityModel<CreeperEntity>> {
     private static final Identifier TEXTURE = new Identifier(Infinium.MOD_ID,"textures/entity/ghoul_creeper/ghoul_creeper.png");
     public GhoulCreeperEntityRenderer(EntityRendererFactory.Context context) {
-        super(context, new InfiniumCreeperEntityModel<>(context.getPart(InfiniumCreeperEntityModel.INFINIUM_CREEPER)), 0.5F);
+        super(context, new InfiniumCreeperEntityModel<>(context.getPart(InfiniumModelLayers.INFINIUM_CREEPER)), 0.5F);
         this.addFeature(new GhoulCreeperChargeFeatureRenderer(this, context.getModelLoader()));
 
     }

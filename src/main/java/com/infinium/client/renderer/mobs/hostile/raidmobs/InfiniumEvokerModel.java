@@ -1,17 +1,14 @@
 package com.infinium.client.renderer.mobs.hostile.raidmobs;
 
-import com.infinium.Infinium;
 import net.minecraft.client.model.*;
-import net.minecraft.client.render.entity.model.*;
+import net.minecraft.client.render.entity.model.IllagerEntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.mob.IllagerEntity;
 import net.minecraft.util.Arm;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 
 public class InfiniumEvokerModel<T extends IllagerEntity> extends IllagerEntityModel<T> {
 
-    public static final EntityModelLayer INFINIUM_EVOKER = new EntityModelLayer(new Identifier(Infinium.MOD_ID, "infinium_evoker"), "infinium_evoker");
     private final ModelPart root;
     private final ModelPart head;
     private final ModelPart hat;
@@ -126,7 +123,6 @@ public class InfiniumEvokerModel<T extends IllagerEntity> extends IllagerEntityM
         this.leftArm.visible = !bl;
         this.rightArm.visible = !bl;
     }
-
     private ModelPart getAttackingArm(Arm arm) {
         return arm == Arm.LEFT ? this.leftArm : this.rightArm;
     }

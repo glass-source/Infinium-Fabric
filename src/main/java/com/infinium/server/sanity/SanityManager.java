@@ -1,9 +1,8 @@
 package com.infinium.server.sanity;
 
 import com.infinium.Infinium;
-import com.infinium.networking.InfiniumPackets;
 import com.infinium.global.utils.EntityDataSaver;
-import lombok.Getter;
+import com.infinium.networking.InfiniumPackets;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -12,7 +11,6 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class SanityManager {
     public ArrayList<ServerPlayerEntity> totalPlayers = new ArrayList<>();
@@ -45,9 +43,14 @@ public class SanityManager {
 
     public void set(PlayerEntity player, int amount, String arg){
         NbtCompound data = getData(player);
-        data.putInt(arg, Math.max(0, Math.min(100, amount)));
-        if (!(player instanceof ServerPlayerEntity)) return;
-        if (arg.equals(SANITY)) syncSanity((ServerPlayerEntity) player, Math.max(0, Math.min(100, amount)));
+        if (!arg.equals(SANITY)) {
+            data.putInt(arg, amount);
+        } else {
+            var maxAmount = Math.max(0, Math.min(100, amount));
+            data.putInt(arg, maxAmount);
+            if (!(player instanceof ServerPlayerEntity)) return;
+            syncSanity((ServerPlayerEntity) player, maxAmount);
+        }
     }
 
     public int get(PlayerEntity player, String arg) {

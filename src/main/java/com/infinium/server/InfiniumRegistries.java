@@ -3,13 +3,17 @@ package com.infinium.server;
 import com.infinium.server.commands.InfiniumCommand;
 import com.infinium.server.commands.StaffCommand;
 import com.infinium.server.entities.InfiniumEntityType;
+import com.infinium.server.entities.mobs.hostile.dungeon.pirate.BlackBeardEntity;
 import com.infinium.server.entities.mobs.hostile.dungeon.pirate.PirateSkeletonEntity;
 import com.infinium.server.entities.mobs.hostile.ghoulmobs.ghoulcreeper.GhoulCreeperEntity;
+import com.infinium.server.entities.mobs.hostile.ghoulmobs.ghoulspider.GhoulSpiderEntity;
+import com.infinium.server.entities.mobs.hostile.ghoulmobs.ghoulwitch.GhoulWitchEntity;
+import com.infinium.server.entities.mobs.hostile.ghoulmobs.ghoulzombie.GhoulZombieEntity;
+import com.infinium.server.entities.mobs.hostile.nightmare.nightmareblaze.NightmareBlazeEntity;
 import com.infinium.server.entities.mobs.hostile.nightmare.nightmarebrute.NightmareBruteEntity;
 import com.infinium.server.entities.mobs.hostile.nightmare.nightmareghast.NightmareGhastEntity;
+import com.infinium.server.entities.mobs.hostile.nightmare.nightmarehoglin.NightmareHoglinEntity;
 import com.infinium.server.entities.mobs.hostile.nightmare.nightmareskeleton.NightmareSkeletonEntity;
-import com.infinium.server.entities.mobs.hostile.ghoulmobs.ghoulspider.GhoulSpiderEntity;
-import com.infinium.server.entities.mobs.hostile.ghoulmobs.ghoulzombie.GhoulZombieEntity;
 import com.infinium.server.entities.mobs.hostile.raidmobs.berserker.BerserkerEntity;
 import com.infinium.server.entities.mobs.hostile.raidmobs.raider.RaiderEntity;
 import com.infinium.server.entities.mobs.hostile.raidmobs.sorcerer.ExplosiveSorcererEntity;
@@ -50,12 +54,15 @@ public class InfiniumRegistries {
         setAttributes(InfiniumEntityType.GHOUL_SPIDER, GhoulSpiderEntity.createGhoulSpiderAttributes());
         setAttributes(InfiniumEntityType.GHOUL_ZOMBIE, GhoulZombieEntity.createGhoulZombieAttributes());
         setAttributes(InfiniumEntityType.GHOUL_CREEPER, GhoulCreeperEntity.createGhoulCreeperAttributes());
+        setAttributes(InfiniumEntityType.GHOUL_WITCH, GhoulWitchEntity.createGhoulWitchAttributes());
     }
 
     private static void registerNightmareAttributes() {
         setAttributes(InfiniumEntityType.NIGHTMARE_SKELETON, NightmareSkeletonEntity.createNightmareSkeletonAttributes());
         setAttributes(InfiniumEntityType.NIGHTMARE_GHAST, NightmareGhastEntity.createNightmareGhastAttributes());
         setAttributes(InfiniumEntityType.NIGHTMARE_BRUTE, NightmareBruteEntity.createNightmareBruteAttributes());
+        setAttributes(InfiniumEntityType.NIGHTMARE_HOGLIN, NightmareHoglinEntity.createNightmareHoglinAttributes());
+        setAttributes(InfiniumEntityType.NIGHTMARE_BLAZE, NightmareBlazeEntity.createNightmareBlazeAttributes());
     }
     private static void registerVoidMobAttributes(){
         setAttributes(InfiniumEntityType.VOID_GHAST, VoidGhastEntity.createVoidGhastAttributes());
@@ -72,6 +79,7 @@ public class InfiniumRegistries {
 
     private static void registerDungeonMobAttributes() {
         setAttributes(InfiniumEntityType.PIRATE_SKELETON, PirateSkeletonEntity.createPirateSkeletonAttributes());
+        setAttributes(InfiniumEntityType.BLACK_BEARD, BlackBeardEntity.createBlackBeardAttributes());
     }
 
     private static void registerRaidMobAttributes() {

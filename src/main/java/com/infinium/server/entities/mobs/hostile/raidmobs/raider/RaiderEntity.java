@@ -3,6 +3,7 @@ package com.infinium.server.entities.mobs.hostile.raidmobs.raider;
 import com.infinium.server.entities.InfiniumEntity;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
@@ -52,6 +53,7 @@ public class RaiderEntity extends PillagerEntity implements InfiniumEntity {
         this.goalSelector.add(8, new WanderAroundGoal(this, 0.6));
         this.goalSelector.add(9, new LookAtEntityGoal(this, PlayerEntity.class, 15.0F, 1.0F));
         this.goalSelector.add(10, new LookAtEntityGoal(this, MobEntity.class, 15.0F));
+
         this.targetSelector.add(1, (new RevengeGoal(this, net.minecraft.entity.raid.RaiderEntity.class)).setGroupRevenge());
         this.targetSelector.add(2, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
     }
@@ -139,14 +141,17 @@ public class RaiderEntity extends PillagerEntity implements InfiniumEntity {
     }
 
     protected void enchantMainHandItem(float power) {
-        super.enchantMainHandItem(power);
         ItemStack itemStack = this.getMainHandStack();
-        if (itemStack.isOf(Items.CROSSBOW)) {
-            Map<Enchantment, Integer> map = EnchantmentHelper.get(itemStack);
-            map.putIfAbsent(Enchantments.PIERCING, 3);
-            EnchantmentHelper.set(map, itemStack);
-            this.equipStack(EquipmentSlot.MAINHAND, itemStack);
+        if (EnchantmentTarget.CROSSBOW.isAcceptableItem(itemStack.getItem())) {
+            if (itemStack.isOf(Items.CROSSBOW)) {
+                Map<Enchantment, Integer> map = EnchantmentHelper.get(itemStack);
+                map.putIfAbsent(Enchantments.PIERCING, 3);
+                EnchantmentHelper.set(map, itemStack);
+                this.equipStack(EquipmentSlot.MAINHAND, itemStack);
+            }
+            super.enchantMainHandItem(power);
         }
+
     }
 
     public boolean isTeammate(Entity other) {

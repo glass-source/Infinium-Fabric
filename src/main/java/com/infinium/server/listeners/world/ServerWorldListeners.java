@@ -2,10 +2,10 @@ package com.infinium.server.listeners.world;
 
 import com.infinium.Infinium;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerChunkEvents;
-import net.minecraft.world.chunk.Chunk;
+import net.minecraft.util.math.Box;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class ServerWorldListeners {
 
@@ -16,50 +16,28 @@ public class ServerWorldListeners {
     public void registerListeners() {
         //chunkLoadCallback();
     }
-    private final List<Chunk> loadedChunks = new ArrayList<>();
-
-    private Runnable generateStructureTask;
+    private final Box chunkRadius = new Box(250.0f, -64.0f, 250.0f, -250.0f, 320.0f, -250.0f);
     private void chunkLoadCallback() {
         //TODO fix crash
         ServerChunkEvents.CHUNK_LOAD.register(((world, chunk) -> {
 
-            if (loadedChunks.contains(chunk)) return;
-            if (world.getRandom().nextInt(125) == 1) {
-                generateStructureTask = () -> {
-                    loadedChunks.add(chunk);
-                    switch (world.getRegistryKey().getValue().toString()) {
-                        case "infinium:the_nightmare" -> {
-                            var chunkPos = chunk.getPos();
-                            var blockpos = chunkPos.getCenterAtY(0);
-                            var posX = blockpos.getX();
-                            var posY = 130;
-                            var posZ = blockpos.getZ();
-                            Infinium.getInstance().LOGGER.info("Generated Zeppelin at: ${}, ${}, ${}", posX ,posY, posZ);
-                            instance.getCore().loadSchem("ZepelinDia0", world, posX, posY, posZ);
-                        }
+            if (world.getRegistryKey().getValue().toString().equals("infinium:the_nightmare")) {
+                var chunkPos = chunk.getPos();
 
-                        case "infinium:the_void" -> {
-
-                        }
-
-                        case "minecraft:overworld" -> {
-
-                        }
-
-                    }
-                };
-                world.getServer().execute(generateStructureTask);
-
+                if (world.getRandom().nextInt(220) == 1) {
+                    Executors.newSingleThreadScheduledExecutor().schedule(() -> {
+                        if (chunkRadius.contains(chunkPos.getCenterX(), 0, chunkPos.getCenterZ())) return;
+                        chunkRadius.expand(chunkPos.getCenterX(), 0, chunkPos.getCenterZ());
+                        var blockpos = chunkPos.getCenterAtY(0);
+                        var posX = blockpos.getX();
+                        var posY = 130;
+                        var posZ = blockpos.getZ();
+                        Infinium.getInstance().LOGGER.info("Generated Zeppelin at: ${}, ${}, ${}", posX, posY, posZ);
+                        instance.getCore().loadSchem("ZepelinDia0", world, posX, posY, posZ);
+                    }, 4, TimeUnit.SECONDS);
+                }
             }
         }));
     }
-
-    private void chunkUnloadCallback() {
-        ServerChunkEvents.CHUNK_UNLOAD.register((((world, chunk) -> {
-
-        })));
-    }
-
-
 
 }

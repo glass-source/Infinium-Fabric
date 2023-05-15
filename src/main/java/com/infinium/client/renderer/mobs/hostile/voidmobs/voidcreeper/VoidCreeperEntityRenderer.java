@@ -1,6 +1,7 @@
 package com.infinium.client.renderer.mobs.hostile.voidmobs.voidcreeper;
 
 import com.infinium.Infinium;
+import com.infinium.client.renderer.mobs.InfiniumModelLayers;
 import com.infinium.client.renderer.mobs.hostile.InfiniumCreeperEntityModel;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -20,7 +21,7 @@ import net.minecraft.util.Identifier;
 public class VoidCreeperEntityRenderer extends MobEntityRenderer<CreeperEntity, InfiniumCreeperEntityModel<CreeperEntity>> {
     private static final Identifier TEXTURE = new Identifier(Infinium.MOD_ID,"textures/entity/void_creeper/void_creeper.png");
     public VoidCreeperEntityRenderer(EntityRendererFactory.Context context) {
-        super(context, new InfiniumCreeperEntityModel<>(context.getPart(InfiniumCreeperEntityModel.INFINIUM_CREEPER)), 0.5F);
+        super(context, new InfiniumCreeperEntityModel<>(context.getPart(InfiniumModelLayers.INFINIUM_CREEPER)), 0.5F);
         this.addFeature(new VoidCreeperChargeFeatureRenderer(this, context.getModelLoader()));
 
     }

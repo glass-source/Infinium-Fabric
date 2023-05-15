@@ -31,6 +31,7 @@ public abstract class ServerWorldMixin {
 
     @Inject(method = "addEntity", at = @At("TAIL"))
     public void onSpawnEntity(Entity entity, CallbackInfoReturnable<Boolean> cir) {
+        if (cir.isCancelled()) return;
         EntitySpawnEvent.EVENT.invoker().spawn(entity);
     }
 }

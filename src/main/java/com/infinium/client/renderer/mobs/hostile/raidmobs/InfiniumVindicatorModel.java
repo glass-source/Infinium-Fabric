@@ -13,7 +13,6 @@ import net.minecraft.util.math.MathHelper;
 
 public class InfiniumVindicatorModel<T extends IllagerEntity> extends IllagerEntityModel<T> {
 
-    public static final EntityModelLayer VINDICATOR_INFINIUM = new EntityModelLayer(new Identifier(Infinium.MOD_ID, "vindicator_infinium"), "vindicator_infinium");
     private final ModelPart root;
     private final ModelPart head;
     private final ModelPart hat;

@@ -6,16 +6,17 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.MobEntityRenderer;
-import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
+
+import static com.infinium.client.renderer.mobs.InfiniumModelLayers.VOID_GHAST;
 
 @Environment(EnvType.CLIENT)
 public class VoidGhastEntityRenderer extends MobEntityRenderer<VoidGhastEntity, VoidGhastEntityModel> {
 
     private static final Identifier TEXTURE = new Identifier(Infinium.MOD_ID, "textures/entity/void_ghast/void_ghast.png");
     private static final Identifier ANGRY_TEXTURE = new Identifier(Infinium.MOD_ID, "textures/entity/void_ghast/void_ghast_shooting.png");
-    public static final EntityModelLayer VOID_GHAST = new EntityModelLayer(new Identifier(Infinium.MOD_ID, "void_ghast"), "void_ghast");
+
 
     public VoidGhastEntityRenderer(EntityRendererFactory.Context context) {
         super(context, new VoidGhastEntityModel(context.getPart(VOID_GHAST)), 1.5F);

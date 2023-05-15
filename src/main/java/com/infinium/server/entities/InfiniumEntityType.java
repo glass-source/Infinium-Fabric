@@ -1,10 +1,14 @@
 package com.infinium.server.entities;
 
 import com.infinium.Infinium;
+import com.infinium.server.entities.mobs.hostile.dungeon.pirate.BlackBeardEntity;
 import com.infinium.server.entities.mobs.hostile.dungeon.pirate.PirateSkeletonEntity;
 import com.infinium.server.entities.mobs.hostile.ghoulmobs.ghoulcreeper.GhoulCreeperEntity;
+import com.infinium.server.entities.mobs.hostile.ghoulmobs.ghoulwitch.GhoulWitchEntity;
+import com.infinium.server.entities.mobs.hostile.nightmare.nightmareblaze.NightmareBlazeEntity;
 import com.infinium.server.entities.mobs.hostile.nightmare.nightmarebrute.NightmareBruteEntity;
 import com.infinium.server.entities.mobs.hostile.nightmare.nightmareghast.NightmareGhastEntity;
+import com.infinium.server.entities.mobs.hostile.nightmare.nightmarehoglin.NightmareHoglinEntity;
 import com.infinium.server.entities.mobs.hostile.nightmare.nightmareskeleton.NightmareSkeletonEntity;
 import com.infinium.server.entities.mobs.hostile.ghoulmobs.ghoulspider.GhoulSpiderEntity;
 import com.infinium.server.entities.mobs.hostile.ghoulmobs.ghoulzombie.GhoulZombieEntity;
@@ -50,6 +54,10 @@ public class InfiniumEntityType {
     public static EntityType<PirateSkeletonEntity> PIRATE_SKELETON;
     public static EntityType<NightmareGhastEntity> NIGHTMARE_GHAST;
     public static EntityType<NightmareBruteEntity> NIGHTMARE_BRUTE;
+    public static EntityType<GhoulWitchEntity> GHOUL_WITCH;
+    public static EntityType<NightmareHoglinEntity> NIGHTMARE_HOGLIN;
+    public static EntityType<NightmareBlazeEntity> NIGHTMARE_BLAZE;
+    public static EntityType<BlackBeardEntity> BLACK_BEARD;
 
     public static List<EntityType<? extends MobEntity>> getEntityTypes() {
         return List.of(
@@ -69,7 +77,11 @@ public class InfiniumEntityType {
                 NIGHTMARE_SKELETON,
                 PIRATE_SKELETON,
                 NIGHTMARE_GHAST,
-                NIGHTMARE_BRUTE
+                NIGHTMARE_BRUTE,
+                GHOUL_WITCH,
+                NIGHTMARE_HOGLIN,
+                NIGHTMARE_BLAZE,
+                BLACK_BEARD
         );
     }
 
@@ -96,12 +108,15 @@ public class InfiniumEntityType {
         GHOUL_SPIDER = register("ghoul_spider", createEntityType(GhoulSpiderEntity::new, SpawnGroup.MONSTER, 1.5f, 1.1f));
         GHOUL_ZOMBIE = register("ghoul_zombie", createEntityType(GhoulZombieEntity::new, SpawnGroup.MONSTER, 0.8f, 1.95f));
         GHOUL_CREEPER = register("ghoul_creeper", createEntityType(GhoulCreeperEntity::new, SpawnGroup.MONSTER, 0.6f, 1.7f));
+        GHOUL_WITCH = register("ghoul_witch", createEntityType(GhoulWitchEntity::new, SpawnGroup.MONSTER, 0.7f, 1.95f));
     }
 
     private static void registerNightmareMobs() {
         NIGHTMARE_SKELETON = register("nightmare_skeleton", createEntityType(NightmareSkeletonEntity::new, SpawnGroup.MONSTER, 0.7f, 1.95f));
         NIGHTMARE_GHAST = register("nightmare_ghast", createEntityType(NightmareGhastEntity::new, SpawnGroup.MONSTER, 4.5f, 4.5f));
         NIGHTMARE_BRUTE = register("nightmare_brute", createEntityType(NightmareBruteEntity::new, SpawnGroup.MONSTER, 0.6f, 1.95f));
+        NIGHTMARE_HOGLIN = register("nightmare_hoglin", createEntityType(NightmareHoglinEntity::new, SpawnGroup.MONSTER, 1.4f, 1.4f));
+        NIGHTMARE_BLAZE = register("nightmare_blaze", createEntityType(NightmareBlazeEntity::new, SpawnGroup.MONSTER, 0.65f, 1.85f));
     }
 
     private static void registerNeutralMobs() {
@@ -109,13 +124,14 @@ public class InfiniumEntityType {
     }
 
     private static void registerRaidMobs() {
-        EXPLOSIVE_SORCERER = register("explosive_sorcerer", createEntityType(ExplosiveSorcererEntity::new, SpawnGroup.MONSTER, 0.75f, 1.85f));
-        BERSERKER = register("berserker", createEntityType(BerserkerEntity::new, SpawnGroup.MONSTER, 0.75f, 1.85f));
-        RAIDER = register("raider", createEntityType(RaiderEntity::new, SpawnGroup.MONSTER, 0.75f, 1.85f));
+        EXPLOSIVE_SORCERER = register("explosive_sorcerer", createEntityType(ExplosiveSorcererEntity::new, SpawnGroup.MONSTER, 0.7f, 1.9f));
+        BERSERKER = register("berserker", createEntityType(BerserkerEntity::new, SpawnGroup.MONSTER, 0.75f, 1.9f));
+        RAIDER = register("raider", createEntityType(RaiderEntity::new, SpawnGroup.MONSTER, 0.7f, 1.95f));
     }
 
     private static void registerDungeonMobs() {
         PIRATE_SKELETON = register("pirate_skeleton", createEntityType(PirateSkeletonEntity::new, SpawnGroup.MONSTER, 0.7f, 2.0f));
+        BLACK_BEARD = register("black_beard", createEntityType(BlackBeardEntity::new, SpawnGroup.MONSTER, 0.7f, 1.95f));
     }
 
     private static <T extends Entity> EntityType<T> register(String s, EntityType<T> bombEntityType) {

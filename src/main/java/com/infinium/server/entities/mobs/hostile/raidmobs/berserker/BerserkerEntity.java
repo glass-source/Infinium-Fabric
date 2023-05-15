@@ -36,10 +36,8 @@ public class BerserkerEntity extends VindicatorEntity implements InfiniumEntity 
         this.goalSelector.add(1, new BerserkerBreakDoorGoal(this));
         this.goalSelector.add(2, new IllagerEntity.LongDoorInteractGoal(this));
         this.goalSelector.add(3, new RaiderEntity.PatrolApproachGoal(this, 10.0F));
-        this.goalSelector.add(4, new BerserkerAttackGoal(this));
         this.targetSelector.add(1, (new RevengeGoal(this, RaiderEntity.class)).setGroupRevenge());
         this.targetSelector.add(2, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
-        this.targetSelector.add(4, new TargetGoal(this));
         this.goalSelector.add(8, new WanderAroundGoal(this, 0.6));
         this.goalSelector.add(9, new LookAtEntityGoal(this, PlayerEntity.class, 3.0F, 1.0F));
         this.goalSelector.add(10, new LookAtEntityGoal(this, MobEntity.class, 8.0F));
@@ -132,19 +130,6 @@ public class BerserkerEntity extends VindicatorEntity implements InfiniumEntity 
         }
     }
 
-    private static class TargetGoal extends ActiveTargetGoal<LivingEntity> {
-        public TargetGoal(BerserkerEntity vindicator) {
-            super(vindicator, LivingEntity.class, 0, true, true, LivingEntity::isMobOrPlayer);
-        }
 
-        public boolean canStart() {
-            return super.canStart();
-        }
-
-        public void start() {
-            super.start();
-            this.mob.setDespawnCounter(0);
-        }
-    }
     
 }

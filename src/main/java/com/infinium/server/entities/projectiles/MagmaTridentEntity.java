@@ -1,5 +1,6 @@
 package com.infinium.server.entities.projectiles;
 
+import com.infinium.server.entities.InfiniumEntity;
 import com.infinium.server.items.InfiniumItems;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -22,7 +23,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-public class MagmaTridentEntity extends TridentEntity {
+public class MagmaTridentEntity extends TridentEntity implements InfiniumEntity {
 
     public final ItemStack tridentStack;
     public static final TrackedData<Boolean> MAGMA;
@@ -93,7 +94,7 @@ public class MagmaTridentEntity extends TridentEntity {
             }
         }
 
-        playSound(soundEvent, g, 1.0F);
+        playSound(soundEvent, g, 0.043F);
     }
 
 

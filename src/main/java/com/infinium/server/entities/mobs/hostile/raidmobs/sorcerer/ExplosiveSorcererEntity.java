@@ -1,15 +1,21 @@
 package com.infinium.server.entities.mobs.hostile.raidmobs.sorcerer;
 
+import com.infinium.global.utils.ChatFormatter;
 import com.infinium.server.entities.InfiniumEntity;
+import com.infinium.server.items.InfiniumItems;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.raid.RaiderEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
@@ -21,30 +27,16 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
-import net.minecraft.world.explosion.Explosion;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Random;
-
-public class ExplosiveSorcererEntity extends EvokerEntity implements InfiniumEntity {
-    public ExplosiveSorcererEntity(EntityType<? extends EvokerEntity> entityType, World world) {
+public class ExplosiveSorcererEntity extends SpellcastingIllagerEntity implements InfiniumEntity {
+    public ExplosiveSorcererEntity(EntityType<? extends ExplosiveSorcererEntity> entityType, World world) {
         super(entityType, world);
-
-    }
-    protected void initGoals() {
-        super.initGoals();
-        this.goalSelector.add(0, new SwimGoal(this));
-        this.goalSelector.add(2, new FleeEntityGoal<>(this, PlayerEntity.class, 8.0F, 0.6, 1.0));
-        this.goalSelector.add(4, new ExplosiveSorcererEntity.SummonVexGoal());
-        this.goalSelector.add(2, new ExplosiveSorcererEntity.ConjureFangsGoal());
-        this.goalSelector.add(8, new WanderAroundGoal(this, 0.6));
-        this.goalSelector.add(9, new LookAtEntityGoal(this, PlayerEntity.class, 3.0F, 1.0F));
-        this.goalSelector.add(10, new LookAtEntityGoal(this, MobEntity.class, 8.0F));
-        this.targetSelector.add(1, (new RevengeGoal(this, RaiderEntity.class)).setGroupRevenge());
-        this.targetSelector.add(2, (new ActiveTargetGoal<>(this, PlayerEntity.class, true)).setMaxTimeWithoutVisibility(300));
+        this.setCustomName(ChatFormatter.text("&6Explosive Sorcerer"));
     }
 
-    @Nullable @Override
+    @Nullable
+    @Override
     public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
         this.setTransBanner(world, this);
         return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
@@ -52,22 +44,40 @@ public class ExplosiveSorcererEntity extends EvokerEntity implements InfiniumEnt
 
     public static DefaultAttributeContainer.Builder createSorcererAttributes() {
         return HostileEntity.createHostileAttributes()
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.75)
-                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 18.0)
-                .add(EntityAttributes.GENERIC_MAX_HEALTH, 20.0);
+                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.6)
+                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 12.0)
+                .add(EntityAttributes.GENERIC_MAX_HEALTH, 24.0);
     }
-
-
+    protected void initGoals() {
+        super.initGoals();
+        this.goalSelector.add(0, new SwimGoal(this));
+        this.goalSelector.add(2, new FleeEntityGoal<>(this, PlayerEntity.class, 8.0F, 0.6, 1.0));
+        this.goalSelector.add(4, new SummonVexGoal());
+        this.goalSelector.add(5, new ConjureFangsGoal());
+        this.goalSelector.add(8, new WanderAroundGoal(this, 0.6));
+        this.goalSelector.add(1, new LookAtTargetGoal());
+        this.goalSelector.add(9, new LookAtEntityGoal(this, PlayerEntity.class, 3.0F, 1.0F));
+        this.goalSelector.add(10, new LookAtEntityGoal(this, MobEntity.class, 8.0F));
+        this.targetSelector.add(1, (new RevengeGoal(this, RaiderEntity.class)).setGroupRevenge());
+        this.targetSelector.add(2, (new ActiveTargetGoal<>(this, PlayerEntity.class, true)).setMaxTimeWithoutVisibility(300));
+    }
 
     protected void initDataTracker() {
         super.initDataTracker();
     }
+
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
     }
+
+    public SoundEvent getCelebratingSound() {
+        return SoundEvents.ENTITY_EVOKER_CELEBRATE;
+    }
+
     public void writeCustomDataToNbt(NbtCompound nbt) {
         super.writeCustomDataToNbt(nbt);
     }
+
     protected void mobTick() {
         super.mobTick();
     }
@@ -85,6 +95,24 @@ public class ExplosiveSorcererEntity extends EvokerEntity implements InfiniumEnt
         } else {
             return false;
         }
+    }
+    protected SoundEvent getAmbientSound() {
+        return SoundEvents.ENTITY_EVOKER_AMBIENT;
+    }
+
+    protected SoundEvent getDeathSound() {
+        return SoundEvents.ENTITY_EVOKER_DEATH;
+    }
+
+    protected SoundEvent getHurtSound(DamageSource source) {
+        return SoundEvents.ENTITY_EVOKER_HURT;
+    }
+
+    protected SoundEvent getCastSpellSound() {
+        return SoundEvents.ENTITY_EVOKER_CAST_SPELL;
+    }
+
+    public void addBonusForWave(int wave, boolean unused) {
     }
     private class SummonVexGoal extends SpellcastingIllagerEntity.CastSpellGoal {
         private final TargetPredicate closeVexPredicate = TargetPredicate.createNonAttackable().setBaseMaxDistance(16.0).ignoreVisibility().ignoreDistanceScalingFactor();
@@ -123,8 +151,23 @@ public class ExplosiveSorcererEntity extends EvokerEntity implements InfiniumEnt
                 vexEntity.setBounds(blockPos);
                 vexEntity.setLifeTicks(20 * (30 + ExplosiveSorcererEntity.this.random.nextInt(90)));
                 serverWorld.spawnEntityAndPassengers(vexEntity);
+                setVexAttributes(vexEntity);
             }
 
+        }
+
+        public void setVexAttributes(VexEntity vexEntity) {
+            var health = vexEntity.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH);
+            var itemStack = new ItemStack(InfiniumItems.VOID_SWORD);
+            vexEntity.equipStack(EquipmentSlot.MAINHAND, itemStack);
+            vexEntity.setEquipmentDropChance(EquipmentSlot.MAINHAND, 0.0F);
+            vexEntity.setCustomName(ChatFormatter.text("&cSpiritual Entity"));
+            if (health != null) {
+                health.setBaseValue(40.0f);
+                vexEntity.setHealth(40.0f);
+                vexEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, Integer.MAX_VALUE, 0));
+                vexEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, Integer.MAX_VALUE, 1));
+            }
         }
 
         protected SoundEvent getSoundPrepare() {
@@ -132,7 +175,7 @@ public class ExplosiveSorcererEntity extends EvokerEntity implements InfiniumEnt
         }
 
         protected SpellcastingIllagerEntity.Spell getSpell() {
-            return Spell.SUMMON_VEX;
+            return SpellcastingIllagerEntity.Spell.SUMMON_VEX;
         }
     }
 
@@ -140,26 +183,23 @@ public class ExplosiveSorcererEntity extends EvokerEntity implements InfiniumEnt
         ConjureFangsGoal() {
             super();
         }
-
         protected int getSpellTicks() {
             return 40;
         }
-
         protected int startTimeDelay() {
             return 100;
         }
-
         protected void castSpell() {
             LivingEntity livingEntity = ExplosiveSorcererEntity.this.getTarget();
             assert livingEntity != null;
             double d = Math.min(livingEntity.getY(), ExplosiveSorcererEntity.this.getY());
             double e = Math.max(livingEntity.getY(), ExplosiveSorcererEntity.this.getY()) + 1.0;
-            float f = (float) MathHelper.atan2(livingEntity.getZ() - ExplosiveSorcererEntity.this.getZ(), livingEntity.getX() - ExplosiveSorcererEntity.this.getX());
+            float f = (float)MathHelper.atan2(livingEntity.getZ() - ExplosiveSorcererEntity.this.getZ(), livingEntity.getX() - ExplosiveSorcererEntity.this.getX());
             int i;
             if (ExplosiveSorcererEntity.this.squaredDistanceTo(livingEntity) < 9.0) {
                 float g;
-                for(i = 0; i < 5; ++i) {
-                    g = f + (float)i * 3.1415927F * 0.4F;
+                for(i = 12; i > 0; --i) {
+                    g = f + (float)i * 3.14f * 0.4F;
                     this.conjureFangs(ExplosiveSorcererEntity.this.getX() + (double)MathHelper.cos(g) * 1.5, ExplosiveSorcererEntity.this.getZ() + (double)MathHelper.sin(g) * 1.5, d, e, g, 0);
                 }
 
@@ -201,20 +241,14 @@ public class ExplosiveSorcererEntity extends EvokerEntity implements InfiniumEnt
             } while(blockPos.getY() >= MathHelper.floor(maxY) - 1);
 
             if (bl) {
-                var world =  ExplosiveSorcererEntity.this.world;
-                world.spawnEntity(new EvokerFangsEntity(ExplosiveSorcererEntity.this.world, x, (double)blockPos.getY() + d, z, yaw, warmup, ExplosiveSorcererEntity.this));
-                if (new Random().nextInt(2) == 1) world.createExplosion(null, x, (double)blockPos.getY() + d, z, 1.75f, Explosion.DestructionType.DESTROY);
+                ExplosiveSorcererEntity.this.world.spawnEntity(new EvokerFangsEntity(ExplosiveSorcererEntity.this.world, x, (double)blockPos.getY() + d, z, yaw, warmup, ExplosiveSorcererEntity.this));
             }
-
         }
-
         protected SoundEvent getSoundPrepare() {
             return SoundEvents.ENTITY_EVOKER_PREPARE_ATTACK;
         }
-
         protected SpellcastingIllagerEntity.Spell getSpell() {
-            return Spell.FANGS;
+            return SpellcastingIllagerEntity.Spell.FANGS;
         }
     }
-
 }

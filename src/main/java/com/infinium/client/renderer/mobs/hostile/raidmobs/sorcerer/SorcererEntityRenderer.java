@@ -1,6 +1,7 @@
 package com.infinium.client.renderer.mobs.hostile.raidmobs.sorcerer;
 
 import com.infinium.Infinium;
+import com.infinium.client.renderer.mobs.InfiniumModelLayers;
 import com.infinium.client.renderer.mobs.hostile.raidmobs.InfiniumEvokerModel;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRendererFactory;
@@ -13,7 +14,7 @@ import net.minecraft.util.Identifier;
 public class SorcererEntityRenderer<T extends SpellcastingIllagerEntity> extends IllagerEntityRenderer<T> {
     private static final Identifier TEXTURE = new Identifier(Infinium.MOD_ID ,"textures/entity/sorcerer/sorcerer.png");
     public SorcererEntityRenderer(EntityRendererFactory.Context context) {
-        super(context, new InfiniumEvokerModel<>(context.getPart(InfiniumEvokerModel.INFINIUM_EVOKER)), 0.5f);
+        super(context, new InfiniumEvokerModel<>(context.getPart(InfiniumModelLayers.INFINIUM_EVOKER)), 0.5f);
         this.addFeature(new HeldItemFeatureRenderer<>(this) {
             public void render(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, T spellcastingIllagerEntity, float f, float g, float h, float j, float k, float l) {
                 if (spellcastingIllagerEntity.isSpellcasting()) {

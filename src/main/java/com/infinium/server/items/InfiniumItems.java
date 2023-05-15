@@ -1,18 +1,21 @@
 package com.infinium.server.items;
 
+import com.github.crimsondawn45.fabricshieldlib.lib.object.FabricShieldItem;
 import com.infinium.Infinium;
-import com.infinium.server.items.custom.armor.MagmaElytraItem;
+import com.infinium.server.entities.InfiniumEntityType;
 import com.infinium.server.items.custom.armor.MagmaArmorItem;
+import com.infinium.server.items.custom.armor.MagmaElytraItem;
+import com.infinium.server.items.custom.armor.VoidArmorItem;
 import com.infinium.server.items.custom.armor.VoidElytraItem;
 import com.infinium.server.items.custom.food.NetheriteCarrotItem;
-import com.infinium.server.items.custom.misc.*;
+import com.infinium.server.items.custom.food.SanityItem;
+import com.infinium.server.items.custom.misc.InfiniumDiscItem;
+import com.infinium.server.items.custom.misc.InfiniumTotemItem;
+import com.infinium.server.items.custom.misc.VoidEyeItem;
 import com.infinium.server.items.custom.tools.magmaitems.*;
+import com.infinium.server.items.custom.tools.runes.*;
 import com.infinium.server.items.custom.tools.utility.EnderWandItem;
 import com.infinium.server.items.custom.tools.utility.GrapplingHookItem;
-import com.infinium.server.entities.InfiniumEntityType;
-import com.infinium.server.items.custom.armor.VoidArmorItem;
-import com.infinium.server.items.custom.food.SanityItem;
-import com.infinium.server.items.custom.tools.runes.*;
 import com.infinium.server.items.custom.tools.voiditems.*;
 import com.infinium.server.items.groups.InfiniumFoodComponents;
 import com.infinium.server.items.groups.InfiniumItemGroups;
@@ -34,16 +37,13 @@ public class InfiniumItems {
     public static Item VOID_HOE;
     public static Item VOID_BOW;
     public static Item VOID_SHIELD;
-
     public static Item VOID_HELMET;
     public static Item VOID_CHESTPLATE;
     public static Item VOID_LEGGINGS;
     public static Item VOID_BOOTS;
     public static Item VOID_WINGS;
-
     public static Item VOID_TOTEM;
     public static Item VOID_EYE;
-
     public static Item MAGMA_PICKAXE;
     public static Item MAGMA_SWORD;
     public static Item MAGMA_AXE;
@@ -51,30 +51,23 @@ public class InfiniumItems {
     public static Item MAGMA_HOE;
     public static Item MAGMA_BOW;
     public static Item MAGMA_SHIELD;
-
     public static Item MAGMA_HELMET;
     public static Item MAGMA_CHESTPLATE;
     public static Item MAGMA_LEGGINGS;
     public static Item MAGMA_BOOTS;
     public static Item MAGMA_WINGS;
-
     public static Item MAGMA_TOTEM;
     public static Item MAGMA_TRIDENT;
-
     public static Item IMMUNITY_RUNE;
     public static Item WITHER_RUNE;
     public static Item SPEED_RUNE;
     public static Item RESISTANCE_RUNE;
     public static Item FIRE_RUNE;
-
     public static Item ENDER_WAND;
     public static Item GRAPPLING_HOOK;
-
     public static Item SANITY_PILL;
     public static Item  NETHERITE_CARROT;
-
     public static Item EMPANADA_CARNE;
-
     public static Item DUET_MUSIC_DISC;
     public static Item FALL_IN_LOVE_MUSIC_DISC;
 
@@ -109,7 +102,7 @@ public class InfiniumItems {
         VOID_SHOVEL = registerItem("void_shovel", new VoidShovelItem(InfiniumToolMaterials.VOID, 1.5F, -3.0F, new FabricItemSettings().group(ItemGroup.TOOLS).rarity(Rarity.RARE).maxDamage(4570).fireproof()));
         VOID_HOE = registerItem("void_hoe", new VoidHoeItem(InfiniumToolMaterials.VOID, -4, 0.0F, new FabricItemSettings().group(ItemGroup.TOOLS).rarity(Rarity.RARE).maxDamage(4570).fireproof()));
         VOID_BOW = registerItem("void_bow", new VoidBowItem(new FabricItemSettings().group(ItemGroup.COMBAT).rarity(Rarity.RARE).maxDamage(4570).fireproof()));
-        VOID_SHIELD = registerItem("void_shield", new ShieldItem(new FabricItemSettings().group(ItemGroup.COMBAT).rarity(Rarity.RARE).maxDamage(4570).fireproof()));
+        VOID_SHIELD = registerItem("void_shield", new FabricShieldItem(new FabricItemSettings().maxDamage(4570).group(ItemGroup.COMBAT), 10, 16, Items.NETHERITE_INGOT));
     }
 
     private static void registerMagmaArmor(){
@@ -127,8 +120,8 @@ public class InfiniumItems {
         MAGMA_SHOVEL = registerItem("magma_shovel", new MagmaShovelItem(InfiniumToolMaterials.MAGMA, 1.5F, -3.0F, new FabricItemSettings().group(ItemGroup.TOOLS).rarity(Rarity.UNCOMMON).maxDamage(4570).fireproof()));
         MAGMA_HOE = registerItem("magma_hoe", new MagmaHoeItem(InfiniumToolMaterials.MAGMA, -4, 0.0F, new FabricItemSettings().group(ItemGroup.TOOLS).rarity(Rarity.UNCOMMON).maxDamage(4570).fireproof()));
         MAGMA_BOW = registerItem("magma_bow", new MagmaBowItem(new FabricItemSettings().group(ItemGroup.COMBAT).rarity(Rarity.UNCOMMON).maxDamage(4570).fireproof()));
-        MAGMA_TRIDENT = registerItem("magma_trident", new MagmaTridentItem(new FabricItemSettings().group(ItemGroup.COMBAT).rarity(Rarity.UNCOMMON).maxDamage(3450).fireproof(), InfiniumEntityType.MAGMA_TRIDENT));
-        MAGMA_SHIELD = registerItem("magma_shield", new ShieldItem(new FabricItemSettings().group(ItemGroup.COMBAT).rarity(Rarity.UNCOMMON).maxDamage(4570).fireproof()));
+        MAGMA_TRIDENT = registerItem("magma_trident", new MagmaTridentItem(new FabricItemSettings().group(ItemGroup.COMBAT).rarity(Rarity.UNCOMMON).maxDamage(4570).fireproof(), InfiniumEntityType.MAGMA_TRIDENT));
+        MAGMA_SHIELD = registerItem("magma_shield", new FabricShieldItem(new FabricItemSettings().maxDamage(4570).group(ItemGroup.COMBAT), 10, 16, Items.NETHERITE_INGOT));
     }
 
     private static void registerMisc() {

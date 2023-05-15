@@ -103,11 +103,6 @@ public class PlayerDeathListeners {
     }
 
     private void onTotemUse(ServerPlayerEntity player) {
-        var sanityManager = instance.getCore().getSanityManager();
-        var data = ((EntityDataSaver) player).getPersistentData();
-        var totemString = "infinium.totems";
-        int totems = data.getInt(totemString);
-        var message = "";
         ItemStack totemStack = null;
 
         Hand[] handValue = Hand.values();
@@ -118,38 +113,21 @@ public class PlayerDeathListeners {
                 break;
             }
         }
-
         if (totemStack == null) return;
-        var totemItem = totemStack.getItem();
-        var playerName = player.getEntityName();
-
-
-        if (totemItem.equals(InfiniumItems.VOID_TOTEM)) {
-            player.addStatusEffect(new StatusEffectInstance(InfiniumEffects.IMMUNITY, 20 * 15, 0));
-            data.putInt(totemString, totems + 3);
-            message = ChatFormatter.formatWithPrefix("&5&l" + playerName + " &8ha consumido un &b&lVoid Tótem" + " &8(Tótem #%.%)".replaceAll("%.%", String.valueOf(totems + 3)));
-
-        } else if (totemItem.equals(InfiniumItems.MAGMA_TOTEM)) {
-            data.putInt(totemString, totems + 1);
-            message = ChatFormatter.formatWithPrefix("&5&l" + playerName + " &8ha consumido un \n&c&lMagma Tótem" + " &8(Tótem #%.%)".replaceAll("%.%", String.valueOf(totems + 1)));
-
-        } else {
-            data.putInt(totemString, totems + 1);
-            message = ChatFormatter.formatWithPrefix("&5&l" + playerName + " &8ha consumido un \n&6&lTótem de la Inmortalidad" + " &8(Tótem #%.%)".replaceAll("%.%", String.valueOf(totems + 1)));
-        }
-
-        sanityManager.decrease(player, 25, sanityManager.SANITY);
-        ChatFormatter.broadcastMessage(message);
-
         totemEffects(player, totemStack);
     }
     private void totemEffects(ServerPlayerEntity player, ItemStack totemStack) {
-        var data = ((EntityDataSaver) player).getPersistentData();
-        int totems = data.getInt("infinium.totems");
+        if (player.world.isClient) return;
         var attributeInstance = player.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH);
         if (attributeInstance == null) return;
 
+        var data = ((EntityDataSaver) player).getPersistentData();
+        int totems = data.getInt("infinium.totems");
+        var totemString = "infinium.totems";
+        var sanityManager = instance.getCore().getSanityManager();
         var totemItem = totemStack.getItem();
+        var playerName = player.getEntityName();
+        var message = "";
 
         player.setHealth(1.0F);
         player.clearStatusEffects();
@@ -191,6 +169,23 @@ public class PlayerDeathListeners {
         if (totems >= 30) {
             if(!attributeInstance.hasModifier(finalTotemDebuff)) attributeInstance.addPersistentModifier(finalTotemDebuff);
         }
+
+        if (totemItem.equals(InfiniumItems.VOID_TOTEM)) {
+            player.addStatusEffect(new StatusEffectInstance(InfiniumEffects.IMMUNITY, 20 * 15, 0));
+            data.putInt(totemString, totems + 3);
+            message = ChatFormatter.formatWithPrefix("&5&l" + playerName + " &8ha consumido un &b&lVoid Tótem" + " &8(Tótem #%.%)".replaceAll("%.%", String.valueOf(totems + 3)));
+
+        } else if (totemItem.equals(InfiniumItems.MAGMA_TOTEM)) {
+            data.putInt(totemString, totems + 1);
+            message = ChatFormatter.formatWithPrefix("&5&l" + playerName + " &8ha consumido un \n&c&lMagma Tótem" + " &8(Tótem #%.%)".replaceAll("%.%", String.valueOf(totems + 1)));
+
+        } else {
+            data.putInt(totemString, totems + 1);
+            message = ChatFormatter.formatWithPrefix("&5&l" + playerName + " &8ha consumido un \n&6&lTótem de la Inmortalidad" + " &8(Tótem #%.%)".replaceAll("%.%", String.valueOf(totems + 1)));
+        }
+
+        sanityManager.decrease(player, 25, sanityManager.SANITY);
+        ChatFormatter.broadcastMessage(message);
     }
     private void onPlayerDeath(ServerPlayerEntity playerDied) {
         if (playerDied.isSpectator()) return;
