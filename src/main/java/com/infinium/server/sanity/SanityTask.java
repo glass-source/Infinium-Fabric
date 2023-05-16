@@ -1,9 +1,11 @@
 package com.infinium.server.sanity;
 
+import com.infinium.Infinium;
 import com.infinium.global.utils.ChatFormatter;
-import net.minecraft.entity.LivingEntity;
+import com.infinium.server.sounds.InfiniumSounds;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
@@ -36,7 +38,7 @@ public class SanityTask {
         if (entityAttributeInstance == null) return;
         int sanity = manager.get(p, manager.SANITY);
 
-        if (sanity >= 80) {
+        if (sanity >= 85) {
             if (!entityAttributeInstance.hasModifier(EXTRA_HEALTH_BOOST)) entityAttributeInstance.addTemporaryModifier(EXTRA_HEALTH_BOOST);
             if (p.getHealth() >= 16.0) manager.decrease(p, 1, manager.POSITIVE_HEALTH_COOLDOWN);
 
@@ -66,7 +68,7 @@ public class SanityTask {
 
         if (timeCooldownSeconds > 0) manager.decrease (p, 1, manager.TIME_COOLDOWN);
         if (timeCooldownSeconds <= 0) decreaseRandomSanity(p, 0);
-        else if (timeCooldownSeconds <= 150) decreaseRandomSanity(p, 10);
+        else if (timeCooldownSeconds <= 150) decreaseRandomSanity(p, 5);
 
         var timeCooldownMinutes = timeCooldownSeconds % 3600 / 60;
         var formattedSeconds = timeCooldownSeconds % 60;
@@ -99,45 +101,82 @@ public class SanityTask {
         if (biome.getKey().isPresent()) biomeKey = biome.getKey().get().getValue().toString();
 
         int soundPoints;
+        int sanityFactor = (int) (sanity * 0.1) + (int) (-lightLevel * 0.5);
+        var random = world.getRandom();
 
         switch (worldKey) {
 
-            case "minecraft:overworld" -> {
+            default -> {
                 soundPoints = 100;
 
-                switch (biomeKey) {
-
-                }
+                if (isPositiveBiome(biomeKey)) soundPoints += random.nextInt(10) + 5;
+                else if (isNegativeBiome(biomeKey)) soundPoints -= random.nextInt(15) + 5;
+                if (getNearbyEntities(p, 10).size() >= 5) soundPoints -= random.nextInt(15) + 10;
+                else soundPoints += random.nextInt(15) + 5;
 
             }
 
             case "infinium:the_nightmare", "minecraft:the_nether" -> {
-                soundPoints = 70;
+                soundPoints = 80;
 
-                switch (biomeKey) {
+                if (isPositiveBiome(biomeKey)) soundPoints += random.nextInt(10) + 5;
+                else if (isNegativeBiome(biomeKey)) soundPoints -= random.nextInt(15) + 5;
+                if (getNearbyEntities(p, 20).size() >= 3) soundPoints -= random.nextInt(15) + 10;
+                else soundPoints += random.nextInt(15) + 5;
 
-                }
             }
 
             case "infinium:the_void", "minecraft:the_end" -> {
-                soundPoints = 50;
+                soundPoints = 60;
 
-                switch (biomeKey) {
+                if (isPositiveBiome(biomeKey)) soundPoints += random.nextInt(10) + 5;
+                else if (isNegativeBiome(biomeKey)) soundPoints -= random.nextInt(15) + 5;
+                if (getNearbyEntities(p, 20).size() >= 1) soundPoints -= random.nextInt(15) + 10;
+                else soundPoints += random.nextInt(15) + 5;
 
-                }
             }
         }
 
+        soundPoints -= sanityFactor;
+        Infinium.getInstance().LOGGER.info(String.valueOf(soundPoints));
+        if (soundPoints <= 60) return InfiniumSounds.LOW_SANITY_2;
+
         return null;
     }
-    private List<LivingEntity> getNearbyEntities(PlayerEntity p, int radius) {
+
+    private boolean isPositiveBiome(String biomeStringKey) {
+        //String needs to be a biome registry key
+        String s = biomeStringKey.toLowerCase();
+        return s.equals("minecraft:plains") ||
+               s.equals("minecraft:river")  ||
+               s.equals("minecraft:swamp")  ||
+               s.equals("minecraft:beach")  ||
+               s.equals("minecraft:birch_forest") ||
+               s.equals("minecraft:birch_forest_hills") ||
+               s.equals("minecraft:ocean") ||
+               s.equals("minecraft:meadow") ||
+               s.equals("forest") ||
+               s.equals("flower_forest") ||
+               s.equals("lukewarm_ocean") ||
+               s.equals("grove") ||
+               s.equals("snowy_plains") ||
+               s.equals("warm_ocean") ;
+
+    }
+    
+    private boolean isNegativeBiome(String biomeStringKey) {
+        String s = biomeStringKey.toLowerCase();
+        return s.equals("");
+    }
+    
+    private List<HostileEntity> getNearbyEntities(PlayerEntity p, int radius) {
         var world = p.getWorld();
         var x = p.getX();
         var y = p.getY();
         var z = p.getZ();
         var box = new Box(x - radius, y - radius, z - radius, x + radius, y + radius, z + radius);
-        Predicate<LivingEntity> shouldAdd = LivingEntity::isAlive;
-        return world.getEntitiesByClass(LivingEntity.class, box, shouldAdd);
+        Predicate<HostileEntity> shouldAdd = HostileEntity::isAlive;
+        return world.getEntitiesByClass(HostileEntity.class, box, shouldAdd);
     }
     private void decreaseRandomSanity(PlayerEntity p, int randomChance) {
         if (p.getWorld().getRandom().nextInt(randomChance) == 0) manager.decrease(p, 1, manager.SANITY);
