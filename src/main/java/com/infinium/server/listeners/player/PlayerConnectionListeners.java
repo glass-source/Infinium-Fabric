@@ -86,18 +86,19 @@ public class PlayerConnectionListeners {
                     data.putInt("infinium.cooldown." + item, cooldownTicks);
                 }
             }
-
-
         }
-
-
-
     }
 
     private void initSanity(ServerPlayerEntity player) {
         var sanityManager = core.getSanityManager();
-        if (sanityManager.getData(player).get(sanityManager.SANITY) == null) sanityManager.set(player, 100, sanityManager.SANITY);
-        if (sanityManager.getData(player).get(sanityManager.TIME_COOLDOWN) == null) sanityManager.set(player, 100, sanityManager.TIME_COOLDOWN);
+        var data = sanityManager.getData(player);
+
+        if (data.get(sanityManager.SANITY) == null) sanityManager.set(player, 100, sanityManager.SANITY);
+        if (data.get(sanityManager.TIME_COOLDOWN) == null) sanityManager.set(player, 600, sanityManager.TIME_COOLDOWN);
+        if (data.get(sanityManager.POSITIVE_HEALTH_COOLDOWN) == null) sanityManager.set(player, 20, sanityManager.POSITIVE_HEALTH_COOLDOWN);
+        if (data.get(sanityManager.NEGATIVE_HEALTH_COOLDOWN) == null) sanityManager.set(player, 20, sanityManager.NEGATIVE_HEALTH_COOLDOWN);
+        if (data.get(sanityManager.SOUND_COOLDOWN) == null) sanityManager.set(player, 10, sanityManager.SOUND_COOLDOWN);
+
         if (!sanityManager.totalPlayers.contains(player)) sanityManager.totalPlayers.add(player);
         sanityManager.syncSanity(player, sanityManager.get(player, sanityManager.SANITY));
     }

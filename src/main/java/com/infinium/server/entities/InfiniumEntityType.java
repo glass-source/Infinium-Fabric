@@ -101,7 +101,7 @@ public class InfiniumEntityType {
         VOID_ENDERMAN = register("void_enderman", createEntityType(VoidEndermanEntity::new, SpawnGroup.MONSTER, 0.95f, 4.0f));
         VOID_ZOMBIE = register("void_zombie", createEntityType(VoidZombieEntity::new, SpawnGroup.MONSTER, 0.8f, 1.95f));
         VOID_CREEPER = register("void_creeper", createEntityType(VoidCreeperEntity::new, SpawnGroup.MONSTER, 0.6f, 1.7f));
-        VOID_SKELETON = register("void_skeleton", createEntityType(VoidSkeletonEntity::new, SpawnGroup.MONSTER, 0.7f, 1.95f));
+        VOID_SKELETON = register("void_skeleton", createEntityType(VoidSkeletonEntity::new, SpawnGroup.MONSTER, 0.7f, 2.05f));
     }
 
     private static void registerGhoulMobs(){
@@ -112,7 +112,7 @@ public class InfiniumEntityType {
     }
 
     private static void registerNightmareMobs() {
-        NIGHTMARE_SKELETON = register("nightmare_skeleton", createEntityType(NightmareSkeletonEntity::new, SpawnGroup.MONSTER, 0.7f, 1.95f));
+        NIGHTMARE_SKELETON = register("nightmare_skeleton", createEntityType(NightmareSkeletonEntity::new, SpawnGroup.MONSTER, 0.7f, 2.05f));
         NIGHTMARE_GHAST = register("nightmare_ghast", createEntityType(NightmareGhastEntity::new, SpawnGroup.MONSTER, 4.5f, 4.5f));
         NIGHTMARE_BRUTE = register("nightmare_brute", createEntityType(NightmareBruteEntity::new, SpawnGroup.MONSTER, 0.6f, 1.95f));
         NIGHTMARE_HOGLIN = register("nightmare_hoglin", createEntityType(NightmareHoglinEntity::new, SpawnGroup.MONSTER, 1.4f, 1.4f));

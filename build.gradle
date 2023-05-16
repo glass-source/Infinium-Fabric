@@ -66,7 +66,6 @@ dependencies {
     modImplementation 'net.kyrptonaught:customportalapi:0.0.1-beta52-1.18'
 
     include 'net.kyrptonaught:customportalapi:0.0.1-beta52-1.18'
-    include("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_version}")
     include("com.github.Chocohead:Fabric-ASM:v${project.fabric_asm_version}")
 
     modApi("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_version}") {

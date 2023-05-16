@@ -31,6 +31,62 @@
         "stream" : true
       }
     ]
+  },
+
+  "low_sanity_1": {
+    "subtitle": "infinium.low_sanity",
+    "sounds": [
+      "infinium:low_sanity_1"
+    ]
+  },
+
+  "low_sanity_2": {
+    "subtitle": "infinium.low_sanity",
+    "sounds": [
+      "infinium:low_sanity_2"
+    ]
+  },
+
+  "low_sanity_3": {
+    "subtitle": "infinium.low_sanity",
+    "sounds": [
+      "infinium:low_sanity_3"
+    ]
+  },
+
+  "low_sanity_4": {
+    "subtitle": "infinium.low_sanity",
+    "sounds": [
+      "infinium:low_sanity_4"
+    ]
+  },
+
+  "low_sanity_5": {
+    "subtitle": "infinium.low_sanity",
+    "sounds": [
+      "infinium:low_sanity_5"
+    ]
+  },
+
+  "low_sanity_6": {
+    "subtitle": "infinium.low_sanity",
+    "sounds": [
+      "infinium:low_sanity_6"
+    ]
+  },
+
+  "low_sanity_7": {
+    "subtitle": "infinium.low_sanity",
+    "sounds": [
+      "infinium:low_sanity_7"
+    ]
+  },
+
+  "low_sanity_8": {
+    "subtitle": "infinium.low_sanity",
+    "sounds": [
+      "infinium:low_sanity_8"
+    ]
   }
 
 }

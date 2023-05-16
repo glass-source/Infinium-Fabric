@@ -3,7 +3,6 @@ package com.infinium.server.sanity;
 import com.infinium.Infinium;
 import com.infinium.global.utils.EntityDataSaver;
 import com.infinium.networking.InfiniumPackets;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.player.PlayerEntity;
@@ -11,6 +10,8 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 
 import java.util.ArrayList;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class SanityManager {
     public ArrayList<ServerPlayerEntity> totalPlayers = new ArrayList<>();
@@ -20,6 +21,7 @@ public class SanityManager {
     public final String TIME_COOLDOWN = "infinium.timeCooldown";
     public final String POSITIVE_HEALTH_COOLDOWN = "infinium.positiveHealth";
     public final String NEGATIVE_HEALTH_COOLDOWN = "infinium.negativeHealth";
+    public final String SOUND_COOLDOWN = "infinium.soundCooldown";
 
     public SanityManager(final Infinium instance){
         this.instance = instance;
@@ -27,11 +29,10 @@ public class SanityManager {
     }
 
     public void registerSanityTask(){
-        ServerTickEvents.START_SERVER_TICK.register(task::run);
+        Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(task::run, 1000, 1000, TimeUnit.MILLISECONDS);
     }
 
     public void add(PlayerEntity player, int amount, String arg){
-        if (get(player, TIME_COOLDOWN) <= 0) return;
         var added = get(player, arg);
         set(player, added + amount, arg);
     }
