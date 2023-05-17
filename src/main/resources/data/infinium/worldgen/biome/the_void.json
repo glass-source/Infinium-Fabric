@@ -9,10 +9,10 @@
     "water_color": 49151,
     "water_fog_color": 49151,
     "mood_sound": {
-      "sound": "minecraft:ambient.cave",
-      "tick_delay": 6000,
-      "block_search_extent": 8,
-      "offset": 2
+      "sound": "infinium:low_sanity_2",
+      "tick_delay": 3000,
+      "block_search_extent": 12,
+      "offset": 1
     }
   },
   "spawners": {

@@ -12,7 +12,7 @@ public class ServerWorldListeners {
         this.instance = instance;
     }
     public void registerListeners() {
-        chunkLoadCallback();
+        //chunkLoadCallback();
     }
     private void chunkLoadCallback() {
         //TODO fix crash

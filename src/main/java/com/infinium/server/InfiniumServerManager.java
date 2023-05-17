@@ -65,7 +65,6 @@ public class InfiniumServerManager {
         ServerLifecycleEvents.SERVER_STARTED.register(server1 -> {
             this.server = server1;
             this.adventure = FabricServerAudiences.of(this.server);
-            this.sanityManager.registerSanityTask();
 
             try {
                 this.dataManager = new DataManager(this.instance);
@@ -89,7 +88,7 @@ public class InfiniumServerManager {
             if (dateUtils.getCurrentDay() >= 42 && eclipseManager.isActive()) {
                 serverRules.get(GameRules.NATURAL_REGENERATION).set(false, this.server);
             }
-
+            this.sanityManager.registerSanityTask();
         });
     }
 
@@ -99,6 +98,7 @@ public class InfiniumServerManager {
         ServerLifecycleEvents.SERVER_STOPPED.register(server -> {
             this.eclipseManager.disable();
             this.dataManager.savePlayerData();
+            this.sanityManager.stopSanityTask();
         });
     }
 
@@ -143,7 +143,7 @@ public class InfiniumServerManager {
     }
 
     public List<ServerPlayerEntity> getTotalPlayers() {
-        return sanityManager.totalPlayers;
+        return this.server.getPlayerManager().getPlayerList();
     }
 
     public DataManager getDataManager() {

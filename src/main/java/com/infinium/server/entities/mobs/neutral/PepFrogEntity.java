@@ -42,6 +42,8 @@ public class PepFrogEntity extends AnimalEntity implements IAnimatable, Infinium
         this.goalSelector.add(8, new LookAroundGoal(this));
     }
 
+
+
     public static DefaultAttributeContainer.Builder createPepAttributes() {
         return MobEntity.createMobAttributes()
         .add(EntityAttributes.GENERIC_MAX_HEALTH, 16.0)

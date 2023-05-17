@@ -10,8 +10,6 @@ import com.infinium.server.items.InfiniumItems;
 import com.mojang.logging.LogUtils;
 import net.fabricmc.api.ModInitializer;
 import net.kyrptonaught.customportalapi.api.CustomPortalBuilder;
-import net.kyrptonaught.customportalapi.util.CPASoundEventData;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 
@@ -48,11 +46,10 @@ public class Infinium implements ModInitializer {
     private void initPortals() {
         CustomPortalBuilder.beginPortal()
                 .frameBlock(InfiniumBlocks.VOID_STONE)
+                .lightWithItem(InfiniumItems.VOID_EYE)
                 .destDimID(id("the_void"))
                 .tintColor(0, 0, 0)
                 .flatPortal()
-                .registerPostTPPortalAmbience((player) -> new CPASoundEventData(SoundEvents.AMBIENT_CAVE, 1, 100))
-                .lightWithItem(InfiniumItems.VOID_EYE)
                 .registerPortal();
     }
 

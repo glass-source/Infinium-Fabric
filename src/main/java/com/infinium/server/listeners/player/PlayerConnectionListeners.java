@@ -25,6 +25,7 @@ public class PlayerConnectionListeners {
 
     private void playerDisconnectCallback() {
         ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> {
+            if (server == null) return;
             var player = handler.player;
             var sanityManager = instance.getCore().getSanityManager();
             var infPlayer = InfiniumPlayer.getInfiniumPlayer(player);
@@ -33,7 +34,6 @@ public class PlayerConnectionListeners {
             saveCooldowns(player);
             eclipseManager.getBossBar().removePlayer(player);
             sanityManager.syncSanity(player, sanityManager.get(player, sanityManager.SANITY));
-            sanityManager.totalPlayers.remove(player);
             infPlayer.onQuit();
         });
 
@@ -41,6 +41,7 @@ public class PlayerConnectionListeners {
 
     private void playerConnectCallback(){
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
+            if (server == null) return;
             var player = handler.getPlayer();
             var infPlayer = InfiniumPlayer.getInfiniumPlayer(player);
             var eclipseManager = core.getEclipseManager();
@@ -57,6 +58,7 @@ public class PlayerConnectionListeners {
     }
 
     private void loadCooldowns(ServerPlayerEntity player) {
+        if (player.getServer() == null) return;
         var data = ((EntityDataSaver) player).getPersistentData();
         var cooldownManager = player.getItemCooldownManager();
         var inventory = player.getInventory();
@@ -75,9 +77,9 @@ public class PlayerConnectionListeners {
     }
 
     private void saveCooldowns(ServerPlayerEntity player) {
+        if (player.getServer() == null) return;
         var data = ((EntityDataSaver) player).getPersistentData();
         var inventory = player.getInventory();
-
         for (int i = 0; i < inventory.size(); i++) {
             if (inventory.getStack(i) != null) {
                 if (inventory.getStack(i).getItem() instanceof InfiniumItem item) {
@@ -94,12 +96,12 @@ public class PlayerConnectionListeners {
         var data = sanityManager.getData(player);
 
         if (data.get(sanityManager.SANITY) == null) sanityManager.set(player, 100, sanityManager.SANITY);
-        if (data.get(sanityManager.TIME_COOLDOWN) == null) sanityManager.set(player, 600, sanityManager.TIME_COOLDOWN);
+        if (data.get(sanityManager.TIME_COOLDOWN) == null) sanityManager.set(player, 300, sanityManager.TIME_COOLDOWN);
         if (data.get(sanityManager.POSITIVE_HEALTH_COOLDOWN) == null) sanityManager.set(player, 20, sanityManager.POSITIVE_HEALTH_COOLDOWN);
         if (data.get(sanityManager.NEGATIVE_HEALTH_COOLDOWN) == null) sanityManager.set(player, 20, sanityManager.NEGATIVE_HEALTH_COOLDOWN);
-        if (data.get(sanityManager.SOUND_COOLDOWN) == null) sanityManager.set(player, 10, sanityManager.SOUND_COOLDOWN);
+        if (data.get(sanityManager.SOUND_COOLDOWN) == null) sanityManager.set(player, 5, sanityManager.SOUND_COOLDOWN);
+        if (data.get(sanityManager.SOUND_POINTS) == null) sanityManager.set(player, 0, sanityManager.SOUND_POINTS);
 
-        if (!sanityManager.totalPlayers.contains(player)) sanityManager.totalPlayers.add(player);
         sanityManager.syncSanity(player, sanityManager.get(player, sanityManager.SANITY));
     }
 

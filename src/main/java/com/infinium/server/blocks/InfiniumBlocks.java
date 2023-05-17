@@ -10,7 +10,6 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 public class InfiniumBlocks {
-
     public static Block VOID_STONE;
     public static Block VOID_STONE_ORE;
 
@@ -18,7 +17,6 @@ public class InfiniumBlocks {
         registerBlockItem(name, block, group);
         return Registry.register(Registry.BLOCK, new Identifier(Infinium.MOD_ID, name), block);
     }
-
     private static void registerBlockItem(String name, Block block, ItemGroup group) {
         Registry.register(Registry.ITEM, new Identifier(Infinium.MOD_ID, name), new BlockItem(block, new FabricItemSettings().group(group)));
     }

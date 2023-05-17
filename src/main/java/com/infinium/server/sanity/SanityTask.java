@@ -12,35 +12,75 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.Box;
 
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 import java.util.function.Predicate;
 
 public class SanityTask {
-    private static final EntityAttributeModifier EXTRA_HEALTH_BOOST = new EntityAttributeModifier(UUID.randomUUID(), "Sanity Healthboost", 4, EntityAttributeModifier.Operation.ADDITION);
+    private final EntityAttributeModifier EXTRA_HEALTH_BOOST = new EntityAttributeModifier(UUID.randomUUID(), "Sanity Healthboost", 4, EntityAttributeModifier.Operation.ADDITION);
     private final SanityManager manager;
     public SanityTask(SanityManager manager){
         this.manager = manager;
     }
     
-    public void run(){
-        manager.totalPlayers.forEach(this::sanityEffects);
+    public void run() {
+        Infinium.getInstance().getCore().getServer().getPlayerManager().getPlayerList().forEach(this::sanityEffects);
     }
-
     private void sanityEffects(PlayerEntity p) {
         if (shouldPreventEffects(p)) return;
-        healthEffects(p);
-        kairosEffects(p);
-        soundEffects(p);
+        try {
+            healthEffects(p);
+            kairosEffects(p);
+            soundEffects(p);
+            biomeEffects(p);
+            entityEffects(p);
+            lightEffects(p);
+        } catch (Exception ex) {
+            Infinium.getInstance().LOGGER.error("Hubo un error con la cordura! que raro...");
+            ex.printStackTrace();
+        }
     }
 
+    private void lightEffects(PlayerEntity p) {
+        var world = p.getWorld();
+        var blockPos = p.getBlockPos();
+        var lightLevel = Math.max(1, world.getLightLevel(blockPos));
+        if (lightLevel > 7) manager.add(p, 1, manager.SOUND_POINTS);
+        else manager.decrease(p, 1, manager.SOUND_POINTS);
+    }
+    private void biomeEffects(PlayerEntity p) {
+        var world = p.getWorld();
+        var blockPos = p.getBlockPos();
+        var biome = world.getBiome(blockPos);
+        var biomeString = biome.getKey().isPresent() ? biome.getKey().get().getValue().toString() : "";
+        int biomeLevel = getBiomeLevel(biomeString);
+
+        switch (biomeLevel) {
+            case 1 -> manager.add(p, 1, manager.SOUND_POINTS);
+            case 4, 6 -> manager.decrease(p, 1 , manager.SOUND_POINTS);
+        }
+    }
+
+    private void entityEffects(PlayerEntity p) {
+        var list = getNearbyEntities(p);
+        manager.decrease(p, list.size(), manager.SOUND_POINTS);
+    }
     private void healthEffects(PlayerEntity p) {
         var entityAttributeInstance = p.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH);
         if (entityAttributeInstance == null) return;
         int sanity = manager.get(p, manager.SANITY);
 
+        if (p.getHealth() >= 16.0) {
+            manager.decrease(p, 1, manager.POSITIVE_HEALTH_COOLDOWN);
+            manager.add(p, 1, manager.SOUND_POINTS);
+        }
+        else if (p.getHealth() <= 12.0) {
+            manager.decrease(p, 1, manager.NEGATIVE_HEALTH_COOLDOWN);
+            manager.decrease(p, 1, manager.SOUND_POINTS);
+        }
+
         if (sanity >= 85) {
             if (!entityAttributeInstance.hasModifier(EXTRA_HEALTH_BOOST)) entityAttributeInstance.addTemporaryModifier(EXTRA_HEALTH_BOOST);
-            if (p.getHealth() >= 16.0) manager.decrease(p, 1, manager.POSITIVE_HEALTH_COOLDOWN);
 
         } else {
 
@@ -49,141 +89,144 @@ public class SanityTask {
                 p.setHealth(p.getHealth());
             }
 
-            if (p.getHealth() <= 12.0) manager.decrease(p, 1, manager.NEGATIVE_HEALTH_COOLDOWN);
         }
 
         if (manager.get(p, manager.POSITIVE_HEALTH_COOLDOWN) <= 0) {
-            increaseRandomSanity(p, 0);
+            increaseRandomSanity(p, 1, 1);
+            manager.add(p, 1, manager.SOUND_POINTS);
             manager.set(p, 20, manager.POSITIVE_HEALTH_COOLDOWN);
         }
 
         if (manager.get(p, manager.NEGATIVE_HEALTH_COOLDOWN) <= 0) {
-            decreaseRandomSanity(p, 0);
-            manager.set(p, 15, manager.POSITIVE_HEALTH_COOLDOWN);
+            decreaseRandomSanity(p, 1, 1);
+            manager.decrease(p, 1 , manager.SOUND_POINTS);
+            manager.set(p, 20, manager.NEGATIVE_HEALTH_COOLDOWN);
         }
-
     }
     private void kairosEffects(PlayerEntity p) {
         int timeCooldownSeconds = manager.get(p, manager.TIME_COOLDOWN);
-
-        if (timeCooldownSeconds > 0) manager.decrease (p, 1, manager.TIME_COOLDOWN);
-        if (timeCooldownSeconds <= 0) decreaseRandomSanity(p, 0);
-        else if (timeCooldownSeconds <= 150) decreaseRandomSanity(p, 5);
-
         var timeCooldownMinutes = timeCooldownSeconds % 3600 / 60;
         var formattedSeconds = timeCooldownSeconds % 60;
         var color = timeCooldownSeconds <= 150 ? "&4" : "&6";
         var msg = ChatFormatter.text("&7[" + color + String.format("%02d:%02d", timeCooldownMinutes, formattedSeconds) + "&7]");
+
+        if (timeCooldownSeconds > 0) manager.decrease (p, 1, manager.TIME_COOLDOWN);
+        if (timeCooldownSeconds <= 150) {
+            decreaseRandomSanity(p, 10,3);
+            manager.decrease(p, 5, manager.SOUND_POINTS);
+        }
         p.sendMessage(msg, true);
     }
 
     private void soundEffects(PlayerEntity p) {
         int cooldown = manager.get(p, manager.SOUND_COOLDOWN);
-        int sanity = manager.get(p, manager.SANITY);
+        int sanity = Math.max(1, manager.get(p, manager.SANITY));
+        manager.decrease(p, 1, manager.SOUND_COOLDOWN);
 
-        if (sanity <= 80) manager.decrease(p, 1, manager.SOUND_COOLDOWN);
+        if (sanity > 60) manager.add(p, 1, manager.SOUND_POINTS);
+        else manager.decrease(p, 1, manager.SOUND_POINTS);
 
         if (cooldown < 0) {
+            var maxAmount = Math.max(-100, Math.min(100, manager.get(p, manager.SOUND_POINTS)));
+            manager.set(p, maxAmount, manager.SOUND_POINTS);
+            Infinium.getInstance().LOGGER.info(String.valueOf(manager.get(p, manager.SOUND_POINTS)));
             p.playSound(getMoodSoundEvent(p), SoundCategory.AMBIENT, 1, 1);
-            manager.decrease(p, 1, manager.SANITY);
-            manager.set(p, 5, manager.SOUND_COOLDOWN);
+            manager.set(p, 120, manager.SOUND_COOLDOWN);
+            manager.set(p, 0, manager.SOUND_POINTS);
         }
     }
 
     private SoundEvent getMoodSoundEvent(PlayerEntity p) {
-        var sanity = manager.get(p, manager.SANITY);
-        var world = p.getWorld();
-        var blockPos = p.getBlockPos();
-        var lightLevel = world.getLightLevel(blockPos);
-        var worldKey = world.getRegistryKey().getValue().toString();
-        var biome = world.getBiome(blockPos);
-        var biomeKey = "";
-        if (biome.getKey().isPresent()) biomeKey = biome.getKey().get().getValue().toString();
+        if (new Random().nextInt(25) == 1) return InfiniumSounds.SANITY_VOICE_INVITE;
 
-        int soundPoints;
-        int sanityFactor = (int) (sanity * 0.1) + (int) (-lightLevel * 0.5);
-        var random = world.getRandom();
+        int soundPoints = manager.get(p, manager.SOUND_POINTS);
+        SoundEvent sound;
 
-        switch (worldKey) {
+        if (soundPoints >= 50) {
 
-            default -> {
-                soundPoints = 100;
+            manager.add(p, 3, manager.SANITY);
+            sound = InfiniumSounds.LOW_SANITY_1;
 
-                if (isPositiveBiome(biomeKey)) soundPoints += random.nextInt(10) + 5;
-                else if (isNegativeBiome(biomeKey)) soundPoints -= random.nextInt(15) + 5;
-                if (getNearbyEntities(p, 10).size() >= 5) soundPoints -= random.nextInt(15) + 10;
-                else soundPoints += random.nextInt(15) + 5;
+        } else if (soundPoints >= 35) {
 
-            }
+            manager.add(p, 2, manager.SANITY);
+            sound = InfiniumSounds.LOW_SANITY_2;
 
-            case "infinium:the_nightmare", "minecraft:the_nether" -> {
-                soundPoints = 80;
+        } else if (soundPoints >= 15) {
 
-                if (isPositiveBiome(biomeKey)) soundPoints += random.nextInt(10) + 5;
-                else if (isNegativeBiome(biomeKey)) soundPoints -= random.nextInt(15) + 5;
-                if (getNearbyEntities(p, 20).size() >= 3) soundPoints -= random.nextInt(15) + 10;
-                else soundPoints += random.nextInt(15) + 5;
+            manager.add(p, 1, manager.SANITY);
+            sound = InfiniumSounds.LOW_SANITY_3;
 
-            }
+        } else if (soundPoints >= 0) {
 
-            case "infinium:the_void", "minecraft:the_end" -> {
-                soundPoints = 60;
+            manager.add(p, 1, manager.SANITY);
+            sound = InfiniumSounds.LOW_SANITY_4;
 
-                if (isPositiveBiome(biomeKey)) soundPoints += random.nextInt(10) + 5;
-                else if (isNegativeBiome(biomeKey)) soundPoints -= random.nextInt(15) + 5;
-                if (getNearbyEntities(p, 20).size() >= 1) soundPoints -= random.nextInt(15) + 10;
-                else soundPoints += random.nextInt(15) + 5;
+        } else if (soundPoints >= -25) {
 
-            }
+            manager.decrease(p, 1, manager.SANITY);
+            sound = InfiniumSounds.LOW_SANITY_5;
+
+        } else if (soundPoints >= -50) {
+
+            manager.decrease(p, 2, manager.SANITY);
+            sound = InfiniumSounds.LOW_SANITY_6;
+
+        } else if (soundPoints >= - 70){
+            manager.decrease(p, 3, manager.SANITY);
+            sound = InfiniumSounds.LOW_SANITY_7;
+
+        } else {
+
+            manager.decrease(p, 6, manager.SANITY);
+            sound = InfiniumSounds.LOW_SANITY_8;
         }
 
-        soundPoints -= sanityFactor;
-        Infinium.getInstance().LOGGER.info(String.valueOf(soundPoints));
-        if (soundPoints <= 60) return InfiniumSounds.LOW_SANITY_2;
-
-        return null;
+        return sound;
     }
 
-    private boolean isPositiveBiome(String biomeStringKey) {
-        //String needs to be a biome registry key
-        String s = biomeStringKey.toLowerCase();
-        return s.equals("minecraft:plains") ||
-               s.equals("minecraft:river")  ||
-               s.equals("minecraft:swamp")  ||
-               s.equals("minecraft:beach")  ||
-               s.equals("minecraft:birch_forest") ||
-               s.equals("minecraft:birch_forest_hills") ||
-               s.equals("minecraft:ocean") ||
-               s.equals("minecraft:meadow") ||
-               s.equals("forest") ||
-               s.equals("flower_forest") ||
-               s.equals("lukewarm_ocean") ||
-               s.equals("grove") ||
-               s.equals("snowy_plains") ||
-               s.equals("warm_ocean") ;
+    private int getBiomeLevel(String biomeKey) {
+        String s = biomeKey.toLowerCase();
 
+        switch (s) {
+
+            default -> {return 1;}
+
+            case
+            "minecraft:dripstone_caves",
+            "minecraft:warped_forest",
+            "minecraft:jungle",
+            "minecraft:crimson_forest",
+            "minecraft:basalt_deltas",
+            "minecraft:lush_caves"
+            -> {return 4;}
+
+            case
+            "minecraft:soul_sand_valley",
+            "minecraft:the_end",
+            "minecraft:small_end_islands",
+            "minecraft:end_midlands",
+            "minecraft:end_highlands",
+            "minecraft:end_barrens"
+            -> {return 6;}
+        }
     }
-    
-    private boolean isNegativeBiome(String biomeStringKey) {
-        String s = biomeStringKey.toLowerCase();
-        return s.equals("");
-    }
-    
-    private List<HostileEntity> getNearbyEntities(PlayerEntity p, int radius) {
+
+    private List<HostileEntity> getNearbyEntities(PlayerEntity p) {
         var world = p.getWorld();
         var x = p.getX();
         var y = p.getY();
         var z = p.getZ();
-        var box = new Box(x - radius, y - radius, z - radius, x + radius, y + radius, z + radius);
+        var box = new Box(x - 14, y - 14, z - 14, x + 14, y + 14, z + 14);
         Predicate<HostileEntity> shouldAdd = HostileEntity::isAlive;
         return world.getEntitiesByClass(HostileEntity.class, box, shouldAdd);
     }
-    private void decreaseRandomSanity(PlayerEntity p, int randomChance) {
-        if (p.getWorld().getRandom().nextInt(randomChance) == 0) manager.decrease(p, 1, manager.SANITY);
+    private void decreaseRandomSanity(PlayerEntity p, int randomChance, int amount) {
+        if (p.getWorld().getRandom().nextInt(randomChance) + 1 == 1) manager.decrease(p, amount, manager.SANITY);
     }
 
-    private void increaseRandomSanity(PlayerEntity p, int randomChance) {
-        if (p.getWorld().getRandom().nextInt(randomChance) == 0) manager.add(p, 1, manager.SANITY);
+    private void increaseRandomSanity(PlayerEntity p, int randomChance, int amount) {
+        if (p.getWorld().getRandom().nextInt(randomChance) + 1 == 1) manager.add(p, amount, manager.SANITY);
     }
 
     private boolean shouldPreventEffects(PlayerEntity p) {

@@ -9,12 +9,12 @@
     "fog_color": 10518688,
     "water_color": 16384000,
     "water_fog_color": 16384000,
-    "grass_color_modifier": "none",
+    "grass_color_modifier": "dark_forest",
     "mood_sound": {
-      "sound": "minecraft:ambient.cave",
-      "tick_delay": 6000,
-      "block_search_extent": 8,
-      "offset": 2
+      "sound": "infinium:low_sanity_2",
+      "tick_delay": 3000,
+      "block_search_extent": 12,
+      "offset": 1
     }
   },
   "spawners": {
@@ -64,7 +64,8 @@
   "features": [
     [],
     [
-      "minecraft:lake_lava_surface"
+      "minecraft:lake_lava_surface",
+      "minecraft:spring_lava"
     ],
     [
     ],
@@ -91,17 +92,9 @@
       "minecraft:ore_lapis_buried",
       "minecraft:ore_copper"
     ],
-    [
-
-    ],
-    [
-      "minecraft:spring_lava"
-    ],
-    [
-
-    ],
-    [
-      "minecraft:freeze_top_layer"
-    ]
+    [],
+    [],
+    [],
+    []
   ]
 }

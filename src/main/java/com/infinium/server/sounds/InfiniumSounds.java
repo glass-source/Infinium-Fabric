@@ -18,8 +18,10 @@ public class InfiniumSounds {
     public static SoundEvent LOW_SANITY_5 = registerSoundEvent("low_sanity_5");
     public static SoundEvent LOW_SANITY_6 = registerSoundEvent("low_sanity_6");
     public static SoundEvent LOW_SANITY_7 = registerSoundEvent("low_sanity_7");
+
     public static SoundEvent LOW_SANITY_8 = registerSoundEvent("low_sanity_8");
 
+    public static SoundEvent SANITY_VOICE_INVITE = registerSoundEvent("sanity_voice_invite");
 
     private static SoundEvent registerSoundEvent(String name){
         Identifier id = new Identifier(Infinium.MOD_ID, name);

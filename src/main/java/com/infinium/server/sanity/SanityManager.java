@@ -9,12 +9,11 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 
-import java.util.ArrayList;
-import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 public class SanityManager {
-    public ArrayList<ServerPlayerEntity> totalPlayers = new ArrayList<>();
     private final SanityTask task;
     private final Infinium instance;
     public final String SANITY = "infinium.sanity";
@@ -22,16 +21,32 @@ public class SanityManager {
     public final String POSITIVE_HEALTH_COOLDOWN = "infinium.positiveHealth";
     public final String NEGATIVE_HEALTH_COOLDOWN = "infinium.negativeHealth";
     public final String SOUND_COOLDOWN = "infinium.soundCooldown";
+    public final String SOUND_POINTS = "infinium.soundPoints";
+
+    private ScheduledExecutorService service;
+    private ScheduledFuture<?> scheduledFuture;
 
     public SanityManager(final Infinium instance){
         this.instance = instance;
+        this.service = this.instance.getExecutor();
         this.task = new SanityTask(this);
     }
 
     public void registerSanityTask(){
-        Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(task::run, 1000, 1000, TimeUnit.MILLISECONDS);
+        if (service == null) service = instance.getExecutor();
+
+        try {
+            scheduledFuture = service.scheduleAtFixedRate(task::run, 0, 1000, TimeUnit.MILLISECONDS);
+        } catch(Exception ignored){}
     }
 
+    public void stopSanityTask() {
+        if (scheduledFuture != null) {
+            scheduledFuture.cancel(true);
+            scheduledFuture = null;
+            service = null;
+        }
+    }
     public void add(PlayerEntity player, int amount, String arg){
         var added = get(player, arg);
         set(player, added + amount, arg);
