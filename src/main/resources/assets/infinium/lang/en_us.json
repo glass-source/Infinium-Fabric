@@ -75,6 +75,11 @@
   "entity.infinium.raider" : "Raider",
   "entity.infinium.pirate_skeleton" : "Pirate Skeleton",
   "entity.infinium.black_beard" : "Black Beard",
-  "infinium.low_sanity" : "???"
+  "infinium.low_sanity" : "???",
+  "infinium.soul_speed_merger" : "Soul Speed Merger",
+  "infinium.looting_merger" : "Looting Merger"
+
+
+
 
 }

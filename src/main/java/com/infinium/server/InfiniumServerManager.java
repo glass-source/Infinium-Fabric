@@ -103,9 +103,9 @@ public class InfiniumServerManager {
     }
 
     private void initRegistries(){
+        InfiniumEffects.init();
         InfiniumItems.init();
         InfiniumBlocks.init();
-        InfiniumEffects.init();
         InfiniumEntityType.init();
         InfiniumRegistries.init();
         InfiniumDimensions.init();

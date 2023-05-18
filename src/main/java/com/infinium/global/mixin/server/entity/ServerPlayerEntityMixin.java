@@ -37,12 +37,10 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity {
 
             return 0;
         } else if (this.hasStatusEffect(InfiniumEffects.MADNESS)) {
-            var level = this.getStatusEffect(InfiniumEffects.MADNESS).getAmplifier();
-            amount = amount * (1 + (level + (level * 0.1f)));
-            return amount;
-        } else {
-            return amount;
+            var level = this.getStatusEffect(InfiniumEffects.MADNESS).getAmplifier() + 1;
+            amount *= (level + (level * 0.25f));
         }
+        return amount;
     }
     @Inject(method = "damage", at = @At("HEAD"))
     private void onPlayerDamage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {

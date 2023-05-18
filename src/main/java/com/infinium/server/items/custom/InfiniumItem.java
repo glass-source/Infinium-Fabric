@@ -9,12 +9,10 @@ import java.util.Objects;
 public interface InfiniumItem {
     default void setCooldown(PlayerEntity user, Item item, int durationTicks) {
         var data = ((EntityDataSaver) user).getPersistentData();
-        var cooldownManager = user.getItemCooldownManager();
-        var endingTickString = "infinium.cooldown." + item + ".ending-tick";
+        var cooldownString = "infinium.cooldown." + item;
         var startingTick = Objects.requireNonNull(user.getServer()).getTicks();
         var endingTick = startingTick + durationTicks;
-        data.putInt(endingTickString, endingTick);
-        cooldownManager.set(item, durationTicks);
+        data.putInt(cooldownString, endingTick);
     }
 
 }

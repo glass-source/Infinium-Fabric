@@ -18,9 +18,9 @@ import java.util.UUID;
 import java.util.function.Predicate;
 
 public class SanityTask {
-    private final EntityAttributeModifier EXTRA_HEALTH_BOOST = new EntityAttributeModifier(UUID.randomUUID(), "Sanity Healthboost", 4, EntityAttributeModifier.Operation.ADDITION);
+    private final EntityAttributeModifier EXTRA_HEALTH_BOOST = new EntityAttributeModifier(UUID.randomUUID(), "Sanity Health boost", 4, EntityAttributeModifier.Operation.ADDITION);
     private final SanityManager manager;
-    public SanityTask(SanityManager manager){
+    public SanityTask(SanityManager manager) {
         this.manager = manager;
     }
     
@@ -41,7 +41,6 @@ public class SanityTask {
             ex.printStackTrace();
         }
     }
-
     private void lightEffects(PlayerEntity p) {
         var world = p.getWorld();
         var blockPos = p.getBlockPos();

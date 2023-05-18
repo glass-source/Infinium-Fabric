@@ -13,7 +13,6 @@ public class InfiniumEffects {
     private static StatusEffect register(String key, StatusEffect effect) {
         return Registry.register(Registry.STATUS_EFFECT, new Identifier(Infinium.MOD_ID, key), effect);
     }
-
     public static void init() {
         IMMUNITY = register("immunity", new InfiniumEffect(StatusEffectCategory.BENEFICIAL, 0xffffff));
         MADNESS = register("madness", new InfiniumEffect(StatusEffectCategory.HARMFUL, 0xff0000));

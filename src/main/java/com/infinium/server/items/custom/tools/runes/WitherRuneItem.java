@@ -1,9 +1,6 @@
 package com.infinium.server.items.custom.tools.runes;
 
-import com.infinium.Infinium;
 import com.infinium.server.items.custom.InfiniumItem;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.WitherSkullEntity;
 import net.minecraft.item.ItemStack;
@@ -15,41 +12,25 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraft.world.explosion.Explosion;
-
-import java.util.concurrent.TimeUnit;
 
 public class WitherRuneItem extends ToolItem implements InfiniumItem {
 
     public WitherRuneItem(ToolMaterial material, Settings settings) {
         super(material, settings);
     }
-
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         var cooldownManager = user.getItemCooldownManager();
         if (!cooldownManager.isCoolingDown(this)) {
             if (!world.isClient()) {
-                var instance = Infinium.getInstance();
-                instance.getExecutor().schedule(() -> cooldownManager.set(this, 15), 400, TimeUnit.MILLISECONDS);
-                WitherSkullEntity skull = new WitherSkullEntity(world, user, 0, 0,0);
+                cooldownManager.set(this, 15);
                 Vec3d vec = user.getRotationVector();
+                WitherSkullEntity skull = new WitherSkullEntity(world, user, vec.getX() * 1.5, vec.getY() * 1.5, vec.getZ() * 1.5);
                 skull.setPosition(user.getEyePos());
-                skull.setVelocity(vec.getX() * 1.25, vec.getY() * 1.25, vec.getZ() * 1.25);
+                skull.setNoGravity(true);
+                skull.setVelocity(vec.getX() * 1.5, vec.getY() * 1.5, vec.getZ() * 1.5);
+                skull.setOwner(user);
                 world.spawnEntity(skull);
-                instance.getExecutor().schedule(() -> {
-                    if (skull.isAlive()) {
-                        world.createExplosion(skull, skull.getX(), skull.getY(), skull.getZ(), 3, Explosion.DestructionType.DESTROY);
-                        skull.remove(Entity.RemovalReason.KILLED);
-                        skull.kill();
-                    }
-                }, 4, TimeUnit.SECONDS);
-            }
-
-            if (user.getEquippedStack(EquipmentSlot.MAINHAND).getItem().equals(this)) {
-                finishUsing(user.getEquippedStack(EquipmentSlot.MAINHAND), world, user);
-            } else if (user.getEquippedStack(EquipmentSlot.OFFHAND).getItem().equals(this)) {
-                finishUsing(user.getEquippedStack(EquipmentSlot.OFFHAND), world, user);
             }
             world.playSound(user, user.getBlockPos(), SoundEvents.ENTITY_BLAZE_SHOOT, SoundCategory.PLAYERS, 1, 0.75F);
         }

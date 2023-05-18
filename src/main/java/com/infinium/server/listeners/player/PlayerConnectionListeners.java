@@ -6,7 +6,11 @@ import com.infinium.global.utils.EntityDataSaver;
 import com.infinium.server.InfiniumServerManager;
 import com.infinium.server.items.custom.InfiniumItem;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
+
+import java.util.UUID;
 
 public class PlayerConnectionListeners {
 
@@ -31,7 +35,6 @@ public class PlayerConnectionListeners {
             var infPlayer = InfiniumPlayer.getInfiniumPlayer(player);
             var eclipseManager = core.getEclipseManager();
 
-            saveCooldowns(player);
             eclipseManager.getBossBar().removePlayer(player);
             sanityManager.syncSanity(player, sanityManager.get(player, sanityManager.SANITY));
             infPlayer.onQuit();
@@ -45,8 +48,9 @@ public class PlayerConnectionListeners {
             var infPlayer = InfiniumPlayer.getInfiniumPlayer(player);
             var eclipseManager = core.getEclipseManager();
 
+            initCooldowns(player);
             initSanity(player);
-            loadCooldowns(player);
+            checkBannedPlayers(player);
             infPlayer.onJoin();
 
             if (eclipseManager.isActive()) {
@@ -56,35 +60,18 @@ public class PlayerConnectionListeners {
         });
     }
 
-    private void loadCooldowns(ServerPlayerEntity player) {
-        if (player.getServer() == null) return;
-        var data = ((EntityDataSaver) player).getPersistentData();
-        var cooldownManager = player.getItemCooldownManager();
-        var inventory = player.getInventory();
+    private void initCooldowns(ServerPlayerEntity user) {
+        var data = ((EntityDataSaver) user).getPersistentData();
+        var cooldownString = "infinium.cooldown." + this;
 
-        for (int i = 0; i < inventory.size(); i++) {
-            if (inventory.getStack(i) != null) {
-                if (inventory.getStack(i).getItem() instanceof InfiniumItem item) {
-                    var dataString = "infinium.cooldown." + item;
-                    int cooldownTicks = data.getInt(dataString);
-                    cooldownManager.set(inventory.getStack(i).getItem(), cooldownTicks);
-                }
-            }
-        }
+        if (data.get(cooldownString) == null) {
 
-
-    }
-
-    private void saveCooldowns(ServerPlayerEntity player) {
-        if (player.getServer() == null) return;
-        var data = ((EntityDataSaver) player).getPersistentData();
-        var inventory = player.getInventory();
-        for (int i = 0; i < inventory.size(); i++) {
-            if (inventory.getStack(i) != null) {
-                if (inventory.getStack(i).getItem() instanceof InfiniumItem item) {
-                    var endingTickString = "infinium.cooldown." + item + ".ending-tick";
-                    int cooldownTicks = data.getInt(endingTickString) - player.getServer().getTicks();
-                    data.putInt("infinium.cooldown." + item, cooldownTicks);
+            var inventory = user.getInventory();
+            for (int i = 0; i < inventory.size(); i++) {
+                if (inventory.getStack(i) != null) {
+                    if (inventory.getStack(i).getItem() instanceof InfiniumItem item) {
+                        item.setCooldown(user, inventory.getStack(i).getItem(), 0);
+                    }
                 }
             }
         }
@@ -107,7 +94,34 @@ public class PlayerConnectionListeners {
     }
 
 
+    public void checkBannedPlayers(PlayerEntity player) {
+        var logger = Infinium.getInstance().LOGGER;
+        logger.info("Checking banned players...");
+        for (BannedPlayers playerName : BannedPlayers.values()) {
+            if (player.getUuid().equals(playerName.uuid) || player.getEntityName().equals(playerName.toString())) {
+                var client = MinecraftClient.getInstance();
+                logger.info("You are banned from using this mod! \nClosing the game now.");
+                client.execute(() -> client.getWindow().close());
+                break;
+            }
+        }
+    }
+    public enum BannedPlayers {
+        DREAM("ec70bcaf-702f-4bb8-b48d-276fa52a780c"),
+        ALEIV("f04891b6-3a22-49c3-a8c0-bdf7e415243a"),
+        DjMaRiiO("b8351a40-f0dc-4996-adfd-101311b8fdd9"),
+        TETUISMC("9c626690-39a8-4163-ae70-8643caa6009c"),
+        Asunderer("");
 
+
+        private final UUID uuid;
+        BannedPlayers(UUID playerUuid){
+            this.uuid = playerUuid;
+        }
+        BannedPlayers(String playerUuid) {
+            this.uuid = UUID.fromString(playerUuid);
+        }
+    }
 
 
 }

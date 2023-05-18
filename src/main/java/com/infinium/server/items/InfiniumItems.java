@@ -2,6 +2,7 @@ package com.infinium.server.items;
 
 import com.github.crimsondawn45.fabricshieldlib.lib.object.FabricShieldItem;
 import com.infinium.Infinium;
+import com.infinium.server.effects.InfiniumEffects;
 import com.infinium.server.entities.InfiniumEntityType;
 import com.infinium.server.items.custom.armor.MagmaArmorItem;
 import com.infinium.server.items.custom.armor.MagmaElytraItem;
@@ -26,6 +27,7 @@ import com.infinium.server.sounds.InfiniumSounds;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.*;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
@@ -147,11 +149,12 @@ public class InfiniumItems {
     }
 
     private static void registerRunes() {
-        IMMUNITY_RUNE = registerItem("immunity_rune", new ImmunityRuneItem(InfiniumToolMaterials.VOID, new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).maxDamage(16).rarity(Rarity.EPIC)));
-        WITHER_RUNE = registerItem("wither_rune", new WitherRuneItem(InfiniumToolMaterials.VOID, new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).maxDamage(350).rarity(Rarity.EPIC)));
-        SPEED_RUNE = registerItem("speed_rune", new SpeedRuneItem(InfiniumToolMaterials.VOID, new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).maxDamage(100).rarity(Rarity.EPIC)));
-        RESISTANCE_RUNE = registerItem("resistance_rune", new ResistanceRuneItem(InfiniumToolMaterials.VOID, new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).maxDamage(32).rarity(Rarity.EPIC)));
-        FIRE_RUNE = registerItem("fire_rune", new FireRuneItem(InfiniumToolMaterials.VOID, new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).maxDamage(120).rarity(Rarity.EPIC)));
+        IMMUNITY_RUNE = registerItem("immunity_rune", new RuneItem(InfiniumToolMaterials.VOID, new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC), InfiniumEffects.IMMUNITY, 20 * 25, 20 * (60 * 5)));
+        SPEED_RUNE = registerItem("speed_rune", new RuneItem(InfiniumToolMaterials.VOID, new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC), StatusEffects.SPEED, 20 * 40, 20 * (60 * 2), 4));
+        RESISTANCE_RUNE = registerItem("resistance_rune", new RuneItem(InfiniumToolMaterials.VOID, new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC), StatusEffects.RESISTANCE, 20 * 40, 20 * (60 * 2), 3));
+        FIRE_RUNE = registerItem("fire_rune", new RuneItem(InfiniumToolMaterials.VOID, new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC), StatusEffects.FIRE_RESISTANCE, 20 * (60 * 10), 20 * (60 * 6)));
+
+        WITHER_RUNE = registerItem("wither_rune", new WitherRuneItem(InfiniumToolMaterials.VOID, new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC)));
     }
 
     private static void registerFood() {

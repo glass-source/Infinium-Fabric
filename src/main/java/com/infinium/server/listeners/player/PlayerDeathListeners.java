@@ -41,7 +41,7 @@ public class PlayerDeathListeners {
     private final InfiniumServerManager core;
     public static final EntityAttributeModifier firstTotemDebuff = new EntityAttributeModifier(UUID.randomUUID(), "First Totem Debuff", -4, EntityAttributeModifier.Operation.ADDITION);
     public static final EntityAttributeModifier secondTotemDebuff = new EntityAttributeModifier(UUID.randomUUID(), "Second Totem Debuff", -8, EntityAttributeModifier.Operation.ADDITION);
-    public static final EntityAttributeModifier finalTotemDebuff = new EntityAttributeModifier(UUID.randomUUID(), "Third Totem Debuff", -100, EntityAttributeModifier.Operation.ADDITION);
+    public static final EntityAttributeModifier finalTotemDebuff = new EntityAttributeModifier(UUID.randomUUID(), "Third Totem Debuff", -30, EntityAttributeModifier.Operation.ADDITION);
     public PlayerDeathListeners(Infinium instance){
         this.instance = instance;
         this.core = instance.getCore();
@@ -88,7 +88,7 @@ public class PlayerDeathListeners {
                         var cooldownManager = player.getItemCooldownManager();
                         cooldownManager.set(Items.SHIELD, 80);
                         cooldownManager.set(InfiniumItems.VOID_SHIELD, 20);
-                        player.clearActiveItem();
+                        instance.getExecutor().schedule(player::clearActiveItem, 500, TimeUnit.MILLISECONDS);
                     }
                 }
 
@@ -196,6 +196,7 @@ public class PlayerDeathListeners {
         core.getTotalPlayers().forEach(player -> player.playSound(InfiniumSounds.PLAYER_DEATH, SoundCategory.AMBIENT, 10, 0.7f));
         instance.getExecutor().schedule( () -> core.getEclipseManager().start(new Random().nextDouble(0.24, 1.6)) , 13, TimeUnit.SECONDS);
         playerDied.changeGameMode(GameMode.SPECTATOR);
+        playerDied.clearStatusEffects();
 
         if (pos.getY() <= -64) playerDied.teleport(pos.getX(), -60, pos.getZ());
         generatePlayerTombstone(playerDied);
@@ -204,6 +205,7 @@ public class PlayerDeathListeners {
         attributeInstance.removeModifier(finalTotemDebuff);
         attributeInstance.removeModifier(secondTotemDebuff);
         attributeInstance.removeModifier(firstTotemDebuff);
+
     }
 
     private void generatePlayerTombstone(ServerPlayerEntity player)  {
