@@ -14,13 +14,12 @@ import java.util.UUID;
 
 public class InfiniumTotemItem extends Item implements InfiniumItem {
 
-    private final EntityAttributeModifier MAGMA_TOTEM_HEALTHBOOST = new EntityAttributeModifier(UUID.randomUUID(), "Magma Totem Healthboost", 8, EntityAttributeModifier.Operation.ADDITION);;
+    private final EntityAttributeModifier MAGMA_TOTEM_HEALTHBOOST = new EntityAttributeModifier(UUID.randomUUID(), "Magma Totem Healthboost", 4, EntityAttributeModifier.Operation.ADDITION);;
 
     public InfiniumTotemItem(Settings settings) {
         super(settings);
     }
 
-    @Override
     public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
         super.inventoryTick(stack, world, entity, slot, selected);
         if (!(entity instanceof ServerPlayerEntity p)) return;

@@ -1,0 +1,44 @@
+package com.infinium.server.items.custom.misc;
+
+import com.infinium.server.items.custom.InfiniumItem;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.Hand;
+import net.minecraft.util.TypedActionResult;
+import net.minecraft.world.World;
+
+public class MergerItem extends Item implements InfiniumItem {
+
+    private final Enchantment enchantment;
+    private final int level;
+    public MergerItem(Settings settings, Enchantment enchantment, int level) {
+        super(settings);
+        this.enchantment = enchantment;
+        this.level = level;
+    }
+
+    @Override
+    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+
+        if (user.getEquippedStack(EquipmentSlot.MAINHAND).getItem().equals(this)) {
+            var offItem = user.getEquippedStack(EquipmentSlot.OFFHAND).getItem();
+
+            if (!offItem.equals(Items.AIR)) {
+                user.getEquippedStack(EquipmentSlot.OFFHAND).addEnchantment(enchantment, level);
+                user.getEquippedStack(EquipmentSlot.MAINHAND).decrement(1);
+                world.playSound(user, user.getBlockPos(), SoundEvents.ENTITY_ILLUSIONER_PREPARE_BLINDNESS, SoundCategory.PLAYERS, 1, 0.03F);
+            }
+
+            finishUsing(user.getEquippedStack(EquipmentSlot.MAINHAND), world, user);
+        }
+
+
+        return super.use(world, user, hand);
+    }
+}

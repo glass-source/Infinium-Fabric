@@ -1,11 +1,8 @@
 package com.infinium.server.items.custom.armor;
 
 import net.fabricmc.fabric.api.entity.event.v1.FabricElytraItem;
-import net.minecraft.block.BlockState;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ArmorMaterial;
@@ -16,7 +13,6 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
@@ -29,30 +25,6 @@ public class VoidElytraItem extends VoidArmorItem implements FabricElytraItem {
     }
 
     @Override
-    public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        if (!target.getWorld().isClient()) {
-            target.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 160, 3));
-            target.addStatusEffect(new StatusEffectInstance(StatusEffects.GLOWING, 160, 0));
-        }
-        return super.postHit(stack, target, attacker);
-    }
-
-    @Override
-    public boolean postMine(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner) {
-        return super.postMine(stack, world, state, pos, miner);
-    }
-
-    @Override
-    public boolean isDamageable() {
-        return super.isDamageable();
-    }
-
-    @Override
-    public boolean canRepair(ItemStack stack, ItemStack ingredient) {
-        return super.canRepair(stack, ingredient);
-    }
-
-    @Override
     public boolean useCustomElytra(LivingEntity entity, ItemStack chestStack, boolean tickElytra) {
         if (ElytraItem.isUsable(chestStack)) {
             if (tickElytra) customElytraTick(entity, chestStack);
@@ -62,7 +34,7 @@ public class VoidElytraItem extends VoidArmorItem implements FabricElytraItem {
         return false;
     }
 
-    @Override
+
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         ItemStack itemStack = user.getStackInHand(hand);
         EquipmentSlot equipmentSlot = MobEntity.getPreferredEquipmentSlot(itemStack);

@@ -11,6 +11,7 @@ import com.infinium.server.items.custom.food.NetheriteCarrotItem;
 import com.infinium.server.items.custom.food.SanityItem;
 import com.infinium.server.items.custom.misc.InfiniumDiscItem;
 import com.infinium.server.items.custom.misc.InfiniumTotemItem;
+import com.infinium.server.items.custom.misc.MergerItem;
 import com.infinium.server.items.custom.misc.VoidEyeItem;
 import com.infinium.server.items.custom.tools.magmaitems.*;
 import com.infinium.server.items.custom.tools.runes.*;
@@ -23,6 +24,7 @@ import com.infinium.server.items.materials.InfiniumArmorMaterials;
 import com.infinium.server.items.materials.InfiniumToolMaterials;
 import com.infinium.server.sounds.InfiniumSounds;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.*;
 import net.minecraft.util.Identifier;
@@ -70,6 +72,8 @@ public class InfiniumItems {
     public static Item EMPANADA_CARNE;
     public static Item DUET_MUSIC_DISC;
     public static Item FALL_IN_LOVE_MUSIC_DISC;
+    public static Item SOUL_SPEED_MERGER;
+    public static Item LOOTING_MERGER;
 
     private static Item registerItem(String name, Item item) {
         return Registry.register(Registry.ITEM, new Identifier(Infinium.MOD_ID, name), item);
@@ -121,13 +125,15 @@ public class InfiniumItems {
         MAGMA_HOE = registerItem("magma_hoe", new MagmaHoeItem(InfiniumToolMaterials.MAGMA, -4, 0.0F, new FabricItemSettings().group(ItemGroup.TOOLS).rarity(Rarity.UNCOMMON).maxDamage(4570).fireproof()));
         MAGMA_BOW = registerItem("magma_bow", new MagmaBowItem(new FabricItemSettings().group(ItemGroup.COMBAT).rarity(Rarity.UNCOMMON).maxDamage(4570).fireproof()));
         MAGMA_TRIDENT = registerItem("magma_trident", new MagmaTridentItem(new FabricItemSettings().group(ItemGroup.COMBAT).rarity(Rarity.UNCOMMON).maxDamage(4570).fireproof(), InfiniumEntityType.MAGMA_TRIDENT));
-        MAGMA_SHIELD = registerItem("magma_shield", new FabricShieldItem(new FabricItemSettings().maxDamage(4570).group(ItemGroup.COMBAT), 10, 16, Items.NETHERITE_INGOT));
+        MAGMA_SHIELD = registerItem("magma_shield", new FabricShieldItem(new FabricItemSettings().maxDamage(4570).group(ItemGroup.COMBAT), 0, 16, Items.NETHERITE_INGOT));
     }
 
     private static void registerMisc() {
         GRAPPLING_HOOK = registerItem("grappling_hook", new GrapplingHookItem(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC).maxDamage(450)));
         ENDER_WAND = registerItem("ender_wand", new EnderWandItem(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC).maxDamage(225)));
         VOID_EYE = registerItem("void_eye", new VoidEyeItem(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC).maxCount(64)));
+        SOUL_SPEED_MERGER = registerItem("soul_speed_merger", new MergerItem(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC).maxCount(1), Enchantments.SOUL_SPEED, 6));
+        LOOTING_MERGER = registerItem("looting_merger", new MergerItem(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC).maxCount(1), Enchantments.LOOTING, 6));
     }
 
     private static void registerMusicDiscs(){

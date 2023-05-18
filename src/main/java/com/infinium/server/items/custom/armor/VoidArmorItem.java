@@ -1,13 +1,11 @@
 package com.infinium.server.items.custom.armor;
 
 import com.infinium.server.items.custom.InfiniumItem;
-import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -15,7 +13,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.Arrays;
@@ -28,7 +25,6 @@ public class VoidArmorItem extends ArmorItem implements InfiniumItem {
         super(material, slot, settings);
     }
 
-    @Override
     public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         if (!target.getWorld().isClient()) {
             target.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 160, 3));
@@ -37,22 +33,7 @@ public class VoidArmorItem extends ArmorItem implements InfiniumItem {
         return super.postHit(stack, target, attacker);
     }
 
-    @Override
-    public boolean postMine(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner) {
-        return super.postMine(stack, world, state, pos, miner);
-    }
 
-    @Override
-    public boolean isDamageable() {
-        return super.isDamageable();
-    }
-
-    @Override
-    public boolean canRepair(ItemStack stack, ItemStack ingredient) {
-        return super.canRepair(stack, ingredient);
-    }
-
-    @Override
     public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
         if (world.isClient()) return;
         if (!(entity instanceof PlayerEntity p)) return;
@@ -76,7 +57,7 @@ public class VoidArmorItem extends ArmorItem implements InfiniumItem {
         } else {
             if (entityAttributeInstance.hasModifier(EXTRA_HEALTH_BOOST)) {
                 entityAttributeInstance.removeModifier(EXTRA_HEALTH_BOOST);
-                p.damage(DamageSource.OUT_OF_WORLD, 0.0001f);
+                p.setHealth(p.getHealth());
             }
         }
     }

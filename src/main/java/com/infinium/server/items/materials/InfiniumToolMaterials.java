@@ -9,8 +9,8 @@ import java.util.function.Supplier;
 
 public enum InfiniumToolMaterials implements ToolMaterial {
 
-    MAGMA(100, 2032, 40.0F, 4.0F, 15, () -> Ingredient.ofItems(Items.NETHERITE_INGOT)),
-    VOID(100, 2032, 40.0F, 4.0F, 15, () -> Ingredient.ofItems(Items.NETHERITE_INGOT));
+    MAGMA(500, 2032, 400.0F, 4.0F, 100, () -> Ingredient.ofItems(Items.NETHERITE_INGOT)),
+    VOID(500, 2032, 400.0F, 4.0F, 100, () -> Ingredient.ofItems(Items.NETHERITE_INGOT));
 
     private final int miningLevel;
     private final int itemDurability;

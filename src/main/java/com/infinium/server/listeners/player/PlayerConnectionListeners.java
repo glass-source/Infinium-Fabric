@@ -38,7 +38,6 @@ public class PlayerConnectionListeners {
         });
 
     }
-
     private void playerConnectCallback(){
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
             if (server == null) return;
@@ -99,7 +98,9 @@ public class PlayerConnectionListeners {
         if (data.get(sanityManager.TIME_COOLDOWN) == null) sanityManager.set(player, 300, sanityManager.TIME_COOLDOWN);
         if (data.get(sanityManager.POSITIVE_HEALTH_COOLDOWN) == null) sanityManager.set(player, 20, sanityManager.POSITIVE_HEALTH_COOLDOWN);
         if (data.get(sanityManager.NEGATIVE_HEALTH_COOLDOWN) == null) sanityManager.set(player, 20, sanityManager.NEGATIVE_HEALTH_COOLDOWN);
-        if (data.get(sanityManager.SOUND_COOLDOWN) == null) sanityManager.set(player, 5, sanityManager.SOUND_COOLDOWN);
+        if (data.get(sanityManager.FULL_HUNGER_COOLDOWN) == null) sanityManager.set(player, 20, sanityManager.FULL_HUNGER_COOLDOWN);
+        if (data.get(sanityManager.EMPTY_HUNGER_COOLDOWN) == null) sanityManager.set(player, 20, sanityManager.EMPTY_HUNGER_COOLDOWN);
+        if (data.get(sanityManager.SOUND_COOLDOWN) == null) sanityManager.set(player, 240, sanityManager.SOUND_COOLDOWN);
         if (data.get(sanityManager.SOUND_POINTS) == null) sanityManager.set(player, 0, sanityManager.SOUND_POINTS);
 
         sanityManager.syncSanity(player, sanityManager.get(player, sanityManager.SANITY));

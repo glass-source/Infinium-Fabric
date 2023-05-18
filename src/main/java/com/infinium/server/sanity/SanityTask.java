@@ -10,6 +10,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.Box;
+import xyz.nucleoid.disguiselib.api.EntityDisguise;
 
 import java.util.List;
 import java.util.Random;
@@ -68,16 +69,9 @@ public class SanityTask {
     private void healthEffects(PlayerEntity p) {
         var entityAttributeInstance = p.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH);
         if (entityAttributeInstance == null) return;
+        double health = p.getHealth();
+        double hunger = p.getHungerManager().getFoodLevel();
         int sanity = manager.get(p, manager.SANITY);
-
-        if (p.getHealth() >= 16.0) {
-            manager.decrease(p, 1, manager.POSITIVE_HEALTH_COOLDOWN);
-            manager.add(p, 1, manager.SOUND_POINTS);
-        }
-        else if (p.getHealth() <= 12.0) {
-            manager.decrease(p, 1, manager.NEGATIVE_HEALTH_COOLDOWN);
-            manager.decrease(p, 1, manager.SOUND_POINTS);
-        }
 
         if (sanity >= 85) {
             if (!entityAttributeInstance.hasModifier(EXTRA_HEALTH_BOOST)) entityAttributeInstance.addTemporaryModifier(EXTRA_HEALTH_BOOST);
@@ -91,6 +85,24 @@ public class SanityTask {
 
         }
 
+        if (hunger >= 16.0) {
+            manager.decrease(p, 1, manager.FULL_HUNGER_COOLDOWN);
+            manager.add(p, 1, manager.SOUND_POINTS);
+        }
+        else {
+            manager.decrease(p, 1, manager.EMPTY_HUNGER_COOLDOWN);
+            manager.decrease(p, 1, manager.SOUND_POINTS);
+        }
+
+        if (health >= 16.0) {
+            manager.decrease(p, 1, manager.POSITIVE_HEALTH_COOLDOWN);
+            manager.add(p, 1, manager.SOUND_POINTS);
+        }
+        else if (health <= 12.0) {
+            manager.decrease(p, 1, manager.NEGATIVE_HEALTH_COOLDOWN);
+            manager.decrease(p, 1, manager.SOUND_POINTS);
+        }
+
         if (manager.get(p, manager.POSITIVE_HEALTH_COOLDOWN) <= 0) {
             increaseRandomSanity(p, 1, 1);
             manager.add(p, 1, manager.SOUND_POINTS);
@@ -101,6 +113,18 @@ public class SanityTask {
             decreaseRandomSanity(p, 1, 1);
             manager.decrease(p, 1 , manager.SOUND_POINTS);
             manager.set(p, 20, manager.NEGATIVE_HEALTH_COOLDOWN);
+        }
+
+        if (manager.get(p, manager.FULL_HUNGER_COOLDOWN) <= 0) {
+            decreaseRandomSanity(p, 1, 1);
+            manager.decrease(p, 1 , manager.SOUND_POINTS);
+            manager.set(p, 20, manager.FULL_HUNGER_COOLDOWN);
+        }
+
+        if (manager.get(p, manager.EMPTY_HUNGER_COOLDOWN) <= 0) {
+            decreaseRandomSanity(p, 1, 1);
+            manager.decrease(p, 1 , manager.SOUND_POINTS);
+            manager.set(p, 20, manager.EMPTY_HUNGER_COOLDOWN);
         }
     }
     private void kairosEffects(PlayerEntity p) {
@@ -127,11 +151,8 @@ public class SanityTask {
         else manager.decrease(p, 1, manager.SOUND_POINTS);
 
         if (cooldown < 0) {
-            var maxAmount = Math.max(-100, Math.min(100, manager.get(p, manager.SOUND_POINTS)));
-            manager.set(p, maxAmount, manager.SOUND_POINTS);
-            Infinium.getInstance().LOGGER.info(String.valueOf(manager.get(p, manager.SOUND_POINTS)));
             p.playSound(getMoodSoundEvent(p), SoundCategory.AMBIENT, 1, 1);
-            manager.set(p, 120, manager.SOUND_COOLDOWN);
+            manager.set(p, 240, manager.SOUND_COOLDOWN);
             manager.set(p, 0, manager.SOUND_POINTS);
         }
     }
@@ -172,7 +193,7 @@ public class SanityTask {
             manager.decrease(p, 2, manager.SANITY);
             sound = InfiniumSounds.LOW_SANITY_6;
 
-        } else if (soundPoints >= - 70){
+        } else if (soundPoints >= -70){
             manager.decrease(p, 3, manager.SANITY);
             sound = InfiniumSounds.LOW_SANITY_7;
 
@@ -230,7 +251,7 @@ public class SanityTask {
     }
 
     private boolean shouldPreventEffects(PlayerEntity p) {
-        return p.isCreative() || p.isSpectator() || p.isDead() || p.isCreativeLevelTwoOp() || p.getAbilities().creativeMode;
+        return p.isCreative() || p.isSpectator() || p.isDead() ||  ((EntityDisguise) p).isDisguised();
     }
 
 

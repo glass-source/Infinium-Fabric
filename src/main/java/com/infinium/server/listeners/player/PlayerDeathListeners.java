@@ -73,26 +73,22 @@ public class PlayerDeathListeners {
             switch (damageSource.name) {
                 case "cactus" -> {
                     if (day >= 14) {
-                        if (player.isBlocking()) return ActionResult.FAIL;
                         if (playerHasTotem(player, damageSource)) {
                             var vec = player.getRotationVector().multiply(-1);
                             player.setVelocity(vec.getX(), vec.getY() + 0.1f, vec.getZ());
                             onTotemUse(player);
-                            return ActionResult.PASS;
                         } else {
                             player.kill();
-                            return ActionResult.SUCCESS;
                         }
                     }
                 }
 
-                case "fireworks", "explosion.player", "explosion" -> {
+                case "explosion.player", "explosion" -> {
                     if (day >= 14) {
                         var cooldownManager = player.getItemCooldownManager();
-                        player.clearActiveItem();
                         cooldownManager.set(Items.SHIELD, 80);
                         cooldownManager.set(InfiniumItems.VOID_SHIELD, 20);
-                        return ActionResult.SUCCESS;
+                        player.clearActiveItem();
                     }
                 }
 

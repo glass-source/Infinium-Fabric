@@ -9,7 +9,7 @@
     "water_color": 49151,
     "water_fog_color": 49151,
     "mood_sound": {
-      "sound": "infinium:low_sanity_2",
+      "sound": "infinium:low_sanity_4",
       "tick_delay": 3000,
       "block_search_extent": 12,
       "offset": 1

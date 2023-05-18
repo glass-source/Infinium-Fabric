@@ -19,10 +19,11 @@ public class SanityManager {
     public final String SANITY = "infinium.sanity";
     public final String TIME_COOLDOWN = "infinium.timeCooldown";
     public final String POSITIVE_HEALTH_COOLDOWN = "infinium.positiveHealth";
+    public final String FULL_HUNGER_COOLDOWN = "infinium.fullHunger";
+    public final String EMPTY_HUNGER_COOLDOWN = "infinium.emptyHunger";
     public final String NEGATIVE_HEALTH_COOLDOWN = "infinium.negativeHealth";
     public final String SOUND_COOLDOWN = "infinium.soundCooldown";
     public final String SOUND_POINTS = "infinium.soundPoints";
-
     private ScheduledExecutorService service;
     private ScheduledFuture<?> scheduledFuture;
 
@@ -56,12 +57,15 @@ public class SanityManager {
         var decreased = get(player, arg);
         set(player, decreased - amount, arg);
     }
-
     public void set(PlayerEntity player, int amount, String arg){
         NbtCompound data = getData(player);
-        if (!arg.equals(SANITY)) {
+        if (!arg.equals(SANITY) && !arg.equals(SOUND_POINTS)) {
             data.putInt(arg, amount);
-        } else {
+        } else if (arg.equals(SOUND_POINTS)) {
+            var maxAmount = Math.max(-100, Math.min(100, amount));
+            data.putInt(arg, maxAmount);
+        }
+        else {
             var maxAmount = Math.max(0, Math.min(100, amount));
             data.putInt(arg, maxAmount);
             if (!(player instanceof ServerPlayerEntity)) return;

@@ -1,12 +1,10 @@
 package com.infinium.server.items.custom.armor;
 
 import com.infinium.server.items.custom.InfiniumItem;
-import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -27,22 +25,11 @@ public class MagmaArmorItem extends ArmorItem implements InfiniumItem {
 
     }
 
-    @Override
-    public boolean isDamageable() {
-        return super.isDamageable();
-    }
-
-    @Override
-    public boolean canRepair(ItemStack stack, ItemStack ingredient) {
-        return super.canRepair(stack, ingredient);
-    }
-
-    @Override
     public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
         if (world.isClient()) return;
         if (!(entity instanceof PlayerEntity p)) return;
         var entityAttributeInstance = p.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH);
-
+        if (entityAttributeInstance == null) return;
         if (hasMagmaArmor(p)) {
             if (!entityAttributeInstance.hasModifier(EXTRA_HEALTH_BOOST)) {
                 entityAttributeInstance.addTemporaryModifier(EXTRA_HEALTH_BOOST);
@@ -62,7 +49,7 @@ public class MagmaArmorItem extends ArmorItem implements InfiniumItem {
         } else {
             if (entityAttributeInstance.hasModifier(EXTRA_HEALTH_BOOST)) {
                 entityAttributeInstance.removeModifier(EXTRA_HEALTH_BOOST);
-                p.damage(DamageSource.OUT_OF_WORLD, 0.0001f);
+                p.setHealth(p.getHealth());
             }
         }
     }
@@ -85,16 +72,5 @@ public class MagmaArmorItem extends ArmorItem implements InfiniumItem {
 
         return hasFullArmor(user) && (helmet instanceof MagmaArmorItem && chestplate instanceof MagmaArmorItem
         && leggings instanceof MagmaArmorItem && boots instanceof MagmaArmorItem);
-    }
-
-    @Override
-    public void onCraft(ItemStack stack, World world, PlayerEntity player) {
-        if (world.isClient) return;
-
-        stack.addEnchantment(Enchantments.PROTECTION, 4);
-        stack.addEnchantment(Enchantments.UNBREAKING, 4);
-        stack.addEnchantment(Enchantments.MENDING, 1);
-
-        super.onCraft(stack, world, player);
     }
 }
