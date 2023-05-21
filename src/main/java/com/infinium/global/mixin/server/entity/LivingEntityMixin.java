@@ -124,7 +124,6 @@ public abstract class LivingEntityMixin extends Entity {
                 }
             }
         }
-
     }
 
     private void createExplosionFromEntity(@Nullable LivingEntity entity, World world, BlockPos position, float explosionPower) {

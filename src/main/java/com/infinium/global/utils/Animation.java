@@ -30,9 +30,10 @@ public class Animation {
             sendTitle(audience, animationList.get(i[0]), 0, 20, 20);
             i[0]++;
             if(i[0] >= animationList.size()) {
+                canStart = true;
                 task.cancel(true);
                 task = null;
-                canStart = true;
+
             }
         }, 0, 100, TimeUnit.MILLISECONDS);
 

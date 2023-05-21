@@ -213,7 +213,7 @@ public class EntitySpawnListeners {
                 if (raid != null) raid.addRaider(raiderEntity.getWave(), ((RaiderEntity) spawned), raiderEntity.getBlockPos(), false);
             }
 
-            entityToRemove.remove(Entity.RemovalReason.DISCARDED);
+            entityToRemove.discard();
         }
 
     }

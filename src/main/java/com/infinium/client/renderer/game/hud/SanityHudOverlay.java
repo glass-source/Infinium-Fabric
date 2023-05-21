@@ -13,15 +13,14 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
 public class SanityHudOverlay implements HudRenderCallback {
-
     private final Identifier SANITY_EMPTY = Infinium.id("textures/sanity/cordura2.png");
     private final Identifier SANITY_FULL = Infinium.id("textures/sanity/cordura1.png");
-
     @Override
     public void onHudRender(MatrixStack matrixStack, float tickDelta) {
         var client = MinecraftClient.getInstance();
         if (client == null || client.player == null) return;
         var p = client.player;
+
         if (p.isSpectator() || p.isCreative()) return;
         var window = client.getWindow();
 
@@ -39,7 +38,7 @@ public class SanityHudOverlay implements HudRenderCallback {
 
         renderBar(textureMatrix, scaledWidth - 25, scaledHeight - 10, p);
         String color = playerSanity < 50 ? "&4" : "&6";
-        DrawableHelper.drawTextWithShadow(textMatrix, client.textRenderer, ChatFormatter.text("&7[" + color + playerSanity + "%&7]"), (scaledWidth * 2) - 45, (scaledHeight * 2) - 50, 0x900D09);
+        DrawableHelper.drawTextWithShadow(textMatrix, client.textRenderer, ChatFormatter.text("🧠 &7[" + color + playerSanity + "%&7]"), (scaledWidth * 2) - 45, (scaledHeight * 2) - 50, 0xFFFFFF);
     }
 
     private void renderBar(MatrixStack matrices, int x, int y, ClientPlayerEntity p) {

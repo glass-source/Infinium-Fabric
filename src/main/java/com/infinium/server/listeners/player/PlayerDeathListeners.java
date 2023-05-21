@@ -30,7 +30,6 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.BlockRotation;
 import net.minecraft.util.Hand;
 import net.minecraft.world.GameMode;
-import xyz.nucleoid.disguiselib.api.EntityDisguise;
 
 import java.util.Random;
 import java.util.UUID;
@@ -188,7 +187,6 @@ public class PlayerDeathListeners {
         var pos = playerDied.getBlockPos();
         var attributeInstance = playerDied.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH);
 
-        ((EntityDisguise) playerDied).removeDisguise();
 
         ChatFormatter.broadcastMessage(ChatFormatter.formatWithPrefix("&6&l%player% &7ha sucumbido ante el\n&5&lVacío Infinito".replaceAll("%player%", playerDied.getEntityName())));
         Animation.initImageForAll();

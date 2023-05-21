@@ -34,7 +34,7 @@ public interface InfiniumEntity {
         nbtCompound.put("Patterns", nbtList);
         BlockItem.setBlockEntityNbt(itemStack, BlockEntityType.BANNER, nbtCompound);
         itemStack.addHideFlag(ItemStack.TooltipSection.ADDITIONAL);
-        itemStack.setCustomName(ChatFormatter.text("&7Trans rights bitch"));
+        itemStack.setCustomName(ChatFormatter.text("&dTrans rights bitch"));
         return itemStack;
     }
 

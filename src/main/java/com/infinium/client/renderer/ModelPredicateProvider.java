@@ -6,6 +6,8 @@ import com.infinium.client.renderer.item.MagmaTridentRenderer;
 import com.infinium.client.renderer.mobs.InfiniumModelLayers;
 import com.infinium.client.renderer.mobs.hostile.InfiniumCreeperEntityModel;
 import com.infinium.client.renderer.mobs.hostile.InfiniumSkeletonEntityModel;
+import com.infinium.client.renderer.mobs.hostile.bosses.supernova.SuperNovaEntityModel;
+import com.infinium.client.renderer.mobs.hostile.bosses.supernova.SuperNovaEntityRenderer;
 import com.infinium.client.renderer.mobs.hostile.dungeon.pirate.BlackBeardEntityRenderer;
 import com.infinium.client.renderer.mobs.hostile.dungeon.pirate.PirateSkeletonEntityRenderer;
 import com.infinium.client.renderer.mobs.hostile.ghoulmobs.ghoulcreeper.GhoulCreeperEntityRenderer;
@@ -32,7 +34,6 @@ import com.infinium.client.renderer.mobs.hostile.voidmobs.voidghast.VoidGhastEnt
 import com.infinium.client.renderer.mobs.hostile.voidmobs.voidskeleton.VoidSkeletonEntityRenderer;
 import com.infinium.client.renderer.mobs.hostile.voidmobs.voidspider.VoidSpiderEntityRenderer;
 import com.infinium.client.renderer.mobs.hostile.voidmobs.voidzombie.VoidZombieEntityRenderer;
-import com.infinium.client.renderer.mobs.neutral.pepfrog.PepFrogEntityRenderer;
 import com.infinium.server.entities.InfiniumEntityType;
 import com.infinium.server.items.InfiniumItems;
 import net.fabricmc.fabric.api.client.model.ModelLoadingRegistry;
@@ -74,6 +75,7 @@ public class ModelPredicateProvider {
         registerRaidMobsRenderer();
         registerDungeonMobsRenderer();
         registerNightmareMobsRenderer();
+        registerBossRenderer();
     }
 
     private void registerMagmaTrident() {
@@ -113,7 +115,9 @@ public class ModelPredicateProvider {
         EntityRendererRegistry.register(InfiniumEntityType.NIGHTMARE_BLAZE, NightmareBlazeEntityRenderer::new);
     }
 
+    private void registerBossRenderer() {
 
+    }
     private void registerRaidMobsRenderer() {
         EntityRendererRegistry.register(InfiniumEntityType.EXPLOSIVE_SORCERER, SorcererEntityRenderer::new);
         EntityRendererRegistry.register(InfiniumEntityType.BERSERKER, BerserkerEntityRenderer::new);
@@ -126,7 +130,7 @@ public class ModelPredicateProvider {
     }
 
     private void registerNeutralMobsRenderer() {
-        EntityRendererRegistry.register(InfiniumEntityType.PEP_FROG, PepFrogEntityRenderer::new);
+        EntityRendererRegistry.register(InfiniumEntityType.SUPER_NOVA, SuperNovaEntityRenderer::new);
     }
 
     private void registerEntityModelLayers(){
@@ -138,6 +142,7 @@ public class ModelPredicateProvider {
         EntityModelLayerRegistry.registerModelLayer(InfiniumModelLayers.INFINIUM_SKELETON, InfiniumSkeletonEntityModel::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(InfiniumModelLayers.GHOUL_WITCH, GhoulWitchEntityModel::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(InfiniumModelLayers.NIGHTMARE_BLAZE, NightmareBlazeEntityModel::getTexturedModelData);
+        EntityModelLayerRegistry.registerModelLayer(InfiniumModelLayers.SUPER_NOVA, SuperNovaEntityModel::getTexturedModelData);
     }
 
     private void registerModelItems(){

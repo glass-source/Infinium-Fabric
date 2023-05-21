@@ -32,6 +32,7 @@ public class StaffCommand {
         LiteralArgumentBuilder<ServerCommandSource> literalArgumentBuilder = CommandManager.literal("staff").requires(source -> source.hasPermissionLevel(4));
 
         literalArgumentBuilder
+
                 .then(CommandManager.literal("loadstructure")
                         .then(CommandManager.argument("filename", StringArgumentType.string())
                                 .executes(context ->
@@ -116,7 +117,7 @@ public class StaffCommand {
 
 
             if (players.size() <= 1) {
-                source.getSource().sendFeedback(ChatFormatter.textWithPrefix("&7La cordura del jugador &6&l" + name + " &7ha sido cambiada"), true);
+                source.getSource().sendFeedback(ChatFormatter.textWithPrefix("&7La cordura de &6&l" + name + " &7ha sido cambiada"), true);
             }
 
             if (players.size() > 1) {

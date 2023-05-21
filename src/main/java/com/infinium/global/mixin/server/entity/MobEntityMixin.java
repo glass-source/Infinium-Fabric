@@ -9,7 +9,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import xyz.nucleoid.disguiselib.api.EntityDisguise;
 
 
 @Mixin(MobEntity.class)
@@ -27,10 +26,7 @@ public abstract class MobEntityMixin extends LivingEntity {
         if (target.isDead()) return;
         if (!target.isPlayer()) return;
 
-        if (((EntityDisguise) target).isDisguised()) {
-            ci.cancel();
-            setAttacking(false);
-        }
+
 
     }
 

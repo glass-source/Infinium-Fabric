@@ -59,17 +59,20 @@ public class SanityManager {
     }
     public void set(PlayerEntity player, int amount, String arg){
         NbtCompound data = getData(player);
-        if (!arg.equals(SANITY) && !arg.equals(SOUND_POINTS)) {
-            data.putInt(arg, amount);
-        } else if (arg.equals(SOUND_POINTS)) {
-            var maxAmount = Math.max(-100, Math.min(100, amount));
-            data.putInt(arg, maxAmount);
-        }
-        else {
-            var maxAmount = Math.max(0, Math.min(100, amount));
-            data.putInt(arg, maxAmount);
-            if (!(player instanceof ServerPlayerEntity)) return;
-            syncSanity((ServerPlayerEntity) player, maxAmount);
+
+        switch (arg) {
+            case SANITY -> {
+                var maxAmount = Math.max(0, Math.min(100, amount));
+                data.putInt(arg, maxAmount);
+                if ((player instanceof ServerPlayerEntity p)) syncSanity(p, maxAmount);
+            }
+
+            case SOUND_POINTS -> {
+                var maxAmount = Math.max(-100, Math.min(100, amount));
+                data.putInt(arg, maxAmount);
+            }
+
+            default -> data.putInt(arg, amount);
         }
     }
 

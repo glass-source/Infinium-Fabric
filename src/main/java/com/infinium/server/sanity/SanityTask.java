@@ -7,11 +7,10 @@ import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.Box;
-import xyz.nucleoid.disguiselib.api.EntityDisguise;
-
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
@@ -30,12 +29,14 @@ public class SanityTask {
     private void sanityEffects(PlayerEntity p) {
         if (shouldPreventEffects(p)) return;
         try {
+
             healthEffects(p);
             kairosEffects(p);
             soundEffects(p);
             biomeEffects(p);
             entityEffects(p);
             lightEffects(p);
+            manager.syncSanity((ServerPlayerEntity) p, manager.get(p, manager.SANITY));
         } catch (Exception ex) {
             Infinium.getInstance().LOGGER.error("Hubo un error con la cordura! que raro...");
             ex.printStackTrace();
@@ -250,7 +251,7 @@ public class SanityTask {
     }
 
     private boolean shouldPreventEffects(PlayerEntity p) {
-        return p.isCreative() || p.isSpectator() || p.isDead() ||  ((EntityDisguise) p).isDisguised();
+        return p.isCreative() || p.isSpectator() || p.isDead();
     }
 
 

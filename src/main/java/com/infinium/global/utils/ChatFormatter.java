@@ -4,7 +4,6 @@ import com.infinium.Infinium;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
@@ -31,7 +30,6 @@ public class ChatFormatter {
     public static Text text(String text) {
         return Text.of(ChatFormatter.format(text));
     }
-
     public static Text textWithPrefix(String text) {
         return Text.of(ChatFormatter.format(prefix + text));
     }
@@ -42,17 +40,10 @@ public class ChatFormatter {
      * @param text to translate.
      * @return Text containing the Formatting.FORMATTING_CODE_PREFIX color code character replaced by '&'.
      */
-
     public static String formatWithPrefix(String text) {return prefix + format(text);}
-
-    public static String formatWithPrefix(Text text) {
-        return String.valueOf(ChatFormatter.text(String.valueOf(text)));
-    }
-
     public static LiteralArgumentBuilder<ServerCommandSource> cd(String value) {
         return CommandManager.literal(value);
     }
-
 
     /**
      * Translates a string using an alternate color code character into a
@@ -76,28 +67,15 @@ public class ChatFormatter {
         }
         return new String(b);
     }
-
     public static Component stringToComponent(String s){
         return Component.text(format(s));
     }
-
-    public static Component componentWithFormat(String s){
-        return Component.text(format(prefix + s));
-    }
-
-    public static Component miniMessage(String build) {
-        return MiniMessage.miniMessage().deserialize(build);
-    }
-
     public static String prefix = format("&5&lInfinium&6&lSMP &8>> &r");
-
     public static void broadcastMessage(String message) {
         var core = Infinium.getInstance().getCore();
         core.getAdventure().audience(PlayerLookup.all(core.getServer())).sendMessage(Component.text(format(message)));
     }
-
     public static void broadcastMessageWithPrefix(String message) {
-        var core = Infinium.getInstance().getCore();
-        core.getAdventure().audience(PlayerLookup.all(core.getServer())).sendMessage(Component.text(format(prefix + message)));
+        broadcastMessage(prefix + message);
     }
 }

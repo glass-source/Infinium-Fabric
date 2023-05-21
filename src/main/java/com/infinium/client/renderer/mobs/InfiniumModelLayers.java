@@ -4,7 +4,6 @@ import com.infinium.Infinium;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 
 public class InfiniumModelLayers {
-
     public static final EntityModelLayer VOID_GHAST = new EntityModelLayer(Infinium.id("void_ghast"), "void_ghast");
     public static final EntityModelLayer INFINIUM_EVOKER = new EntityModelLayer(Infinium.id("infinium_evoker"), "infinium_evoker");
     public static final EntityModelLayer VINDICATOR_INFINIUM = new EntityModelLayer(Infinium.id("vindicator_infinium"), "vindicator_infinium");
@@ -13,5 +12,7 @@ public class InfiniumModelLayers {
     public static final EntityModelLayer INFINIUM_SKELETON = new EntityModelLayer(Infinium.id("infinium_skeleton"), "infinium_skeleton");
     public static final EntityModelLayer GHOUL_WITCH = new EntityModelLayer(Infinium.id("ghoul_witch"), "ghoul_witch");
     public static final EntityModelLayer NIGHTMARE_BLAZE = new EntityModelLayer(Infinium.id("nightmare_blaze"), "nightmare_blaze");
+    public static final EntityModelLayer NEBULA = new EntityModelLayer(Infinium.id("nebula"), "nebula");
+    public static final EntityModelLayer SUPER_NOVA = new EntityModelLayer(Infinium.id("super_nova"), "super_nova");
 
 }

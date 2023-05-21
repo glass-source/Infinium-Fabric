@@ -673,6 +673,13 @@
         "chars": ["🔮"]
         },
         {
+            "type": "bitmap",
+            "file": "minecraft:custom/sanity/brain.png",
+            "height": 7,
+            "ascent": 7,
+            "chars": ["🧠"]
+        },
+        {
         "type": "bitmap",
         "file": "minecraft:custom/ranks/spectator_rank.png",
         "height": 7,

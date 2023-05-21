@@ -23,7 +23,7 @@ import com.infinium.server.entities.mobs.hostile.voidmobs.voidghast.VoidGhastEnt
 import com.infinium.server.entities.mobs.hostile.voidmobs.voidskeleton.VoidSkeletonEntity;
 import com.infinium.server.entities.mobs.hostile.voidmobs.voidspider.VoidSpiderEntity;
 import com.infinium.server.entities.mobs.hostile.voidmobs.voidzombie.VoidZombieEntity;
-import com.infinium.server.entities.mobs.neutral.PepFrogEntity;
+import com.infinium.server.entities.mobs.hostile.bosses.SuperNovaEntity;
 import com.infinium.server.world.gen.InfiniumEntitySpawn;
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
@@ -42,6 +42,7 @@ public class InfiniumRegistries {
         registerRaidMobAttributes();
         registerDungeonMobAttributes();
         registerNightmareAttributes();
+        registerBossAttributes();
         new InfiniumEntitySpawn().addSpawnRestrictions();
     }
 
@@ -50,6 +51,9 @@ public class InfiniumRegistries {
         CommandRegistrationCallback.EVENT.register(InfiniumCommand::register);
     }
 
+    private static void registerBossAttributes() {
+
+    }
     private static void registerGhoulMobAttributes(){
         setAttributes(InfiniumEntityType.GHOUL_SPIDER, GhoulSpiderEntity.createGhoulSpiderAttributes());
         setAttributes(InfiniumEntityType.GHOUL_ZOMBIE, GhoulZombieEntity.createGhoulZombieAttributes());
@@ -74,7 +78,7 @@ public class InfiniumRegistries {
     }
 
     private static void registerNeutralMobAttributes() {
-        setAttributes(InfiniumEntityType.PEP_FROG, PepFrogEntity.createPepAttributes());
+        setAttributes(InfiniumEntityType.SUPER_NOVA, SuperNovaEntity.createNovaAttributes());
     }
 
     private static void registerDungeonMobAttributes() {

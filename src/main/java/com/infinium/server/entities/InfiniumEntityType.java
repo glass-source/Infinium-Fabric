@@ -21,7 +21,7 @@ import com.infinium.server.entities.mobs.hostile.voidmobs.voidghast.VoidGhastEnt
 import com.infinium.server.entities.mobs.hostile.voidmobs.voidskeleton.VoidSkeletonEntity;
 import com.infinium.server.entities.mobs.hostile.voidmobs.voidspider.VoidSpiderEntity;
 import com.infinium.server.entities.mobs.hostile.voidmobs.voidzombie.VoidZombieEntity;
-import com.infinium.server.entities.mobs.neutral.PepFrogEntity;
+import com.infinium.server.entities.mobs.hostile.bosses.SuperNovaEntity;
 import com.infinium.server.entities.projectiles.MagmaTridentEntity;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.entity.Entity;
@@ -46,7 +46,7 @@ public class InfiniumEntityType {
     public static EntityType<ExplosiveSorcererEntity> EXPLOSIVE_SORCERER;
     public static EntityType<BerserkerEntity> BERSERKER;
     public static EntityType<RaiderEntity> RAIDER;
-    public static EntityType<PepFrogEntity> PEP_FROG;
+    public static EntityType<SuperNovaEntity> SUPER_NOVA;
     public static EntityType<GhoulCreeperEntity> GHOUL_CREEPER;
     public static EntityType<VoidCreeperEntity> VOID_CREEPER;
     public static EntityType<VoidSkeletonEntity> VOID_SKELETON;
@@ -59,6 +59,7 @@ public class InfiniumEntityType {
     public static EntityType<NightmareBlazeEntity> NIGHTMARE_BLAZE;
     public static EntityType<BlackBeardEntity> BLACK_BEARD;
 
+
     public static List<EntityType<? extends MobEntity>> getEntityTypes() {
         return List.of(
                 VOID_GHAST,
@@ -69,7 +70,6 @@ public class InfiniumEntityType {
                 EXPLOSIVE_SORCERER,
                 BERSERKER,
                 RAIDER,
-                PEP_FROG,
                 VOID_ZOMBIE,
                 GHOUL_CREEPER,
                 VOID_CREEPER,
@@ -81,20 +81,25 @@ public class InfiniumEntityType {
                 GHOUL_WITCH,
                 NIGHTMARE_HOGLIN,
                 NIGHTMARE_BLAZE,
-                BLACK_BEARD
+                BLACK_BEARD,
+                SUPER_NOVA
         );
     }
 
     public static void init() {
         registerVoidMobs();
         registerGhoulMobs();
-        registerNeutralMobs();
+        registerMisc();
         registerRaidMobs();
         registerDungeonMobs();
         registerNightmareMobs();
-        MAGMA_TRIDENT = register("magma_trident", createEntityType(MagmaTridentEntity::new, SpawnGroup.MISC, 0.5f, 0.5f));
+        registerBosses();
     }
 
+    private static void registerBosses() {
+        SUPER_NOVA = register("super_nova", createEntityType(SuperNovaEntity::new, SpawnGroup.MONSTER, 2.0F, 3.5F));
+
+    }
     private static void registerVoidMobs(){
         VOID_GHAST = register("void_ghast", createEntityType(VoidGhastEntity::new, SpawnGroup.MONSTER, 4.5f, 4.5f));
         VOID_SPIDER = register("void_spider", createEntityType(VoidSpiderEntity::new, SpawnGroup.MONSTER, 2.0f, 1.35f));
@@ -119,8 +124,9 @@ public class InfiniumEntityType {
         NIGHTMARE_BLAZE = register("nightmare_blaze", createEntityType(NightmareBlazeEntity::new, SpawnGroup.MONSTER, 0.65f, 1.85f));
     }
 
-    private static void registerNeutralMobs() {
-        PEP_FROG = register("pep_frog", createEntityType(PepFrogEntity::new, SpawnGroup.AMBIENT, 1.5f, 1.5f));
+    private static void registerMisc() {
+        MAGMA_TRIDENT = register("magma_trident", createEntityType(MagmaTridentEntity::new, SpawnGroup.MISC, 0.5f, 0.5f));
+
     }
 
     private static void registerRaidMobs() {

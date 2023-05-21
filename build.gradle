@@ -22,24 +22,21 @@ repositories {
         }
     }
 
-    maven {url "https://maven.enginehub.org/repo/"}
-    maven { url 'https://maven.nucleoid.xyz' }
-    maven { url "https://cfa2.cursemaven.com" }
 
-    maven { url "https://maven.shedaniel.me/" }
-
-    maven { url 'https://plugins.gradle.org/m2/' }
-
-    maven { url = "https://maven.terraformersmc.com/" }
-
-    maven {url = "https://maven.kyrptonaught.dev"}
-
-    maven { url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/' }
-
-    maven { url 'https://jitpack.io' }
+    maven { url "https://maven.enginehub.org/repo/"}
+    maven { url "https://cfa2.cursemaven.com"}
+    maven { url "https://maven.shedaniel.me/"}
+    maven { url 'https://plugins.gradle.org/m2/'}
+    maven { url = "https://maven.terraformersmc.com/"}
+    maven { url = "https://maven.kyrptonaught.dev"}
+    maven { url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'}
+    maven { url 'https://jitpack.io'}
 
     maven {
         url "https://cursemaven.com"
+        content {
+            includeGroup "curse.maven"
+        }
     }
     mavenCentral()
 }
@@ -50,12 +47,12 @@ dependencies {
 
     include implementation ('com.google.code.gson:gson:2.9.1')
     include implementation ('org.projectlombok:lombok:1.18.24')
-
+    include modImplementation("curse.maven:architectury-419699:4521464")
+    include modImplementation("curse.maven:identity-391390:4399461")
+    include modImplementation ("com.github.Draylar.omega-config:omega-config-base:1.2.3-1.18.1") {exclude group: "net.fabricmc.fabric-api" }
     include modImplementation ("net.kyori:adventure-platform-fabric:5.2.1")
     include modImplementation ('software.bernie.geckolib:geckolib-fabric-1.18:3.0.56')
     include modImplementation ("me.shedaniel.cloth:basic-math:0.6.1")
-    include modImplementation ("xyz.nucleoid:DisguiseLib:1.0.0")
-    include modImplementation ("xyz.nucleoid:disguiselib-fabric:1.2.2")
     include modImplementation ("com.github.CrimsonDawn45:Fabric-Shield-Lib:v${project.fabric_shield_lib_version}")
     include modImplementation ("com.sk89q.worldedit:worldedit-core:7.2.10")
     include modImplementation ("com.sk89q.worldedit:worldedit-fabric-mc1.18.2:7.2.10")
@@ -67,7 +64,6 @@ dependencies {
 
     include 'net.kyrptonaught:customportalapi:0.0.1-beta52-1.18'
     include("com.github.Chocohead:Fabric-ASM:v${project.fabric_asm_version}")
-
     modApi("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_version}") {
         exclude(group: "net.fabricmc.fabric-api")
     }
