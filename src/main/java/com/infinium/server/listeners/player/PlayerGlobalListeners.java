@@ -5,6 +5,7 @@ import com.infinium.global.utils.ChatFormatter;
 import com.infinium.server.InfiniumServerManager;
 import com.infinium.server.effects.InfiniumEffects;
 import com.infinium.server.world.dimensions.InfiniumDimensions;
+import dev.architectury.event.events.common.PlayerEvent;
 import net.fabricmc.fabric.api.entity.event.v1.EntitySleepEvents;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -13,20 +14,30 @@ import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
 
 import java.util.SplittableRandom;
+import java.util.concurrent.TimeUnit;
 
 public class PlayerGlobalListeners {
 
     private final Infinium instance;
     private final InfiniumServerManager core;
-
     public PlayerGlobalListeners(Infinium instance) {
         this.instance = instance;
         this.core = this.instance.getCore();
     }
     public void registerListeners(){
         playerBedCallback();
+        playerChangeDimensionCallback();
     }
-
+    private void playerChangeDimensionCallback() {
+        PlayerEvent.CHANGE_DIMENSION.register((entity, worldFrom, worldTo) -> {
+            instance.LOGGER.info("WORLD FROM: {}, WORLD TO: {}", worldFrom.getValue().toString(), worldTo.getValue().toString());
+            if (worldTo.equals(InfiniumDimensions.THE_VOID)) {
+                instance.getExecutor().schedule(() -> {
+                    entity.teleport(core.getServer().getWorld(InfiniumDimensions.THE_VOID), 0, 220, 0, entity.getYaw(), entity.getPitch());
+                }, 750, TimeUnit.MILLISECONDS);
+            }
+        });
+    }
     private void playerBedCallback() {
         EntitySleepEvents.START_SLEEPING.register((entity, sleepingPos) -> {
             if (core.getDateUtils() == null) return;
@@ -45,7 +56,7 @@ public class PlayerGlobalListeners {
             } else {
                 if (random < day / 2) {
                     tpToWorld(InfiniumDimensions.THE_NIGHTMARE, p, 5000);
-                    ChatFormatter.broadcastMessageWithPrefix("&7El jugador &6&l" + name + " &7ha entrado a la &4&lNightmare &7" + "\nProbabilidad: " + random + " < " + day / 2);
+                    ChatFormatter.broadcastMessageWithPrefix("&6&l" + name + " &7ha entrado a la &4&lNightmare &7" + "\nProbabilidad: " + random + " < " + day / 2);
                 } else {
                     p.sendMessage(ChatFormatter.textWithPrefix("&7Has Dormido. Probabilidad de ir a la &4&lNightmare&7: " + random + " > " + day / 2), false);
                 }
@@ -53,7 +64,6 @@ public class PlayerGlobalListeners {
 
         });
     }
-
     private void tpToWorld(RegistryKey<World> destination, ServerPlayerEntity who, int maxToTP) {
         if (who.getServer() == null) return;
         if (who.getServer().getWorld(destination) == null) return;
@@ -66,7 +76,7 @@ public class PlayerGlobalListeners {
         who.wakeUp(false, true);
         who.teleport(destinationWorld, x, 101.05f, z, who.getYaw(), who.getPitch());
         who.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING, 20 * 12, 0));
-        who.addStatusEffect(new StatusEffectInstance(StatusEffects.LEVITATION, 20 * 6, 0));
+        who.addStatusEffect(new StatusEffectInstance(StatusEffects.LEVITATION, 20 * 4, 0));
         who.addStatusEffect(new StatusEffectInstance(InfiniumEffects.IMMUNITY, 20 * 6, 0));
     }
 

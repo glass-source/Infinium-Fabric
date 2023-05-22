@@ -3,6 +3,7 @@ package com.infinium.server;
 import com.infinium.server.commands.InfiniumCommand;
 import com.infinium.server.commands.StaffCommand;
 import com.infinium.server.entities.InfiniumEntityType;
+import com.infinium.server.entities.mobs.hostile.bosses.SuperNovaEntity;
 import com.infinium.server.entities.mobs.hostile.dungeon.pirate.BlackBeardEntity;
 import com.infinium.server.entities.mobs.hostile.dungeon.pirate.PirateSkeletonEntity;
 import com.infinium.server.entities.mobs.hostile.ghoulmobs.ghoulcreeper.GhoulCreeperEntity;
@@ -23,7 +24,7 @@ import com.infinium.server.entities.mobs.hostile.voidmobs.voidghast.VoidGhastEnt
 import com.infinium.server.entities.mobs.hostile.voidmobs.voidskeleton.VoidSkeletonEntity;
 import com.infinium.server.entities.mobs.hostile.voidmobs.voidspider.VoidSpiderEntity;
 import com.infinium.server.entities.mobs.hostile.voidmobs.voidzombie.VoidZombieEntity;
-import com.infinium.server.entities.mobs.hostile.bosses.SuperNovaEntity;
+import com.infinium.server.entities.mobs.neutral.duck.DuckEntity;
 import com.infinium.server.world.gen.InfiniumEntitySpawn;
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
@@ -52,7 +53,7 @@ public class InfiniumRegistries {
     }
 
     private static void registerBossAttributes() {
-
+        setAttributes(InfiniumEntityType.SUPER_NOVA, SuperNovaEntity.createNovaAttributes());
     }
     private static void registerGhoulMobAttributes(){
         setAttributes(InfiniumEntityType.GHOUL_SPIDER, GhoulSpiderEntity.createGhoulSpiderAttributes());
@@ -78,7 +79,7 @@ public class InfiniumRegistries {
     }
 
     private static void registerNeutralMobAttributes() {
-        setAttributes(InfiniumEntityType.SUPER_NOVA, SuperNovaEntity.createNovaAttributes());
+        setAttributes(InfiniumEntityType.DUCK, DuckEntity.createDuckAttributes());
     }
 
     private static void registerDungeonMobAttributes() {

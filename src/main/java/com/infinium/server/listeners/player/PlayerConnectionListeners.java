@@ -3,10 +3,12 @@ package com.infinium.server.listeners.player;
 import com.infinium.Infinium;
 import com.infinium.global.config.data.player.InfiniumPlayer;
 import com.infinium.global.utils.EntityDataSaver;
+import com.infinium.networking.InfiniumPackets;
 import com.infinium.server.InfiniumServerManager;
 import com.infinium.server.items.custom.InfiniumItem;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
-import net.minecraft.client.MinecraftClient;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 
@@ -27,7 +29,6 @@ public class PlayerConnectionListeners {
         playerDisconnectCallback();
 
     }
-
     private void playerDisconnectCallback() {
         ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> {
             if (server == null) return;
@@ -40,7 +41,6 @@ public class PlayerConnectionListeners {
             sanityManager.syncSanity(player, sanityManager.get(player, sanityManager.SANITY));
             infPlayer.onQuit();
         });
-
     }
     private void playerConnectCallback(){
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
@@ -60,7 +60,6 @@ public class PlayerConnectionListeners {
             }
         });
     }
-
     private void initCooldowns(ServerPlayerEntity user) {
         var data = ((EntityDataSaver) user).getPersistentData();
         var cooldownString = "infinium.cooldown." + this;
@@ -77,7 +76,6 @@ public class PlayerConnectionListeners {
             }
         }
     }
-
     private void initSanity(ServerPlayerEntity player) {
         var sanityManager = core.getSanityManager();
         var data = sanityManager.getData(player);
@@ -93,8 +91,6 @@ public class PlayerConnectionListeners {
 
         sanityManager.syncSanity(player, sanityManager.get(player, sanityManager.SANITY));
     }
-
-
     public void checkBannedPlayers(PlayerEntity player) {
         boolean banned = true;
         var logger = Infinium.getInstance().LOGGER;
@@ -106,9 +102,12 @@ public class PlayerConnectionListeners {
             }
         }
         if (banned) {
-            var client = MinecraftClient.getInstance();
-            logger.info("You are not whitelisted in this mod.");
-            client.stop();
+            logger.info("Player {} tried to join, but they're banned internally!", player.getEntityName());
+            if (player instanceof ServerPlayerEntity sp) {
+                var buffer = PacketByteBufs.create();
+                buffer.writeInt(0);
+                ServerPlayNetworking.send(sp, InfiniumPackets.APPLY_WHITELIST_ID, buffer);
+            }
         } else {
             logger.info("Approved");
         }
@@ -136,6 +135,17 @@ public class PlayerConnectionListeners {
         CarmenedOwO("1845f9d0-7d40-4de2-aac3-593a8b710124"),
         Fabo("87bc8c76-68de-416b-834b-33296b1e8679"),
         AleSuarez("cd73752c-58c5-4c23-af2a-19fa2bcda7d9"),
+        ShiruSS("4881b948-f979-4b46-9031-ceb5f02e15d5"),
+        Blackstamp("994702e0-1a8b-459a-9d4e-ef9d06469d0d"),
+        UNKMage("7c395ed3-192f-4422-81f6-346b5c24b884"),
+        ElTiwizZ("6275ea44-511d-4b38-a3e4-8df8268f932a"),
+        Gus_Gus19("3f831faf-9f00-490f-9b4f-90c558197e76"),
+        Wickedyf("0a24848a-1247-49ff-83bc-d5604f5ed610"),
+        toposqui("c5ab7be0-d0e0-4cd8-9b23-eed961e2104a"),
+        Lucmus("66ac4b0b-4cff-4702-bac5-187b4aba1185"),
+        TheBoyPanda("d3f57305-6ce6-46e1-b2e3-d83177a5d71e"),
+        zapata2013("923f666a-395e-49e0-9451-065a09416d2f"),
+        ___Eclypse___("4baea546-a92d-4ee6-b096-f3c5ead71ada")
         ;
         private final UUID uuid;
         WhitelistedPlayers(String playerUuid) {

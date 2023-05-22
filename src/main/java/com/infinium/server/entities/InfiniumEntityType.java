@@ -22,6 +22,7 @@ import com.infinium.server.entities.mobs.hostile.voidmobs.voidskeleton.VoidSkele
 import com.infinium.server.entities.mobs.hostile.voidmobs.voidspider.VoidSpiderEntity;
 import com.infinium.server.entities.mobs.hostile.voidmobs.voidzombie.VoidZombieEntity;
 import com.infinium.server.entities.mobs.hostile.bosses.SuperNovaEntity;
+import com.infinium.server.entities.mobs.neutral.duck.DuckEntity;
 import com.infinium.server.entities.projectiles.MagmaTridentEntity;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.entity.Entity;
@@ -58,8 +59,7 @@ public class InfiniumEntityType {
     public static EntityType<NightmareHoglinEntity> NIGHTMARE_HOGLIN;
     public static EntityType<NightmareBlazeEntity> NIGHTMARE_BLAZE;
     public static EntityType<BlackBeardEntity> BLACK_BEARD;
-
-
+    public static EntityType<DuckEntity> DUCK;
     public static List<EntityType<? extends MobEntity>> getEntityTypes() {
         return List.of(
                 VOID_GHAST,
@@ -125,8 +125,8 @@ public class InfiniumEntityType {
     }
 
     private static void registerMisc() {
+        DUCK = register("duck", createEntityType(DuckEntity::new, SpawnGroup.AMBIENT, 0.4f, 0.7f));
         MAGMA_TRIDENT = register("magma_trident", createEntityType(MagmaTridentEntity::new, SpawnGroup.MISC, 0.5f, 0.5f));
-
     }
 
     private static void registerRaidMobs() {

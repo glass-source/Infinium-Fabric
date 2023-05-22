@@ -1,0 +1,28 @@
+{
+  "parent": "infinium:dungeons/root",
+  "display": {
+    "icon": {
+      "item": "minecraft:chest"
+    },
+    "title": "Game Master",
+    "description": "Obtain the main treasure in a dungeon",
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "loot_final_chest": {
+      "trigger": "minecraft:player_generates_container_loot",
+      "conditions": {
+        "loot_table": "infinium:chests/final_dungeon_chest"
+      }
+    }
+
+  },
+  "requirements": [
+    [
+      "loot_final_chest"
+    ]
+  ]
+}

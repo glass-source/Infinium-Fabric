@@ -72,13 +72,15 @@ public class PlayerDeathListeners {
             switch (damageSource.name) {
                 case "cactus" -> {
                     if (day >= 14) {
+                        var vec = player.getRotationVector().multiply(-1);
+                        player.setVelocity(vec.getX(), vec.getY() + 0.1f, vec.getZ());
+
                         if (playerHasTotem(player, damageSource)) {
-                            var vec = player.getRotationVector().multiply(-1);
-                            player.setVelocity(vec.getX(), vec.getY() + 0.1f, vec.getZ());
                             onTotemUse(player);
                         } else {
                             player.kill();
                         }
+
                     }
                 }
 
@@ -118,7 +120,8 @@ public class PlayerDeathListeners {
 
         var data = ((EntityDataSaver) player).getPersistentData();
         int totems = data.getInt("infinium.totems");
-        var totemString = "infinium.totems";
+        var totemData = "infinium.totems";
+        var totemNumber = " &8(Tótem #%.%)".replaceAll("%.%", String.valueOf(totems));
         var sanityManager = instance.getCore().getSanityManager();
         var totemItem = totemStack.getItem();
         var playerName = player.getEntityName();
@@ -132,7 +135,7 @@ public class PlayerDeathListeners {
         player.getWorld().sendEntityStatus(player, EntityStatuses.USE_TOTEM_OF_UNDYING);
         player.incrementStat(Stats.USED.getOrCreateStat(totemItem));
         totemStack.decrement(1);
-        Criteria.USED_TOTEM.trigger(player, totemStack);
+        sanityManager.decrease(player, 25, sanityManager.SANITY);
 
         if (totems >= 5) {
             player.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 20 * 20, 2));
@@ -167,19 +170,21 @@ public class PlayerDeathListeners {
 
         if (totemItem.equals(InfiniumItems.VOID_TOTEM)) {
             player.addStatusEffect(new StatusEffectInstance(InfiniumEffects.IMMUNITY, 20 * 15, 0));
-            data.putInt(totemString, totems + 3);
-            message = ChatFormatter.formatWithPrefix("&5&l" + playerName + " &8ha consumido un &b&lVoid Tótem" + " &8(Tótem #%.%)".replaceAll("%.%", String.valueOf(totems + 3)));
+            data.putInt(totemData, totems + 2);
+            totemNumber = " &8(Tótem #%.%)".replaceAll("%.%", String.valueOf(totems + 2));
+            message = ChatFormatter.formatWithPrefix("&5&l" + playerName + " &8ha consumido un \n&b&lVoid Tótem" + totemNumber);
+            Criteria.USED_TOTEM.trigger(player, InfiniumItems.VOID_TOTEM.getDefaultStack());
 
         } else if (totemItem.equals(InfiniumItems.MAGMA_TOTEM)) {
-            data.putInt(totemString, totems + 1);
-            message = ChatFormatter.formatWithPrefix("&5&l" + playerName + " &8ha consumido un \n&c&lMagma Tótem" + " &8(Tótem #%.%)".replaceAll("%.%", String.valueOf(totems + 1)));
+            message = ChatFormatter.formatWithPrefix("&5&l" + playerName + " &8ha consumido un \n&c&lMagma Tótem");
+            Criteria.USED_TOTEM.trigger(player, InfiniumItems.MAGMA_TOTEM.getDefaultStack());
 
         } else {
-            data.putInt(totemString, totems + 1);
-            message = ChatFormatter.formatWithPrefix("&5&l" + playerName + " &8ha consumido un \n&6&lTótem de la Inmortalidad" + " &8(Tótem #%.%)".replaceAll("%.%", String.valueOf(totems + 1)));
+            data.putInt(totemData, totems + 1);
+            message = ChatFormatter.formatWithPrefix("&5&l" + playerName + " &8ha consumido un \n&6&lTótem de la Inmortalidad" + totemNumber);
+            Criteria.USED_TOTEM.trigger(player, Items.TOTEM_OF_UNDYING.getDefaultStack());
         }
 
-        sanityManager.decrease(player, 25, sanityManager.SANITY);
         ChatFormatter.broadcastMessage(message);
     }
     private void onPlayerDeath(ServerPlayerEntity playerDied) {

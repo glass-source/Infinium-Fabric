@@ -1,0 +1,28 @@
+{
+  "display": {
+    "icon": {
+      "item": "infinium:immunity_rune"
+    },
+    "title": "Dungeons and Dragons",
+    "description": "Loot a dungeon chest",
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false,
+    "background": "minecraft:textures/block/blackstone.png"
+  },
+  "criteria": {
+    "loot_dungeon_chest": {
+      "trigger": "minecraft:player_generates_container_loot",
+      "conditions": {
+        "loot_table": "infinium:chests/dungeon_chest"
+      }
+    }
+
+  },
+  "requirements": [
+    [
+      "loot_dungeon_chest"
+    ]
+  ]
+}

@@ -45,7 +45,6 @@ public class RuneItem extends ToolItem implements InfiniumItem {
             cooldownTicks = data.getInt(cooldownString) - world.getServer().getTicks();
 
             if (cooldownTicks <= 0) {
-
                 user.addStatusEffect(new StatusEffectInstance(this.statusEffect, effectDurationTicks, amplifier));
                 user.playSound(SoundEvents.ENTITY_ILLUSIONER_PREPARE_BLINDNESS, SoundCategory.AMBIENT, 1, 0.03F);
                 setCooldown(user, this, this.cooldownTicks);

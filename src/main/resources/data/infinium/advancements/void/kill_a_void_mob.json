@@ -1,0 +1,111 @@
+{
+  "parent": "infinium:void/root",
+  "display": {
+    "icon": {
+      "item": "infinium:void_sword",
+      "nbt": "{Damage:0}"
+    },
+    "title": "Abyss Dweller",
+    "description": "Annihilate a Void Mob",
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "infinium:void_ghast": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "predicate": {
+              "type": "infinium:void_ghast"
+            },
+            "entity": "this"
+          }
+        ]
+      }
+    },
+    "infinium:void_spider": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "predicate": {
+              "type": "infinium:void_spider"
+            },
+            "entity": "this"
+          }
+        ]
+      }
+    },
+    "infinium:void_creeper": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "predicate": {
+              "type": "infinium:void_creeper"
+            },
+            "entity": "this"
+          }
+        ]
+      }
+    },
+    "infinium:void_zombie": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "predicate": {
+              "type": "infinium:void_zombie"
+            },
+            "entity": "this"
+          }
+        ]
+      }
+    },
+    "infinium:void_enderman": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "predicate": {
+              "type": "infinium:void_enderman"
+            },
+            "entity": "this"
+          }
+        ]
+      }
+    },
+    "infinium:void_skeleton": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "predicate": {
+              "type": "infinium:void_skeleton"
+            },
+            "entity": "this"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "infinium:void_ghast",
+      "infinium:void_spider",
+      "infinium:void_creeper",
+      "infinium:void_zombie",
+      "infinium:void_enderman",
+      "infinium:void_skeleton"
+    ]
+  ]
+}

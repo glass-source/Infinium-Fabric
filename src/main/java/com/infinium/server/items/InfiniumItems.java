@@ -76,7 +76,7 @@ public class InfiniumItems {
     public static Item FALL_IN_LOVE_MUSIC_DISC;
     public static Item SOUL_SPEED_MERGER;
     public static Item LOOTING_MERGER;
-
+    public static Item KAIROS_CLOCK;
     private static Item registerItem(String name, Item item) {
         return Registry.register(Registry.ITEM, new Identifier(Infinium.MOD_ID, name), item);
     }
@@ -131,6 +131,7 @@ public class InfiniumItems {
     }
 
     private static void registerMisc() {
+        KAIROS_CLOCK = registerItem("kairos_clock", new Item(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC).maxCount(1)));
         GRAPPLING_HOOK = registerItem("grappling_hook", new GrapplingHookItem(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC).maxDamage(450)));
         ENDER_WAND = registerItem("ender_wand", new EnderWandItem(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC).maxDamage(225)));
         VOID_EYE = registerItem("void_eye", new VoidEyeItem(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC).maxCount(64)));
@@ -153,7 +154,6 @@ public class InfiniumItems {
         SPEED_RUNE = registerItem("speed_rune", new RuneItem(InfiniumToolMaterials.VOID, new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC), StatusEffects.SPEED, 20 * 40, 20 * (60 * 2), 4));
         RESISTANCE_RUNE = registerItem("resistance_rune", new RuneItem(InfiniumToolMaterials.VOID, new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC), StatusEffects.RESISTANCE, 20 * 40, 20 * (60 * 2), 3));
         FIRE_RUNE = registerItem("fire_rune", new RuneItem(InfiniumToolMaterials.VOID, new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC), StatusEffects.FIRE_RESISTANCE, 20 * (60 * 10), 20 * (60 * 6)));
-
         WITHER_RUNE = registerItem("wither_rune", new WitherRuneItem(InfiniumToolMaterials.VOID, new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC)));
     }
 

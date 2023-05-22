@@ -1,0 +1,70 @@
+{
+  "parent": "infinium:dungeons/kill_a_pirate",
+  "display": {
+    "icon": {
+      "item": "infinium:soul_speed_merger",
+      "nbt": "{Damage:0}"
+    },
+    "title": "A true hero",
+    "description": "Defeat all raider mobs",
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "infinium:explosive_sorcerer": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "predicate": {
+              "type": "infinium:explosive_sorcerer"
+            },
+            "entity": "this"
+          }
+        ]
+      }
+    },
+    "infinium:berserker": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "predicate": {
+              "type": "infinium:berserker"
+            },
+            "entity": "this"
+          }
+        ]
+      }
+    },
+    "infinium:raider": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "predicate": {
+              "type": "infinium:raider"
+            },
+            "entity": "this"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "infinium:explosive_sorcerer"
+    ],
+    [
+      "infinium:berserker"
+    ],
+    [
+      "infinium:raider"
+    ]
+  ]
+}

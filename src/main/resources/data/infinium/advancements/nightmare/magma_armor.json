@@ -1,0 +1,57 @@
+{
+  "parent": "infinium:nightmare/magma_tools",
+  "display": {
+    "icon": {
+      "item": "infinium:magma_chestplate",
+      "nbt": "{Damage:0}"
+    },
+    "title": "Magma-born",
+    "description": "Get a full set of magma Armor",
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "rewards": {
+    "experience": 24000
+  },
+  "criteria": {
+    "magma_armor": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "infinium:magma_helmet"
+            ]
+          },
+          {
+            "items": [
+              "infinium:magma_chestplate"
+            ]
+          },
+          {
+            "items": [
+              "infinium:magma_wings"
+            ]
+          },
+          {
+            "items": [
+              "infinium:magma_leggings"
+            ]
+          },
+          {
+            "items": [
+              "infinium:magma_boots"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "magma_armor"
+    ]
+  ]
+}

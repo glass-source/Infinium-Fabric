@@ -1,0 +1,72 @@
+{
+  "parent": "infinium:nightmare/root",
+  "display": {
+    "icon": {
+      "item": "infinium:magma_pickaxe",
+      "nbt": "{Damage:0}"
+    },
+    "title": "It's getting hot in here!",
+    "description": "Get a full set of Magma Tools",
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "rewards": {
+    "experience": 12000
+  },
+  "criteria": {
+    "magma_tools": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "infinium:magma_trident"
+            ]
+          },
+          {
+            "items": [
+              "infinium:magma_pickaxe"
+            ]
+          },
+          {
+            "items": [
+              "infinium:magma_axe"
+            ]
+          },
+          {
+            "items": [
+              "infinium:magma_sword"
+            ]
+          },
+          {
+            "items": [
+              "infinium:magma_shovel"
+            ]
+          },
+          {
+            "items": [
+              "infinium:magma_hoe"
+            ]
+          },
+          {
+            "items": [
+              "infinium:magma_shield"
+            ]
+          },
+          {
+            "items": [
+              "infinium:magma_bow"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "magma_tools"
+    ]
+  ]
+}

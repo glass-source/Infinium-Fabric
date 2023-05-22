@@ -43,6 +43,7 @@
   "item.infinium.soul_speed_merger" : "Soul Speed Merger",
   "item.infinium.looting_merger" : "Looting Merger",
   "item.infinium.netherite_carrot" : "Netherite Carrot",
+  "item.infinium.kairos_clock" : "Kairos Clock",
   "category.minecraft.infinium": "Infinium Category",
   "itemGroup.infinium.infinium": "Infinium Group",
   
@@ -53,7 +54,6 @@
 
   "entity.infinium.void_ghast" : "Void Ghast",
   "entity.infinium.void_spider" : "Void Spider",
-  "entity.infinium.pep_frog" : "Frog",
   "entity.infinium.void_enderman" : "Void Enderman",
   "entity.infinium.void_zombie" : "Void Zombie",
   "entity.infinium.void_creeper" : "Void Creeper",
@@ -73,6 +73,7 @@
   "entity.infinium.pirate_skeleton" : "Pirate Skeleton",
   "entity.infinium.black_beard" : "Black Beard",
   "entity.infinium.super_nova" : "§5Super Nova",
+  "entity.infinium.duck" : "Duck",
   
   "infinium.player_died": "Player Died",
   "infinium.eclipse_started": "Solar Eclipse Started",

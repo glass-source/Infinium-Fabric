@@ -1,0 +1,36 @@
+{
+  "parent": "infinium:dungeons/spawn_super_nova",
+  "display": {
+    "icon": {
+      "item": "infinium:kairos_clock",
+      "nbt": "{Damage:0}"
+    },
+    "title": "Loop Break",
+    "description": "Defeat the Super Nova in combat",
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "criteria": {
+    "infinium:super_nova": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "predicate": {
+              "type": "infinium:super_nova"
+            },
+            "entity": "this"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "infinium:super_nova"
+    ]
+  ]
+}

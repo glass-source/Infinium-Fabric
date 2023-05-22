@@ -23,27 +23,21 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity {
     public ServerPlayerEntityMixin(World world, BlockPos pos, float yaw, GameProfile profile) {
         super(world, pos, yaw, profile);
     }
-
-    @Inject(method = "damage", at = @At("HEAD"), cancellable = true)
-    private void applyImmunity(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
-        if(this.hasStatusEffect(InfiniumEffects.IMMUNITY)) {
-            cir.setReturnValue(false);
-            cir.cancel();
-        }
-    }
     @ModifyVariable(method = "damage", at = @At("HEAD"), ordinal = 0, argsOnly = true)
-    private float applyImmunityAndMadness(float amount) {
-        if (this.hasStatusEffect(InfiniumEffects.IMMUNITY)) {
+    private float applyMadness(float amount) {
 
-            return 0;
-        } else if (this.hasStatusEffect(InfiniumEffects.MADNESS)) {
+        if (this.hasStatusEffect(InfiniumEffects.MADNESS)) {
             var level = this.getStatusEffect(InfiniumEffects.MADNESS).getAmplifier() + 1;
             amount *= (level + (level * 0.25f));
         }
         return amount;
     }
-    @Inject(method = "damage", at = @At("HEAD"))
+    @Inject(method = "damage", at = @At("HEAD"), cancellable = true)
     private void onPlayerDamage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
+        if (this.hasStatusEffect(InfiniumEffects.IMMUNITY)) {
+            cir.setReturnValue(false);
+            cir.cancel();
+        }
         PlayerDamageEvent.EVENT.invoker().onPlayerDamage(this.getUuid(), source, amount, cir.isCancelled());
     }
     @Inject(method = "updatePotionVisibility", at = @At("TAIL"), cancellable = true)

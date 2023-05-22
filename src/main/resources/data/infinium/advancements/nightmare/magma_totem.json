@@ -1,0 +1,31 @@
+{
+  "parent": "infinium:nightmare/root",
+  "display": {
+    "icon": {
+      "item": "infinium:magma_totem"
+    },
+    "title": "Post-mortal 3: Requiem",
+    "description": "Cheat death by using a Magma Totem",
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "used_totem": {
+      "trigger": "minecraft:used_totem",
+      "conditions": {
+        "item": {
+          "items": [
+            "infinium:magma_totem"
+          ]
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "used_totem"
+    ]
+  ]
+}

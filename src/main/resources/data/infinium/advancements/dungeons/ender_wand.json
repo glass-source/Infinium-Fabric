@@ -1,0 +1,37 @@
+{
+  "parent": "infinium:dungeons/grappling_hook",
+  "display": {
+    "icon": {
+      "item": "infinium:ender_wand",
+      "nbt": "{Damage:0}"
+    },
+    "title": "Did I hear an enderman?",
+    "description": "Get a hold of an Ender wand",
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "rewards": {
+    "experience": 4000
+  },
+  "criteria": {
+    "ender_wand": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "infinium:ender_wand"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "ender_wand"
+    ]
+  ]
+}

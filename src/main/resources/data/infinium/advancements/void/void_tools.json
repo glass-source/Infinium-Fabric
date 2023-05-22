@@ -1,0 +1,67 @@
+{
+  "parent": "infinium:void/root",
+  "display": {
+    "icon": {
+      "item": "infinium:void_pickaxe",
+      "nbt": "{Damage:0}"
+    },
+    "title": "Pick-a-Void",
+    "description": "Get a full set of Void Tools",
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "rewards": {
+    "experience": 6000
+  },
+  "criteria": {
+    "void_tools": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "infinium:void_pickaxe"
+            ]
+          },
+          {
+            "items": [
+              "infinium:void_axe"
+            ]
+          },
+          {
+            "items": [
+              "infinium:void_sword"
+            ]
+          },
+          {
+            "items": [
+              "infinium:void_shovel"
+            ]
+          },
+          {
+            "items": [
+              "infinium:void_hoe"
+            ]
+          },
+          {
+            "items": [
+              "infinium:void_shield"
+            ]
+          },
+          {
+            "items": [
+              "infinium:void_bow"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "void_tools"
+    ]
+  ]
+}

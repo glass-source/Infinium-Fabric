@@ -1,0 +1,37 @@
+{
+  "parent": "infinium:dungeons/root",
+  "display": {
+    "icon": {
+      "item": "infinium:grappling_hook",
+      "nbt": "{Damage:0}"
+    },
+    "title": "Wall crawler or Web swinger?",
+    "description": "Get a hold of a Grappling Hook",
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "rewards": {
+    "experience": 4000
+  },
+  "criteria": {
+    "grappling_hook": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "infinium:grappling_hook"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "grappling_hook"
+    ]
+  ]
+}

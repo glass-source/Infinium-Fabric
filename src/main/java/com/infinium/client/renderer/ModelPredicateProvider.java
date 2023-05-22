@@ -34,6 +34,7 @@ import com.infinium.client.renderer.mobs.hostile.voidmobs.voidghast.VoidGhastEnt
 import com.infinium.client.renderer.mobs.hostile.voidmobs.voidskeleton.VoidSkeletonEntityRenderer;
 import com.infinium.client.renderer.mobs.hostile.voidmobs.voidspider.VoidSpiderEntityRenderer;
 import com.infinium.client.renderer.mobs.hostile.voidmobs.voidzombie.VoidZombieEntityRenderer;
+import com.infinium.client.renderer.mobs.neutral.duck.DuckEntityRenderer;
 import com.infinium.server.entities.InfiniumEntityType;
 import com.infinium.server.items.InfiniumItems;
 import net.fabricmc.fabric.api.client.model.ModelLoadingRegistry;
@@ -103,6 +104,7 @@ public class ModelPredicateProvider {
     private void registerGhoulMobsRenderer(){
         EntityRendererRegistry.register(InfiniumEntityType.GHOUL_SPIDER, GhoulSpiderEntityRenderer::new);
         EntityRendererRegistry.register(InfiniumEntityType.GHOUL_ZOMBIE, GhoulZombieEntityRenderer::new);
+
         EntityRendererRegistry.register(InfiniumEntityType.GHOUL_CREEPER, GhoulCreeperEntityRenderer::new);
         EntityRendererRegistry.register(InfiniumEntityType.GHOUL_WITCH, GhoulWitchEntityRenderer::new);
     }
@@ -116,7 +118,7 @@ public class ModelPredicateProvider {
     }
 
     private void registerBossRenderer() {
-
+        EntityRendererRegistry.register(InfiniumEntityType.SUPER_NOVA, SuperNovaEntityRenderer::new);
     }
     private void registerRaidMobsRenderer() {
         EntityRendererRegistry.register(InfiniumEntityType.EXPLOSIVE_SORCERER, SorcererEntityRenderer::new);
@@ -130,7 +132,7 @@ public class ModelPredicateProvider {
     }
 
     private void registerNeutralMobsRenderer() {
-        EntityRendererRegistry.register(InfiniumEntityType.SUPER_NOVA, SuperNovaEntityRenderer::new);
+        EntityRendererRegistry.register(InfiniumEntityType.DUCK, DuckEntityRenderer::new);
     }
 
     private void registerEntityModelLayers(){

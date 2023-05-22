@@ -1,0 +1,57 @@
+{
+  "parent": "infinium:void/void_tools",
+  "display": {
+    "icon": {
+      "item": "infinium:void_chestplate",
+      "nbt": "{Damage:0}"
+    },
+    "title": "How does that even work?",
+    "description": "Get a full set of Void Armor",
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "rewards": {
+    "experience": 12000
+  },
+  "criteria": {
+    "void_armor": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "infinium:void_helmet"
+            ]
+          },
+          {
+            "items": [
+              "infinium:void_chestplate"
+            ]
+          },
+          {
+            "items": [
+              "infinium:void_wings"
+            ]
+          },
+          {
+            "items": [
+              "infinium:void_leggings"
+            ]
+          },
+          {
+            "items": [
+              "infinium:void_boots"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "void_armor"
+    ]
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "display": {
+    "icon": {
+      "item": "infinium:void_eye"
+    },
+    "title": "The Void",
+    "description": "Enter The Void",
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false,
+    "background": "infinium:textures/block/void_stone.png"
+  },
+  "criteria": {
+    "entered_void": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "infinium:the_void"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "entered_void"
+    ]
+  ]
+}

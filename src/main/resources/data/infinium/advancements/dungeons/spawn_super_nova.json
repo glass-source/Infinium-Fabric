@@ -1,0 +1,36 @@
+{
+  "parent": "infinium:dungeons/root",
+  "display": {
+    "icon": {
+      "item": "infinium:kairos_clock",
+      "nbt": "{Damage:0}"
+    },
+    "title": "The final fight",
+    "description": "Spawn the Super Nova",
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "criteria": {
+    "summoned": {
+      "trigger": "minecraft:summoned_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "predicate": {
+              "type": "infinium:super_nova"
+            },
+            "entity": "this"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "summoned"
+    ]
+  ]
+}

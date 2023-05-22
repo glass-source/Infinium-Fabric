@@ -10,6 +10,7 @@ import com.infinium.server.items.InfiniumItems;
 import com.infinium.server.sounds.InfiniumSounds;
 import draylar.identity.api.PlayerIdentity;
 import draylar.identity.api.variant.IdentityType;
+import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.render.entity.feature.SkinOverlayOwner;
@@ -77,7 +78,6 @@ public class SuperNovaEntity extends HostileEntity implements SkinOverlayOwner, 
     private static final Predicate<LivingEntity> CAN_ATTACK_PREDICATE;
     private static final TargetPredicate HEAD_TARGET_PREDICATE;
 
-
     static {
         TRACKED_ENTITY_ID_1 = DataTracker.registerData(SuperNovaEntity.class, TrackedDataHandlerRegistry.INTEGER);
         TRACKED_ENTITY_ID_2 = DataTracker.registerData(SuperNovaEntity.class, TrackedDataHandlerRegistry.INTEGER);
@@ -138,7 +138,7 @@ public class SuperNovaEntity extends HostileEntity implements SkinOverlayOwner, 
     }
 
     protected SoundEvent getAmbientSound() {
-        return InfiniumSounds.LOW_SANITY_6;
+        return SoundEvents.ENTITY_WITHER_AMBIENT;
     }
 
     protected SoundEvent getHurtSound(DamageSource source) {
@@ -340,12 +340,16 @@ public class SuperNovaEntity extends HostileEntity implements SkinOverlayOwner, 
     }
 
     public void onSummoned() {
+        Infinium.getInstance().getCore().getTotalPlayers().forEach(player -> Criteria.SUMMONED_ENTITY.trigger(player, this));
         this.setInvulTimer(220);
         this.bossBar.setPercent(0.0F);
-        this.setHealth(this.getMaxHealth() / 3.0F);
+        this.setHealth(this.getMaxHealth());
     }
 
-    public void slowMovement(BlockState state, Vec3d multiplier) {
+    @Override
+    public void onDeath(DamageSource source) {
+        super.onDeath(source);
+        Infinium.getInstance().getCore().getTotalPlayers().forEach(player -> Criteria.PLAYER_KILLED_ENTITY.trigger(player, this, source));
     }
 
     public void onStartedTrackingBy(ServerPlayerEntity player) {
@@ -532,7 +536,7 @@ public class SuperNovaEntity extends HostileEntity implements SkinOverlayOwner, 
     private class SuperNovaTargetGoal extends ActiveTargetGoal<PlayerEntity> {
         private int attackCooldown = (20 * 10);
         private Attacks lastAttack;
-        private int lastAttackIndex = 0;
+        private int lastAttackIndex = 1;
         private boolean canAttack = true;
         private LivingEntity lastTarget;
         private ScheduledFuture<?> task;
@@ -562,25 +566,19 @@ public class SuperNovaEntity extends HostileEntity implements SkinOverlayOwner, 
             }
 
             switch (currentAttack) {
-
                 case EXPLOSION -> {
                     canAttack = false;
-                    float health = superNova.getHealth();
                     this.setControls(EnumSet.of(Control.MOVE, Control.JUMP, Control.LOOK));
-                    superNova.setInvulTimer(220);
-                    if (superNova.getTarget() != null) this.lastTarget = superNova.getTarget();
                     superNova.setGlowing(true);
-                    superNova.setAiDisabled(true);
                     task = instance.getExecutor().schedule(() -> {
                         canAttack = true;
                         superNova.moveControl = new FlightMoveControl(superNova, 10, false);
-                        superNova.setHealth(health);
                         superNova.setAiDisabled(false);
                         superNova.setGlowing(false);
                         createExplosionFromEntity(superNova, superNova.getWorld(), superNova.getBlockPos());
                         task.cancel(true);
                         task = null;
-                    }, 11500, TimeUnit.MILLISECONDS);
+                    }, 12000, TimeUnit.MILLISECONDS);
                 }
 
                 case NEGATIVE_EFFECTS -> {
@@ -605,10 +603,8 @@ public class SuperNovaEntity extends HostileEntity implements SkinOverlayOwner, 
                             var entityType = list.get(i);
                             var entity = entityType.spawn(serverWorld, null, null, null, SuperNovaEntity.this.getBlockPos().add(entityLocations[i].x, 6, entityLocations[i].y), SpawnReason.NATURAL, true, false);
                             if(entity != null) {
-
                                 entity.setGlowing(true);
                                 entity.setSilent(false);
-
                             }
                         }
                     }
@@ -616,11 +612,12 @@ public class SuperNovaEntity extends HostileEntity implements SkinOverlayOwner, 
 
                 case DISGUISE_PLAYERS -> {
                     this.canAttack = false;
-                    instance.getCore().getTotalPlayers().forEach(this::setIdentity);
+                    var totalPlayers = instance.getCore().getTotalPlayers();
+                    totalPlayers.forEach(this::setIdentity);
                     this.task = instance.getExecutor().schedule(() -> {
                         this.canAttack = true;
-                        instance.getCore().getTotalPlayers().forEach(this::removeIdentity);
-                    }, 10, TimeUnit.SECONDS);
+                        totalPlayers.forEach(this::removeIdentity);
+                    }, 15, TimeUnit.SECONDS);
                 }
 
                 case TNT_CIRCLE -> {
@@ -671,7 +668,7 @@ public class SuperNovaEntity extends HostileEntity implements SkinOverlayOwner, 
                 case OBSIDIAN_BARRIER -> {
                     LivingEntity target1 = superNova.getTarget();
                     if (target1 != null) {
-
+                        var world = superNova.getWorld();
                         double radius = 4.5;
                         int segments = 20;
                         Point2D.Double[] entityLocations = getCircle(radius, segments);
@@ -682,22 +679,30 @@ public class SuperNovaEntity extends HostileEntity implements SkinOverlayOwner, 
                            for (int j = 0; j < 6; j++) {
                                var pos = target1.getBlockPos().add(entityLocations[i].x, j, entityLocations[i].y);
                                var pos2 = getBlockPos(pos.getX(), pos.getZ(), maxHeight + j, minHeight + j);
-                               superNova.getWorld().setBlockState(pos2, Blocks.OBSIDIAN.getDefaultState());
+                               world.setBlockState(pos2, Blocks.OBSIDIAN.getDefaultState());
                                blockPosList.add(pos2);
-                               superNova.getWorld().playSound(null, pos2, SoundEvents.BLOCK_STONE_BREAK, SoundCategory.BLOCKS, 1, 1);
+                               world.playSound(null, pos2, SoundEvents.BLOCK_STONE_PLACE, SoundCategory.BLOCKS, 1, 0.55f);
                            }
                         }
 
-                        instance.getExecutor().schedule(() -> blockPosList.forEach(blockPos -> superNova.world.setBlockState(blockPos, Blocks.AIR.getDefaultState())), 8, TimeUnit.SECONDS);
+                        instance.getExecutor().schedule(() -> blockPosList.forEach(blockPos -> {
+                            world.setBlockState(blockPos, Blocks.AIR.getDefaultState());
+                            world.playSound(null, blockPos, SoundEvents.BLOCK_STONE_BREAK, SoundCategory.BLOCKS, 1, 0.55f);
+                        }), 8, TimeUnit.SECONDS);
                     }
                 }
+
+                default -> {
+
+                }
+
             }
 
             this.setTargetEntity(this.getClosestPlayer(superNova.getX(), superNova.getY(), superNova.getZ()));
             this.lastAttack = currentAttack;
             this.attackCooldown = (20 * 8);
             this.lastAttackIndex++;
-            if (lastAttackIndex >= Attacks.values().length) this.lastAttackIndex = 0;
+            if (lastAttackIndex >= Attacks.values().length - 1) this.lastAttackIndex = 0;
             this.sendMessage();
         }
         private void sendMessage() {
@@ -735,7 +740,8 @@ public class SuperNovaEntity extends HostileEntity implements SkinOverlayOwner, 
             return SuperNovaEntity.this.world.getClosestPlayer(x, y, z, 30, predicate);
         }
         private void setIdentity(ServerPlayerEntity player) {
-            Entity createdEntity = ((EntityType<?>) EntityType.CHICKEN).create(player.world);
+            if (player.isCreative() || player.isSpectator()) return;
+            Entity createdEntity = ((EntityType<?>) InfiniumEntityType.DUCK).create(player.world);
             if (createdEntity instanceof LivingEntity living) {
                 IdentityType<?> defaultType = IdentityType.from(living);
                 if (defaultType != null) {
@@ -778,7 +784,7 @@ public class SuperNovaEntity extends HostileEntity implements SkinOverlayOwner, 
             SUMMON_MOBS("Summons mobs around SuperNovaEntity"),
             OBSIDIAN_BARRIER("Generates an obsidian barrier around the player"),
             DISGUISE_PLAYERS("Sets the identity of online players to a chicken."),
-            NONE("Disabled");
+            NONE("No mayor attacks");
 
             Attacks(String s) {
 

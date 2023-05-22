@@ -5,6 +5,7 @@ import com.infinium.global.utils.ChatFormatter;
 import com.infinium.server.InfiniumServerManager;
 import com.infinium.server.eclipse.SolarEclipseManager;
 import com.infinium.server.entities.InfiniumEntityType;
+import com.infinium.server.entities.mobs.hostile.bosses.SuperNovaEntity;
 import com.infinium.server.entities.mobs.hostile.raidmobs.raider.RaiderEntity;
 import com.infinium.server.events.entity.EntitySpawnEvent;
 import net.minecraft.enchantment.Enchantments;
@@ -27,12 +28,10 @@ public class EntitySpawnListeners {
 
     private final InfiniumServerManager core;
     private final SolarEclipseManager solarEclipseManager;
-
     public EntitySpawnListeners(Infinium instance){
         this.core = instance.getCore();
         this.solarEclipseManager = this.core.getEclipseManager();
     }
-
     public void registerListeners() {
         entitySpawnCallback();
         solarEclipseEntitySpawnCallback();
@@ -47,7 +46,9 @@ public class EntitySpawnListeners {
             var world = (ServerWorld) entity.getWorld();
             var entityTypeString = entity.getType().toString();
 
-            switch (world.getRegistryKey().getValue().toString()) {
+            if (entity instanceof SuperNovaEntity superNovaEntity) superNovaEntity.onSummoned();
+
+            else switch (world.getRegistryKey().getValue().toString()) {
 
                 case "minecraft:overworld" -> {
 

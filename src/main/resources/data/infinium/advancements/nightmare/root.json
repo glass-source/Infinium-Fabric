@@ -1,0 +1,27 @@
+{
+  "display": {
+    "icon": {
+      "item": "minecraft:black_bed"
+    },
+    "title": "The Nightmare",
+    "description": "Enter the nightmare",
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false,
+    "background": "infinium:textures/advancements/nightmare/background.png"
+  },
+  "criteria": {
+    "entered_nightmare": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "infinium:the_nightmare"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "entered_nightmare"
+    ]
+  ]
+}
