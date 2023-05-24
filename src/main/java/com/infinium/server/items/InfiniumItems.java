@@ -150,16 +150,16 @@ public class InfiniumItems {
     }
 
     private static void registerRunes() {
-        IMMUNITY_RUNE = registerItem("immunity_rune", new RuneItem(InfiniumToolMaterials.VOID, new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC), InfiniumEffects.IMMUNITY, 20 * 25, 20 * (60 * 5)));
-        SPEED_RUNE = registerItem("speed_rune", new RuneItem(InfiniumToolMaterials.VOID, new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC), StatusEffects.SPEED, 20 * 40, 20 * (60 * 2), 4));
-        RESISTANCE_RUNE = registerItem("resistance_rune", new RuneItem(InfiniumToolMaterials.VOID, new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC), StatusEffects.RESISTANCE, 20 * 40, 20 * (60 * 2), 3));
-        FIRE_RUNE = registerItem("fire_rune", new RuneItem(InfiniumToolMaterials.VOID, new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC), StatusEffects.FIRE_RESISTANCE, 20 * (60 * 10), 20 * (60 * 6)));
+        IMMUNITY_RUNE = registerItem("immunity_rune", new RuneItem(InfiniumToolMaterials.VOID, new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC), InfiniumEffects.IMMUNITY, 20 * 30, 20 * (60 * 6)));
+        RESISTANCE_RUNE = registerItem("resistance_rune", new RuneItem(InfiniumToolMaterials.VOID, new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC), StatusEffects.RESISTANCE, 20 * 60, 20 * (60 * 4), 3));
+        SPEED_RUNE = registerItem("speed_rune", new RuneItem(InfiniumToolMaterials.VOID, new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC), StatusEffects.SPEED, 20 * (60 * 2), 20 * (60 * 2), 4));
+        FIRE_RUNE = registerItem("fire_rune", new RuneItem(InfiniumToolMaterials.VOID, new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC), StatusEffects.FIRE_RESISTANCE, 20 * (60 * 10), 20 * (60 * 5)));
         WITHER_RUNE = registerItem("wither_rune", new WitherRuneItem(InfiniumToolMaterials.VOID, new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC)));
     }
 
     private static void registerFood() {
         SANITY_PILL = registerItem("sanity_pill", new SanityItem(new FabricItemSettings().group(ItemGroup.FOOD).food(InfiniumFoodComponents.SANITY_PILL).rarity(Rarity.EPIC)));
-        NETHERITE_CARROT = registerItem("netherite_carrot", new NetheriteCarrotItem(new FabricItemSettings().group(ItemGroup.FOOD).food(FoodComponents.GOLDEN_CARROT).rarity(Rarity.UNCOMMON)));
-        EMPANADA_CARNE = registerItem("empanada_carne", new NetheriteCarrotItem(new FabricItemSettings().group(ItemGroup.FOOD).food(FoodComponents.GOLDEN_CARROT).rarity(Rarity.UNCOMMON)));
+        NETHERITE_CARROT = registerItem("netherite_carrot", new NetheriteCarrotItem(new FabricItemSettings().group(ItemGroup.FOOD).food(InfiniumFoodComponents.NETHERITE_CARROT).rarity(Rarity.UNCOMMON)));
+        EMPANADA_CARNE = registerItem("empanada_carne", new NetheriteCarrotItem(new FabricItemSettings().group(ItemGroup.FOOD).food(InfiniumFoodComponents.NETHERITE_CARROT).rarity(Rarity.UNCOMMON)));
     }
 }

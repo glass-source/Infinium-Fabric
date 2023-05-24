@@ -192,14 +192,14 @@ public class PlayerDeathListeners {
         var pos = playerDied.getBlockPos();
         var attributeInstance = playerDied.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH);
 
-
         ChatFormatter.broadcastMessage(ChatFormatter.formatWithPrefix("&6&l%player% &7ha sucumbido ante el\n&5&lVacío Infinito".replaceAll("%player%", playerDied.getEntityName())));
         Animation.initImageForAll();
 
         core.getTotalPlayers().forEach(player -> player.playSound(InfiniumSounds.PLAYER_DEATH, SoundCategory.AMBIENT, 10, 0.7f));
-        instance.getExecutor().schedule( () -> core.getEclipseManager().start(new Random().nextDouble(0.24, 1.6)) , 13, TimeUnit.SECONDS);
+        instance.getExecutor().schedule( () -> core.getEclipseManager().start(new Random().nextDouble(0.2, 0.8)) , 13, TimeUnit.SECONDS);
         playerDied.changeGameMode(GameMode.SPECTATOR);
         playerDied.clearStatusEffects();
+        playerDied.setHealth(20.0f);
 
         if (pos.getY() <= -64) playerDied.teleport(pos.getX(), -60, pos.getZ());
         generatePlayerTombstone(playerDied);

@@ -9,13 +9,11 @@ import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.mob.EvokerFangsEntity;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.SpellcastingIllagerEntity;
 import net.minecraft.entity.mob.VexEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.raid.RaiderEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
@@ -44,13 +42,14 @@ public class BlackBeardEntity extends SpellcastingIllagerEntity implements Infin
     public static DefaultAttributeContainer.Builder createBlackBeardAttributes() {
         return HostileEntity.createHostileAttributes()
                 .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.24)
-                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 12.0)
+                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 8.0)
                 .add(EntityAttributes.GENERIC_MAX_HEALTH, 320.0);
     }
 
     public void onDeath(DamageSource source) {
         super.onDeath(source);
-        this.dropStack(new ItemStack(InfiniumItems.VOID_TOTEM));
+        this.dropStack(InfiniumItems.LOOTING_MERGER.getDefaultStack());
+        this.dropStack(InfiniumItems.VOID_TOTEM.getDefaultStack());
     }
     protected void initGoals() {
         super.initGoals();
@@ -62,7 +61,7 @@ public class BlackBeardEntity extends SpellcastingIllagerEntity implements Infin
         this.goalSelector.add(10, new LookAtEntityGoal(this, LivingEntity.class, 8.0F));
         this.goalSelector.add(1, new LookAtTargetGoal());
         this.targetSelector.add(1, (new RevengeGoal(this, RaiderEntity.class)).setGroupRevenge());
-        this.targetSelector.add(2, (new ActiveTargetGoal<>(this, PlayerEntity.class, true)).setMaxTimeWithoutVisibility(300));
+        this.targetSelector.add(2, (new ActiveTargetGoal<>(this, PlayerEntity.class, true)));
     }
 
 
@@ -113,8 +112,6 @@ public class BlackBeardEntity extends SpellcastingIllagerEntity implements Infin
         SummonSkeletonsGoal() {
             super();
         }
-
-
         protected int getSpellTicks() {
             return 100;
         }
@@ -171,17 +168,17 @@ public class BlackBeardEntity extends SpellcastingIllagerEntity implements Infin
             int i;
             if (BlackBeardEntity.this.squaredDistanceTo(livingEntity) < 9.0) {
                 float g;
-                for(i = 0; i < 5; ++i) {
+                for(i = 0; i < 6; ++i) {
                     g = f + (float)i * 3.1415927F * 0.4F;
                     this.conjureFangs(BlackBeardEntity.this.getX() + (double)MathHelper.cos(g) * 1.5, BlackBeardEntity.this.getZ() + (double)MathHelper.sin(g) * 1.5, d, e, g, 0);
                 }
 
-                for(i = 0; i < 8; ++i) {
+                for(i = 0; i < 6; ++i) {
                     g = f + (float)i * 3.1415927F * 2.0F / 8.0F + 1.2566371F;
                     this.conjureFangs(BlackBeardEntity.this.getX() + (double)MathHelper.cos(g) * 2.5, BlackBeardEntity.this.getZ() + (double)MathHelper.sin(g) * 2.5, d, e, g, 3);
                 }
             } else {
-                for(i = 0; i < 16; ++i) {
+                for(i = 0; i < 6; ++i) {
                     double h = 1.25 * (double)(i + 1);
                     this.conjureFangs(BlackBeardEntity.this.getX() + (double)MathHelper.cos(f) * h, BlackBeardEntity.this.getZ() + (double)MathHelper.sin(f) * h, d, e, f, i);
                 }
@@ -214,7 +211,7 @@ public class BlackBeardEntity extends SpellcastingIllagerEntity implements Infin
 
             if (bl) {
                 var world =  BlackBeardEntity.this.world;
-                world.spawnEntity(new EvokerFangsEntity(BlackBeardEntity.this.world, x, (double)blockPos.getY() + d, z, yaw, warmup, BlackBeardEntity.this));
+                if (world instanceof ServerWorld sw) InfiniumEntityType.PIRATE_SKELETON.spawn(sw, null, null, null, new BlockPos(x, blockPos.getY() + d, z), SpawnReason.MOB_SUMMONED, true, false);
             }
 
         }

@@ -4,8 +4,8 @@
     "icon": {
       "item": "infinium:void_totem"
     },
-    "title": "Post-mortal 2: Electric Boogaloo",
-    "description": "Cheat death by using a Void Totem",
+    "title": "Postmortal 2: Electric Boogaloo",
+    "description": "Use a Void Totem to cheat death",
     "frame": "goal",
     "show_toast": true,
     "announce_to_chat": true,

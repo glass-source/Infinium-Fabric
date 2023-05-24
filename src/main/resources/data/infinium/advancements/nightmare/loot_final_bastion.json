@@ -1,21 +1,21 @@
 {
-  "parent": "infinium:dungeons/root",
+  "parent": "infinium:nightmare/loot_bastion",
   "display": {
     "icon": {
-      "item": "minecraft:chest"
+      "item": "minecraft:enchanted_golden_apple"
     },
-    "title": "Game Master",
-    "description": "Obtain the main treasure in a Zeppelin",
+    "title": "At the end of the tunnel",
+    "description": "Obtain the main treasure in a Nightmare Bastion",
     "frame": "challenge",
     "show_toast": true,
     "announce_to_chat": true,
-    "hidden": false
+    "hidden": true
   },
   "criteria": {
     "loot_final_chest": {
       "trigger": "minecraft:player_generates_container_loot",
       "conditions": {
-        "loot_table": "infinium:chests/zeppelin_final_chest"
+        "loot_table": "infinium:chests/final_nightmare_bastion"
       }
     }
 

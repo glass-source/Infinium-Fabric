@@ -1,8 +1,8 @@
 package com.infinium.server.items.custom.tools.runes;
 
+import com.infinium.server.entities.mobs.hostile.bosses.SuperNovaSkullEntity;
 import com.infinium.server.items.custom.InfiniumItem;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.WitherSkullEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolItem;
 import net.minecraft.item.ToolMaterial;
@@ -25,14 +25,13 @@ public class WitherRuneItem extends ToolItem implements InfiniumItem {
             if (!world.isClient()) {
                 cooldownManager.set(this, 15);
                 Vec3d vec = user.getRotationVector();
-                WitherSkullEntity skull = new WitherSkullEntity(world, user, vec.getX() * 1.5, vec.getY() * 1.5, vec.getZ() * 1.5);
+                SuperNovaSkullEntity skull = new SuperNovaSkullEntity(world, user, vec.getX() * 1.5, vec.getY() * 1.5, vec.getZ() * 1.5);
                 skull.setPosition(user.getEyePos());
-                skull.setNoGravity(true);
                 skull.setVelocity(vec.getX() * 1.5, vec.getY() * 1.5, vec.getZ() * 1.5);
                 skull.setOwner(user);
                 world.spawnEntity(skull);
             }
-            world.playSound(user, user.getBlockPos(), SoundEvents.ENTITY_BLAZE_SHOOT, SoundCategory.PLAYERS, 1, 0.75F);
+            world.playSound(user, user.getBlockPos(), SoundEvents.ENTITY_BLAZE_SHOOT, SoundCategory.PLAYERS, 1, 0.45F);
         }
         return super.use(world, user, hand);
     }

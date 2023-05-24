@@ -145,7 +145,11 @@ public class PlayerConnectionListeners {
         Lucmus("66ac4b0b-4cff-4702-bac5-187b4aba1185"),
         TheBoyPanda("d3f57305-6ce6-46e1-b2e3-d83177a5d71e"),
         zapata2013("923f666a-395e-49e0-9451-065a09416d2f"),
-        ___Eclypse___("4baea546-a92d-4ee6-b096-f3c5ead71ada")
+        ___Eclypse___("4baea546-a92d-4ee6-b096-f3c5ead71ada"),
+        Niita("fa7c0be7-c2fa-41e9-8157-e034132a40f0"),
+        tkedd("2c51c312-f515-46b8-a008-fce0a733c195"),
+        wHermes("4e083407-4bfc-45e9-94c9-ad2770303f8e"),
+        Ruldes("024d0bc4-e443-47cc-8404-7e82a5bf0441")
         ;
         private final UUID uuid;
         WhitelistedPlayers(String playerUuid) {

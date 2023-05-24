@@ -1,11 +1,11 @@
 {
-  "parent": "infinium:dungeons/root",
+  "parent": "infinium:nightmare/root",
   "display": {
     "icon": {
-      "item": "minecraft:chest"
+      "item": "minecraft:nether_star"
     },
-    "title": "Game Master",
-    "description": "Obtain the main treasure in a Zeppelin",
+    "title": "Fool's Gold",
+    "description": "Loot a chest inside a Nightmare Bastion",
     "frame": "challenge",
     "show_toast": true,
     "announce_to_chat": true,
@@ -15,7 +15,7 @@
     "loot_final_chest": {
       "trigger": "minecraft:player_generates_container_loot",
       "conditions": {
-        "loot_table": "infinium:chests/zeppelin_final_chest"
+        "loot_table": "infinium:chests/nightmare_bastion"
       }
     }
 

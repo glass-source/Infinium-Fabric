@@ -1,4 +1,4 @@
-package com.infinium.global.mixin.server.entity;
+package com.infinium.global.mixin.server.entity.player;
 
 import com.infinium.Infinium;
 import com.infinium.server.effects.InfiniumEffects;

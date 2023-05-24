@@ -4,8 +4,8 @@
     "icon": {
       "item": "infinium:magma_totem"
     },
-    "title": "Post-mortal 3: Requiem",
-    "description": "Cheat death by using a Magma Totem",
+    "title": "Postmortal 3: Requiem",
+    "description": "Use a Magma Totem to cheat death",
     "frame": "goal",
     "show_toast": true,
     "announce_to_chat": true,

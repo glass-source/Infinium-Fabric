@@ -6,11 +6,11 @@
       "nbt": "{Damage:0}"
     },
     "title": "How does that even work?",
-    "description": "Get a full set of Void Armor",
+    "description": "Get a full suit of Void Armor",
     "frame": "challenge",
     "show_toast": true,
     "announce_to_chat": true,
-    "hidden": false
+    "hidden": true
   },
   "rewards": {
     "experience": 12000

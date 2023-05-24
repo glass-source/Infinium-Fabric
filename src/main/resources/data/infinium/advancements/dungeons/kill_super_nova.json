@@ -5,7 +5,7 @@
       "item": "infinium:kairos_clock",
       "nbt": "{Damage:0}"
     },
-    "title": "Loop Break",
+    "title": "Infinium",
     "description": "Defeat the Super Nova in combat",
     "frame": "challenge",
     "show_toast": true,

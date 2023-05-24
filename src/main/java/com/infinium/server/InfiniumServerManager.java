@@ -4,7 +4,7 @@ import com.infinium.Infinium;
 import com.infinium.global.config.data.DataManager;
 import com.infinium.global.utils.DateUtils;
 import com.infinium.networking.InfiniumPackets;
-import com.infinium.server.blocks.InfiniumBlocks;
+import com.infinium.server.items.blocks.InfiniumBlocks;
 import com.infinium.server.eclipse.SolarEclipseManager;
 import com.infinium.server.effects.InfiniumEffects;
 import com.infinium.server.entities.InfiniumEntityType;
@@ -32,9 +32,13 @@ import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.session.ClipboardHolder;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.kyori.adventure.platform.fabric.FabricServerAudiences;
+import net.kyrptonaught.customportalapi.api.CustomPortalBuilder;
+import net.kyrptonaught.customportalapi.util.SHOULDTP;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 
@@ -42,6 +46,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.function.Function;
 
 public class InfiniumServerManager {
     private final Infinium instance;
@@ -89,6 +94,7 @@ public class InfiniumServerManager {
                 serverRules.get(GameRules.NATURAL_REGENERATION).set(false, this.server);
             }
             this.sanityManager.registerSanityTask();
+            initPortals(server1);
         });
     }
 
@@ -112,6 +118,40 @@ public class InfiniumServerManager {
         InfiniumBiomes.init();
         InfiniumPackets.initC2SPackets();
         InfiniumStructures.registerStructureFeatures();
+    }
+
+    private void initPortals(MinecraftServer server) {
+
+        CustomPortalBuilder.beginPortal()
+                .frameBlock(InfiniumBlocks.VOID_STONE_ORE)
+                .lightWithItem(InfiniumItems.VOID_EYE)
+                .tintColor(0, 0, 0)
+                .flatPortal()
+                .destDimID(Infinium.id("the_void"))
+                .registerBeforeTPEvent(portalEvent(InfiniumDimensions.THE_VOID, server))
+                .registerPortal();
+
+        CustomPortalBuilder.beginPortal()
+                .frameBlock(InfiniumBlocks.NIGHTMARE_OBSIDIAN)
+                .lightWithItem(InfiniumItems.VOID_EYE)
+                .destDimID(Infinium.id("the_nightmare"))
+                .tintColor(255, 0,0)
+                .registerBeforeTPEvent(portalEvent(InfiniumDimensions.THE_NIGHTMARE, server))
+                .registerPortal();
+    }
+
+
+    private Function<Entity, SHOULDTP> portalEvent(RegistryKey<World> worldToTP, MinecraftServer server) {
+        return entity -> {
+            var worldFrom = entity.getWorld().getRegistryKey();
+            if (entity instanceof ServerPlayerEntity player) {
+                if (worldFrom.equals(worldToTP)) player.teleport(server.getOverworld(), 0, 220, 0, entity.getYaw(), entity.getPitch());
+                else {
+                    player.teleport(server.getWorld(worldToTP), 0, 220, 0, entity.getYaw(), entity.getPitch());
+                }
+            }
+            return SHOULDTP.CANCEL_TP;
+        };
     }
 
     private void initListeners(){

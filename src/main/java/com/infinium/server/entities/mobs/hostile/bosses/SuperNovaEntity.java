@@ -59,6 +59,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
@@ -554,7 +555,7 @@ public class SuperNovaEntity extends HostileEntity implements SkinOverlayOwner, 
             var superNova = SuperNovaEntity.this;
             var instance = Infinium.getInstance();
             Attacks currentAttack;
-
+            this.lastTarget = superNova.getTarget();
             switch (lastAttackIndex)  {
                 case 0 -> currentAttack = Attacks.EXPLOSION;
                 case 1 -> currentAttack = Attacks.NEGATIVE_EFFECTS;
@@ -569,11 +570,10 @@ public class SuperNovaEntity extends HostileEntity implements SkinOverlayOwner, 
                 case EXPLOSION -> {
                     canAttack = false;
                     this.setControls(EnumSet.of(Control.MOVE, Control.JUMP, Control.LOOK));
+
                     superNova.setGlowing(true);
                     task = instance.getExecutor().schedule(() -> {
                         canAttack = true;
-                        superNova.moveControl = new FlightMoveControl(superNova, 10, false);
-                        superNova.setAiDisabled(false);
                         superNova.setGlowing(false);
                         createExplosionFromEntity(superNova, superNova.getWorld(), superNova.getBlockPos());
                         task.cancel(true);
@@ -702,7 +702,7 @@ public class SuperNovaEntity extends HostileEntity implements SkinOverlayOwner, 
             this.lastAttack = currentAttack;
             this.attackCooldown = (20 * 8);
             this.lastAttackIndex++;
-            if (lastAttackIndex >= Attacks.values().length - 1) this.lastAttackIndex = 0;
+            if (lastAttackIndex > Attacks.values().length) this.lastAttackIndex = new Random().nextInt(Attacks.values().length);
             this.sendMessage();
         }
         private void sendMessage() {
@@ -781,9 +781,9 @@ public class SuperNovaEntity extends HostileEntity implements SkinOverlayOwner, 
             EXPLOSION("Stays still for 8 seconds and generates an explosion"),
             NEGATIVE_EFFECTS("Lowers sanity of all players and gives them random negative effects"),
             TNT_CIRCLE("Summons a circle of primed tnts"),
-            SUMMON_MOBS("Summons mobs around SuperNovaEntity"),
-            OBSIDIAN_BARRIER("Generates an obsidian barrier around the player"),
-            DISGUISE_PLAYERS("Sets the identity of online players to a chicken."),
+            SUMMON_MOBS("Summons a circle of mobs"),
+            OBSIDIAN_BARRIER("Generates an obsidian barrier around it's current target"),
+            DISGUISE_PLAYERS("Sets the identity of online players to a duck."),
             NONE("No mayor attacks");
 
             Attacks(String s) {

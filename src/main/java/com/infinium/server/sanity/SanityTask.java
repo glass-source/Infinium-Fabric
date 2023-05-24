@@ -88,8 +88,8 @@ public class SanityTask {
         if (hunger >= 16.0) {
             manager.decrease(p, 1, manager.FULL_HUNGER_COOLDOWN);
             manager.add(p, 1, manager.SOUND_POINTS);
-        }
-        else {
+
+        } else {
             manager.decrease(p, 1, manager.EMPTY_HUNGER_COOLDOWN);
             manager.decrease(p, 1, manager.SOUND_POINTS);
         }
@@ -97,8 +97,8 @@ public class SanityTask {
         if (health >= 16.0) {
             manager.decrease(p, 1, manager.POSITIVE_HEALTH_COOLDOWN);
             manager.add(p, 1, manager.SOUND_POINTS);
-        }
-        else if (health <= 12.0) {
+
+        } else  {
             manager.decrease(p, 1, manager.NEGATIVE_HEALTH_COOLDOWN);
             manager.decrease(p, 1, manager.SOUND_POINTS);
         }
@@ -136,7 +136,7 @@ public class SanityTask {
 
         if (timeCooldownSeconds > 0) manager.decrease (p, 1, manager.TIME_COOLDOWN);
         if (timeCooldownSeconds <= 150) {
-            decreaseRandomSanity(p, 10,3);
+            decreaseRandomSanity(p, 5,3);
             manager.decrease(p, 5, manager.SOUND_POINTS);
         }
         p.sendMessage(msg, true);
@@ -145,10 +145,11 @@ public class SanityTask {
     private void soundEffects(PlayerEntity p) {
         int cooldown = manager.get(p, manager.SOUND_COOLDOWN);
         int sanity = Math.max(1, manager.get(p, manager.SANITY));
-        manager.decrease(p, 1, manager.SOUND_COOLDOWN);
 
         if (sanity > 60) manager.add(p, 1, manager.SOUND_POINTS);
         else manager.decrease(p, 1, manager.SOUND_POINTS);
+
+        manager.decrease(p, 1, manager.SOUND_COOLDOWN);
 
         if (cooldown < 0) {
             p.playSound(getMoodSoundEvent(p), SoundCategory.AMBIENT, 1, 1);
@@ -158,17 +159,17 @@ public class SanityTask {
     }
 
     private SoundEvent getMoodSoundEvent(PlayerEntity p) {
-        if (new Random().nextInt(25) == 1) return InfiniumSounds.SANITY_VOICE_INVITE;
+        if (new Random().nextInt(15) == 1) return InfiniumSounds.SANITY_VOICE_INVITE;
 
         int soundPoints = manager.get(p, manager.SOUND_POINTS);
         SoundEvent sound;
 
-        if (soundPoints >= 50) {
+        if (soundPoints >= 40) {
 
             manager.add(p, 3, manager.SANITY);
             sound = InfiniumSounds.LOW_SANITY_1;
 
-        } else if (soundPoints >= 35) {
+        } else if (soundPoints >= 25) {
 
             manager.add(p, 2, manager.SANITY);
             sound = InfiniumSounds.LOW_SANITY_2;
@@ -198,7 +199,6 @@ public class SanityTask {
             sound = InfiniumSounds.LOW_SANITY_7;
 
         } else {
-
             manager.decrease(p, 6, manager.SANITY);
             sound = InfiniumSounds.LOW_SANITY_8;
         }
@@ -228,7 +228,9 @@ public class SanityTask {
             "minecraft:small_end_islands",
             "minecraft:end_midlands",
             "minecraft:end_highlands",
-            "minecraft:end_barrens"
+            "minecraft:end_barrens",
+            "infinium:the_void",
+            "infinium:the_nightmare"
             -> {return 6;}
         }
     }

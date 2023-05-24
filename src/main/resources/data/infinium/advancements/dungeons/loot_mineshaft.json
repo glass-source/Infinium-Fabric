@@ -1,21 +1,21 @@
 {
-  "parent": "infinium:dungeons/root",
+  "parent": "infinium:dungeons/loot_final_dungeon",
   "display": {
     "icon": {
-      "item": "minecraft:chest"
+      "item": "minecraft:spider_eye"
     },
-    "title": "Game Master",
-    "description": "Obtain the main treasure in a Zeppelin",
+    "title": "Mine...shaft?",
+    "description": "Obtain the main treasure in an abandoned Mineshaft",
     "frame": "challenge",
     "show_toast": true,
     "announce_to_chat": true,
-    "hidden": false
+    "hidden": true
   },
   "criteria": {
     "loot_final_chest": {
       "trigger": "minecraft:player_generates_container_loot",
       "conditions": {
-        "loot_table": "infinium:chests/zeppelin_final_chest"
+        "loot_table": "infinium:chests/mineshaft_final_chest"
       }
     }
 

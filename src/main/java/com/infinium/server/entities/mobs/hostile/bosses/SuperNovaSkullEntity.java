@@ -24,7 +24,7 @@ import net.minecraft.world.explosion.Explosion;
 public class SuperNovaSkullEntity extends ExplosiveProjectileEntity {
 
     private static final TrackedData<Boolean> CHARGED;
-    protected SuperNovaSkullEntity(World world, LivingEntity owner, double directionX, double directionY, double directionZ) {
+    public SuperNovaSkullEntity(World world, LivingEntity owner, double directionX, double directionY, double directionZ) {
         super(EntityType.WITHER_SKULL, owner, directionX, directionY, directionZ, world);
     }
 
@@ -70,7 +70,7 @@ public class SuperNovaSkullEntity extends ExplosiveProjectileEntity {
     protected void onCollision(HitResult hitResult) {
         super.onCollision(hitResult);
         if (!this.world.isClient) {
-            this.world.createExplosion(this, this.getX(), this.getY(), this.getZ(), 2.0F, false, Explosion.DestructionType.NONE);
+            this.world.createExplosion(this, this.getX(), this.getY(), this.getZ(), 3.0F, false, Explosion.DestructionType.BREAK);
             this.discard();
         }
     }

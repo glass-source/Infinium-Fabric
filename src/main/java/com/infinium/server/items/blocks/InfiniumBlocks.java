@@ -1,4 +1,4 @@
-package com.infinium.server.blocks;
+package com.infinium.server.items.blocks;
 
 import com.infinium.Infinium;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
@@ -12,6 +12,7 @@ import net.minecraft.util.registry.Registry;
 public class InfiniumBlocks {
     public static Block VOID_STONE;
     public static Block VOID_STONE_ORE;
+    public static Block NIGHTMARE_OBSIDIAN;
 
     private static Block registerBlock(String name, Block block, ItemGroup group) {
         registerBlockItem(name, block, group);
@@ -26,8 +27,9 @@ public class InfiniumBlocks {
     }
 
     private static void registerBlocks() {
-        VOID_STONE = registerBlock("void_stone", new Block(FabricBlockSettings.of(Material.METAL).strength(2.25F).requiresTool()), ItemGroup.BUILDING_BLOCKS);
-        VOID_STONE_ORE = registerBlock("void_stone_ore", new Block(FabricBlockSettings.of(Material.METAL).strength(1.5F).requiresTool()), ItemGroup.BUILDING_BLOCKS);
+        NIGHTMARE_OBSIDIAN = registerBlock("nightmare_obsidian", new Block(FabricBlockSettings.of(Material.STONE).strength(-1).hardness(99999)), ItemGroup.BUILDING_BLOCKS);
+        VOID_STONE = registerBlock("void_stone", new Block(FabricBlockSettings.of(Material.STONE).strength(2.25F).requiresTool()), ItemGroup.BUILDING_BLOCKS);
+        VOID_STONE_ORE = registerBlock("void_stone_ore", new Block(FabricBlockSettings.of(Material.STONE).strength(-1).requiresTool()), ItemGroup.BUILDING_BLOCKS);
     }
 
 }

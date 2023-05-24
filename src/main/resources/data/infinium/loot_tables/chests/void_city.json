@@ -2,35 +2,33 @@
   "type": "minecraft:chest",
   "pools": [
     {
-      "rolls": 6.0,
+      "rolls": 12.0,
       "entries": [
         {
           "type": "minecraft:item",
-          "weight": 8,
           "functions": [
             {
               "function": "minecraft:set_count",
               "count": {
                 "type": "minecraft:uniform",
-                "min": 2.0,
-                "max": 9.0
+                "min": 10.0,
+                "max": 22.0
               },
               "add": false
             }
           ],
-          "name": "minecraft:netherite_ingot"
+          "name": "infinium:void_eye"
         },
 
         {
           "type": "minecraft:item",
-          "weight": 8,
           "functions": [
             {
               "function": "minecraft:set_count",
               "count": {
                 "type": "minecraft:uniform",
-                "min": 1.0,
-                "max": 7.0
+                "min": 12.0,
+                "max": 32.0
               },
               "add": false
             }
@@ -40,31 +38,93 @@
 
         {
           "type": "minecraft:item",
-          "weight": 12,
           "functions": [
             {
               "function": "minecraft:set_count",
               "count": {
                 "type": "minecraft:uniform",
-                "min": 6.0,
-                "max": 25.0
+                "min": 22.0,
+                "max": 64.0
               },
               "add": false
             }
           ],
-          "name": "minecraft:golden_apple"
+          "name": "minecraft:iron_block"
         },
 
         {
           "type": "minecraft:item",
-          "weight": 6,
           "functions": [
             {
               "function": "minecraft:set_count",
               "count": {
                 "type": "minecraft:uniform",
-                "min": 3.0,
-                "max": 16.0
+                "min": 22.0,
+                "max": 64.0
+              },
+              "add": false
+            }
+          ],
+          "name": "minecraft:gold_block"
+        },
+
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 22.0,
+                "max": 64.0
+              },
+              "add": false
+            }
+          ],
+          "name": "minecraft:diamond_block"
+        },
+
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 12.0,
+                "max": 32.0
+              },
+              "add": false
+            }
+          ],
+          "name": "minecraft:emerald_block"
+        },
+
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 12.0,
+                "max": 32.0
+              },
+              "add": false
+            }
+          ],
+          "name": "minecraft:netherite_block"
+        },
+
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 15.0,
+                "max": 64.0
               },
               "add": false
             }
@@ -74,31 +134,29 @@
 
         {
           "type": "minecraft:item",
-          "weight": 12,
           "functions": [
             {
               "function": "minecraft:set_count",
               "count": {
                 "type": "minecraft:uniform",
-                "min": 20.0,
+                "min": 12.0,
                 "max": 48.0
               },
               "add": false
             }
           ],
-          "name": "minecraft:golden_carrot"
+          "name": "infinium:netherite_carrot"
         },
 
         {
           "type": "minecraft:item",
-          "weight": 8,
           "functions": [
             {
               "function": "minecraft:set_count",
               "count": {
                 "type": "minecraft:uniform",
-                "min": 1.0,
-                "max": 8.0
+                "min": 8.0,
+                "max": 16.0
               },
               "add": false
             }
@@ -108,7 +166,6 @@
 
         {
           "type": "minecraft:item",
-          "weight": 8,
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -125,63 +182,19 @@
 
         {
           "type": "minecraft:item",
-          "weight": 1,
+          "weight": 5,
           "functions": [
             {
               "function": "minecraft:set_count",
               "count": {
                 "type": "minecraft:uniform",
-                "min": 1.0,
-                "max": 8.0
+                "min": 8.0,
+                "max": 32.0
               },
               "add": false
             }
           ],
           "name": "infinium:empanada_carne"
-        },
-
-        {
-          "type": "minecraft:item",
-          "weight": 1,
-          "functions": [
-            {
-              "function": "minecraft:enchant_randomly"
-            }
-          ],
-          "name": "minecraft:netherite_helmet"
-        },
-
-        {
-          "type": "minecraft:item",
-          "weight": 1,
-          "functions": [
-            {
-              "function": "minecraft:enchant_randomly"
-            }
-          ],
-          "name": "minecraft:netherite_chestplate"
-        },
-
-        {
-          "type": "minecraft:item",
-          "weight": 1,
-          "functions": [
-            {
-              "function": "minecraft:enchant_randomly"
-            }
-          ],
-          "name": "minecraft:netherite_leggings"
-        },
-
-        {
-          "type": "minecraft:item",
-          "weight": 1,
-          "functions": [
-            {
-              "function": "minecraft:enchant_randomly"
-            }
-          ],
-          "name": "minecraft:netherite_boots"
         }
       ]
     }

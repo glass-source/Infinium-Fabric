@@ -5,7 +5,6 @@ import com.infinium.global.utils.ChatFormatter;
 import com.infinium.server.InfiniumServerManager;
 import com.infinium.server.effects.InfiniumEffects;
 import com.infinium.server.world.dimensions.InfiniumDimensions;
-import dev.architectury.event.events.common.PlayerEvent;
 import net.fabricmc.fabric.api.entity.event.v1.EntitySleepEvents;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -14,7 +13,6 @@ import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
 
 import java.util.SplittableRandom;
-import java.util.concurrent.TimeUnit;
 
 public class PlayerGlobalListeners {
 
@@ -26,18 +24,8 @@ public class PlayerGlobalListeners {
     }
     public void registerListeners(){
         playerBedCallback();
-        playerChangeDimensionCallback();
     }
-    private void playerChangeDimensionCallback() {
-        PlayerEvent.CHANGE_DIMENSION.register((entity, worldFrom, worldTo) -> {
-            instance.LOGGER.info("WORLD FROM: {}, WORLD TO: {}", worldFrom.getValue().toString(), worldTo.getValue().toString());
-            if (worldTo.equals(InfiniumDimensions.THE_VOID)) {
-                instance.getExecutor().schedule(() -> {
-                    entity.teleport(core.getServer().getWorld(InfiniumDimensions.THE_VOID), 0, 220, 0, entity.getYaw(), entity.getPitch());
-                }, 750, TimeUnit.MILLISECONDS);
-            }
-        });
-    }
+
     private void playerBedCallback() {
         EntitySleepEvents.START_SLEEPING.register((entity, sleepingPos) -> {
             if (core.getDateUtils() == null) return;

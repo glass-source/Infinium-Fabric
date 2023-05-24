@@ -1,21 +1,21 @@
 {
-  "parent": "infinium:dungeons/root",
+  "parent": "infinium:void/loot_city",
   "display": {
     "icon": {
-      "item": "minecraft:chest"
+      "item": "minecraft:ender_chest"
     },
-    "title": "Game Master",
-    "description": "Obtain the main treasure in a Zeppelin",
+    "title": "",
+    "description": "Obtain the main treasure inside a Void City",
     "frame": "challenge",
     "show_toast": true,
     "announce_to_chat": true,
-    "hidden": false
+    "hidden": true
   },
   "criteria": {
     "loot_final_chest": {
       "trigger": "minecraft:player_generates_container_loot",
       "conditions": {
-        "loot_table": "infinium:chests/zeppelin_final_chest"
+        "loot_table": "infinium:chests/final_void_city"
       }
     }
 

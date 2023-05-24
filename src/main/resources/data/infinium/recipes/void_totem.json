@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "NVN",
+    "VTV",
+    "NVN"
+  ],
+  "key": {
+
+    "N": {
+      "item": "minecraft:netherite_block"
+    },
+
+    "T": {
+      "item": "minecraft:totem_of_undying"
+    },
+
+    "V": {
+      "item": "infinium:void_eye"
+    }
+  },
+  "result": {
+    "item": "infinium:void_totem"
+  }
+}

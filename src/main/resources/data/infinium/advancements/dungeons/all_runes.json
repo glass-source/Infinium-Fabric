@@ -1,48 +1,48 @@
 {
-  "parent": "infinium:nightmare/magma_tools",
+  "parent": "infinium:dungeons/loot_final_dungeon",
   "display": {
     "icon": {
-      "item": "infinium:magma_chestplate",
+      "item": "infinium:immunity_rune",
       "nbt": "{Damage:0}"
     },
-    "title": "Magma-born",
-    "description": "Get a full suit of magma Armor",
+    "title": "The power of the Rune",
+    "description": "Get a hold of all 5 rune types",
     "frame": "challenge",
     "show_toast": true,
     "announce_to_chat": true,
     "hidden": true
   },
   "rewards": {
-    "experience": 24000
+    "experience": 4000
   },
   "criteria": {
-    "magma_armor": {
+    "runes": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
             "items": [
-              "infinium:magma_helmet"
+              "infinium:immunity_rune"
             ]
           },
           {
             "items": [
-              "infinium:magma_chestplate"
+              "infinium:wither_rune"
             ]
           },
           {
             "items": [
-              "infinium:magma_wings"
+              "infinium:resistance_rune"
             ]
           },
           {
             "items": [
-              "infinium:magma_leggings"
+              "infinium:speed_rune"
             ]
           },
           {
             "items": [
-              "infinium:magma_boots"
+              "infinium:fire_rune"
             ]
           }
         ]
@@ -51,7 +51,7 @@
   },
   "requirements": [
     [
-      "magma_armor"
+      "runes"
     ]
   ]
 }

@@ -2,14 +2,16 @@ package com.infinium.server.listeners.entity;
 
 import com.infinium.Infinium;
 import com.infinium.global.utils.ChatFormatter;
-import com.infinium.server.InfiniumServerManager;
 import com.infinium.server.eclipse.SolarEclipseManager;
 import com.infinium.server.entities.InfiniumEntityType;
 import com.infinium.server.entities.mobs.hostile.bosses.SuperNovaEntity;
 import com.infinium.server.entities.mobs.hostile.raidmobs.raider.RaiderEntity;
 import com.infinium.server.events.entity.EntitySpawnEvent;
 import net.minecraft.enchantment.Enchantments;
-import net.minecraft.entity.*;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.CreeperEntity;
@@ -26,22 +28,19 @@ import java.util.Random;
 
 public class EntitySpawnListeners {
 
-    private final InfiniumServerManager core;
     private final SolarEclipseManager solarEclipseManager;
     public EntitySpawnListeners(Infinium instance){
-        this.core = instance.getCore();
-        this.solarEclipseManager = this.core.getEclipseManager();
+        this.solarEclipseManager = instance.getCore().getEclipseManager();
     }
     public void registerListeners() {
         entitySpawnCallback();
         solarEclipseEntitySpawnCallback();
-
     }
     private void entitySpawnCallback(){
         EntitySpawnEvent.EVENT.register((entity) -> {
-            if (!(entity instanceof LivingEntity livingEntity)) return ActionResult.FAIL;
-            if (livingEntity.getWorld().isClient) return ActionResult.FAIL;
-            if (Infinium.getInstance().getDateUtils() == null) return ActionResult.FAIL;
+            if (!(entity instanceof LivingEntity livingEntity)) return ActionResult.PASS;
+            if (livingEntity.getWorld().isClient) return ActionResult.PASS;
+            if (Infinium.getInstance().getDateUtils() == null) return ActionResult.PASS;
             var day = Infinium.getInstance().getDateUtils().getCurrentDay();
             var world = (ServerWorld) entity.getWorld();
             var entityTypeString = entity.getType().toString();
@@ -79,6 +78,10 @@ public class EntitySpawnListeners {
                                 case "entity.minecraft.vindicator" -> spawnMobFromEntity(livingEntity, InfiniumEntityType.BERSERKER);
                                 case "entity.minecraft.pillager" -> spawnMobFromEntity(livingEntity, InfiniumEntityType.RAIDER);
                                 case "entity.minecraft.witch" -> spawnMobFromEntity(livingEntity, InfiniumEntityType.GHOUL_WITCH);
+                                case "entity.minecraft.hoglin" -> spawnMobFromEntity(livingEntity, InfiniumEntityType.NIGHTMARE_HOGLIN);
+                                case "entity.minecraft.piglin_brute"
+                                        ,"entity.minecraft.piglin"
+                                        ,"entity.minecraft.zombified_piglin"   -> spawnMobFromEntity(livingEntity, InfiniumEntityType.NIGHTMARE_BRUTE);
                             }
                         } else {
                             switch (entityTypeString) {
@@ -90,7 +93,7 @@ public class EntitySpawnListeners {
                                 case "entity.minecraft.spider" -> spawnMobFromEntity(livingEntity, InfiniumEntityType.GHOUL_SPIDER);
                                 case "entity.minecraft.creeper" -> spawnMobFromEntity(livingEntity, InfiniumEntityType.GHOUL_CREEPER);
                                 case "entity.minecraft.skeleton" -> spawnMobFromEntity(livingEntity, InfiniumEntityType.NIGHTMARE_SKELETON);
-
+                                case "entity.minecraft.hoglin" -> spawnMobFromEntity(livingEntity, InfiniumEntityType.NIGHTMARE_HOGLIN);
                                 case "entity.minecraft.piglin_brute"
                                     ,"entity.minecraft.piglin"
                                     ,"entity.minecraft.zombified_piglin"   -> spawnMobFromEntity(livingEntity, InfiniumEntityType.NIGHTMARE_BRUTE);
@@ -111,12 +114,11 @@ public class EntitySpawnListeners {
                             case "entity.minecraft.creeper" -> spawnMobFromEntity( livingEntity, InfiniumEntityType.GHOUL_CREEPER);
                             case "entity.minecraft.skeleton" -> spawnMobFromEntity( livingEntity, InfiniumEntityType.NIGHTMARE_SKELETON);
                             case "entity.minecraft.witch" -> spawnMobFromEntity(livingEntity, InfiniumEntityType.GHOUL_WITCH);
-
+                            case "entity.minecraft.hoglin" -> spawnMobFromEntity(livingEntity, InfiniumEntityType.NIGHTMARE_HOGLIN);
                             case "entity.minecraft.glow_squid"
                                , "entity.minecraft.squid"-> {
                                 assert livingEntity instanceof SquidEntity;
                                 var nuclearBomb = (SquidEntity) livingEntity;
-
                                 nuclearBomb.setCustomName(ChatFormatter.text("&6BOMBA NUCLEAR"));
                                 nuclearBomb.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, Integer.MAX_VALUE, 3));
                                 nuclearBomb.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, Integer.MAX_VALUE, 9));
@@ -127,34 +129,20 @@ public class EntitySpawnListeners {
 
                 case "minecraft:the_nether" -> {
                     if (day >= 7) {
-                        if (new Random().nextInt(10) >= 7) {
-                            switch (entityTypeString) {
-                                case "entity.minecraft.piglin_brute"
-                                ,"entity.minecraft.piglin"
-                                ,"entity.minecraft.zombified_piglin"   -> spawnMobFromEntity(livingEntity, InfiniumEntityType.NIGHTMARE_BRUTE);
-                                case "entity.minecraft.skeleton" -> spawnMobFromEntity(livingEntity, InfiniumEntityType.NIGHTMARE_SKELETON);
-                                case "entity.minecraft.ghast" -> spawnMobFromEntity(livingEntity, InfiniumEntityType.NIGHTMARE_GHAST);
-                            }
-                        }
+                        if (new Random().nextInt(10) >= 7) spawnNightmareMobs(livingEntity, entityTypeString);
                     }
 
                     if (day >= 14) {
-                        switch (entityTypeString) {
-                            case "entity.minecraft.piglin_brute"
-                            ,"entity.minecraft.piglin"
-                            ,"entity.minecraft.zombified_piglin"   -> spawnMobFromEntity(livingEntity, InfiniumEntityType.NIGHTMARE_BRUTE);
-                            case "entity.minecraft.skeleton" -> spawnMobFromEntity(livingEntity, InfiniumEntityType.NIGHTMARE_SKELETON);
-                            case "entity.minecraft.ghast" -> spawnMobFromEntity(livingEntity, InfiniumEntityType.NIGHTMARE_GHAST);
-                        }
+                        spawnNightmareMobs(livingEntity, entityTypeString);
                     }
-
                 }
 
                 case "minecraft:the_end" -> {
 
+                    if (entityTypeString.equals("entity.minecraft.enderman")) {
+                        spawnRandomVoidMob(livingEntity);
+                    }
                 }
-
-
             }
 
             return ActionResult.PASS;
@@ -179,23 +167,31 @@ public class EntitySpawnListeners {
                         livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, Integer.MAX_VALUE, 0));
                         livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, Integer.MAX_VALUE, 0));
                     }
+
+                    if (day >= 14) {
+                        livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, Integer.MAX_VALUE, 1));
+                        livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, Integer.MAX_VALUE, 1));
+                    }
                 }
                 case "minecraft:the_nether" -> {
                     if (day >= 7 && day < 14) {
                         livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, Integer.MAX_VALUE, 0));
                         livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, Integer.MAX_VALUE, 0));
 
-                        switch (entityTypeString) {
-                            case "entity.minecraft.wither_skeleton" -> {
-                                var wither_skeleton = (WitherSkeletonEntity) entity;
-                                var bow = Items.BOW.getDefaultStack();
-                                bow.addEnchantment(Enchantments.POWER, 40);
-                                wither_skeleton.setStackInHand(Hand.MAIN_HAND, bow);
-                                wither_skeleton.setEquipmentDropChance(EquipmentSlot.MAINHAND,0);
-                            }
+                        if (entityTypeString.equals("entity.minecraft.wither_skeleton")) {
+                            var wither_skeleton = (WitherSkeletonEntity) entity;
+                            var bow = Items.BOW.getDefaultStack();
+                            bow.addEnchantment(Enchantments.POWER, 40);
+                            wither_skeleton.setStackInHand(Hand.MAIN_HAND, bow);
+                            wither_skeleton.setEquipmentDropChance(EquipmentSlot.MAINHAND, 0);
                         }
-
                     }
+
+                    if (day >= 14) {
+                        livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, Integer.MAX_VALUE, 1));
+                        livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, Integer.MAX_VALUE, 1));
+                    }
+
                 }
 
             }
@@ -213,10 +209,33 @@ public class EntitySpawnListeners {
                 var raid = ((RaiderEntity) entityToRemove).getRaid();
                 if (raid != null) raid.addRaider(raiderEntity.getWave(), ((RaiderEntity) spawned), raiderEntity.getBlockPos(), false);
             }
-
             entityToRemove.discard();
         }
-
     }
+
+    private void spawnNightmareMobs(LivingEntity livingEntity, String entityTypeString) {
+        switch (entityTypeString) {
+            case "entity.minecraft.piglin_brute"
+            ,"entity.minecraft.piglin"
+            ,"entity.minecraft.zombified_piglin"   -> spawnMobFromEntity(livingEntity, InfiniumEntityType.NIGHTMARE_BRUTE);
+            case "entity.minecraft.skeleton" -> spawnMobFromEntity(livingEntity, InfiniumEntityType.NIGHTMARE_SKELETON);
+            case "entity.minecraft.ghast" -> spawnMobFromEntity(livingEntity, InfiniumEntityType.NIGHTMARE_GHAST);
+            case "entity.minecraft.blaze" -> spawnMobFromEntity(livingEntity, InfiniumEntityType.NIGHTMARE_BLAZE);
+            case "entity.minecraft.hoglin" -> spawnMobFromEntity(livingEntity, InfiniumEntityType.NIGHTMARE_HOGLIN);
+        }
+    }
+    private void spawnRandomVoidMob(LivingEntity entityToRemove) {
+        EntityType<?>[] voidList = new EntityType<?>[] {
+                InfiniumEntityType.VOID_ENDERMAN,
+                InfiniumEntityType.VOID_GHAST,
+                InfiniumEntityType.VOID_CREEPER,
+                InfiniumEntityType.VOID_SKELETON,
+                InfiniumEntityType.VOID_ZOMBIE,
+                InfiniumEntityType.VOID_SPIDER
+        };
+        int random = new Random().nextInt(voidList.length);
+        spawnMobFromEntity(entityToRemove, voidList[random]);
+    }
+
 
 }

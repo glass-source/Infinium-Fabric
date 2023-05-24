@@ -25,7 +25,6 @@ public class NetheriteCarrotItem extends Item implements InfiniumItem {
         }
         return super.finishUsing(stack, world, user);
     }
-
     @Override
     public UseAction getUseAction(ItemStack stack) {
         return UseAction.EAT;

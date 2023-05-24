@@ -5,11 +5,8 @@ import com.google.gson.GsonBuilder;
 import com.infinium.global.config.data.adapters.ScheduledFutureInstanceCreator;
 import com.infinium.global.utils.DateUtils;
 import com.infinium.server.InfiniumServerManager;
-import com.infinium.server.blocks.InfiniumBlocks;
-import com.infinium.server.items.InfiniumItems;
 import com.mojang.logging.LogUtils;
 import net.fabricmc.api.ModInitializer;
-import net.kyrptonaught.customportalapi.api.CustomPortalBuilder;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 
@@ -40,18 +37,8 @@ public class Infinium implements ModInitializer {
         instance = this;
         this.core = new InfiniumServerManager(this);
         this.core.initMod();
-        initPortals();
     }
 
-    private void initPortals() {
-        CustomPortalBuilder.beginPortal()
-                .frameBlock(InfiniumBlocks.VOID_STONE)
-                .lightWithItem(InfiniumItems.VOID_EYE)
-                .destDimID(id("the_void"))
-                .tintColor(0, 0, 0)
-                .flatPortal()
-                .registerPortal();
-    }
 
     public InfiniumServerManager getCore(){
         return core;
