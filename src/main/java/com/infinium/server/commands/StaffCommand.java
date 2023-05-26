@@ -171,6 +171,7 @@ public class StaffCommand {
         try {
             var attributeInstance = player.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH);
             if (attributeInstance == null) return -1;
+            attributeInstance.getModifiers().forEach(attributeInstance::removeModifier);
 
             var data = ((EntityDataSaver) player).getPersistentData();
             var totemString = "infinium.totems";
@@ -188,8 +189,6 @@ public class StaffCommand {
                 attributeInstance.removeModifier(secondTotemDebuff);
                 if (!attributeInstance.hasModifier(firstTotemDebuff)) attributeInstance.addPersistentModifier(firstTotemDebuff);
 
-            } else {
-                attributeInstance.getModifiers().clear();
             }
 
             player.setHealth(player.getMaxHealth());

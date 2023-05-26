@@ -183,7 +183,14 @@ public class PlayerDeathListeners {
         if (playerDied.isSpectator()) return;
         var pos = playerDied.getBlockPos();
         var attributeInstance = playerDied.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH);
-        if (attributeInstance != null) attributeInstance.getModifiers().clear();
+
+        try {
+            if (attributeInstance != null) {
+                attributeInstance.getModifiers().forEach(attributeInstance::removeModifier);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
 
         ChatFormatter.broadcastMessage(ChatFormatter.formatWithPrefix("&6&l%player% &7ha sucumbido ante el\n&5&lVacío Infinito".replaceAll("%player%", playerDied.getEntityName())));
         Animation.initImageForAll();
