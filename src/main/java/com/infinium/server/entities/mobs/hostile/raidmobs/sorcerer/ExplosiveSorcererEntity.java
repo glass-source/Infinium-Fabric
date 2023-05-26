@@ -242,7 +242,7 @@ public class ExplosiveSorcererEntity extends SpellcastingIllagerEntity implement
             } while(blockPos.getY() >= MathHelper.floor(maxY) - 1);
 
             if (bl) {
-                world.createExplosion(ExplosiveSorcererEntity.this, x, blockPos.getY() + d, z, 2.5f, false, Explosion.DestructionType.BREAK);
+                if (world.random.nextBoolean()) world.createExplosion(ExplosiveSorcererEntity.this, x, blockPos.getY() + d, z, 2.0f, false, Explosion.DestructionType.NONE);
                 ExplosiveSorcererEntity.this.world.spawnEntity(new EvokerFangsEntity(ExplosiveSorcererEntity.this.world, x, (double)blockPos.getY() + d, z, yaw, warmup, ExplosiveSorcererEntity.this));
             }
         }

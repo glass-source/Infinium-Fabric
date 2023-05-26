@@ -57,7 +57,7 @@ public class BerserkerEntity extends VindicatorEntity implements InfiniumEntity 
                 .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.35)
                 .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 12.0)
                 .add(EntityAttributes.GENERIC_MAX_HEALTH, 32.0)
-                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 10.0);
+                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 7.0);
     }
 
     public void writeCustomDataToNbt(NbtCompound nbt) {

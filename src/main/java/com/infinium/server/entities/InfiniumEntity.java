@@ -16,7 +16,7 @@ import net.minecraft.world.ServerWorldAccess;
 public interface InfiniumEntity {
 
     default void setTransBanner(ServerWorldAccess world, MobEntity entity) {
-        if (world.getRandom().nextDouble(10) <= 1.25f) {
+        if (world.getRandom().nextDouble(20) <= 1.25f) {
             entity.equipStack(EquipmentSlot.HEAD, getTransBanner());
             entity.setEquipmentDropChance(EquipmentSlot.HEAD, 100.0f);
         }

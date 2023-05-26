@@ -159,7 +159,7 @@ public class SanityTask {
     }
 
     private SoundEvent getMoodSoundEvent(PlayerEntity p) {
-        if (new Random().nextInt(15) == 1) return InfiniumSounds.SANITY_VOICE_INVITE;
+        if (new Random().nextInt(10) == 1) return InfiniumSounds.SANITY_VOICE_INVITE;
 
         int soundPoints = manager.get(p, manager.SOUND_POINTS);
         SoundEvent sound;
