@@ -11,7 +11,7 @@
     "sources": "https://github.com/InfiniumMC/InfiniumT1-FabricMC",
     "homepage": "https://twitter.com/InfiniumSMP"
   },
-  "license": "MIT",
+  "license": "GPL3",
   "icon": "assets/infinium/pack.png",
   "environment": "*",
   "entrypoints": {

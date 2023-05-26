@@ -18,7 +18,6 @@ public class PlayerConnectionListeners {
 
     private final Infinium instance;
     private final InfiniumServerManager core;
-
     public PlayerConnectionListeners(Infinium instance){
         this.instance = instance;
         this.core = instance.getCore();
@@ -93,23 +92,25 @@ public class PlayerConnectionListeners {
     }
     public void checkBannedPlayers(PlayerEntity player) {
         boolean banned = true;
+        var entityName = player.getEntityName();
         var logger = Infinium.getInstance().LOGGER;
-        logger.info("Verifying whitelist...");
+        logger.info("Amount of players found in whitelist: #{}", WhitelistedPlayers.values().length);
+        logger.info("Verifying whitelist for {}...", entityName);
         for (WhitelistedPlayers playerName : WhitelistedPlayers.values()) {
-            if (player.getUuid().equals(playerName.uuid) || player.getEntityName().toLowerCase().contains("player")) {
+            if (player.getUuid().equals(playerName.uuid) || entityName.toLowerCase().contains("player")) {
                 banned = false;
                 break;
             }
         }
         if (banned) {
-            logger.info("Player {} tried to join, but they're banned internally!", player.getEntityName());
             if (player instanceof ServerPlayerEntity sp) {
                 var buffer = PacketByteBufs.create();
                 buffer.writeInt(0);
                 ServerPlayNetworking.send(sp, InfiniumPackets.APPLY_WHITELIST_ID, buffer);
+                logger.info("Player {} tried to join, but they're banned internally!", entityName);
             }
         } else {
-            logger.info("Approved");
+            logger.info("{} was found in whitelist, approved.", entityName);
         }
     }
     public enum WhitelistedPlayers {
@@ -149,7 +150,11 @@ public class PlayerConnectionListeners {
         Niita("fa7c0be7-c2fa-41e9-8157-e034132a40f0"),
         tkedd("2c51c312-f515-46b8-a008-fce0a733c195"),
         wHermes("4e083407-4bfc-45e9-94c9-ad2770303f8e"),
-        Ruldes("024d0bc4-e443-47cc-8404-7e82a5bf0441")
+        Ruldes("024d0bc4-e443-47cc-8404-7e82a5bf0441"),
+        Pepe3012("f0740065-7b6c-470e-b6e9-2a93da15dd89"),
+        Angel__Junior("bdbd24cf-7044-431a-a3dd-360410c0ff3b"),
+        Azurex("257cc308-e6ca-485a-8445-065de91bee1c"),
+        hheavensnight("e16dfef6-10db-44cd-adf4-5e2f8096c9f1")
         ;
         private final UUID uuid;
         WhitelistedPlayers(String playerUuid) {

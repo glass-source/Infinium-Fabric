@@ -44,6 +44,9 @@
   "item.infinium.looting_merger" : "Looting Merger",
   "item.infinium.netherite_carrot" : "Netherite Carrot",
   "item.infinium.kairos_clock" : "Kairos Clock",
+  "item.infinium.key_shard" : "Key Shard",
+  "item.infinium.magma_shard" : "Magma Shard",
+  "item.infinium.mysterious_key" : "Mysterious Key",
   "category.minecraft.infinium": "Infinium Category",
   "itemGroup.infinium.infinium": "Infinium Group",
   
@@ -51,6 +54,7 @@
   "effect.infinium.madness": "Madness",
   "block.infinium.void_stone": "Void Stone",
   "block.infinium.void_stone_ore": "Void Stone Ore",
+  "block.infinium.nightmare_obsidian" : "Nightmare Obsidian",
 
   "entity.infinium.void_ghast" : "Void Ghast",
   "entity.infinium.void_spider" : "Void Spider",

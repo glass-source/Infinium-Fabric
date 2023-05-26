@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " S ",
+    "SVS",
+    " S "
+  ],
+
+  "key": {
+
+    "S": {
+      "item": "infinium:magma_shard"
+    },
+
+    "V": {
+      "item": "infinium:void_wings"
+    }
+  },
+  "result": {
+    "item": "infinium:magma_wings"
+  }
+}

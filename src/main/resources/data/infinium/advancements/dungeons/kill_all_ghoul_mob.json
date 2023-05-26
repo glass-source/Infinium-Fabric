@@ -1,104 +1,89 @@
 {
-  "parent": "infinium:dungeons/kill_a_pirate",
+  "parent": "infinium:dungeons/kill_a_ghoul_mob",
   "display": {
     "icon": {
-      "item": "minecraft:emerald_block",
+      "item": "minecraft:netherite_sword",
       "nbt": "{Damage:0}"
     },
-    "title": "A true hero",
-    "description": "Defeat all raider mobs",
+    "title": "Ghoul-Like",
+    "description": "Annihilate ALL Ghoul Mobs",
     "frame": "challenge",
     "show_toast": true,
     "announce_to_chat": true,
     "hidden": true
   },
   "criteria": {
-    "infinium:ravager": {
+
+    "infinium:ghoul_zombie": {
       "trigger": "minecraft:player_killed_entity",
       "conditions": {
         "entity": [
           {
             "condition": "minecraft:entity_properties",
             "predicate": {
-              "type": "minecraft:ravager"
+              "type": "infinium:ghoul_zombie"
             },
             "entity": "this"
           }
         ]
       }
     },
-    "infinium:vex": {
+    "infinium:ghoul_witch": {
       "trigger": "minecraft:player_killed_entity",
       "conditions": {
         "entity": [
           {
             "condition": "minecraft:entity_properties",
             "predicate": {
-              "type": "minecraft:vex"
+              "type": "infinium:ghoul_witch"
             },
             "entity": "this"
           }
         ]
       }
     },
-    "infinium:explosive_sorcerer": {
+    "infinium:ghoul_creeper": {
       "trigger": "minecraft:player_killed_entity",
       "conditions": {
         "entity": [
           {
             "condition": "minecraft:entity_properties",
             "predicate": {
-              "type": "infinium:explosive_sorcerer"
+              "type": "infinium:ghoul_creeper"
             },
             "entity": "this"
           }
         ]
       }
     },
-    "infinium:berserker": {
+    "infinium:ghoul_spider": {
       "trigger": "minecraft:player_killed_entity",
       "conditions": {
         "entity": [
           {
             "condition": "minecraft:entity_properties",
             "predicate": {
-              "type": "infinium:berserker"
-            },
-            "entity": "this"
-          }
-        ]
-      }
-    },
-    "infinium:raider": {
-      "trigger": "minecraft:player_killed_entity",
-      "conditions": {
-        "entity": [
-          {
-            "condition": "minecraft:entity_properties",
-            "predicate": {
-              "type": "infinium:raider"
+              "type": "infinium:ghoul_spider"
             },
             "entity": "this"
           }
         ]
       }
     }
+
   },
   "requirements": [
     [
-      "infinium:explosive_sorcerer"
+      "infinium:ghoul_zombie"
     ],
     [
-      "infinium:berserker"
+      "infinium:ghoul_witch"
     ],
     [
-      "infinium:raider"
+      "infinium:ghoul_spider"
     ],
     [
-      "infinium:vex"
-    ],
-    [
-      "infinium:ravager"
+      "infinium:ghoul_creeper"
     ]
   ]
 }

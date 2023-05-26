@@ -1,6 +1,8 @@
 package com.infinium.server.items.custom.armor;
 
+import com.infinium.server.items.InfiniumItems;
 import com.infinium.server.items.custom.InfiniumItem;
+import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
@@ -72,5 +74,25 @@ public class MagmaArmorItem extends ArmorItem implements InfiniumItem {
 
         return hasFullArmor(user) && (helmet instanceof MagmaArmorItem && chestplate instanceof MagmaArmorItem
         && leggings instanceof MagmaArmorItem && boots instanceof MagmaArmorItem);
+    }
+
+    @Override
+    public void onCraft(ItemStack stack, World world, PlayerEntity player) {
+        super.onCraft(stack, world, player);
+
+        stack.addEnchantment(Enchantments.PROTECTION, 8);
+        stack.addEnchantment(Enchantments.UNBREAKING, 8);
+        stack.addEnchantment(Enchantments.MENDING, 1);
+
+        if (stack.getItem().equals(InfiniumItems.MAGMA_BOOTS)) {
+            stack.addEnchantment(Enchantments.FEATHER_FALLING, 8);
+            stack.addEnchantment(Enchantments.DEPTH_STRIDER, 8);
+            stack.addEnchantment(Enchantments.SOUL_SPEED, 8);
+
+        } else if (stack.getItem().equals(InfiniumItems.MAGMA_HELMET)) {
+            stack.addEnchantment(Enchantments.AQUA_AFFINITY, 1);
+            stack.addEnchantment(Enchantments.RESPIRATION, 8);
+        }
+
     }
 }

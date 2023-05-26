@@ -6,7 +6,7 @@
       "nbt": "{Damage:0}"
     },
     "title": "Loop Break",
-    "description": "Spawn the Super Nova",
+    "description": "Summon the Super Nova",
     "frame": "challenge",
     "show_toast": true,
     "announce_to_chat": true,

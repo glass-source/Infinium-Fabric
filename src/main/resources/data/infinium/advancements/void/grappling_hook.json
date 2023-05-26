@@ -1,28 +1,28 @@
 {
-  "parent": "infinium:dungeons/grappling_hook",
+  "parent": "infinium:void/loot_city",
   "display": {
     "icon": {
-      "item": "infinium:ender_wand",
+      "item": "infinium:grappling_hook",
       "nbt": "{Damage:0}"
     },
-    "title": "Did I hear an enderman?",
-    "description": "Get a hold of an Ender wand",
+    "title": "Wall crawler or Web swinger?",
+    "description": "Get a hold of a Grappling Hook",
     "frame": "task",
     "show_toast": true,
     "announce_to_chat": true,
-    "hidden": true
+    "hidden": false
   },
   "rewards": {
     "experience": 4000
   },
   "criteria": {
-    "ender_wand": {
+    "grappling_hook": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
             "items": [
-              "infinium:ender_wand"
+              "infinium:grappling_hook"
             ]
           }
         ]
@@ -31,7 +31,7 @@
   },
   "requirements": [
     [
-      "ender_wand"
+      "grappling_hook"
     ]
   ]
 }

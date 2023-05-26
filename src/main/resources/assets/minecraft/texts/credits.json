@@ -3,6 +3,12 @@
     "section": "Infinium",
     "titles": [
       {
+        "title": "Project Manager",
+        "names": [
+          "Asunder"
+        ]
+      },
+      {
         "title": "Main Developers",
         "names": [
           "Asunder",
@@ -66,6 +72,7 @@
           "UNKMage",
           "SrDonut",
           "ShiruSS",
+          "Planet Minecraft",
           "Asunder"
         ]
       },
@@ -75,6 +82,7 @@
           "Empa_",
           "UNKMage",
           "ShiruSS",
+          "SrDonut",
           "Shota Black",
           "Planet Minecraft",
           "Asunder"
@@ -129,10 +137,12 @@
       {
         "title": "To you, the player",
         "names": [
-          "To the time you spent in here",
+          "To the time you've spent here",
           "To the memories you've made",
           "To the help you've given",
-          "Thank you, truly."
+          "Thank you, truly.",
+          " ",
+          "-Asunder"
         ]
       }
     ]

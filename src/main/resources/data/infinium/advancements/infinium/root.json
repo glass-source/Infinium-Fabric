@@ -1,19 +1,19 @@
 {
-  "parent": "infinium:dungeons/spawn_super_nova",
   "display": {
     "icon": {
-      "item": "infinium:kairos_clock",
+      "item": "infinium:mysterious_key",
       "nbt": "{Damage:0}"
     },
     "title": "Infinium",
-    "description": "Defeat the Super Nova in combat",
+    "description": "Break the loop and defeat the Super Nova in combat",
     "frame": "challenge",
     "show_toast": true,
     "announce_to_chat": true,
-    "hidden": true
+    "hidden": true,
+    "background": "minecraft:textures/block/calcite.png"
   },
   "criteria": {
-    "infinium:super_nova": {
+    "super_nova": {
       "trigger": "minecraft:player_killed_entity",
       "conditions": {
         "entity": [
@@ -30,7 +30,7 @@
   },
   "requirements": [
     [
-      "infinium:super_nova"
+      "super_nova"
     ]
   ]
 }

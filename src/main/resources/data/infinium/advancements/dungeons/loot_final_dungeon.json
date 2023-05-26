@@ -6,7 +6,7 @@
     },
     "title": "Game Master",
     "description": "Obtain the main treasure in a Zeppelin",
-    "frame": "challenge",
+    "frame": "task",
     "show_toast": true,
     "announce_to_chat": true,
     "hidden": false

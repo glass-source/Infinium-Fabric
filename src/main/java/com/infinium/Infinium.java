@@ -16,7 +16,6 @@ import java.util.concurrent.ScheduledFuture;
 
 public class Infinium implements ModInitializer {
     private InfiniumServerManager core;
-
     private static Infinium instance;
     private final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
     public final Logger LOGGER = LogUtils.getLogger();
@@ -38,7 +37,6 @@ public class Infinium implements ModInitializer {
         this.core = new InfiniumServerManager(this);
         this.core.initMod();
     }
-
 
     public InfiniumServerManager getCore(){
         return core;

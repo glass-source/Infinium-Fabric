@@ -2,9 +2,9 @@
   "parent": "infinium:nightmare/loot_bastion",
   "display": {
     "icon": {
-      "item": "minecraft:enchanted_golden_apple"
+      "item": "infinium:soul_speed_merger"
     },
-    "title": "At the end of the tunnel",
+    "title": "Remnants of a past dream",
     "description": "Obtain the main treasure in a Nightmare Bastion",
     "frame": "challenge",
     "show_toast": true,

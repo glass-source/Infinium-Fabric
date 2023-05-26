@@ -2,7 +2,7 @@
   "parent": "infinium:dungeons/loot_final_dungeon",
   "display": {
     "icon": {
-      "item": "minecraft:spyglass"
+      "item": "infinium:looting_merger"
     },
     "title": "Ahoy! Treasure!",
     "description": "Obtain the main treasure in a Pirate Ship",

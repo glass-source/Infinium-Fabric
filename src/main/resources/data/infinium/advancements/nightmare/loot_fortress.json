@@ -1,11 +1,11 @@
 {
-  "parent": "infinium:nightmare/root",
+  "parent": "infinium:nightmare/loot_final_bastion",
   "display": {
     "icon": {
-      "item": "minecraft:nether_star"
+      "item": "infinium:nightmare_obsidian"
     },
-    "title": "Error 3012: Missing Treasure",
-    "description": "Loot a chest inside a Nightmare Bastion",
+    "title": "From the depths of hell",
+    "description": "Loot a chest inside a Nightmare Fortress",
     "frame": "task",
     "show_toast": true,
     "announce_to_chat": true,
@@ -15,7 +15,7 @@
     "loot_final_chest": {
       "trigger": "minecraft:player_generates_container_loot",
       "conditions": {
-        "loot_table": "infinium:chests/nightmare_bastion"
+        "loot_table": "infinium:chests/nightmare_fort"
       }
     }
 

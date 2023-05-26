@@ -7,6 +7,7 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.EndermanEntity;
 import net.minecraft.entity.mob.ShulkerEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.AxeItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
@@ -25,7 +26,6 @@ public class MagmaAxeItem extends AxeItem implements InfiniumItem {
     public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         return fromHit(stack, target, attacker);
     }
-
     static boolean fromHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         if (!target.getWorld().isClient()) {
             stack.damage(1, attacker, p -> p.sendToolBreakStatus(attacker.getActiveHand()));
@@ -51,6 +51,12 @@ public class MagmaAxeItem extends AxeItem implements InfiniumItem {
             if (miner instanceof ServerPlayerEntity user) user.incrementStat(Stats.MINED.getOrCreateStat(state.getBlock()));
         }
         return true;
+    }
+
+    @Override
+    public void onCraft(ItemStack stack, World world, PlayerEntity player) {
+        super.onCraft(stack, world, player);
+        enchantMagmaTool(stack);
     }
 
     @Override

@@ -1,0 +1,33 @@
+{
+  "parent": "infinium:dungeons/root",
+  "display": {
+    "icon": {
+      "item": "infinium:empanada_carne",
+      "nbt": "{Damage:0}"
+    },
+    "title": "Empa-Nada",
+    "description": "Servers? Carried. Empanada? Eaten.",
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+
+  "criteria": {
+    "empanada": {
+      "trigger": "minecraft:consume_item",
+      "conditions": {
+        "item": {
+          "items": [
+            "infinium:empanada_carne"
+          ]
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "empanada"
+    ]
+  ]
+}

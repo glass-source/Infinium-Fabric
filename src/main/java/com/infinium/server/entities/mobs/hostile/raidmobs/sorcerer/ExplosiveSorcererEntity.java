@@ -27,6 +27,7 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
+import net.minecraft.world.explosion.Explosion;
 import org.jetbrains.annotations.Nullable;
 
 public class ExplosiveSorcererEntity extends SpellcastingIllagerEntity implements InfiniumEntity {
@@ -241,6 +242,7 @@ public class ExplosiveSorcererEntity extends SpellcastingIllagerEntity implement
             } while(blockPos.getY() >= MathHelper.floor(maxY) - 1);
 
             if (bl) {
+                world.createExplosion(ExplosiveSorcererEntity.this, x, blockPos.getY() + d, z, 2.5f, false, Explosion.DestructionType.BREAK);
                 ExplosiveSorcererEntity.this.world.spawnEntity(new EvokerFangsEntity(ExplosiveSorcererEntity.this.world, x, (double)blockPos.getY() + d, z, yaw, warmup, ExplosiveSorcererEntity.this));
             }
         }

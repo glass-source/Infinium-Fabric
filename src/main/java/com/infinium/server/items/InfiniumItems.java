@@ -77,6 +77,9 @@ public class InfiniumItems {
     public static Item SOUL_SPEED_MERGER;
     public static Item LOOTING_MERGER;
     public static Item KAIROS_CLOCK;
+    public static Item KEY_SHARD;
+    public static Item MYSTERIOUS_KEY;
+    public static Item MAGMA_SHARD;
     private static Item registerItem(String name, Item item) {
         return Registry.register(Registry.ITEM, new Identifier(Infinium.MOD_ID, name), item);
     }
@@ -131,9 +134,12 @@ public class InfiniumItems {
     }
 
     private static void registerMisc() {
-        KAIROS_CLOCK = registerItem("kairos_clock", new Item(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC).maxCount(1)));
+        MAGMA_SHARD = registerItem("magma_shard", new Item(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC).maxCount(64).fireproof()));
+        MYSTERIOUS_KEY = registerItem("mysterious_key", new Item(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC).maxCount(1).fireproof()));
+        KEY_SHARD = registerItem("key_shard", new Item(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC).maxCount(4).fireproof()));
+        KAIROS_CLOCK = registerItem("kairos_clock", new Item(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC).maxCount(1).fireproof()));
         GRAPPLING_HOOK = registerItem("grappling_hook", new GrapplingHookItem(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC).maxDamage(450)));
-        ENDER_WAND = registerItem("ender_wand", new EnderWandItem(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC).maxDamage(225)));
+        ENDER_WAND = registerItem("ender_wand", new EnderWandItem(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC).maxDamage(450)));
         VOID_EYE = registerItem("void_eye", new VoidEyeItem(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC).maxCount(64)));
         SOUL_SPEED_MERGER = registerItem("soul_speed_merger", new MergerItem(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC).maxCount(1), Enchantments.SOUL_SPEED, 6));
         LOOTING_MERGER = registerItem("looting_merger", new MergerItem(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC).maxCount(1), Enchantments.LOOTING, 6));

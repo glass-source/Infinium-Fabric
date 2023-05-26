@@ -1,8 +1,8 @@
 {
-  "parent": "infinium:dungeons/root",
+  "parent": "infinium:dungeons/loot_final_dungeon",
   "display": {
     "icon": {
-      "item": "infinium:looting_merger",
+      "item": "minecraft:gold_block",
       "nbt": "{Damage:0}"
     },
     "title": "Treasure Taker",
@@ -10,7 +10,7 @@
     "frame": "task",
     "show_toast": true,
     "announce_to_chat": true,
-    "hidden": false
+    "hidden": true
   },
   "criteria": {
     "infinium:pirate_skeleton": {

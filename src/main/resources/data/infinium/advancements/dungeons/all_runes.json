@@ -1,5 +1,5 @@
 {
-  "parent": "infinium:dungeons/loot_final_dungeon",
+  "parent": "infinium:dungeons/root",
   "display": {
     "icon": {
       "item": "infinium:immunity_rune",
@@ -7,10 +7,10 @@
     },
     "title": "The power of the Rune",
     "description": "Get a hold of all 5 rune types",
-    "frame": "challenge",
+    "frame": "task",
     "show_toast": true,
     "announce_to_chat": true,
-    "hidden": true
+    "hidden": false
   },
   "rewards": {
     "experience": 4000

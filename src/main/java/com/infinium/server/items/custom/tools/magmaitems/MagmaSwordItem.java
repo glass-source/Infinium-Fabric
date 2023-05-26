@@ -3,6 +3,7 @@ package com.infinium.server.items.custom.tools.magmaitems;
 import com.infinium.server.items.custom.InfiniumItem;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
 import net.minecraft.item.ToolMaterial;
@@ -31,5 +32,11 @@ public class MagmaSwordItem extends SwordItem implements InfiniumItem {
     @Override
     public boolean isDamageable() {
         return super.isDamageable();
+    }
+
+    @Override
+    public void onCraft(ItemStack stack, World world, PlayerEntity player) {
+        super.onCraft(stack, world, player);
+        enchantMagmaTool(stack);
     }
 }

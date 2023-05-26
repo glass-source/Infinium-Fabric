@@ -121,7 +121,7 @@ public class StaffCommand {
             }
 
             if (players.size() > 1) {
-                source.getSource().sendFeedback(ChatFormatter.textWithPrefix("&7La cordura de todos los jugadores" + " ha sido cambiada"), true);
+                source.getSource().sendFeedback(ChatFormatter.textWithPrefix("&7La cordura de todos los jugadores ha sido cambiada"), true);
             }
             return 1;
         }catch (Exception ex) {
@@ -159,7 +159,7 @@ public class StaffCommand {
             var data = ((EntityDataSaver) player).getPersistentData();
             int totems = data.getInt("infinium.totems");
 
-            source.getSource().sendFeedback(ChatFormatter.textWithPrefix("&7El jugador &6&l" + player.getEntityName() + " &7ha consumido &6&l" + totems + " &7Tótems de la inmortalidad"), false);
+            source.getSource().sendFeedback(ChatFormatter.textWithPrefix("&6&l" + player.getEntityName() + " &7ha consumido &6&l" + totems + " &7Tótems de la inmortalidad"), false);
             return 1;
         } catch (CommandSyntaxException ex) {
             ex.printStackTrace();
@@ -169,13 +169,12 @@ public class StaffCommand {
 
     private static int setTotems(CommandContext<ServerCommandSource> source, ServerPlayerEntity player, int values) {
         try {
+            var attributeInstance = player.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH);
+            if (attributeInstance == null) return -1;
 
             var data = ((EntityDataSaver) player).getPersistentData();
             var totemString = "infinium.totems";
             data.putInt(totemString, values);
-            var attributeInstance = player.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH);
-            if (attributeInstance == null) return -1;
-
 
             if (values >= 30) {
                 if (!attributeInstance.hasModifier(finalTotemDebuff)) attributeInstance.addPersistentModifier(finalTotemDebuff);
@@ -190,10 +189,7 @@ public class StaffCommand {
                 if (!attributeInstance.hasModifier(firstTotemDebuff)) attributeInstance.addPersistentModifier(firstTotemDebuff);
 
             } else {
-                attributeInstance.removeModifier(finalTotemDebuff);
-                attributeInstance.removeModifier(secondTotemDebuff);
-                attributeInstance.removeModifier(firstTotemDebuff);
-                attributeInstance.setBaseValue(20.0f);
+                attributeInstance.getModifiers().clear();
             }
 
             player.setHealth(player.getMaxHealth());

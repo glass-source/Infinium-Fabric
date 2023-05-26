@@ -4,7 +4,7 @@
     "icon": {
       "item": "minecraft:ender_chest"
     },
-    "title": "",
+    "title": "Meteors Don't Cry",
     "description": "Obtain the main treasure inside a Void City",
     "frame": "challenge",
     "show_toast": true,

@@ -62,11 +62,8 @@ public class PlayerDeathListeners {
 
     private void playerDamageCallback() {
         PlayerDamageEvent.EVENT.register((playerUUID, damageSource, amount, isCancelled) -> {
-            if (isCancelled) return ActionResult.PASS;
-
             var player = core.getServer().getPlayerManager().getPlayer(playerUUID);
             if (player == null) return ActionResult.PASS;
-            if (!player.interactionManager.getGameMode().isSurvivalLike()) return ActionResult.PASS;
 
             var day = core.getDateUtils().getCurrentDay();
             switch (damageSource.name) {
@@ -74,25 +71,20 @@ public class PlayerDeathListeners {
                     if (day >= 14) {
                         var vec = player.getRotationVector().multiply(-1);
                         player.setVelocity(vec.getX(), vec.getY() + 0.1f, vec.getZ());
-
-                        if (playerHasTotem(player, damageSource)) {
-                            onTotemUse(player);
-                        } else {
-                            player.kill();
-                        }
-
+                        player.damage(DamageSource.GENERIC, Short.MAX_VALUE);
                     }
                 }
 
                 case "explosion.player", "explosion" -> {
                     if (day >= 14) {
-                        var cooldownManager = player.getItemCooldownManager();
-                        cooldownManager.set(Items.SHIELD, 80);
-                        cooldownManager.set(InfiniumItems.VOID_SHIELD, 20);
-                        instance.getExecutor().schedule(player::clearActiveItem, 500, TimeUnit.MILLISECONDS);
+                        if (player.isBlocking()) {
+                            var cooldownManager = player.getItemCooldownManager();
+                            cooldownManager.set(Items.SHIELD, 80);
+                            cooldownManager.set(InfiniumItems.VOID_SHIELD, 20);
+                            instance.getExecutor().schedule(player::clearActiveItem, 100, TimeUnit.MILLISECONDS);
+                        }
                     }
                 }
-
             }
 
             return ActionResult.PASS;
@@ -191,6 +183,7 @@ public class PlayerDeathListeners {
         if (playerDied.isSpectator()) return;
         var pos = playerDied.getBlockPos();
         var attributeInstance = playerDied.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH);
+        if (attributeInstance != null) attributeInstance.getModifiers().clear();
 
         ChatFormatter.broadcastMessage(ChatFormatter.formatWithPrefix("&6&l%player% &7ha sucumbido ante el\n&5&lVacío Infinito".replaceAll("%player%", playerDied.getEntityName())));
         Animation.initImageForAll();
@@ -203,12 +196,6 @@ public class PlayerDeathListeners {
 
         if (pos.getY() <= -64) playerDied.teleport(pos.getX(), -60, pos.getZ());
         generatePlayerTombstone(playerDied);
-
-        if (attributeInstance == null) return;
-        attributeInstance.removeModifier(finalTotemDebuff);
-        attributeInstance.removeModifier(secondTotemDebuff);
-        attributeInstance.removeModifier(firstTotemDebuff);
-
     }
 
     private void generatePlayerTombstone(ServerPlayerEntity player)  {

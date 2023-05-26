@@ -4,11 +4,11 @@ import com.infinium.Infinium;
 import com.infinium.global.config.data.DataManager;
 import com.infinium.global.utils.DateUtils;
 import com.infinium.networking.InfiniumPackets;
-import com.infinium.server.items.blocks.InfiniumBlocks;
 import com.infinium.server.eclipse.SolarEclipseManager;
 import com.infinium.server.effects.InfiniumEffects;
 import com.infinium.server.entities.InfiniumEntityType;
 import com.infinium.server.items.InfiniumItems;
+import com.infinium.server.items.blocks.InfiniumBlocks;
 import com.infinium.server.listeners.entity.EntitySpawnListeners;
 import com.infinium.server.listeners.player.PlayerConnectionListeners;
 import com.infinium.server.listeners.player.PlayerDeathListeners;
@@ -36,11 +36,14 @@ import net.kyrptonaught.customportalapi.api.CustomPortalBuilder;
 import net.kyrptonaught.customportalapi.util.SHOULDTP;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Items;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -78,28 +81,32 @@ public class InfiniumServerManager {
                 throw new RuntimeException(e);
             }
 
-            this.initListeners();
-            this.dateUtils = new DateUtils(this.instance);
-            this.dataManager.restoreWorldData();
-            this.dataManager.restorePlayerData();
-            this.eclipseManager.load();
 
-            var nightmareWorld = this.server.getWorld(InfiniumDimensions.THE_NIGHTMARE);
+            this.dateUtils = new DateUtils(this.instance);
+            this.dataManager.restorePlayerData();
+            this.dataManager.restoreWorldData();
+
             var serverRules = this.server.getGameRules();
+            var nightmareWorld = this.server.getWorld(InfiniumDimensions.THE_NIGHTMARE);
             serverRules.get(GameRules.DO_IMMEDIATE_RESPAWN).set(true, this.server);
-            nightmareWorld.getGameRules().get(GameRules.DO_DAYLIGHT_CYCLE).set(false, this.server);
-            nightmareWorld.setTimeOfDay(18000);
+            serverRules.get(GameRules.NATURAL_REGENERATION).set(true, this.server);
+            serverRules.get(GameRules.KEEP_INVENTORY).set(true, this.server);
+
+            if (nightmareWorld != null) {
+                nightmareWorld.getGameRules().get(GameRules.DO_DAYLIGHT_CYCLE).set(false, this.server);
+                nightmareWorld.setTimeOfDay(18000);
+            }
 
             if (dateUtils.getCurrentDay() >= 42 && eclipseManager.isActive()) {
                 serverRules.get(GameRules.NATURAL_REGENERATION).set(false, this.server);
             }
+
+            this.initPortals(server1);
+            this.initListeners();
             this.sanityManager.registerSanityTask();
-            initPortals(server1);
+            this.eclipseManager.load();
         });
     }
-
-
-
     private void onServerStop(){
         ServerLifecycleEvents.SERVER_STOPPED.register(server -> {
             this.eclipseManager.disable();
@@ -107,7 +114,6 @@ public class InfiniumServerManager {
             this.sanityManager.stopSanityTask();
         });
     }
-
     private void initRegistries(){
         InfiniumEffects.init();
         InfiniumItems.init();
@@ -119,81 +125,55 @@ public class InfiniumServerManager {
         InfiniumPackets.initC2SPackets();
         InfiniumStructures.registerStructureFeatures();
     }
-
     private void initPortals(MinecraftServer server) {
-
         CustomPortalBuilder.beginPortal()
                 .frameBlock(InfiniumBlocks.VOID_STONE_ORE)
-                .lightWithItem(InfiniumItems.VOID_EYE)
-                .tintColor(0, 0, 0)
-                .flatPortal()
+                .lightWithItem(InfiniumItems.MYSTERIOUS_KEY)
                 .destDimID(Infinium.id("the_void"))
+                .tintColor(0, 0, 0)
                 .registerBeforeTPEvent(portalEvent(InfiniumDimensions.THE_VOID, server))
+                .flatPortal()
                 .registerPortal();
 
         CustomPortalBuilder.beginPortal()
                 .frameBlock(InfiniumBlocks.NIGHTMARE_OBSIDIAN)
-                .lightWithItem(InfiniumItems.VOID_EYE)
+                .lightWithItem(InfiniumItems.MYSTERIOUS_KEY)
                 .destDimID(Infinium.id("the_nightmare"))
                 .tintColor(255, 0,0)
                 .registerBeforeTPEvent(portalEvent(InfiniumDimensions.THE_NIGHTMARE, server))
                 .registerPortal();
     }
-
-
-    private Function<Entity, SHOULDTP> portalEvent(RegistryKey<World> worldToTP, MinecraftServer server) {
-        return entity -> {
-            var worldFrom = entity.getWorld().getRegistryKey();
-            if (entity instanceof ServerPlayerEntity player) {
-                if (worldFrom.equals(worldToTP)) player.teleport(server.getOverworld(), 0, 220, 0, entity.getYaw(), entity.getPitch());
-                else {
-                    player.teleport(server.getWorld(worldToTP), 0, 220, 0, entity.getYaw(), entity.getPitch());
-                }
-            }
-            return SHOULDTP.CANCEL_TP;
-        };
-    }
-
-    private void initListeners(){
+    private void initListeners() {
         registerPlayerListeners();
         new EntitySpawnListeners(instance).registerListeners();
         new ServerWorldListeners(instance).registerListeners();
     }
-
     private void registerPlayerListeners(){
         new PlayerDeathListeners(instance).registerListeners();
         new PlayerConnectionListeners(instance).registerListeners();
         new PlayerGlobalListeners(instance).registerListeners();
     }
-
     public SanityManager getSanityManager(){
         return sanityManager;
     }
-
     public SolarEclipseManager getEclipseManager(){
         return eclipseManager;
     }
-
     public MinecraftServer getServer() {
         return server;
     }
-
     public FabricServerAudiences getAdventure(){
         return adventure;
     }
-
     public List<ServerPlayerEntity> getTotalPlayers() {
         return this.server.getPlayerManager().getPlayerList();
     }
-
     public DataManager getDataManager() {
         return this.dataManager;
     }
-
     public DateUtils getDateUtils() {
         return this.dateUtils;
     }
-
     public void loadSchem(String filename, PlayerEntity player) {
         var world = player.getWorld();
         var X = player.getX();
@@ -201,7 +181,6 @@ public class InfiniumServerManager {
         var Z = player.getZ();
         loadSchem(filename, world, X, Y, Z);
     }
-
     public void loadSchem(String filename, World world, double X, double Y, double Z) {
         File file = new File(Infinium.getInstance().getCore().getServer().getFile("world").getAbsolutePath() + "/schematics/" + filename + ".schem");
         com.sk89q.worldedit.world.World adaptedWorld = FabricAdapter.adapt(world);
@@ -228,5 +207,43 @@ public class InfiniumServerManager {
             e.printStackTrace();
         }
     }
+    private @NotNull Function<Entity, SHOULDTP> portalEvent(RegistryKey<World> worldToKey, MinecraftServer server) {
+        return entity -> {
+            var worldFromKey = entity.getWorld().getRegistryKey();
+            var worldTo = server.getWorld(worldToKey);
+
+            if (worldTo != null) {
+                double highestY;
+                if (entity instanceof ServerPlayerEntity player) {
+
+                    if (worldFromKey.equals(worldToKey)) {
+                        highestY = getHighestY(server.getOverworld(), 0, 0);
+                        player.teleport(server.getOverworld(), 0, highestY, 0, entity.getYaw(), entity.getPitch());
+
+                    } else {
+                        highestY = getHighestY(worldTo, 0, 0);
+                        player.teleport(worldTo, 0, highestY, 0, entity.getYaw(), entity.getPitch());
+                    }
+                }
+            }
+
+            return SHOULDTP.CANCEL_TP;
+        };
+    }
+
+    public double getHighestY(World world, double x, double z) {
+        double Y = world.getTopY();
+        for (double i = Y; i > world.getBottomY(); i--) {
+            var blockPos = new BlockPos(x, i, z);
+            var item = world.getBlockState(blockPos).getBlock().asItem();
+            if (!item.equals(Items.AIR)) {
+                Y = i;
+                break;
+            }
+        }
+        return Y + 1;
+    }
+
+
 
 }

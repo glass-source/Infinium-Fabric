@@ -1,0 +1,62 @@
+{
+  "parent": "infinium:dungeons/root",
+  "display": {
+    "icon": {
+      "item": "blahaj:blue_shark",
+      "nbt": "{Damage:0}"
+    },
+    "title": "Shark Found, Eggs Cracked",
+    "description": "Cute shark :3",
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+
+  "criteria": {
+
+    "blue_shark": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "blahaj:blue_shark"
+            ]
+          }
+        ]
+      }
+    },
+    "gray_shark": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "blahaj:gray_shark"
+            ]
+          }
+        ]
+      }
+    },
+    "bread": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "blahaj:bread"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "blue_shark",
+      "gray_shark",
+      "bread"
+    ]
+  ]
+}
