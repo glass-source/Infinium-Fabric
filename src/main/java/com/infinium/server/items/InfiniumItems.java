@@ -166,6 +166,6 @@ public class InfiniumItems {
     private static void registerFood() {
         SANITY_PILL = registerItem("sanity_pill", new SanityItem(new FabricItemSettings().group(ItemGroup.FOOD).food(InfiniumFoodComponents.SANITY_PILL).rarity(Rarity.EPIC)));
         NETHERITE_CARROT = registerItem("netherite_carrot", new NetheriteCarrotItem(new FabricItemSettings().group(ItemGroup.FOOD).food(InfiniumFoodComponents.NETHERITE_CARROT).rarity(Rarity.UNCOMMON)));
-        EMPANADA_CARNE = registerItem("empanada_carne", new NetheriteCarrotItem(new FabricItemSettings().group(ItemGroup.FOOD).food(InfiniumFoodComponents.NETHERITE_CARROT).rarity(Rarity.UNCOMMON)));
+        EMPANADA_CARNE = registerItem("empanada_carne", new NetheriteCarrotItem(new FabricItemSettings().group(ItemGroup.FOOD).food(FoodComponents.GOLDEN_CARROT).rarity(Rarity.UNCOMMON)));
     }
 }
