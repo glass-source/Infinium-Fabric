@@ -3,9 +3,10 @@
     "section": "Infinium",
     "titles": [
       {
-        "title": "Project Manager",
+        "title": "Project Manager(s)",
         "names": [
-          "Asunder"
+          "Asunder",
+          "Empa_"
         ]
       },
       {
@@ -30,12 +31,6 @@
         "names": [
           "Asunder",
           "Empa_"
-        ]
-      },
-      {
-        "title": "Extra stuff nobody cares about",
-        "names": [
-          "Asunder"
         ]
       },
       {
@@ -129,6 +124,12 @@
           "Asunder"
         ]
       }
+    ]
+  },
+  {
+    "title": "Extra stuff nobody cares about",
+    "names": [
+      "Asunder"
     ]
   },
   {

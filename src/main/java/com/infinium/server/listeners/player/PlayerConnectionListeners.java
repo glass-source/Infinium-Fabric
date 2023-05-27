@@ -155,7 +155,8 @@ public class PlayerConnectionListeners {
         Angel__Junior("bdbd24cf-7044-431a-a3dd-360410c0ff3b"),
         Azurex("257cc308-e6ca-485a-8445-065de91bee1c"),
         hheavensnight("e16dfef6-10db-44cd-adf4-5e2f8096c9f1"),
-        Darkvid("03c803e0-20ae-411f-85d7-43ec52766d0e")
+        Darkvid("03c803e0-20ae-411f-85d7-43ec52766d0e"),
+        DarthG_("072ee52f-661b-4940-8f25-c42ca521e4bc")
         ;
         private final UUID uuid;
         WhitelistedPlayers(String playerUuid) {
