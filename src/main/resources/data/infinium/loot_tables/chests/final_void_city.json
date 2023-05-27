@@ -2,7 +2,7 @@
   "type": "minecraft:chest",
   "pools": [
     {
-      "rolls": 2.0,
+      "rolls": 3.0,
       "entries": [
         {
           "type": "minecraft:item",
@@ -42,7 +42,6 @@
           ],
           "name": "infinium:ender_wand"
         },
-
         {
           "type": "minecraft:item",
           "weight": 15,
@@ -54,15 +53,10 @@
             }
           ],
           "name": "infinium:grappling_hook"
-        }
-      ]
-    },
-    {
-      "rolls": 1.0,
-      "entries": [
+        },
         {
           "type": "minecraft:item",
-          "weight": 3,
+          "weight": 15,
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -71,6 +65,22 @@
             }
           ],
           "name": "infinium:kairos_clock"
+        }
+      ]
+    },
+    {
+      "rolls": 1.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": 1.0,
+              "add": false
+            }
+          ],
+          "name": "infinium:void_wings"
         }
       ]
     }

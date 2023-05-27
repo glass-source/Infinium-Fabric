@@ -1,0 +1,37 @@
+{
+  "parent": "infinium:nightmare/loot_fortress",
+  "display": {
+    "icon": {
+      "item": "infinium:magma_wings",
+      "nbt": "{Damage:0}"
+    },
+    "title": "Firefly",
+    "description": "Get a pair of Magma Wings",
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "rewards": {
+    "experience": 4000
+  },
+  "criteria": {
+    "magma_wings": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "infinium:magma_wings"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "magma_wings"
+    ]
+  ]
+}

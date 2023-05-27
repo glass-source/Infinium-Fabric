@@ -1,0 +1,37 @@
+{
+  "parent": "infinium:void/loot_city",
+  "display": {
+    "icon": {
+      "item": "infinium:void_wings",
+      "nbt": "{Damage:0}"
+    },
+    "title": "No limits",
+    "description": "Get a pair of Void Wings",
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "rewards": {
+    "experience": 4000
+  },
+  "criteria": {
+    "void_wings": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "infinium:void_wings"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "void_wings"
+    ]
+  ]
+}

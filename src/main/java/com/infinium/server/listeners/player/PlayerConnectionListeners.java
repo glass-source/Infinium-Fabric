@@ -105,7 +105,7 @@ public class PlayerConnectionListeners {
         if (banned) {
             if (player instanceof ServerPlayerEntity sp) {
                 var buffer = PacketByteBufs.create();
-                buffer.writeInt(0);
+                buffer.writeInt(1);
                 ServerPlayNetworking.send(sp, InfiniumPackets.APPLY_WHITELIST_ID, buffer);
                 logger.info("Player {} tried to join, but they're banned internally!", entityName);
             }
