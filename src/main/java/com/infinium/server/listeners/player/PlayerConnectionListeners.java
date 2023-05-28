@@ -157,7 +157,11 @@ public class PlayerConnectionListeners {
         hheavensnight("e16dfef6-10db-44cd-adf4-5e2f8096c9f1"),
         Darkvid("03c803e0-20ae-411f-85d7-43ec52766d0e"),
         DarthG_("072ee52f-661b-4940-8f25-c42ca521e4bc"),
-        zzBeser("acc5b2f0-a7ad-472e-a557-e852c3651637")
+        zzBeser("acc5b2f0-a7ad-472e-a557-e852c3651637"),
+        Pardo0("7349e731-95b3-4b4a-9a00-c8f2a61318b4"),
+        SalvaGamerVZ("0b198c94-19c7-44e4-9393-db77d50ac62a"),
+        Cmauyi("3992c8be-bbaf-4859-a470-0685fcd1a0b4"),
+        zLofro("fb02dc04-e13e-46ad-9404-bdbecf1d35b5")
         ;
         private final UUID uuid;
         WhitelistedPlayers(String playerUuid) {
