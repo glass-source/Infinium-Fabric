@@ -63,7 +63,11 @@ public class PlayerConnectionListeners {
                 if (inventory.getStack(i).getItem() instanceof InfiniumItem item) {
                     var cooldownString = "infinium.cooldown." + item;
                     if (data.get(cooldownString) == null) {
-                        data.putInt(cooldownString, -10);
+                        data.putInt(cooldownString, 5);
+                    }
+
+                    if (data.getInt(cooldownString) < 0) {
+                        data.putInt(cooldownString, 5);
                     }
                 }
             }

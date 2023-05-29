@@ -59,7 +59,6 @@ public class SanityTask {
         if (sanity <= 30) {
             if (p.getRandom().nextInt(30) == 1) {
                 p.addStatusEffect(new StatusEffectInstance(StatusEffects.HUNGER, 120, 2));
-                p.addStatusEffect(new StatusEffectInstance(InfiniumEffects.MADNESS, 120, 0));
             }
 
         }
@@ -67,20 +66,20 @@ public class SanityTask {
         if (sanity <= 20) {
             if (p.getRandom().nextInt(20) == 1) {
                 p.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 120, 0));
-                p.addStatusEffect(new StatusEffectInstance(InfiniumEffects.MADNESS, 120, 1));
+                p.addStatusEffect(new StatusEffectInstance(InfiniumEffects.MADNESS, 120, 0));
                 p.playSound(SoundEvents.ENTITY_GHAST_HURT, SoundCategory.AMBIENT, 1, 0.05f);
             }
         }
 
         if (sanity <= 10) {
-            p.addStatusEffect(new StatusEffectInstance(InfiniumEffects.MADNESS, 120, 2));
+            p.addStatusEffect(new StatusEffectInstance(InfiniumEffects.MADNESS, 120, 1));
             if (p.getRandom().nextInt(10) == 1) p.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 120, 2));
             if (p.getRandom().nextInt(10) == 1) p.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 120, 4));
 
         }
 
         if (sanity <= 5) {
-            p.addStatusEffect(new StatusEffectInstance(InfiniumEffects.MADNESS, 120, 3));
+            p.addStatusEffect(new StatusEffectInstance(InfiniumEffects.MADNESS, 120, 2));
         }
 
         if (sanity == 0) {
@@ -125,7 +124,8 @@ public class SanityTask {
     private void entityEffects(PlayerEntity p) {
         var list = getNearbyEntities(p);
         var cooldown = manager.get(p, manager.ENTITY_COOLDOWN);
-        manager.decrease(p, list.size(), manager.ENTITY_COOLDOWN);
+        var maxSize = Math.min(list.size(), 5);
+        manager.decrease(p, maxSize, manager.ENTITY_COOLDOWN);
 
         if (cooldown <= 0) {
             manager.set(p, 40, manager.ENTITY_COOLDOWN);
@@ -275,7 +275,7 @@ public class SanityTask {
         var x = p.getX();
         var y = p.getY();
         var z = p.getZ();
-        var box = new Box(x - 15, y - 15, z - 15, x + 15, y + 15, z + 15);
+        var box = new Box(x - 7, y - 7, z - 7, x + 7, y + 7, z + 7);
         Predicate<HostileEntity> shouldAdd = HostileEntity::isAlive;
         return world.getEntitiesByClass(HostileEntity.class, box, shouldAdd);
     }

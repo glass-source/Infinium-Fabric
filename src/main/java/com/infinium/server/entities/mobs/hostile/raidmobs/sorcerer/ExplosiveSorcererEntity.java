@@ -2,7 +2,6 @@ package com.infinium.server.entities.mobs.hostile.raidmobs.sorcerer;
 
 import com.infinium.global.utils.ChatFormatter;
 import com.infinium.server.entities.InfiniumEntity;
-import com.infinium.server.items.InfiniumItems;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.TargetPredicate;
@@ -16,6 +15,7 @@ import net.minecraft.entity.mob.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.raid.RaiderEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
@@ -159,15 +159,13 @@ public class ExplosiveSorcererEntity extends SpellcastingIllagerEntity implement
 
         public void setVexAttributes(VexEntity vexEntity) {
             var health = vexEntity.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH);
-            var itemStack = new ItemStack(InfiniumItems.VOID_SWORD);
+            var itemStack = new ItemStack(Items.NETHERITE_SWORD);
             vexEntity.equipStack(EquipmentSlot.MAINHAND, itemStack);
-            vexEntity.setEquipmentDropChance(EquipmentSlot.MAINHAND, 0.0F);
             vexEntity.setCustomName(ChatFormatter.text("&cSpiritual Entity"));
             if (health != null) {
                 health.setBaseValue(40.0f);
                 vexEntity.setHealth(40.0f);
                 vexEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, Integer.MAX_VALUE, 0));
-                vexEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, Integer.MAX_VALUE, 1));
             }
         }
 
