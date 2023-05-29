@@ -12,12 +12,12 @@ import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
+
 import java.util.Collection;
 
 import static com.infinium.server.listeners.player.PlayerDeathListeners.*;
@@ -72,7 +72,9 @@ public class StaffCommand {
                 .then(CommandManager.literal("totems")
                         .then(CommandManager.literal("get")
                                 .then(CommandManager.argument("player", EntityArgumentType.player())
-                                        .executes(StaffCommand::getTotems)))
+                                        .executes(context ->
+                                                getTotems(context, EntityArgumentType.getPlayer(context, "player")))))
+
                         .then(CommandManager.literal("set")
                                 .then(CommandManager.argument("player", EntityArgumentType.player())
                                         .then(CommandManager.argument("totems", IntegerArgumentType.integer())
@@ -153,21 +155,21 @@ public class StaffCommand {
         }
     }
 
-    private static int getTotems(CommandContext<ServerCommandSource> source) {
+    private static int getTotems(CommandContext<ServerCommandSource> source, ServerPlayerEntity player) {
         try{
-            var player = source.getSource().getPlayer();
+
             var data = ((EntityDataSaver) player).getPersistentData();
             int totems = data.getInt("infinium.totems");
 
             source.getSource().sendFeedback(ChatFormatter.textWithPrefix("&6&l" + player.getEntityName() + " &7ha consumido &6&l" + totems + " &7Tótems de la inmortalidad"), false);
             return 1;
-        } catch (CommandSyntaxException ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
             return -1;
         }
     }
 
-    private static int setTotems(CommandContext<ServerCommandSource> source, ServerPlayerEntity player, int values) {
+    private static int setTotems(CommandContext<ServerCommandSource> source, ServerPlayerEntity player, int value) {
         try {
             var attributeInstance = player.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH);
             if (attributeInstance == null) return -1;
@@ -175,16 +177,16 @@ public class StaffCommand {
 
             var data = ((EntityDataSaver) player).getPersistentData();
             var totemString = "infinium.totems";
-            data.putInt(totemString, values);
+            data.putInt(totemString, value);
 
-            if (values >= 30) {
+            if (value >= 30) {
                 if (!attributeInstance.hasModifier(finalTotemDebuff)) attributeInstance.addPersistentModifier(finalTotemDebuff);
 
-            } else if (values >= 25) {
+            } else if (value >= 25) {
                 attributeInstance.removeModifier(finalTotemDebuff);
                 if (!attributeInstance.hasModifier(secondTotemDebuff)) attributeInstance.addPersistentModifier(secondTotemDebuff);
 
-            } else if(values >= 15) {
+            } else if(value >= 15) {
                 attributeInstance.removeModifier(finalTotemDebuff);
                 attributeInstance.removeModifier(secondTotemDebuff);
                 if (!attributeInstance.hasModifier(firstTotemDebuff)) attributeInstance.addPersistentModifier(firstTotemDebuff);
@@ -192,7 +194,7 @@ public class StaffCommand {
             }
 
             player.setHealth(player.getMaxHealth());
-
+            source.getSource().sendFeedback(ChatFormatter.textWithPrefix("&7Los totems de &6&l" + player.getEntityName() + " &7han sido cambiados a &6&l" + value), true);
             return 1;
         } catch (Exception ex) {
             ex.printStackTrace();
