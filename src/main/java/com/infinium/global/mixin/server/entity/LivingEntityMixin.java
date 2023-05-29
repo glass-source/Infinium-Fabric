@@ -34,7 +34,7 @@ public abstract class LivingEntityMixin extends Entity {
         if (!source.isExplosive()) return;
         if (this.isPlayer()) return;
         if (Infinium.getInstance().getDateUtils() == null) return;
-        var day = Infinium.getInstance().getDateUtils().getCurrentDay();;
+        var day = Infinium.getInstance().getDateUtils().getCurrentDay();
         var entityTypeString = this.getType().toString();
 
         if (day >= 7) {

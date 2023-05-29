@@ -11,6 +11,7 @@
     "server.entity.MobEntityMixin",
     "server.entity.boss.EnderDragonEntityMixin",
     "server.entity.peaceful.SheepEntityMixin",
+    "server.entity.peaceful.VillagerEntityMixin",
     "server.entity.player.FishingBobberEntityMixin",
     "server.entity.player.ServerPlayerEntityMixin",
     "server.world.ServerRecipeBookMixin",

@@ -34,6 +34,7 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.kyori.adventure.platform.fabric.FabricServerAudiences;
 import net.kyrptonaught.customportalapi.api.CustomPortalBuilder;
 import net.kyrptonaught.customportalapi.util.SHOULDTP;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Items;
@@ -141,6 +142,15 @@ public class InfiniumServerManager {
                 .destDimID(Infinium.id("the_nightmare"))
                 .tintColor(255, 0,0)
                 .registerBeforeTPEvent(portalEvent(InfiniumDimensions.THE_NIGHTMARE, server))
+                .registerPortal();
+
+        CustomPortalBuilder.beginPortal()
+                .frameBlock(Blocks.AMETHYST_BLOCK)
+                .lightWithItem(InfiniumItems.MYSTERIOUS_KEY)
+                .destDimID(World.END.getValue())
+                .tintColor(128, 0, 128)
+                .flatPortal()
+                .registerBeforeTPEvent(portalEvent(World.END, server))
                 .registerPortal();
     }
     private void initListeners() {

@@ -77,13 +77,13 @@ public class RaiderEntity extends PillagerEntity implements InfiniumEntity {
     @Override
     public void shoot(LivingEntity target, ItemStack crossbow, ProjectileEntity projectile, float multiShotSpray) {
         if (projectile instanceof ArrowEntity entity) {
-            entity.addEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 160, 3));
-            entity.addEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 160, 1));
+            entity.addEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 60, 2));
+            entity.addEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 60, 0));
             entity.setCritical(true);
             entity.setDamage(entity.getDamage() * 2);
-            this.shoot(this, target, entity, multiShotSpray, 1.6F);
+            this.shoot(this, target, entity, multiShotSpray, 1.5F);
         } else {
-            this.shoot(this, target, projectile, multiShotSpray, 1.6F);
+            this.shoot(this, target, projectile, multiShotSpray, 1.5F);
         }
     }
     public void setCharging(boolean charging) {
