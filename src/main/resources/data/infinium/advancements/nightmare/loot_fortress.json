@@ -2,7 +2,7 @@
   "parent": "infinium:nightmare/loot_final_bastion",
   "display": {
     "icon": {
-      "item": "infinium:nightmare_obsidian"
+      "item": "infinium:magma_shard"
     },
     "title": "From the depths of hell",
     "description": "Loot a chest inside a Nightmare Fortress",

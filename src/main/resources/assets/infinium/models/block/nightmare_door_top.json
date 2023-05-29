@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/door_top",
+  "textures": {
+    "top": "infinium:block/nightmare_door_top",
+    "bottom": "infinium:block/nightmare_door_bottom"
+  }
+}

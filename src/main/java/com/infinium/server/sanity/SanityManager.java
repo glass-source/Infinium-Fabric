@@ -24,6 +24,12 @@ public class SanityManager {
     public final String NEGATIVE_HEALTH_COOLDOWN = "infinium.negativeHealth";
     public final String SOUND_COOLDOWN = "infinium.soundCooldown";
     public final String SOUND_POINTS = "infinium.soundPoints";
+    public final String LOW_LIGHT_COOLDOWN = "infinium.lowlightCooldown";
+    public final String HIGH_LIGHT_COOLDOWN = "infinium.highlightCooldown";
+
+    public final String ENTITY_COOLDOWN = "infinium.entityCooldown";
+    public final String BIOME_COOLDOWN = "infinium.biomeCooldown";
+
     private ScheduledExecutorService service;
     private ScheduledFuture<?> scheduledFuture;
 

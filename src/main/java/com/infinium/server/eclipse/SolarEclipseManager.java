@@ -11,7 +11,7 @@ public class SolarEclipseManager {
     public SolarEclipseManager(Infinium instance){
         this.instance = instance;
         this.eclipse = new SolarEclipse(this);
-        this.serverBossBar = eclipse.serverBossBar;
+        this.serverBossBar = eclipse.getBossBar();
     }
 
     public void load() {
@@ -22,11 +22,11 @@ public class SolarEclipseManager {
             var gameData = dataManager.getGameData();
 
             if (!gameData.entrySet().isEmpty()) {
-                eclipse.endsIn = gameData.get("endsIn").getAsLong();
-                eclipse.totalTime = gameData.get("totalTime").getAsLong();
-                eclipse.lastTimeChecked = gameData.get("lastTimeChecked").getAsLong();
+                eclipse.setEndsIn(gameData.get("endsIn").getAsLong());
+                eclipse.setTotalTime(gameData.get("totalTime").getAsLong());
+                eclipse.setLastTimeChecked(gameData.get("lastTimeChecked").getAsLong());
 
-                if (eclipse.endsIn > 0) {
+                if (eclipse.getEndsIn() > 0) {
 
                     start(startFromLoad());
                     serverBossBar.setVisible(true);
@@ -40,9 +40,9 @@ public class SolarEclipseManager {
     public void disable(){
         var dataManager = this.instance.getCore().getDataManager();
         var gameData = dataManager.getGameData();
-        gameData.addProperty("endsIn", eclipse.endsIn);
-        gameData.addProperty("totalTime", eclipse.totalTime);
-        gameData.addProperty("lastTimeChecked", eclipse.lastTimeChecked);
+        gameData.addProperty("endsIn", eclipse.getEndsIn());
+        gameData.addProperty("totalTime", eclipse.getTotalTime());
+        gameData.addProperty("lastTimeChecked", eclipse.getLastChecked());
         dataManager.saveWorldData();
         eclipse.end();
     }
@@ -87,7 +87,7 @@ public class SolarEclipseManager {
     }
 
     public long startFromLoad(){
-        return (eclipse.endsIn / 1000) / 3600;
+        return (eclipse.getEndsIn() / 1000) / 3600;
     }
 
 }

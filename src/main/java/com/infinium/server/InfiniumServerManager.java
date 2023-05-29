@@ -17,7 +17,6 @@ import com.infinium.server.listeners.world.ServerWorldListeners;
 import com.infinium.server.sanity.SanityManager;
 import com.infinium.server.world.biomes.InfiniumBiomes;
 import com.infinium.server.world.dimensions.InfiniumDimensions;
-import com.infinium.server.world.structure.InfiniumStructures;
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.WorldEditException;
@@ -84,22 +83,18 @@ public class InfiniumServerManager {
 
 
             this.dateUtils = new DateUtils(this.instance);
-            this.dataManager.restorePlayerData();
             this.dataManager.restoreWorldData();
 
             var serverRules = this.server.getGameRules();
             var nightmareWorld = this.server.getWorld(InfiniumDimensions.THE_NIGHTMARE);
             serverRules.get(GameRules.DO_IMMEDIATE_RESPAWN).set(true, this.server);
-            serverRules.get(GameRules.NATURAL_REGENERATION).set(true, this.server);
             serverRules.get(GameRules.KEEP_INVENTORY).set(true, this.server);
+            serverRules.get(GameRules.NATURAL_REGENERATION).set(dateUtils.getCurrentDay() <= 14, this.server);
+            serverRules.get(GameRules.DO_DAYLIGHT_CYCLE).set(!eclipseManager.isActive(), this.server);
 
             if (nightmareWorld != null) {
                 nightmareWorld.getGameRules().get(GameRules.DO_DAYLIGHT_CYCLE).set(false, this.server);
                 nightmareWorld.setTimeOfDay(18000);
-            }
-
-            if (dateUtils.getCurrentDay() >= 42 && eclipseManager.isActive()) {
-                serverRules.get(GameRules.NATURAL_REGENERATION).set(false, this.server);
             }
 
             this.initPortals(server1);
@@ -111,7 +106,6 @@ public class InfiniumServerManager {
     private void onServerStop(){
         ServerLifecycleEvents.SERVER_STOPPED.register(server -> {
             this.eclipseManager.disable();
-            this.dataManager.savePlayerData();
             this.sanityManager.stopSanityTask();
         });
     }
@@ -124,7 +118,6 @@ public class InfiniumServerManager {
         InfiniumDimensions.init();
         InfiniumBiomes.init();
         InfiniumPackets.initC2SPackets();
-        InfiniumStructures.registerStructureFeatures();
     }
     private void initPortals(MinecraftServer server) {
         CustomPortalBuilder.beginPortal()

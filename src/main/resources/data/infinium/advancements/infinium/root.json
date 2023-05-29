@@ -4,8 +4,8 @@
       "item": "infinium:mysterious_key",
       "nbt": "{Damage:0}"
     },
-    "title": "Infinium",
-    "description": "Break the loop and defeat the Super Nova in combat",
+    "title": "The key to freedom",
+    "description": "Obtain a mysterious key",
     "frame": "challenge",
     "show_toast": true,
     "announce_to_chat": true,
@@ -13,16 +13,14 @@
     "background": "minecraft:textures/block/calcite.png"
   },
   "criteria": {
-    "super_nova": {
-      "trigger": "minecraft:player_killed_entity",
+    "secret_key": {
+      "trigger": "minecraft:inventory_changed",
       "conditions": {
-        "entity": [
+        "items": [
           {
-            "condition": "minecraft:entity_properties",
-            "predicate": {
-              "type": "infinium:super_nova"
-            },
-            "entity": "this"
+            "items": [
+              "infinium:mysterious_key"
+            ]
           }
         ]
       }
@@ -30,7 +28,7 @@
   },
   "requirements": [
     [
-      "super_nova"
+      "secret_key"
     ]
   ]
 }

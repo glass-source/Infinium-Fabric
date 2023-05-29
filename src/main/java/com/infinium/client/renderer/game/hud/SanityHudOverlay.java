@@ -28,7 +28,7 @@ public class SanityHudOverlay implements HudRenderCallback {
         int scaledWidth = window.getScaledWidth() / 3;
         int scaledHeight = (window.getScaledHeight() / 6);
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 0.85F);
 
         var textureMatrix = new MatrixStack();
         var textMatrix = new MatrixStack();

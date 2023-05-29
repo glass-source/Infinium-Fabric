@@ -173,6 +173,7 @@ public class PlayerDeathListeners {
 
         } else {
             data.putInt(totemData, totems + 1);
+            totemNumber = " &8(Tótem #%.%)".replaceAll("%.%", String.valueOf(totems + 1));
             message = ChatFormatter.formatWithPrefix("&5&l" + playerName + " &8ha consumido un \n&6&lTótem de la Inmortalidad" + totemNumber);
             Criteria.USED_TOTEM.trigger(player, Items.TOTEM_OF_UNDYING.getDefaultStack());
         }

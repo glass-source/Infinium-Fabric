@@ -46,10 +46,9 @@ public class SuperNovaSkullEntity extends ExplosiveProjectileEntity {
         if (!this.world.isClient) {
 
             Entity hitEntity = entityHitResult.getEntity();
-            Entity owner = this.getOwner();
             boolean wasHit;
 
-            if (owner instanceof LivingEntity livingEntity) {
+            if (hitEntity instanceof LivingEntity livingEntity) {
 
                 wasHit = hitEntity.damage(DamageSource.WITHER, 8.0F);
 

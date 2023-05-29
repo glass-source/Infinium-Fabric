@@ -13,23 +13,24 @@ public class InfiniumBlocks {
     public static Block VOID_STONE;
     public static Block VOID_STONE_ORE;
     public static Block NIGHTMARE_OBSIDIAN;
-
-    private static Block registerBlock(String name, Block block, ItemGroup group) {
-        registerBlockItem(name, block, group);
-        return Registry.register(Registry.BLOCK, new Identifier(Infinium.MOD_ID, name), block);
-    }
-    private static void registerBlockItem(String name, Block block, ItemGroup group) {
-        Registry.register(Registry.ITEM, new Identifier(Infinium.MOD_ID, name), new BlockItem(block, new FabricItemSettings().group(group)));
-    }
-
+    public static Block NIGHTMARE_DOOR;
     public static void init() {
         registerBlocks();
     }
 
     private static void registerBlocks() {
-        NIGHTMARE_OBSIDIAN = registerBlock("nightmare_obsidian", new Block(FabricBlockSettings.of(Material.STONE).strength(-1).hardness(99999)), ItemGroup.BUILDING_BLOCKS);
-        VOID_STONE = registerBlock("void_stone", new Block(FabricBlockSettings.of(Material.STONE).strength(2.25F).requiresTool()), ItemGroup.BUILDING_BLOCKS);
-        VOID_STONE_ORE = registerBlock("void_stone_ore", new Block(FabricBlockSettings.of(Material.STONE).strength(-1).requiresTool()), ItemGroup.BUILDING_BLOCKS);
+        NIGHTMARE_OBSIDIAN = registerBlock("nightmare_obsidian", new Block(FabricBlockSettings.of(Material.STONE).strength(-1, 3600000.0F).luminance(7)));
+        VOID_STONE_ORE = registerBlock("void_stone_ore", new Block(FabricBlockSettings.of(Material.STONE).strength(-1, 3600000.0F).luminance(7)));
+        VOID_STONE = registerBlock("void_stone", new Block(FabricBlockSettings.of(Material.STONE).strength(3, 3).requiresTool()));
+        NIGHTMARE_DOOR = registerBlock("nightmare_door", new NightmareDoorBlock(FabricBlockSettings.of(Material.METAL).strength(-1, 3600000.0F).luminance(7).nonOpaque()));
+    }
+
+    private static Block registerBlock(String name, Block block) {
+        registerBlockItem(name, block);
+        return Registry.register(Registry.BLOCK, new Identifier(Infinium.MOD_ID, name), block);
+    }
+    private static void registerBlockItem(String name, Block block) {
+        Registry.register(Registry.ITEM, new Identifier(Infinium.MOD_ID, name), new BlockItem(block, new FabricItemSettings().group(ItemGroup.BUILDING_BLOCKS)));
     }
 
 }

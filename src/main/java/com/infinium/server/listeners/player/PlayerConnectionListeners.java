@@ -1,7 +1,6 @@
 package com.infinium.server.listeners.player;
 
 import com.infinium.Infinium;
-import com.infinium.global.config.data.player.InfiniumPlayer;
 import com.infinium.global.utils.EntityDataSaver;
 import com.infinium.networking.InfiniumPackets;
 import com.infinium.server.InfiniumServerManager;
@@ -33,25 +32,21 @@ public class PlayerConnectionListeners {
             if (server == null) return;
             var player = handler.player;
             var sanityManager = instance.getCore().getSanityManager();
-            var infPlayer = InfiniumPlayer.getInfiniumPlayer(player);
             var eclipseManager = core.getEclipseManager();
 
             eclipseManager.getBossBar().removePlayer(player);
             sanityManager.syncSanity(player, sanityManager.get(player, sanityManager.SANITY));
-            infPlayer.onQuit();
         });
     }
     private void playerConnectCallback(){
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
             if (server == null) return;
             var player = handler.getPlayer();
-            var infPlayer = InfiniumPlayer.getInfiniumPlayer(player);
             var eclipseManager = core.getEclipseManager();
 
-            initCooldowns(player);
             initSanity(player);
+            initCooldowns(player);
             checkBannedPlayers(player);
-            infPlayer.onJoin();
 
             if (eclipseManager.isActive()) {
                 eclipseManager.getBossBar().setVisible(true);
@@ -59,22 +54,22 @@ public class PlayerConnectionListeners {
             }
         });
     }
+
     private void initCooldowns(ServerPlayerEntity user) {
         var data = ((EntityDataSaver) user).getPersistentData();
-        var cooldownString = "infinium.cooldown." + this;
-
-        if (data.get(cooldownString) == null) {
-
-            var inventory = user.getInventory();
-            for (int i = 0; i < inventory.size(); i++) {
-                if (inventory.getStack(i) != null) {
-                    if (inventory.getStack(i).getItem() instanceof InfiniumItem item) {
-                        item.setCooldown(user, inventory.getStack(i).getItem(), 0);
+        var inventory = user.getInventory();
+        for (int i = 0; i < inventory.size(); i++) {
+            if (inventory.getStack(i) != null) {
+                if (inventory.getStack(i).getItem() instanceof InfiniumItem item) {
+                    var cooldownString = "infinium.cooldown." + item;
+                    if (data.get(cooldownString) == null) {
+                        data.putInt(cooldownString, -10);
                     }
                 }
             }
         }
     }
+
     private void initSanity(ServerPlayerEntity player) {
         var sanityManager = core.getSanityManager();
         var data = sanityManager.getData(player);
@@ -82,11 +77,10 @@ public class PlayerConnectionListeners {
         if (data.get(sanityManager.SANITY) == null) sanityManager.set(player, 100, sanityManager.SANITY);
         if (data.get(sanityManager.TIME_COOLDOWN) == null) sanityManager.set(player, 300, sanityManager.TIME_COOLDOWN);
         if (data.get(sanityManager.POSITIVE_HEALTH_COOLDOWN) == null) sanityManager.set(player, 20, sanityManager.POSITIVE_HEALTH_COOLDOWN);
-        if (data.get(sanityManager.NEGATIVE_HEALTH_COOLDOWN) == null) sanityManager.set(player, 20, sanityManager.NEGATIVE_HEALTH_COOLDOWN);
+        if (data.get(sanityManager.NEGATIVE_HEALTH_COOLDOWN) == null) sanityManager.set(player, 10, sanityManager.NEGATIVE_HEALTH_COOLDOWN);
         if (data.get(sanityManager.FULL_HUNGER_COOLDOWN) == null) sanityManager.set(player, 20, sanityManager.FULL_HUNGER_COOLDOWN);
-        if (data.get(sanityManager.EMPTY_HUNGER_COOLDOWN) == null) sanityManager.set(player, 20, sanityManager.EMPTY_HUNGER_COOLDOWN);
-        if (data.get(sanityManager.SOUND_COOLDOWN) == null) sanityManager.set(player, 240, sanityManager.SOUND_COOLDOWN);
-        if (data.get(sanityManager.SOUND_POINTS) == null) sanityManager.set(player, 100, sanityManager.SOUND_POINTS);
+        if (data.get(sanityManager.EMPTY_HUNGER_COOLDOWN) == null) sanityManager.set(player, 10, sanityManager.EMPTY_HUNGER_COOLDOWN);
+        if (data.get(sanityManager.SOUND_COOLDOWN) == null) sanityManager.set(player, 300, sanityManager.SOUND_COOLDOWN);
 
         sanityManager.syncSanity(player, sanityManager.get(player, sanityManager.SANITY));
     }

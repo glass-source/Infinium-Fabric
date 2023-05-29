@@ -1,22 +1,10 @@
 package com.infinium.server.items.custom;
 
-import com.infinium.global.utils.EntityDataSaver;
 import com.infinium.server.items.InfiniumItems;
 import net.minecraft.enchantment.Enchantments;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-import java.util.Objects;
-
 public interface InfiniumItem {
-    default void setCooldown(PlayerEntity user, Item item, int durationTicks) {
-        var data = ((EntityDataSaver) user).getPersistentData();
-        var cooldownString = "infinium.cooldown." + item;
-        var startingTick = Objects.requireNonNull(user.getServer()).getTicks();
-        var endingTick = startingTick + durationTicks;
-        data.putInt(cooldownString, endingTick);
-    }
 
     default void enchantMagmaTool(ItemStack stack) {
         var item = stack.getItem();

@@ -6,7 +6,8 @@ import net.minecraft.entity.ai.goal.ActiveTargetGoal;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.passive.MerchantEntity;
+import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
@@ -17,8 +18,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(VillagerEntity.class)
-public abstract class VillagerEntityMixin extends MerchantEntity {
-    protected VillagerEntityMixin(EntityType<? extends MerchantEntity> entityType, World world) {
+public abstract class VillagerEntityMixin extends MobEntity {
+    protected VillagerEntityMixin(EntityType<? extends MobEntity> entityType, World world) {
         super(entityType, world);
 
     }
@@ -31,10 +32,10 @@ public abstract class VillagerEntityMixin extends MerchantEntity {
     @Inject(method = "initBrain", at = @At("HEAD"))
     private void addGoals(CallbackInfo ci){
         if (Infinium.getInstance().getDateUtils() == null) return;
-        if (Infinium.getInstance().getDateUtils().getCurrentDay() >= 7) {
-            if (this.targetSelector != null && this.goalSelector != null) {
+        if (Infinium.getInstance().getDateUtils().getCurrentDay() >= 4) {
+            if (targetSelector != null && goalSelector != null) {
                 targetSelector.add(1, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
-                goalSelector.add(1, new MeleeAttackGoal(this, 1.0D, true));
+                goalSelector.add(1, new MeleeAttackGoal(((PathAwareEntity) (Object) this), 1.0D, true));
             }
         }
     }

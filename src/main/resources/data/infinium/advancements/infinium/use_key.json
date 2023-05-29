@@ -1,0 +1,33 @@
+{
+  "parent": "infinium:infinium/root",
+  "display": {
+    "icon": {
+      "item": "infinium:key_shard",
+      "nbt": "{Damage:0}"
+    },
+    "title": "The descent",
+    "description": "Open the gates",
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+
+  "criteria": {
+    "use_key": {
+      "trigger": "minecraft:item_used_on_block",
+      "conditions": {
+        "item": {
+          "items": [
+            "infinium:mysterious_key"
+          ]
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "use_key"
+    ]
+  ]
+}

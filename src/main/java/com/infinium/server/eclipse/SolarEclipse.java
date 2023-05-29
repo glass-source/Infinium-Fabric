@@ -18,22 +18,18 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 public class SolarEclipse {
-
-    public static boolean isEclipseActive = false;
-    public final String bossBarTitle = ChatFormatter.format("&k| &6&l☀ &7&lEclipse Solar: &e&l%time% &6&l☀ &r&k|");
-    public final ServerBossBar serverBossBar = new ServerBossBar(ChatFormatter.text(bossBarTitle.replaceAll("%time%", "0:00:00")), BossBar.Color.PURPLE, BossBar.Style.NOTCHED_6);
-    public long endsIn;
-    public long totalTime = 0L;
-    public long lastTimeChecked;
+    private final String bossBarTitle = ChatFormatter.format("&k| &6&l☀ &7&lEclipse Solar: &e&l%time% &6&l☀ &r&k|");
+    private final ServerBossBar serverBossBar = new ServerBossBar(ChatFormatter.text(bossBarTitle.replaceAll("%time%", "0:00:00")), BossBar.Color.PURPLE, BossBar.Style.NOTCHED_6);
+    private long endsIn;
+    private long totalTime = 0L;
+    private long lastTimeChecked;
     private ScheduledExecutorService service;
     private ScheduledFuture<?> task;
     private final SolarEclipseManager manager;
-
     public SolarEclipse(SolarEclipseManager manager) {
         this.manager = manager;
         this.service = Infinium.getInstance().getExecutor();
     }
-
     public void initBossBarTask(){
 
         if (service == null) service = Infinium.getInstance().getExecutor();
@@ -52,12 +48,14 @@ public class SolarEclipse {
 
             task = service.scheduleAtFixedRate(runnable, 0, 1000, TimeUnit.MILLISECONDS);
 
-        } catch(Exception ignored){}
+        } catch (Exception ignored){}
     }
-
     public void start(double hours){
         if (Infinium.getInstance().getDateUtils() == null) return;
         if (hours <= 0) return;
+
+        var core = manager.getInstance().getCore();
+        if (core.getServer() == null) return;
 
         if (!isActive()) {
             initBossBarTask();
@@ -68,11 +66,8 @@ public class SolarEclipse {
         endsIn += addedTime;
         totalTime += addedTime;
         lastTimeChecked = (new Date()).getTime();
-        isEclipseActive = true;
 
-        var day = Infinium.getInstance().getDateUtils().getCurrentDay();
-        var core = manager.getInstance().getCore();
-        if (core.getServer() == null) return;
+
         var server = core.getServer();
         var world = server.getOverworld();
         var audience = core.getAdventure().audience(PlayerLookup.all(server));
@@ -86,14 +81,9 @@ public class SolarEclipse {
         gamerules.get(GameRules.DO_DAYLIGHT_CYCLE).set(false, server);
         core.getTotalPlayers().forEach(player -> {
             serverBossBar.addPlayer(player);
-            player.playSound(InfiniumSounds.ECLIPSE_START, SoundCategory.AMBIENT, 10, 0.5f);
+            player.playSound(InfiniumSounds.ECLIPSE_START, SoundCategory.AMBIENT, 1, 0.5f);
         });
-
-        if (day < 42) return;
-        ChatFormatter.broadcastMessageWithPrefix("&7Se ha activado el modo &4UHC!");
-        gamerules.get(GameRules.NATURAL_REGENERATION).set(false, server);
     }
-
     public void end(){
         var core = manager.getInstance().getCore();
         var server = core.getServer();
@@ -105,32 +95,29 @@ public class SolarEclipse {
             service = null;
         }
 
-        isEclipseActive = false;
         endsIn = 0L;
         totalTime = 0L;
         lastTimeChecked = 0;
         serverBossBar.setVisible(false);
         serverBossBar.clearPlayers();
         gamerules.get(GameRules.DO_DAYLIGHT_CYCLE).set(true, server);
-        gamerules.get(GameRules.NATURAL_REGENERATION).set(true, server);
-        core.getTotalPlayers().forEach(player -> player.playSound(SoundEvents.ITEM_TRIDENT_RETURN, SoundCategory.AMBIENT, 10, 0.05f));
+        core.getTotalPlayers().forEach(player -> player.playSound(SoundEvents.ITEM_TRIDENT_RETURN, SoundCategory.AMBIENT, 1, 0.05f));
     }
-
     public long getLastTimeChecked(){
         return lastTimeChecked;
     }
-
     public long getTimeToEnd() {
         long now = (new Date()).getTime();
         endsIn -= now - lastTimeChecked;
         lastTimeChecked = now;
         return endsIn;
     }
-
     public long getTotalTime() {
-        return totalTime;
+        return this.totalTime;
     }
-
+    public long getLastChecked() {
+        return this.lastTimeChecked;
+    }
     public String getTimeToString() {
         if (isActive()) {
             long segs = getTimeToEnd() / 1000L;
@@ -143,11 +130,23 @@ public class SolarEclipse {
             return " ";
         }
     }
-
     public boolean isActive() {
         return getTimeToEnd() > 0L;
     }
-
-
+    public ServerBossBar getBossBar() {
+        return this.serverBossBar;
+    }
+    public void setEndsIn(long newValue) {
+        this.endsIn = newValue;
+    }
+    public void setTotalTime(long newValue) {
+        this.totalTime = newValue;
+    }
+    public void setLastTimeChecked(long newValue) {
+        this.lastTimeChecked = newValue;
+    }
+    public long getEndsIn() {
+        return this.endsIn;
+    }
 
 }

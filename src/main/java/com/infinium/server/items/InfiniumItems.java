@@ -10,10 +10,7 @@ import com.infinium.server.items.custom.armor.VoidArmorItem;
 import com.infinium.server.items.custom.armor.VoidElytraItem;
 import com.infinium.server.items.custom.food.NetheriteCarrotItem;
 import com.infinium.server.items.custom.food.SanityItem;
-import com.infinium.server.items.custom.misc.InfiniumDiscItem;
-import com.infinium.server.items.custom.misc.InfiniumTotemItem;
-import com.infinium.server.items.custom.misc.MergerItem;
-import com.infinium.server.items.custom.misc.VoidEyeItem;
+import com.infinium.server.items.custom.misc.*;
 import com.infinium.server.items.custom.tools.magmaitems.*;
 import com.infinium.server.items.custom.tools.runes.*;
 import com.infinium.server.items.custom.tools.utility.EnderWandItem;
@@ -136,7 +133,7 @@ public class InfiniumItems {
     private static void registerMisc() {
         MAGMA_SHARD = registerItem("magma_shard", new Item(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC).maxCount(64).fireproof()));
         MYSTERIOUS_KEY = registerItem("mysterious_key", new Item(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC).maxCount(1).fireproof()));
-        KEY_SHARD = registerItem("key_shard", new Item(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC).maxCount(4).fireproof()));
+        KEY_SHARD = registerItem("key_shard", new Item(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC).maxCount(5).fireproof()));
         KAIROS_CLOCK = registerItem("kairos_clock", new Item(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC).maxCount(1).fireproof()));
         GRAPPLING_HOOK = registerItem("grappling_hook", new GrapplingHookItem(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC).maxDamage(450)));
         ENDER_WAND = registerItem("ender_wand", new EnderWandItem(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC).maxDamage(450)));
@@ -156,10 +153,10 @@ public class InfiniumItems {
     }
 
     private static void registerRunes() {
-        IMMUNITY_RUNE = registerItem("immunity_rune", new RuneItem(InfiniumToolMaterials.VOID, new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC), InfiniumEffects.IMMUNITY, 20 * 30, 20 * (60 * 6)));
-        RESISTANCE_RUNE = registerItem("resistance_rune", new RuneItem(InfiniumToolMaterials.VOID, new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC), StatusEffects.RESISTANCE, 20 * 60, 20 * (60 * 4), 3));
-        SPEED_RUNE = registerItem("speed_rune", new RuneItem(InfiniumToolMaterials.VOID, new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC), StatusEffects.SPEED, 20 * (60 * 2), 20 * (60 * 2), 4));
-        FIRE_RUNE = registerItem("fire_rune", new RuneItem(InfiniumToolMaterials.VOID, new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC), StatusEffects.FIRE_RESISTANCE, 20 * (60 * 10), 20 * (60 * 5)));
+        IMMUNITY_RUNE = registerItem("immunity_rune", new RuneItem(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC), InfiniumEffects.IMMUNITY, 20 * 30, 20 * (60 * 6)));
+        RESISTANCE_RUNE = registerItem("resistance_rune", new RuneItem(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC), StatusEffects.RESISTANCE, 20 * 60, 20 * (60 * 4), 3));
+        SPEED_RUNE = registerItem("speed_rune", new RuneItem(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC), StatusEffects.SPEED, 20 * (60 * 2), 20 * (60 * 2), 4));
+        FIRE_RUNE = registerItem("fire_rune", new RuneItem(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC), StatusEffects.FIRE_RESISTANCE, 20 * (60 * 10), 20 * (60 * 5)));
         WITHER_RUNE = registerItem("wither_rune", new WitherRuneItem(InfiniumToolMaterials.VOID, new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC)));
     }
 

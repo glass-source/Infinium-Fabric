@@ -16,21 +16,16 @@ public class InfiniumClientManager {
     public KeyBinding checkTimeKey;
     private int packetCooldown = 100;
     private final ModelPredicateProvider modelPredicateProvider;
-
     public InfiniumClientManager() {
         this.modelPredicateProvider = new ModelPredicateProvider();
     }
-
     public void onClientStart(){
         registerKeys();
         registerHudElements();
         checkKeyInput();
         registerPackets();
-
         modelPredicateProvider.init();
     }
-
-
     private void registerPackets(){
         InfiniumPackets.initS2CPackets();
     }

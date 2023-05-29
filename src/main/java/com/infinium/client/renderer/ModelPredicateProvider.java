@@ -37,6 +37,8 @@ import com.infinium.client.renderer.mobs.hostile.voidmobs.voidzombie.VoidZombieE
 import com.infinium.client.renderer.mobs.neutral.duck.DuckEntityRenderer;
 import com.infinium.server.entities.InfiniumEntityType;
 import com.infinium.server.items.InfiniumItems;
+import com.infinium.server.items.blocks.InfiniumBlocks;
+import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.model.ModelLoadingRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
@@ -45,6 +47,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.LivingEntityFeatureRendererRe
 import net.fabricmc.fabric.api.object.builder.v1.client.model.FabricModelPredicateProviderRegistry;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.client.render.entity.model.EntityModelLayers;
@@ -148,6 +151,7 @@ public class ModelPredicateProvider {
     }
 
     private void registerModelItems(){
+        BlockRenderLayerMap.INSTANCE.putBlock(InfiniumBlocks.NIGHTMARE_DOOR, RenderLayer.getCutout());
         LivingEntityFeatureRendererRegistrationCallback.EVENT.register((entityType, entityRenderer, registrationHelper, s) -> {
             var model = entityRenderer.getModel();
             if (model instanceof BipedEntityModel<? extends LivingEntity>) {
