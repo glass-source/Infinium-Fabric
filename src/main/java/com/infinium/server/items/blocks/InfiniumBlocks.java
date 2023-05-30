@@ -17,14 +17,12 @@ public class InfiniumBlocks {
     public static void init() {
         registerBlocks();
     }
-
     private static void registerBlocks() {
-        NIGHTMARE_OBSIDIAN = registerBlock("nightmare_obsidian", new Block(FabricBlockSettings.of(Material.STONE).strength(-1, 3600000.0F).luminance(7)));
-        VOID_STONE_ORE = registerBlock("void_stone_ore", new Block(FabricBlockSettings.of(Material.STONE).strength(-1, 3600000.0F).luminance(7)));
+        NIGHTMARE_OBSIDIAN = registerBlock("nightmare_obsidian", new Block(FabricBlockSettings.of(Material.STONE).strength(-1, 3600000.0F).luminance(14)));
+        VOID_STONE_ORE = registerBlock("void_stone_ore", new Block(FabricBlockSettings.of(Material.STONE).strength(-1, 3600000.0F).luminance(14)));
         VOID_STONE = registerBlock("void_stone", new Block(FabricBlockSettings.of(Material.STONE).strength(3, 3).requiresTool()));
-        NIGHTMARE_DOOR = registerBlock("nightmare_door", new NightmareDoorBlock(FabricBlockSettings.of(Material.METAL).strength(-1, 3600000.0F).luminance(7).nonOpaque()));
+        NIGHTMARE_DOOR = registerBlock("nightmare_door", new NightmareDoorBlock(FabricBlockSettings.of(Material.METAL).strength(-1, 3600000.0F).luminance(14).nonOpaque()));
     }
-
     private static Block registerBlock(String name, Block block) {
         registerBlockItem(name, block);
         return Registry.register(Registry.BLOCK, new Identifier(Infinium.MOD_ID, name), block);

@@ -14,25 +14,23 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class WitherRuneItem extends ToolItem implements InfiniumItem {
-
     public WitherRuneItem(ToolMaterial material, Settings settings) {
         super(material, settings);
     }
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         var cooldownManager = user.getItemCooldownManager();
-        if (!cooldownManager.isCoolingDown(this)) {
-            if (!world.isClient()) {
-                cooldownManager.set(this, 15);
-                Vec3d vec = user.getRotationVector();
-                SuperNovaSkullEntity skull = new SuperNovaSkullEntity(world, user, vec.getX() * 1.5, vec.getY() * 1.5, vec.getZ() * 1.5);
-                skull.setPosition(user.getEyePos());
-                skull.setVelocity(vec.getX() * 1.5, vec.getY() * 1.5, vec.getZ() * 1.5);
-                skull.setOwner(user);
-                world.spawnEntity(skull);
-            }
-            world.playSound(user, user.getBlockPos(), SoundEvents.ENTITY_BLAZE_SHOOT, SoundCategory.PLAYERS, 1, 0.45F);
+        if (!world.isClient()) {
+            cooldownManager.set(this, 15);
+            Vec3d vec = user.getRotationVector();
+            SuperNovaSkullEntity skull = new SuperNovaSkullEntity(world, user, vec.getX() * 1.5, vec.getY() * 1.5, vec.getZ() * 1.5);
+            skull.setPosition(user.getEyePos());
+            skull.setVelocity(vec.getX() * 1.5, vec.getY() * 1.5, vec.getZ() * 1.5);
+            skull.setOwner(user);
+            world.spawnEntity(skull);
         }
+        world.playSound(user, user.getBlockPos(), SoundEvents.ENTITY_BLAZE_SHOOT, SoundCategory.PLAYERS, 1, 0.45F);
+
         return super.use(world, user, hand);
     }
 

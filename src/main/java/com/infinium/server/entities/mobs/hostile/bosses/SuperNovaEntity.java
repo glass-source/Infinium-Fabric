@@ -85,14 +85,15 @@ public class SuperNovaEntity extends HostileEntity implements SkinOverlayOwner, 
         TRACKED_ENTITY_ID_3 = DataTracker.registerData(SuperNovaEntity.class, TrackedDataHandlerRegistry.INTEGER);
         TRACKED_ENTITY_IDS = ImmutableList.of(TRACKED_ENTITY_ID_1, TRACKED_ENTITY_ID_2, TRACKED_ENTITY_ID_3);
         INVUL_TIMER = DataTracker.registerData(SuperNovaEntity.class, TrackedDataHandlerRegistry.INTEGER);
-        CAN_ATTACK_PREDICATE = Entity::isPlayer;
-        HEAD_TARGET_PREDICATE = TargetPredicate.createAttackable().setBaseMaxDistance(40.0).setPredicate(CAN_ATTACK_PREDICATE);
+        CAN_ATTACK_PREDICATE = (livingEntity -> livingEntity.isAlive() && livingEntity.isPlayer());
+        HEAD_TARGET_PREDICATE = TargetPredicate.createAttackable().setBaseMaxDistance(60.0).setPredicate(CAN_ATTACK_PREDICATE);
     }
     public SuperNovaEntity(EntityType<? extends SuperNovaEntity> entityType, World world) {
         super(entityType, world);
         this.setCustomName(ChatFormatter.text("&8Super Nova"));
         this.setHealth(this.getMaxHealth());
-        this.bossBar = (ServerBossBar)(new ServerBossBar(this.getDisplayName(), BossBar.Color.GREEN, BossBar.Style.NOTCHED_10)).setDarkenSky(true).setThickenFog(true);
+        this.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, Integer.MAX_VALUE, 3));
+        this.bossBar = (ServerBossBar)(new ServerBossBar(this.getDisplayName(), BossBar.Color.BLUE, BossBar.Style.NOTCHED_20)).setDarkenSky(true).setThickenFog(true);
         this.moveControl = new FlightMoveControl(this, 20, false);
         this.experiencePoints = 6000;
     }
@@ -136,7 +137,7 @@ public class SuperNovaEntity extends HostileEntity implements SkinOverlayOwner, 
     }
     public void setCustomName(@Nullable Text name) {
         super.setCustomName(name);
-        this.bossBar.setName(this.getDisplayName());
+        if (this.bossBar != null) this.bossBar.setName(this.getDisplayName());
     }
     protected SoundEvent getAmbientSound() {
         return SoundEvents.ENTITY_WITHER_AMBIENT;
@@ -529,8 +530,8 @@ public class SuperNovaEntity extends HostileEntity implements SkinOverlayOwner, 
         return HostileEntity.createHostileAttributes()
                 .add(EntityAttributes.GENERIC_MAX_HEALTH, 15500.0)
                 .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.75)
-                .add(EntityAttributes.GENERIC_FLYING_SPEED, 0.85)
-                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 20.0)
+                .add(EntityAttributes.GENERIC_FLYING_SPEED, 1.35)
+                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 40.0)
                 .add(EntityAttributes.GENERIC_ARMOR, 12.0);
     }
     private class SuperNovaTargetGoal extends ActiveTargetGoal<PlayerEntity> {
