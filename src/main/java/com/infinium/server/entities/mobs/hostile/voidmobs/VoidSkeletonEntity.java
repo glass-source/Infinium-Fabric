@@ -1,5 +1,6 @@
-package com.infinium.server.entities.mobs.hostile.voidmobs.voidskeleton;
+package com.infinium.server.entities.mobs.hostile.voidmobs;
 
+import com.infinium.global.utils.ChatFormatter;
 import com.infinium.server.entities.InfiniumEntity;
 import com.infinium.server.entities.InfiniumEntityType;
 import com.infinium.server.entities.goals.global.InfiniumBowAttackGoal;
@@ -44,6 +45,7 @@ public class VoidSkeletonEntity extends SkeletonEntity implements InfiniumEntity
 
     public VoidSkeletonEntity(EntityType<? extends SkeletonEntity> entityType, World world) {
         super(entityType, world);
+        this.setCustomName(ChatFormatter.text("&bVoid Skeleton"));
     }
 
     protected void initDataTracker() {

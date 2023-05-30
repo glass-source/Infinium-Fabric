@@ -1,5 +1,6 @@
-package com.infinium.server.entities.mobs.hostile.nightmare.nightmarebrute;
+package com.infinium.server.entities.mobs.hostile.nightmare;
 
+import com.infinium.global.utils.ChatFormatter;
 import com.infinium.server.entities.InfiniumEntity;
 import com.infinium.server.items.InfiniumItems;
 import net.minecraft.entity.EntityData;
@@ -21,6 +22,8 @@ public class NightmareBruteEntity extends PiglinBruteEntity implements InfiniumE
 
     public NightmareBruteEntity(EntityType<? extends PiglinBruteEntity> entityType, World world) {
         super(entityType, world);
+        this.setCustomName(ChatFormatter.text("&cNightmare Brute"));
+
     }
 
     public static DefaultAttributeContainer.Builder createNightmareBruteAttributes() {

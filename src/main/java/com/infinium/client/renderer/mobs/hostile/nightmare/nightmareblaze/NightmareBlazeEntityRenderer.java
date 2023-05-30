@@ -2,7 +2,7 @@ package com.infinium.client.renderer.mobs.hostile.nightmare.nightmareblaze;
 
 import com.infinium.Infinium;
 import com.infinium.client.renderer.mobs.InfiniumModelLayers;
-import com.infinium.server.entities.mobs.hostile.nightmare.nightmareblaze.NightmareBlazeEntity;
+import com.infinium.server.entities.mobs.hostile.nightmare.NightmareBlazeEntity;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.util.Identifier;

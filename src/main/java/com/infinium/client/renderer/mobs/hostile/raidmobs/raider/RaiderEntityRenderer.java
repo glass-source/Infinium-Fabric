@@ -3,7 +3,7 @@ package com.infinium.client.renderer.mobs.hostile.raidmobs.raider;
 import com.infinium.Infinium;
 import com.infinium.client.renderer.mobs.InfiniumModelLayers;
 import com.infinium.client.renderer.mobs.hostile.raidmobs.InfiniumPillagerModel;
-import com.infinium.server.entities.mobs.hostile.raidmobs.raider.RaiderEntity;
+import com.infinium.server.entities.mobs.hostile.raidmobs.RaiderEntity;
 import com.infinium.server.world.dimensions.InfiniumDimensions;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.IllagerEntityRenderer;

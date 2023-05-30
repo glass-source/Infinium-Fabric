@@ -1,7 +1,7 @@
 package com.infinium.client.renderer.mobs.hostile.ghoulmobs.ghoulzombie;
 
 import com.infinium.Infinium;
-import com.infinium.server.entities.mobs.hostile.ghoulmobs.ghoulzombie.GhoulZombieEntity;
+import com.infinium.server.entities.mobs.hostile.ghoulmobs.GhoulZombieEntity;
 import net.minecraft.util.Identifier;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.model.AnimatedGeoModel;

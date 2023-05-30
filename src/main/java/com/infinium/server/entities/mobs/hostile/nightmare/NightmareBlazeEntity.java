@@ -1,5 +1,6 @@
-package com.infinium.server.entities.mobs.hostile.nightmare.nightmareblaze;
+package com.infinium.server.entities.mobs.hostile.nightmare;
 
+import com.infinium.global.utils.ChatFormatter;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.*;
@@ -16,6 +17,8 @@ import java.util.EnumSet;
 public class NightmareBlazeEntity extends BlazeEntity {
     public NightmareBlazeEntity(EntityType<? extends BlazeEntity> entityType, World world) {
         super(entityType, world);
+        this.setCustomName(ChatFormatter.text("&cNightmare Blaze"));
+
     }
 
     public static DefaultAttributeContainer.Builder createNightmareBlazeAttributes() {

@@ -1,4 +1,4 @@
-package com.infinium.server.entities.mobs.hostile.nightmare.nightmarehoglin;
+package com.infinium.server.entities.mobs.hostile.nightmare;
 
 import com.infinium.server.entities.InfiniumEntity;
 import net.minecraft.entity.EntityType;

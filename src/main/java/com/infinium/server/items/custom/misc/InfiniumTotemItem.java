@@ -1,7 +1,7 @@
 package com.infinium.server.items.custom.misc;
 
 import com.infinium.server.items.InfiniumItems;
-import com.infinium.server.items.custom.InfiniumItem;
+import com.infinium.server.items.InfiniumItem;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;

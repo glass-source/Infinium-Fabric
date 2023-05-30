@@ -1,5 +1,6 @@
-package com.infinium.server.entities.mobs.hostile.voidmobs.voidcreeper;
+package com.infinium.server.entities.mobs.hostile.voidmobs;
 
+import com.infinium.global.utils.ChatFormatter;
 import com.infinium.server.entities.InfiniumEntity;
 import com.infinium.server.items.InfiniumItems;
 import net.minecraft.entity.*;
@@ -42,6 +43,7 @@ public class VoidCreeperEntity extends CreeperEntity implements InfiniumEntity {
     private int explosionRadius = 10;
     public VoidCreeperEntity(EntityType<? extends CreeperEntity> entityType, World world) {
         super(entityType, world);
+        this.setCustomName(ChatFormatter.text("&bVoid Creeper"));
     }
 
     protected void initGoals() {

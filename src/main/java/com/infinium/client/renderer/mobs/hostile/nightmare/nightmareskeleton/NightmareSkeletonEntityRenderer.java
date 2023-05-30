@@ -2,7 +2,7 @@ package com.infinium.client.renderer.mobs.hostile.nightmare.nightmareskeleton;
 
 import com.infinium.Infinium;
 import com.infinium.client.renderer.mobs.hostile.InfiniumSkeletonEntityModel;
-import com.infinium.server.entities.mobs.hostile.nightmare.nightmareskeleton.NightmareSkeletonEntity;
+import com.infinium.server.entities.mobs.hostile.nightmare.NightmareSkeletonEntity;
 import net.minecraft.client.render.entity.BipedEntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.model.EntityModelLayer;

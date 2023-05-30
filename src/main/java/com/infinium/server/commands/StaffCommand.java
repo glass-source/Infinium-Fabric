@@ -100,7 +100,7 @@ public class StaffCommand {
         try{
             var player = source.getSource().getPlayer();
              core.loadSchem(filename, player.getWorld(), player.getBlockX(), player.getBlockY(), player.getBlockZ());
-            Infinium.getInstance().LOGGER.info("Generated ${} at: ${}, ${}, ${}", filename ,player.getBlockX(), player.getBlockY(), player.getBlockZ());
+            Infinium.getInstance().LOGGER.info("Generated ${} at: ${}, ${}, ${}", filename, player.getBlockX(), player.getBlockY(), player.getBlockZ());
             return 1;
         }catch (Exception ex){
             return -1;

@@ -1,6 +1,6 @@
 package com.infinium.server.items.custom.misc;
 
-import com.infinium.server.items.custom.InfiniumItem;
+import com.infinium.server.items.InfiniumItem;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EquipmentSlot;

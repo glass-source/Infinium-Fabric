@@ -1,5 +1,6 @@
-package com.infinium.server.entities.mobs.hostile.raidmobs.berserker;
+package com.infinium.server.entities.mobs.hostile.raidmobs;
 
+import com.infinium.global.utils.ChatFormatter;
 import com.infinium.server.entities.InfiniumEntity;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.NavigationConditions;
@@ -28,6 +29,7 @@ public class BerserkerEntity extends VindicatorEntity implements InfiniumEntity 
 
     public BerserkerEntity(EntityType<? extends BerserkerEntity> entityType, World world) {
         super(entityType, world);
+        this.setCustomName(ChatFormatter.text("&6Berserker"));
     }
 
     protected void initGoals() {

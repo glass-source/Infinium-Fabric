@@ -1,7 +1,7 @@
 package com.infinium.client.renderer.mobs.hostile.voidmobs.voidghast;
 
 import com.infinium.Infinium;
-import com.infinium.server.entities.mobs.hostile.voidmobs.voidghast.VoidGhastEntity;
+import com.infinium.server.entities.mobs.hostile.voidmobs.VoidGhastEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.entity.EntityRendererFactory;

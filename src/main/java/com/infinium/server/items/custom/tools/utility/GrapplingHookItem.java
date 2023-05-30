@@ -1,6 +1,6 @@
 package com.infinium.server.items.custom.tools.utility;
 
-import com.infinium.server.items.custom.InfiniumItem;
+import com.infinium.server.items.InfiniumItem;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.FishingBobberEntity;
 import net.minecraft.item.Item;

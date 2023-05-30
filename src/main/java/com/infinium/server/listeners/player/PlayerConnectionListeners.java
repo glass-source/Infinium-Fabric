@@ -4,7 +4,8 @@ import com.infinium.Infinium;
 import com.infinium.global.utils.EntityDataSaver;
 import com.infinium.networking.InfiniumPackets;
 import com.infinium.server.InfiniumServerManager;
-import com.infinium.server.items.custom.InfiniumItem;
+import com.infinium.server.items.InfiniumItem;
+import com.infinium.server.items.custom.tools.runes.RuneItem;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -14,18 +15,15 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import java.util.UUID;
 
 public class PlayerConnectionListeners {
-
     private final Infinium instance;
     private final InfiniumServerManager core;
     public PlayerConnectionListeners(Infinium instance){
         this.instance = instance;
         this.core = instance.getCore();
     }
-
     public void registerListeners(){
         playerConnectCallback();
         playerDisconnectCallback();
-
     }
     private void playerDisconnectCallback() {
         ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> {
@@ -62,18 +60,32 @@ public class PlayerConnectionListeners {
             if (inventory.getStack(i) != null) {
                 if (inventory.getStack(i).getItem() instanceof InfiniumItem item) {
                     var cooldownString = "infinium.cooldown." + item;
+                    var startingTickString = "infinium.cooldown.start." + item;
+
                     if (data.get(cooldownString) == null) {
-                        data.putInt(cooldownString, 5);
+                        data.putInt(cooldownString, 0);
+                    }
+
+                    if (data.get(startingTickString) == null) {
+                        data.putInt(startingTickString, 0);
                     }
 
                     if (data.getInt(cooldownString) < 0) {
-                        data.putInt(cooldownString, 5);
+                        data.putInt(cooldownString, 0);
+                    }
+
+                    if (inventory.getStack(i).getItem() instanceof RuneItem runeItem) {
+                        if (runeItem.getCurrentCooldown(user) > runeItem.getTotalCooldown(user)) {
+                            var startingTick = Infinium.getInstance().getCore().getServer().getTicks();
+                            var endingTick = startingTick + runeItem.getCooldownTicks();
+                            data.putInt(startingTickString, startingTick);
+                            data.putInt(cooldownString, endingTick);
+                        }
                     }
                 }
             }
         }
     }
-
     private void initSanity(ServerPlayerEntity player) {
         var sanityManager = core.getSanityManager();
         var data = sanityManager.getData(player);
@@ -159,13 +171,13 @@ public class PlayerConnectionListeners {
         Pardo0("7349e731-95b3-4b4a-9a00-c8f2a61318b4"),
         SalvaGamerVZ("0b198c94-19c7-44e4-9393-db77d50ac62a"),
         Cmauyi("3992c8be-bbaf-4859-a470-0685fcd1a0b4"),
-        zLofro("fb02dc04-e13e-46ad-9404-bdbecf1d35b5")
+        zLofro("fb02dc04-e13e-46ad-9404-bdbecf1d35b5"),
+        zSwiift_("bacc2043-9b14-4e97-a474-3fd53e5ab6ed"),
+        zSwixy("ec8c7874-dd7f-4139-b4b3-e3cc713a0ae3"),
         ;
         private final UUID uuid;
         WhitelistedPlayers(String playerUuid) {
             this.uuid = UUID.fromString(playerUuid);
         }
     }
-
-
 }

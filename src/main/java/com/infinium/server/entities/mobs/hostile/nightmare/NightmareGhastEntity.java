@@ -1,4 +1,4 @@
-package com.infinium.server.entities.mobs.hostile.voidmobs.voidghast;
+package com.infinium.server.entities.mobs.hostile.nightmare;
 
 import com.infinium.global.utils.ChatFormatter;
 import com.infinium.server.entities.InfiniumEntity;
@@ -31,15 +31,15 @@ import java.util.EnumSet;
 import java.util.Random;
 
 
-public class VoidGhastEntity extends FlyingEntity implements Monster, InfiniumEntity {
+public class NightmareGhastEntity extends FlyingEntity implements Monster, InfiniumEntity {
 
-    private static final TrackedData<Boolean> SHOOTING = DataTracker.registerData(VoidGhastEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+    private static final TrackedData<Boolean> SHOOTING = DataTracker.registerData(NightmareGhastEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 
-    public VoidGhastEntity(EntityType<? extends VoidGhastEntity> entityType, World world) {
+    public NightmareGhastEntity(EntityType<? extends NightmareGhastEntity> entityType, World world) {
         super(entityType, world);
         this.experiencePoints = new Random().nextInt(120) + 20;
-        this.moveControl = new VoidGhastMoveControl(this);
-        this.setCustomName(ChatFormatter.text("&bVoid Ghast"));
+        this.moveControl = new NightmareGhastMoveControl(this);
+        this.setCustomName(ChatFormatter.text("&cNightmare Ghast"));
     }
 
 
@@ -63,10 +63,10 @@ public class VoidGhastEntity extends FlyingEntity implements Monster, InfiniumEn
         return super.getAttributeValue(attribute);
     }
 
-    public static DefaultAttributeContainer.Builder createVoidGhastAttributes() {
+    public static DefaultAttributeContainer.Builder createNightmareGhastAttributes() {
         return MobEntity.createMobAttributes()
-                .add(EntityAttributes.GENERIC_MAX_HEALTH, 200.0)
-                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 250.0);
+                .add(EntityAttributes.GENERIC_MAX_HEALTH, 100.0)
+                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 200.0);
     }
 
     public boolean isShooting() {
@@ -97,11 +97,11 @@ public class VoidGhastEntity extends FlyingEntity implements Monster, InfiniumEn
         return SoundEvents.ENTITY_GHAST_DEATH;
     }
 
-    public static class VoidGhastMoveControl extends MoveControl {
-        private final VoidGhastEntity ghast;
+    public static class NightmareGhastMoveControl extends MoveControl {
+        private final NightmareGhastEntity ghast;
         private int collisionCheckCooldown;
 
-        public VoidGhastMoveControl(VoidGhastEntity ghast) {
+        public NightmareGhastMoveControl(NightmareGhastEntity ghast) {
             super(ghast);
             this.ghast = ghast;
         }
@@ -138,9 +138,9 @@ public class VoidGhastEntity extends FlyingEntity implements Monster, InfiniumEn
     }
 
     public static class FlyRandomlyGoal extends Goal {
-        private final VoidGhastEntity ghast;
+        private final NightmareGhastEntity ghast;
 
-        public FlyRandomlyGoal(VoidGhastEntity ghast) {
+        public FlyRandomlyGoal(NightmareGhastEntity ghast) {
             this.ghast = ghast;
             this.setControls(EnumSet.of(Control.MOVE));
         }
@@ -172,9 +172,9 @@ public class VoidGhastEntity extends FlyingEntity implements Monster, InfiniumEn
     }
 
     public static class LookAtTargetGoal extends Goal {
-        private final VoidGhastEntity ghast;
+        private final NightmareGhastEntity ghast;
 
-        public LookAtTargetGoal(VoidGhastEntity ghast) {
+        public LookAtTargetGoal(NightmareGhastEntity ghast) {
             this.ghast = ghast;
             this.setControls(EnumSet.of(Control.LOOK));
         }
@@ -206,10 +206,10 @@ public class VoidGhastEntity extends FlyingEntity implements Monster, InfiniumEn
     }
 
     public static class ShootFireballGoal extends Goal {
-        private final VoidGhastEntity ghast;
+        private final NightmareGhastEntity ghast;
         public int cooldown;
 
-        public ShootFireballGoal(VoidGhastEntity ghast) {
+        public ShootFireballGoal(NightmareGhastEntity ghast) {
             this.ghast = ghast;
         }
 
@@ -248,7 +248,7 @@ public class VoidGhastEntity extends FlyingEntity implements Monster, InfiniumEn
                             world.syncWorldEvent(null, 1016, this.ghast.getBlockPos(), 0);
                         }
 
-                        FireballEntity fireballEntity = new FireballEntity(world, this.ghast, f, g, h, 6);
+                        FireballEntity fireballEntity = new FireballEntity(world, this.ghast, f, g, h, 4);
                         fireballEntity.setPosition(this.ghast.getX() + vec3d.x * 4.0, this.ghast.getBodyY(0.5) + 0.5, fireballEntity.getZ() + vec3d.z * 4.0);
                         world.spawnEntity(fireballEntity);
                         this.cooldown = -40;

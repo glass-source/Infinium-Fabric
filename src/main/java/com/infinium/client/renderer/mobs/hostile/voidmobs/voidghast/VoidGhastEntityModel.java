@@ -1,6 +1,6 @@
 package com.infinium.client.renderer.mobs.hostile.voidmobs.voidghast;
 
-import com.infinium.server.entities.mobs.hostile.voidmobs.voidghast.VoidGhastEntity;
+import com.infinium.server.entities.mobs.hostile.voidmobs.VoidGhastEntity;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;

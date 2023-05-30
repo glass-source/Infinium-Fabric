@@ -1,7 +1,7 @@
 package com.infinium.client.renderer.mobs.hostile.nightmare.nightmarebrute;
 
 import com.infinium.Infinium;
-import com.infinium.server.entities.mobs.hostile.nightmare.nightmarebrute.NightmareBruteEntity;
+import com.infinium.server.entities.mobs.hostile.nightmare.NightmareBruteEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.entity.BipedEntityRenderer;

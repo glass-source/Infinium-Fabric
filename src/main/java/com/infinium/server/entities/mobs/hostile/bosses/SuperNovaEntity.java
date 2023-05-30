@@ -90,9 +90,10 @@ public class SuperNovaEntity extends HostileEntity implements SkinOverlayOwner, 
     }
     public SuperNovaEntity(EntityType<? extends SuperNovaEntity> entityType, World world) {
         super(entityType, world);
-        this.bossBar = (ServerBossBar)(new ServerBossBar(this.getDisplayName(), BossBar.Color.GREEN, BossBar.Style.NOTCHED_10)).setDarkenSky(true);
-        this.moveControl = new FlightMoveControl(this, 20, false);
+        this.setCustomName(ChatFormatter.text("&8Super Nova"));
         this.setHealth(this.getMaxHealth());
+        this.bossBar = (ServerBossBar)(new ServerBossBar(this.getDisplayName(), BossBar.Color.GREEN, BossBar.Style.NOTCHED_10)).setDarkenSky(true).setThickenFog(true);
+        this.moveControl = new FlightMoveControl(this, 20, false);
         this.experiencePoints = 6000;
     }
 
@@ -137,7 +138,6 @@ public class SuperNovaEntity extends HostileEntity implements SkinOverlayOwner, 
         super.setCustomName(name);
         this.bossBar.setName(this.getDisplayName());
     }
-
     protected SoundEvent getAmbientSound() {
         return SoundEvents.ENTITY_WITHER_AMBIENT;
     }
@@ -183,7 +183,6 @@ public class SuperNovaEntity extends HostileEntity implements SkinOverlayOwner, 
         }
 
         int i;
-
 
         int j;
         for(i = 0; i < 2; ++i) {

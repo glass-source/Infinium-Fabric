@@ -1,5 +1,6 @@
-package com.infinium.server.entities.mobs.hostile.raidmobs.raider;
+package com.infinium.server.entities.mobs.hostile.raidmobs;
 
+import com.infinium.global.utils.ChatFormatter;
 import com.infinium.server.entities.InfiniumEntity;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -41,6 +42,7 @@ public class RaiderEntity extends PillagerEntity implements InfiniumEntity {
     private static final TrackedData<Boolean> CHARGING;
     public RaiderEntity(EntityType<? extends PillagerEntity> entityType, World world) {
         super(entityType, world);
+        this.setCustomName(ChatFormatter.text("&Raider"));
     }
 
     private final SimpleInventory inventory = new SimpleInventory(5);

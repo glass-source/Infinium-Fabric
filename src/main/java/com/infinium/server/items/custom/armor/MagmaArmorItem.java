@@ -1,7 +1,7 @@
 package com.infinium.server.items.custom.armor;
 
 import com.infinium.server.items.InfiniumItems;
-import com.infinium.server.items.custom.InfiniumItem;
+import com.infinium.server.items.InfiniumItem;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;

@@ -1,6 +1,6 @@
 package com.infinium.client.renderer.mobs.hostile.nightmare.nightmareblaze;
 
-import com.infinium.server.entities.mobs.hostile.nightmare.nightmareblaze.NightmareBlazeEntity;
+import com.infinium.server.entities.mobs.hostile.nightmare.NightmareBlazeEntity;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;

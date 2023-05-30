@@ -5,7 +5,7 @@ import com.infinium.global.utils.ChatFormatter;
 import com.infinium.server.eclipse.SolarEclipseManager;
 import com.infinium.server.entities.InfiniumEntityType;
 import com.infinium.server.entities.mobs.hostile.bosses.SuperNovaEntity;
-import com.infinium.server.entities.mobs.hostile.raidmobs.raider.RaiderEntity;
+import com.infinium.server.entities.mobs.hostile.raidmobs.RaiderEntity;
 import com.infinium.server.events.entity.EntitySpawnEvent;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.EntityType;

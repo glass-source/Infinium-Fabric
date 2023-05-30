@@ -1,7 +1,7 @@
 package com.infinium.server.items.custom.tools.magmaitems;
 
 import com.infinium.server.entities.projectiles.MagmaTridentEntity;
-import com.infinium.server.items.custom.InfiniumItem;
+import com.infinium.server.items.InfiniumItem;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityType;

@@ -2,7 +2,7 @@ package com.infinium.client.renderer.mobs.hostile.nightmare.nightmareghast;
 
 import com.infinium.Infinium;
 import com.infinium.client.renderer.mobs.InfiniumModelLayers;
-import com.infinium.server.entities.mobs.hostile.nightmare.nightmareghast.NightmareGhastEntity;
+import com.infinium.server.entities.mobs.hostile.nightmare.NightmareGhastEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.entity.EntityRendererFactory;

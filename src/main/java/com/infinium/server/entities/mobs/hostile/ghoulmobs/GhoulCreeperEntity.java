@@ -1,5 +1,6 @@
-package com.infinium.server.entities.mobs.hostile.ghoulmobs.ghoulcreeper;
+package com.infinium.server.entities.mobs.hostile.ghoulmobs;
 
+import com.infinium.global.utils.ChatFormatter;
 import com.infinium.server.entities.InfiniumEntity;
 import com.infinium.server.items.InfiniumItems;
 import net.minecraft.entity.*;
@@ -42,6 +43,8 @@ public class GhoulCreeperEntity extends CreeperEntity implements InfiniumEntity 
     private int explosionRadius = 6;
     public GhoulCreeperEntity(EntityType<? extends CreeperEntity> entityType, World world) {
         super(entityType, world);
+        this.setCustomName(ChatFormatter.text("&cGhoul Creeper"));
+
     }
 
     protected void initGoals() {

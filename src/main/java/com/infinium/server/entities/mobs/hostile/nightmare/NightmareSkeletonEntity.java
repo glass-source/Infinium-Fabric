@@ -1,5 +1,6 @@
-package com.infinium.server.entities.mobs.hostile.nightmare.nightmareskeleton;
+package com.infinium.server.entities.mobs.hostile.nightmare;
 
+import com.infinium.global.utils.ChatFormatter;
 import com.infinium.server.entities.InfiniumEntity;
 import com.infinium.server.entities.goals.global.InfiniumBowAttackGoal;
 import com.infinium.server.items.InfiniumItems;
@@ -37,6 +38,8 @@ public class NightmareSkeletonEntity extends SkeletonEntity implements InfiniumE
     };
     public NightmareSkeletonEntity(EntityType<? extends SkeletonEntity> entityType, World world) {
         super(entityType, world);
+        this.setCustomName(ChatFormatter.text("&cNightmare Skeleton"));
+
     }
 
     protected void initDataTracker() {

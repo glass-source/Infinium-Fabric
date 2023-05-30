@@ -1,6 +1,6 @@
 package com.infinium.server.entities.goals.voidmobs.voidenderman;
 
-import com.infinium.server.entities.mobs.hostile.voidmobs.voidenderman.VoidEndermanEntity;
+import com.infinium.server.entities.mobs.hostile.voidmobs.VoidEndermanEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.player.PlayerEntity;

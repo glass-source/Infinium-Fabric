@@ -1,7 +1,7 @@
 package com.infinium.client.renderer.mobs.hostile.voidmobs.voidspider;
 
 import com.infinium.Infinium;
-import com.infinium.server.entities.mobs.hostile.voidmobs.voidspider.VoidSpiderEntity;
+import com.infinium.server.entities.mobs.hostile.voidmobs.VoidSpiderEntity;
 import net.minecraft.util.Identifier;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.model.AnimatedGeoModel;

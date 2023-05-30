@@ -27,7 +27,6 @@ public class ServerWorldListeners {
                         var posX = blockpos.getX();
                         var posY = 65;
                         var posZ = blockpos.getZ();
-                        Infinium.getInstance().LOGGER.info("Generated Zeppelin at: ${}, ${}, ${}", posX, posY, posZ);
                         instance.getCore().loadSchem("Nightmare_Bastion_Treasure", world, posX, posY, posZ);
                     });
                 }

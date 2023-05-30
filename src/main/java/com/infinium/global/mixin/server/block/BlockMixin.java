@@ -1,7 +1,7 @@
 package com.infinium.global.mixin.server.block;
 
 import com.infinium.Infinium;
-import com.infinium.server.items.custom.InfiniumItem;
+import com.infinium.server.items.InfiniumItem;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;

@@ -1,6 +1,6 @@
 package com.infinium.server.items.custom.tools.voiditems;
 
-import com.infinium.server.items.custom.InfiniumItem;
+import com.infinium.server.items.InfiniumItem;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.LivingEntity;

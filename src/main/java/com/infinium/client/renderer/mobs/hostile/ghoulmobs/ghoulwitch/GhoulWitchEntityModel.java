@@ -1,6 +1,6 @@
 package com.infinium.client.renderer.mobs.hostile.ghoulmobs.ghoulwitch;
 
-import com.infinium.server.entities.mobs.hostile.ghoulmobs.ghoulwitch.GhoulWitchEntity;
+import com.infinium.server.entities.mobs.hostile.ghoulmobs.GhoulWitchEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.model.*;

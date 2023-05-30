@@ -1,4 +1,4 @@
-package com.infinium.server.entities.mobs.hostile.raidmobs.sorcerer;
+package com.infinium.server.entities.mobs.hostile.raidmobs;
 
 import com.infinium.global.utils.ChatFormatter;
 import com.infinium.server.entities.InfiniumEntity;

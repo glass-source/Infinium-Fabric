@@ -1,5 +1,6 @@
-package com.infinium.server.entities.mobs.hostile.ghoulmobs.ghoulwitch;
+package com.infinium.server.entities.mobs.hostile.ghoulmobs;
 
+import com.infinium.global.utils.ChatFormatter;
 import com.infinium.server.entities.InfiniumEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -25,6 +26,8 @@ import java.util.Random;
 public class GhoulWitchEntity extends WitchEntity implements InfiniumEntity {
     public GhoulWitchEntity(EntityType<? extends WitchEntity> entityType, World world) {
         super(entityType, world);
+        this.setCustomName(ChatFormatter.text("&cSCP-049"));
+
     }
 
     public void attack(LivingEntity target, float pullProgress) {

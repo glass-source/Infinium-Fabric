@@ -1,8 +1,9 @@
 package com.infinium.server.entities.mobs.hostile.dungeon.pirate;
 
+import com.infinium.global.utils.ChatFormatter;
 import com.infinium.server.entities.InfiniumEntity;
 import com.infinium.server.entities.InfiniumEntityType;
-import com.infinium.server.entities.mobs.hostile.raidmobs.berserker.BerserkerEntity;
+import com.infinium.server.entities.mobs.hostile.raidmobs.BerserkerEntity;
 import com.infinium.server.items.InfiniumItems;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.TargetPredicate;
@@ -31,6 +32,7 @@ import java.util.Random;
 public class BlackBeardEntity extends SpellcastingIllagerEntity implements InfiniumEntity {
     public BlackBeardEntity(EntityType<? extends BlackBeardEntity> entityType, World world) {
         super(entityType, world);
+        this.setCustomName(ChatFormatter.text("&cBlack Beard"));
         this.experiencePoints = 450;
     }
 

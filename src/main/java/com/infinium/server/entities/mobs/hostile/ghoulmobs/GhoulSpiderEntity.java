@@ -1,4 +1,4 @@
-package com.infinium.server.entities.mobs.hostile.ghoulmobs.ghoulspider;
+package com.infinium.server.entities.mobs.hostile.ghoulmobs;
 
 import com.infinium.global.utils.ChatFormatter;
 import com.infinium.server.entities.InfiniumEntity;

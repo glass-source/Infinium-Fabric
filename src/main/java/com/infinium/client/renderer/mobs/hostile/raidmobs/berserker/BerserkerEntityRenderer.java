@@ -3,7 +3,7 @@ package com.infinium.client.renderer.mobs.hostile.raidmobs.berserker;
 import com.infinium.Infinium;
 import com.infinium.client.renderer.mobs.InfiniumModelLayers;
 import com.infinium.client.renderer.mobs.hostile.raidmobs.InfiniumVindicatorModel;
-import com.infinium.server.entities.mobs.hostile.raidmobs.berserker.BerserkerEntity;
+import com.infinium.server.entities.mobs.hostile.raidmobs.BerserkerEntity;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.IllagerEntityRenderer;

@@ -2,7 +2,7 @@ package com.infinium.client.renderer.mobs.hostile.ghoulmobs.ghoulwitch;
 
 import com.infinium.Infinium;
 import com.infinium.client.renderer.mobs.InfiniumModelLayers;
-import com.infinium.server.entities.mobs.hostile.ghoulmobs.ghoulwitch.GhoulWitchEntity;
+import com.infinium.server.entities.mobs.hostile.ghoulmobs.GhoulWitchEntity;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.MobEntityRenderer;

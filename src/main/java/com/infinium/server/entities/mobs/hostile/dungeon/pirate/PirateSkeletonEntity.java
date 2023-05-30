@@ -1,5 +1,6 @@
 package com.infinium.server.entities.mobs.hostile.dungeon.pirate;
 
+import com.infinium.global.utils.ChatFormatter;
 import com.infinium.server.entities.InfiniumEntity;
 import com.infinium.server.entities.goals.global.InfiniumBowAttackGoal;
 import com.infinium.server.items.InfiniumItems;
@@ -38,6 +39,8 @@ public class PirateSkeletonEntity extends SkeletonEntity implements InfiniumEnti
     };
     public PirateSkeletonEntity(EntityType<? extends SkeletonEntity> entityType, World world) {
         super(entityType, world);
+        this.setCustomName(ChatFormatter.text("&cPirate Skeleton"));
+
     }
 
     protected void initDataTracker() {
