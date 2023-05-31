@@ -99,6 +99,18 @@ public class NightmareSkeletonEntity extends SkeletonEntity implements InfiniumE
         this.setEquipmentDropChance(EquipmentSlot.MAINHAND, 0);
     }
 
+    public boolean damage(DamageSource source, float amount) {
+        if (this.isInvulnerableTo(source)) {
+            return false;
+
+        } else if (source.isFire() ) {
+            return false;
+
+        } else {
+            return super.damage(source, amount);
+        }
+    }
+
     public static DefaultAttributeContainer.Builder createNightmareSkeletonAttributes() {
         return HostileEntity.createHostileAttributes()
                 .add(EntityAttributes.GENERIC_MAX_HEALTH, 45.0)

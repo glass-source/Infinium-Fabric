@@ -94,6 +94,18 @@ public class NightmareGhastEntity extends FlyingEntity implements Monster, Infin
         return SoundEvents.ENTITY_GHAST_AMBIENT;
     }
 
+    public boolean damage(DamageSource source, float amount) {
+        if (this.isInvulnerableTo(source)) {
+            return false;
+
+        } else if (source.isFire() ) {
+            return false;
+
+        } else {
+            return super.damage(source, amount);
+        }
+    }
+
     @Override
     public SoundEvent getHurtSound(DamageSource source) {
         return SoundEvents.ENTITY_GHAST_HURT;

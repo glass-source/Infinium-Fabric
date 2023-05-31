@@ -245,7 +245,7 @@ public class SuperNovaEntity extends HostileEntity implements SkinOverlayOwner, 
 
             this.setInvulTimer(i);
             if (this.age % 10 == 0) {
-                this.heal(10.0F);
+                this.heal(100.0F);
             }
 
         } else {
@@ -345,6 +345,8 @@ public class SuperNovaEntity extends HostileEntity implements SkinOverlayOwner, 
         this.setInvulTimer(220);
         this.bossBar.setPercent(0.0F);
         this.setHealth(this.getMaxHealth());
+        Infinium.getInstance().LOGGER.info("Max health: {}", this.getMaxHealth());
+        Infinium.getInstance().LOGGER.info("Health: {}", this.getHealth());
     }
 
     @Override
@@ -417,10 +419,7 @@ public class SuperNovaEntity extends HostileEntity implements SkinOverlayOwner, 
         double i = targetZ - f;
         SuperNovaSkullEntity skullEntity = new SuperNovaSkullEntity(this.world, this, g, h, i);
         skullEntity.setOwner(this);
-        if (charged) {
-            skullEntity.setCharged(true);
-        }
-
+        skullEntity.setCharged(charged);
         skullEntity.setPos(d, e, f);
         this.world.spawnEntity(skullEntity);
     }
@@ -428,6 +427,7 @@ public class SuperNovaEntity extends HostileEntity implements SkinOverlayOwner, 
         this.shootSkullAt(0, target);
     }
     public boolean damage(DamageSource source, float amount) {
+
         if (this.isInvulnerableTo(source)) {
             return false;
         } else if (source != DamageSource.DROWN && !(source.getAttacker() instanceof WitherEntity)) {
@@ -508,7 +508,7 @@ public class SuperNovaEntity extends HostileEntity implements SkinOverlayOwner, 
     }
 
     public boolean shouldRenderOverlay() {
-        return this.getHealth() <= this.getMaxHealth() / 2.0F;
+        return false;
     }
 
     public EntityGroup getGroup() {

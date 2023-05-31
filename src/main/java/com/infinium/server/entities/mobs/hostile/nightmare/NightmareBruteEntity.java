@@ -9,6 +9,7 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.PiglinBruteEntity;
 import net.minecraft.item.ItemStack;
@@ -24,6 +25,18 @@ public class NightmareBruteEntity extends PiglinBruteEntity implements InfiniumE
         super(entityType, world);
         this.setCustomName(ChatFormatter.text("&cNightmare Brute"));
 
+    }
+
+    public boolean damage(DamageSource source, float amount) {
+        if (this.isInvulnerableTo(source)) {
+            return false;
+
+        } else if (source.isFire()) {
+            return false;
+
+        } else {
+            return super.damage(source, amount);
+        }
     }
 
     public static DefaultAttributeContainer.Builder createNightmareBruteAttributes() {
@@ -42,6 +55,7 @@ public class NightmareBruteEntity extends PiglinBruteEntity implements InfiniumE
 
     protected void initEquipment(LocalDifficulty difficulty) {
         this.equipStack(EquipmentSlot.MAINHAND, new ItemStack(InfiniumItems.VOID_AXE));
+        this.setEquipmentDropChance(EquipmentSlot.MAINHAND, 0);
     }
 
 }

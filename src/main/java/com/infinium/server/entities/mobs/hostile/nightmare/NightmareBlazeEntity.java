@@ -6,6 +6,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.BlazeEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.FireballEntity;
@@ -41,6 +42,18 @@ public class NightmareBlazeEntity extends BlazeEntity {
         this.targetSelector.add(2, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
     }
 
+    public boolean damage(DamageSource source, float amount) {
+        if (this.isInvulnerableTo(source)) {
+            return false;
+
+        } else if (source.isFire() ) {
+            return false;
+
+        } else {
+            return super.damage(source, amount);
+        }
+    }
+
     private static class ShootFireballGoal extends Goal {
         private final NightmareBlazeEntity blaze;
         private int fireballsFired;
@@ -56,6 +69,7 @@ public class NightmareBlazeEntity extends BlazeEntity {
             LivingEntity livingEntity = this.blaze.getTarget();
             return livingEntity != null && livingEntity.isAlive() && this.blaze.canTarget(livingEntity);
         }
+
 
         public void start() {
             this.fireballsFired = 0;
