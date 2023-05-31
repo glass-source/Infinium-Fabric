@@ -119,9 +119,9 @@ public class StaffCommand {
         try {
 
             var inv = player2.getInventory();
-            var inv2 = new SimpleInventory(36);
+            var inv2 = new SimpleInventory(54);
 
-            for (int i = 0; i < 36; i++) {
+            for (int i = 0; i < inv.size(); i++) {
                 if (inv.getStack(i) != null) inv2.setStack(i, inv.getStack(i));
             }
 

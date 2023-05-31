@@ -176,6 +176,9 @@ public class PlayerConnectionListeners {
         zSwixy("ec8c7874-dd7f-4139-b4b3-e3cc713a0ae3"),
         Alex1jared("f4cffb4d-1289-40f9-9646-07e38f10d5ec"),
         cPatoz("081874f7-df41-4c61-a327-953de12f0157"),
+        nosejiro("ecb5f2a4-09d3-48da-8c51-d1b5adda6e43"),
+        noselight("309db69e-cf59-42fd-b047-62c7cf84dae9"),
+
 
         ;
         private final UUID uuid;
