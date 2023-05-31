@@ -91,17 +91,17 @@ public class VoidGhastEntity extends FlyingEntity implements Monster, InfiniumEn
 
     @Override
     public SoundEvent getAmbientSound() {
-        return SoundEvents.ENTITY_GHAST_AMBIENT;
+        return SoundEvents.ENTITY_GHAST_SCREAM;
     }
 
     @Override
     public SoundEvent getHurtSound(DamageSource source) {
-        return SoundEvents.ENTITY_GHAST_HURT;
+        return SoundEvents.ENTITY_GHAST_WARN;
     }
 
     @Override
     public SoundEvent getDeathSound() {
-        return SoundEvents.ENTITY_GHAST_DEATH;
+        return SoundEvents.ENTITY_GHAST_HURT;
     }
 
     public static class VoidGhastMoveControl extends MoveControl {

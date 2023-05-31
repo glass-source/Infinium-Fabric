@@ -93,7 +93,7 @@ public class NightmareSkeletonEntity extends SkeletonEntity implements InfiniumE
     @Override
     protected void initEquipment(LocalDifficulty difficulty) {
         ItemStack magmaBow = new ItemStack(InfiniumItems.MAGMA_BOW);
-        magmaBow.addEnchantment(Enchantments.POWER, 25);
+        magmaBow.addEnchantment(Enchantments.POWER, 35);
         magmaBow.addEnchantment(Enchantments.PUNCH, 1);
         this.equipStack(EquipmentSlot.MAINHAND, magmaBow);
         this.setEquipmentDropChance(EquipmentSlot.MAINHAND, 0);

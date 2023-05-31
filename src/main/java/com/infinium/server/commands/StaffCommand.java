@@ -14,10 +14,8 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.Inventory;
+import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.screen.GenericContainerScreenHandler;
-import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
@@ -42,7 +40,7 @@ public class StaffCommand {
                         .then(CommandManager.argument("filename", StringArgumentType.string())
                                 .executes(context ->
                                         loadStructure(context, StringArgumentType.getString(context, "filename"))
-                                 )))
+                                )))
 
                 .then(CommandManager.literal("cordura")
                         .then(CommandManager.literal("add")
@@ -120,8 +118,17 @@ public class StaffCommand {
     private static int openInventory(CommandContext<ServerCommandSource> source, ServerPlayerEntity player2) {
         try {
 
-            source.getSource().getPlayer().openHandledScreen(new SimpleNamedScreenHandlerFactory((syncId, inventory, player)
-                    -> createGeneric9x4(syncId, inventory, player2.getInventory()), ChatFormatter.text("Inventory of " + player2.getEntityName())));
+            var inv = player2.getInventory();
+            var inv2 = new SimpleInventory(36);
+
+            for (int i = 0; i < 36; i++) {
+                if (inv.getStack(i) != null) inv2.setStack(i, inv.getStack(i));
+            }
+
+            var screen = new SimpleNamedScreenHandlerFactory((syncId, inventory, player)
+                    -> GenericContainerScreenHandler.createGeneric9x6(syncId, inventory, inv2), ChatFormatter.text("Inventory of " + player2.getEntityName()));
+
+            source.getSource().getPlayer().openHandledScreen(screen);
 
             return 1;
         } catch (Exception ex) {
@@ -129,9 +136,7 @@ public class StaffCommand {
             return -1;
         }
     }
-    public static GenericContainerScreenHandler createGeneric9x4(int syncId, PlayerInventory playerInventory, Inventory inventory) {
-        return new GenericContainerScreenHandler(ScreenHandlerType.GENERIC_9X4, syncId, playerInventory, inventory, 4);
-    }
+
     private static int openEnderchest(CommandContext<ServerCommandSource> source, ServerPlayerEntity player2) {
         try {
 
@@ -147,7 +152,7 @@ public class StaffCommand {
     private static int loadStructure(CommandContext<ServerCommandSource> source, String filename) {
         try{
             var player = source.getSource().getPlayer();
-             core.loadSchem(filename, player.getWorld(), player.getBlockX(), player.getBlockY(), player.getBlockZ());
+            core.loadSchem(filename, player.getWorld(), player.getBlockX(), player.getBlockY(), player.getBlockZ());
             Infinium.getInstance().LOGGER.info("Generated ${} at: ${}, ${}, ${}", filename, player.getBlockX(), player.getBlockY(), player.getBlockZ());
             return 1;
         }catch (Exception ex){

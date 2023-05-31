@@ -33,8 +33,6 @@ public class MagmaTridentItem extends TridentItem implements InfiniumItem {
     public EntityType<? extends MagmaTridentEntity> getEntityType() {
         return type;
     }
-
-
     @Override
     public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
         if (user instanceof PlayerEntity playerEntity) {

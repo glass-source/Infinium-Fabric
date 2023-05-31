@@ -2,12 +2,11 @@
   "type": "minecraft:chest",
   "pools": [
     {
-      "rolls": 2.0,
+      "rolls": 1.0,
       "entries": [
 
         {
           "type": "minecraft:item",
-          "weight": 3,
           "functions": [
             {
               "function": "minecraft:enchant_randomly"
@@ -18,7 +17,6 @@
 
         {
           "type": "minecraft:item",
-          "weight": 3,
           "functions": [
             {
               "function": "minecraft:enchant_randomly"

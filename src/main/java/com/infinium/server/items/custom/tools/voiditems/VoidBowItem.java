@@ -28,11 +28,6 @@ public class VoidBowItem extends BowItem implements InfiniumItem {
         return super.postMine(stack, world, state, pos, miner);
     }
     @Override
-    public boolean canRepair(ItemStack stack, ItemStack ingredient) {
-        return true;
-    }
-
-    @Override
     public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
         if (user instanceof PlayerEntity playerEntity) {
             boolean bl = playerEntity.getAbilities().creativeMode || EnchantmentHelper.getLevel(Enchantments.INFINITY, stack) > 0;

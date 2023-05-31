@@ -27,35 +27,14 @@ public class MagmaBowItem extends BowItem implements InfiniumItem {
     }
 
     @Override
-    public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        if (!target.getWorld().isClient()) {
-            target.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 160, 3));
-            target.addStatusEffect(new StatusEffectInstance(StatusEffects.GLOWING, 160, 0));
-        }
-        return super.postHit(stack, target, attacker);
-    }
-
-    @Override
     public boolean postMine(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner) {
         return super.postMine(stack, world, state, pos, miner);
     }
-
     @Override
     public void onCraft(ItemStack stack, World world, PlayerEntity player) {
         super.onCraft(stack, world, player);
         enchantMagmaTool(stack);
     }
-
-    @Override
-    public boolean isDamageable() {
-        return super.isDamageable();
-    }
-
-    @Override
-    public boolean canRepair(ItemStack stack, ItemStack ingredient) {
-        return super.canRepair(stack, ingredient);
-    }
-
     @Override
     public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
         if (user instanceof PlayerEntity playerEntity) {

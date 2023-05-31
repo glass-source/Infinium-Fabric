@@ -21,7 +21,6 @@ public class MagmaAxeItem extends AxeItem implements InfiniumItem {
     public MagmaAxeItem(ToolMaterial material, int attackDamage, float attackSpeed, Settings settings) {
         super(material, attackDamage, attackSpeed, settings);
     }
-
     @Override
     public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         return fromHit(stack, target, attacker);
@@ -43,7 +42,6 @@ public class MagmaAxeItem extends AxeItem implements InfiniumItem {
         }
         return false;
     }
-
     @Override
     public boolean postMine(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner) {
         if (!world.isClient) {
@@ -52,13 +50,11 @@ public class MagmaAxeItem extends AxeItem implements InfiniumItem {
         }
         return true;
     }
-
     @Override
     public void onCraft(ItemStack stack, World world, PlayerEntity player) {
         super.onCraft(stack, world, player);
         enchantMagmaTool(stack);
     }
-
     @Override
     public boolean isDamageable() {
         return super.isDamageable();

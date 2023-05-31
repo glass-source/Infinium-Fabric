@@ -31,7 +31,7 @@ public class NightmareHoglinEntity extends HoglinEntity implements InfiniumEntit
         .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.32)
         .add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 0.8)
         .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 3.5)
-        .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 12.0);
+        .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 25.0);
     }
 
 }

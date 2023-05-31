@@ -43,7 +43,7 @@ public class NightmareBruteEntity extends PiglinBruteEntity implements InfiniumE
         return HostileEntity.createHostileAttributes()
                 .add(EntityAttributes.GENERIC_MAX_HEALTH, 80.0)
                 .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.36)
-                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 18.0);
+                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 20.0);
     }
 
     @Nullable
