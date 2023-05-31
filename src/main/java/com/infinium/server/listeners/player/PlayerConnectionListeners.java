@@ -101,26 +101,31 @@ public class PlayerConnectionListeners {
         sanityManager.syncSanity(player, sanityManager.get(player, sanityManager.SANITY));
     }
     public void checkBannedPlayers(PlayerEntity player) {
-        boolean banned = true;
-        var entityName = player.getEntityName();
-        var logger = Infinium.getInstance().LOGGER;
-        logger.info("Amount of players found in whitelist: #{}", WhitelistedPlayers.values().length);
-        logger.info("Verifying whitelist for {}...", entityName);
-        for (WhitelistedPlayers playerName : WhitelistedPlayers.values()) {
-            if (player.getUuid().equals(playerName.uuid) || entityName.toLowerCase().contains("player")) {
-                banned = false;
-                break;
+        try {
+            boolean banned = true;
+            var entityName = player.getEntityName();
+            var logger = Infinium.getInstance().LOGGER;
+            logger.info("Amount of players found in whitelist: #{}", WhitelistedPlayers.values().length);
+            logger.info("Verifying whitelist for {}...", entityName);
+            for (WhitelistedPlayers playerName : WhitelistedPlayers.values()) {
+                if (player.getUuid().equals(playerName.uuid) || entityName.toLowerCase().contains("player")) {
+                    banned = false;
+                    break;
+                }
             }
-        }
-        if (banned) {
-            if (player instanceof ServerPlayerEntity sp) {
-                var buffer = PacketByteBufs.create();
-                buffer.writeInt(1);
-                ServerPlayNetworking.send(sp, InfiniumPackets.APPLY_WHITELIST_ID, buffer);
-                logger.info("Player {} tried to join, but they're banned internally!", entityName);
+            if (banned) {
+                if (player instanceof ServerPlayerEntity sp) {
+                    var buffer = PacketByteBufs.create();
+                    buffer.writeInt(1);
+                    ServerPlayNetworking.send(sp, InfiniumPackets.APPLY_WHITELIST_ID, buffer);
+                    logger.info("Player {} tried to join, but they're banned internally!", entityName);
+                }
+            } else {
+                logger.info("{} was found in whitelist, approved.", entityName);
             }
-        } else {
-            logger.info("{} was found in whitelist, approved.", entityName);
+        } catch (Exception ex) {
+            Infinium.getInstance().LOGGER.info("Hubo un error al verificar los jugadores!");
+            ex.printStackTrace();
         }
     }
     public enum WhitelistedPlayers {
@@ -178,7 +183,9 @@ public class PlayerConnectionListeners {
         cPatoz("081874f7-df41-4c61-a327-953de12f0157"),
         nosejiro("ecb5f2a4-09d3-48da-8c51-d1b5adda6e43"),
         noselight("309db69e-cf59-42fd-b047-62c7cf84dae9"),
-
+        WaterMelonRT("1acba74e-8c93-4327-b382-42144e05077a"),
+        ThroughTime("f3f59697-d07a-46d7-9fa1-fd399ef9ded7"),
+        Saikomic("79a05b23-2cd9-4a39-b604-537cf127f082")
 
         ;
         private final UUID uuid;

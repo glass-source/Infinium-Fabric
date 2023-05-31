@@ -12,14 +12,21 @@ import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
+import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.inventory.SimpleInventory;
-import net.minecraft.screen.GenericContainerScreenHandler;
-import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.network.packet.s2c.play.InventoryS2CPacket;
+import net.minecraft.network.packet.s2c.play.ScreenHandlerPropertyUpdateS2CPacket;
+import net.minecraft.network.packet.s2c.play.ScreenHandlerSlotUpdateS2CPacket;
+import net.minecraft.screen.*;
+import net.minecraft.screen.slot.CraftingResultSlot;
+import net.minecraft.screen.slot.Slot;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.collection.DefaultedList;
 
 import java.util.Collection;
 
@@ -117,16 +124,65 @@ public class StaffCommand {
 
     private static int openInventory(CommandContext<ServerCommandSource> source, ServerPlayerEntity player2) {
         try {
-
+            var sourcePlayer = source.getSource().getPlayer();
             var inv = player2.getInventory();
-            var inv2 = new SimpleInventory(54);
-
+            var inv2 = new SimpleInventory(56);
             for (int i = 0; i < inv.size(); i++) {
                 if (inv.getStack(i) != null) inv2.setStack(i, inv.getStack(i));
             }
 
-            var screen = new SimpleNamedScreenHandlerFactory((syncId, inventory, player)
-                    -> GenericContainerScreenHandler.createGeneric9x6(syncId, inventory, inv2), ChatFormatter.text("Inventory of " + player2.getEntityName()));
+            ScreenHandlerListener screenHandlerListener = new ScreenHandlerListener(){
+                @Override
+                public void onSlotUpdate(ScreenHandler handler, int slotId, ItemStack stack) {
+                    Slot slot = handler.getSlot(slotId);
+                    if (slot instanceof CraftingResultSlot) {
+                        return;
+                    }
+                    if (slot.inventory == sourcePlayer.getInventory()) {
+                        Criteria.INVENTORY_CHANGED.trigger(sourcePlayer, sourcePlayer.getInventory(), stack);
+                    }
+                }
+
+                @Override
+                public void onPropertyUpdate(ScreenHandler handler, int property, int value) {
+                }
+            };
+            ScreenHandlerSyncHandler screenHandlerSyncHandler = new ScreenHandlerSyncHandler(){
+
+                @Override
+                public void updateState(ScreenHandler handler, DefaultedList<ItemStack> stacks, ItemStack cursorStack, int[] properties) {
+                    player2.networkHandler.sendPacket(new InventoryS2CPacket(handler.syncId, handler.nextRevision(), stacks, cursorStack));
+                    for (int i = 0; i < properties.length; ++i) {
+                        this.sendPropertyUpdate(handler, i, properties[i]);
+                    }
+                }
+
+                @Override
+                public void updateSlot(ScreenHandler handler, int slot, ItemStack stack) {
+                    player2.networkHandler.sendPacket(new ScreenHandlerSlotUpdateS2CPacket(handler.syncId, handler.nextRevision(), slot, stack));
+                }
+
+                @Override
+                public void updateCursorStack(ScreenHandler handler, ItemStack stack) {
+                    player2.networkHandler.sendPacket(new ScreenHandlerSlotUpdateS2CPacket(-1, handler.nextRevision(), -1, stack));
+                }
+
+                @Override
+                public void updateProperty(ScreenHandler handler, int property, int value) {
+                    this.sendPropertyUpdate(handler, property, value);
+                }
+
+                private void sendPropertyUpdate(ScreenHandler handler, int property, int value) {
+                    player2.networkHandler.sendPacket(new ScreenHandlerPropertyUpdateS2CPacket(handler.syncId, property, value));
+                }
+            };
+
+            var screen = new SimpleNamedScreenHandlerFactory((syncId, inventory, player) -> {
+                var screenHandler = GenericContainerScreenHandler.createGeneric9x6(syncId, inventory, inv2);
+                screenHandler.addListener(screenHandlerListener);
+                screenHandler.updateSyncHandler(screenHandlerSyncHandler);
+                return screenHandler;
+            }, ChatFormatter.text("Inventory of " + player2.getEntityName()));
 
             source.getSource().getPlayer().openHandledScreen(screen);
 
