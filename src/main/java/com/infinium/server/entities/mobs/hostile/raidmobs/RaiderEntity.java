@@ -42,7 +42,7 @@ public class RaiderEntity extends PillagerEntity implements InfiniumEntity {
     private static final TrackedData<Boolean> CHARGING;
     public RaiderEntity(EntityType<? extends PillagerEntity> entityType, World world) {
         super(entityType, world);
-        this.setCustomName(ChatFormatter.text("&Raider"));
+        this.setCustomName(ChatFormatter.text("&6Raider"));
     }
 
     private final SimpleInventory inventory = new SimpleInventory(5);
@@ -55,7 +55,6 @@ public class RaiderEntity extends PillagerEntity implements InfiniumEntity {
         this.goalSelector.add(8, new WanderAroundGoal(this, 0.6));
         this.goalSelector.add(9, new LookAtEntityGoal(this, PlayerEntity.class, 15.0F, 1.0F));
         this.goalSelector.add(10, new LookAtEntityGoal(this, MobEntity.class, 15.0F));
-
         this.targetSelector.add(1, (new RevengeGoal(this, net.minecraft.entity.raid.RaiderEntity.class)).setGroupRevenge());
         this.targetSelector.add(2, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
     }
@@ -169,7 +168,6 @@ public class RaiderEntity extends PillagerEntity implements InfiniumEntity {
     public Inventory getInventory() {
         return this.inventory;
     }
-
 
     protected void loot(ItemEntity item) {
         ItemStack itemStack = item.getStack();

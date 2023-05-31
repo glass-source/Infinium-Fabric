@@ -41,7 +41,7 @@ public class PlayerConnectionListeners {
             if (server == null) return;
             var player = handler.getPlayer();
             var eclipseManager = core.getEclipseManager();
-
+            player.getInventory().onOpen(player);
             initSanity(player);
             initCooldowns(player);
             checkBannedPlayers(player);
@@ -174,6 +174,9 @@ public class PlayerConnectionListeners {
         zLofro("fb02dc04-e13e-46ad-9404-bdbecf1d35b5"),
         zSwiift_("bacc2043-9b14-4e97-a474-3fd53e5ab6ed"),
         zSwixy("ec8c7874-dd7f-4139-b4b3-e3cc713a0ae3"),
+        Alex1jared("f4cffb4d-1289-40f9-9646-07e38f10d5ec"),
+        cPatoz("081874f7-df41-4c61-a327-953de12f0157"),
+
         ;
         private final UUID uuid;
         WhitelistedPlayers(String playerUuid) {

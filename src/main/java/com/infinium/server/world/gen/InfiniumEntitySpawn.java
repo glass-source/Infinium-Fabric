@@ -30,10 +30,9 @@ public class InfiniumEntitySpawn {
                 AnimalEntity::isValidNaturalSpawn);
 
         BiomeModifications.addSpawn(
-                BiomeSelectors.categories(Biome.Category.PLAINS),
+                BiomeSelectors.categories(Biome.Category.values()),
                 SpawnGroup.CREATURE,
                 InfiniumEntityType.DUCK, 25, 3, 8);
-
     }
 
 }

@@ -114,6 +114,17 @@
             }
           ],
           "name": "infinium:magma_trident"
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": 1.0,
+              "add": false
+            }
+          ],
+          "name": "infinium:nightmare_ingot"
         }
       ]
     }

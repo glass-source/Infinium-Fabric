@@ -14,6 +14,11 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.Inventory;
+import net.minecraft.screen.GenericContainerScreenHandler;
+import net.minecraft.screen.ScreenHandlerType;
+import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -82,6 +87,23 @@ public class StaffCommand {
                                                         setTotems(context, EntityArgumentType.getPlayer(context, "player"),
                                                                 IntegerArgumentType.getInteger(context, "totems")))
                                         ))))
+
+
+                .then(CommandManager.literal("openinv")
+                        .then(CommandManager.literal("enderchest")
+                                .then(CommandManager.argument("player", EntityArgumentType.player())
+                                        .executes(context ->
+                                                openEnderchest(context, EntityArgumentType.getPlayer(context, "player")))))
+
+                        .then(CommandManager.literal("inventory")
+                                .then(CommandManager.argument("player", EntityArgumentType.player())
+                                        .executes(context ->
+                                                openInventory(context, EntityArgumentType.getPlayer(context, "player")))))
+
+
+                )
+
+
                 .then(CommandManager.literal("eclipse")
                         .then(CommandManager.literal("end")
                                 .executes(StaffCommand::endEclipse))
@@ -95,7 +117,33 @@ public class StaffCommand {
         dispatcher.register(literalArgumentBuilder);
     }
 
+    private static int openInventory(CommandContext<ServerCommandSource> source, ServerPlayerEntity player2) {
+        try {
 
+            source.getSource().getPlayer().openHandledScreen(new SimpleNamedScreenHandlerFactory((syncId, inventory, player)
+                    -> createGeneric9x4(syncId, inventory, player2.getInventory()), ChatFormatter.text("Inventory of " + player2.getEntityName())));
+
+            return 1;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return -1;
+        }
+    }
+    public static GenericContainerScreenHandler createGeneric9x4(int syncId, PlayerInventory playerInventory, Inventory inventory) {
+        return new GenericContainerScreenHandler(ScreenHandlerType.GENERIC_9X4, syncId, playerInventory, inventory, 4);
+    }
+    private static int openEnderchest(CommandContext<ServerCommandSource> source, ServerPlayerEntity player2) {
+        try {
+
+            source.getSource().getPlayer().openHandledScreen(new SimpleNamedScreenHandlerFactory((syncId, inventory, player) ->
+                    GenericContainerScreenHandler.createGeneric9x3(syncId, inventory, player2.getEnderChestInventory()), ChatFormatter.text("Enderchest of " + player2.getEntityName())));
+
+            return 1;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return -1;
+        }
+    }
     private static int loadStructure(CommandContext<ServerCommandSource> source, String filename) {
         try{
             var player = source.getSource().getPlayer();

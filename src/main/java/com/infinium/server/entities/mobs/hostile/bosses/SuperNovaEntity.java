@@ -463,7 +463,7 @@ public class SuperNovaEntity extends HostileEntity implements SkinOverlayOwner, 
     }
     protected void dropEquipment(DamageSource source, int lootingMultiplier, boolean allowDrops) {
         super.dropEquipment(source, lootingMultiplier, allowDrops);
-        ItemEntity itemEntity = this.dropItem(InfiniumItems.FALL_IN_LOVE_MUSIC_DISC);
+        ItemEntity itemEntity = this.dropItem(InfiniumItems.MYSTERIOUS_KEY);
         if (itemEntity != null) {
             itemEntity.setCovetedItem();
         }
@@ -532,6 +532,7 @@ public class SuperNovaEntity extends HostileEntity implements SkinOverlayOwner, 
                 .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.75)
                 .add(EntityAttributes.GENERIC_FLYING_SPEED, 1.35)
                 .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 40.0)
+                .add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 100)
                 .add(EntityAttributes.GENERIC_ARMOR, 12.0);
     }
     private class SuperNovaTargetGoal extends ActiveTargetGoal<PlayerEntity> {

@@ -84,6 +84,7 @@ public class InfiniumItems {
     public static Item KEY_SHARD;
     public static Item MYSTERIOUS_KEY;
     public static Item MAGMA_SHARD;
+    public static Item NIGHTMARE_INGOT;
     private static Item registerItem(String name, Item item) {
         return Registry.register(Registry.ITEM, new Identifier(Infinium.MOD_ID, name), item);
     }
@@ -138,6 +139,7 @@ public class InfiniumItems {
     }
 
     private static void registerMisc() {
+        NIGHTMARE_INGOT = registerItem("nightmare_ingot", new Item(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC).maxCount(1).fireproof()));
         MAGMA_SHARD = registerItem("magma_shard", new Item(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC).maxCount(64).fireproof()));
         MYSTERIOUS_KEY = registerItem("mysterious_key", new Item(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC).maxCount(1).fireproof()));
         KEY_SHARD = registerItem("key_shard", new Item(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC).maxCount(5).fireproof()));

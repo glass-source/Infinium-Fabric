@@ -1,9 +1,9 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "VSV",
+    "KSI",
     "SSS",
-    "VSV"
+    "NSM"
   ],
 
   "key": {
@@ -12,8 +12,20 @@
       "item": "infinium:key_shard"
     },
 
-    "V": {
-      "item": "infinium:void_eye"
+    "K": {
+      "item": "infinium:kairos_clock"
+    },
+
+    "I": {
+      "item": "infinium:immunity_rune"
+    },
+
+    "N": {
+      "item": "infinium:nightmare_ingot"
+    },
+
+    "M": {
+      "item": "infinium:magma_totem"
     }
   },
   "result": {

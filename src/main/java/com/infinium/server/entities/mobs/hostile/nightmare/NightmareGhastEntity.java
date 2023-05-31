@@ -25,6 +25,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
 
 import java.util.EnumSet;
@@ -42,7 +43,13 @@ public class NightmareGhastEntity extends FlyingEntity implements Monster, Infin
         this.setCustomName(ChatFormatter.text("&cNightmare Ghast"));
     }
 
-
+    public void checkDespawn() {
+        if (this.world.getDifficulty() == Difficulty.PEACEFUL && this.isDisallowedInPeaceful()) {
+            this.discard();
+        } else {
+            this.despawnCounter = 0;
+        }
+    }
     @Override
     public void initGoals() {
         super.initGoals();
