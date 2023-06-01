@@ -185,7 +185,8 @@ public class PlayerConnectionListeners {
         noselight("309db69e-cf59-42fd-b047-62c7cf84dae9"),
         WaterMelonRT("1acba74e-8c93-4327-b382-42144e05077a"),
         ThroughTime("f3f59697-d07a-46d7-9fa1-fd399ef9ded7"),
-        Saikomic("79a05b23-2cd9-4a39-b604-537cf127f082")
+        Saikomic("79a05b23-2cd9-4a39-b604-537cf127f082"),
+        HellSinky("cf1408e4-ef36-4122-95bd-2c219aad202d")
 
         ;
         private final UUID uuid;

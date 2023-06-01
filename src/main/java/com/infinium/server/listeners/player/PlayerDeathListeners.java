@@ -54,12 +54,11 @@ public class PlayerDeathListeners {
         if (core.getServer() == null) return;
         ServerPlayerEvents.ALLOW_DEATH.register((player, damageSource, damageAmount) -> {
             player.setHealth(player.getMaxHealth());
-            if (playerHasTotem(player, damageSource)) onTotemUse(player);
-            else onPlayerDeath(player);
+            if (playerHasTotem(player, damageSource)) onTotemUse(player, damageSource);
+            else onPlayerDeath(player, damageSource);
             return false;
         });
     }
-
     private void playerDamageCallback() {
         PlayerDamageEvent.EVENT.register((playerUUID, damageSource, amount, isCancelled) -> {
             var player = core.getServer().getPlayerManager().getPlayer(playerUUID);
@@ -91,7 +90,7 @@ public class PlayerDeathListeners {
         });
     }
 
-    private void onTotemUse(ServerPlayerEntity player) {
+    private void onTotemUse(ServerPlayerEntity player, DamageSource source) {
         ItemStack totemStack = null;
 
         Hand[] handValue = Hand.values();
@@ -104,6 +103,9 @@ public class PlayerDeathListeners {
         }
         if (totemStack == null) return;
         totemEffects(player, totemStack);
+        var stringCause = "&8Causa: &7[&6" + getLastCause(player ,source) + "&7]";
+        ChatFormatter.broadcastMessage(stringCause);
+        instance.LOGGER.info(stringCause.replaceAll("&6", "").replaceAll("&7", "").replaceAll("&8", ""));
     }
     private void totemEffects(ServerPlayerEntity player, ItemStack totemStack) {
         if (player.world.isClient) return;
@@ -179,8 +181,9 @@ public class PlayerDeathListeners {
         }
 
         ChatFormatter.broadcastMessage(message);
+        instance.LOGGER.info(message.replaceAll("&", ""));
     }
-    private void onPlayerDeath(ServerPlayerEntity playerDied) {
+    private void onPlayerDeath(ServerPlayerEntity playerDied, DamageSource damageSource) {
         if (playerDied.isSpectator()) return;
         var pos = playerDied.getBlockPos();
         var attributeInstance = playerDied.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH);
@@ -193,7 +196,12 @@ public class PlayerDeathListeners {
             ex.printStackTrace();
         }
 
-        ChatFormatter.broadcastMessage(ChatFormatter.formatWithPrefix("&6&l%player% &7ha sucumbido ante el\n&5&lVacío Infinito".replaceAll("%player%", playerDied.getEntityName())));
+        var genericMsg = "&6&l%player% &7ha sucumbido ante el\n&5&lVacío Infinito".replaceAll("%player%", playerDied.getEntityName());
+        var deathMsg = damageSource.getDeathMessage(playerDied).getString();
+        ChatFormatter.broadcastMessageWithPrefix(genericMsg);
+        ChatFormatter.broadcastMessage(deathMsg);
+        instance.LOGGER.info(genericMsg.replaceAll("&6", "").replaceAll("&7", ""));
+        instance.LOGGER.info(deathMsg);
         Animation.initImageForAll();
 
         core.getTotalPlayers().forEach(player -> player.playSound(InfiniumSounds.PLAYER_DEATH, SoundCategory.AMBIENT, 10, 0.7f));
@@ -205,7 +213,6 @@ public class PlayerDeathListeners {
         if (pos.getY() <= -64) playerDied.teleport(pos.getX(), -60, pos.getZ());
         generatePlayerTombstone(playerDied);
     }
-
     private void generatePlayerTombstone(ServerPlayerEntity player)  {
         player.teleport(player.getX(), player.getY() + 1, player.getZ());
         try {
@@ -242,4 +249,63 @@ public class PlayerDeathListeners {
         }
         return false;
     }
+
+    private String getLastCause(ServerPlayerEntity player, DamageSource e) {
+        String causeString;
+        DamageSource source = player.getRecentDamageSource();
+        switch (e.name) {
+            case "hotFloor" -> causeString = "Bloque De Magma";
+            case "starve" -> causeString = "Venezuela";
+            case "cactus" -> causeString = "Walter";
+            case "cramming" -> causeString = "Entity Cramming";
+            case "generic", "fall" -> causeString = "Pendejo";
+            case "dragonBreath" -> causeString = "Aliento De Dragon";
+            case "lava" -> causeString = "Lava";
+            case "inFire", "onFire" -> causeString = "Fuego";
+            case "outOfWorld" -> causeString = "Vacio";
+            case "flyIntoWall" -> causeString = "Energia Cinetica";
+            case "wither" -> causeString = "Wither";
+            case "magic" -> causeString = "Magia";
+            case "inWall" -> causeString = "Sofocacion";
+            case "lightningBolt" -> causeString = "Rayo";
+            case "drown" -> causeString = "Bañarse";
+            case "freeze" -> causeString = "Congelamiento";
+            case "fallingStalactite", "stalagmite" -> causeString = "Stalactita";
+
+            case "explosion", "explosion.player" -> {
+                causeString = "Explosión";
+                if (source != null) {
+                    if (source.isExplosive()) {
+                        causeString = getAttackerString(player, causeString);
+                    }
+                }
+            }
+
+            case "arrow", "trident", "fireball", "thrown", "witherSkull", "fireworks" -> {
+                causeString = "Proyectil";
+                if (source != null) {
+                    if (source.isProjectile()) {
+                        causeString = getAttackerString(player, causeString);
+                    }
+                }
+            }
+
+            case "thorns", "sting", "mob" ->  {
+                causeString = "Ataque";
+                if (source != null) {
+                    causeString = getAttackerString(player, causeString);
+                }
+            }
+
+            default -> causeString = "Desconocido";
+        }
+
+        return causeString;
+    }
+
+    private String getAttackerString(ServerPlayerEntity player, String causeString) {
+        var attacker = player.getAttacker();
+        return attacker != null ? causeString + " por: &6" + attacker.getDisplayName().getString() : causeString;
+    }
+
 }

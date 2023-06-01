@@ -11,7 +11,6 @@ public enum InfiniumToolMaterials implements ToolMaterial {
 
     MAGMA(300, 4032, 300.0F, 4.0F, 100, () -> Ingredient.ofItems(InfiniumItems.VOID_EYE)),
     VOID(150, 2032, 150.0F, 4.0F, 100, () -> Ingredient.ofItems(InfiniumItems.VOID_EYE));
-
     private final int miningLevel;
     private final int itemDurability;
     private final float miningSpeed;
