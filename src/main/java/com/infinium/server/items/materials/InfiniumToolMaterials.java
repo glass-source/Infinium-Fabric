@@ -1,6 +1,6 @@
 package com.infinium.server.items.materials;
 
-import net.minecraft.item.Items;
+import com.infinium.server.items.InfiniumItems;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.util.Lazy;
@@ -9,8 +9,8 @@ import java.util.function.Supplier;
 
 public enum InfiniumToolMaterials implements ToolMaterial {
 
-    MAGMA(500, 2032, 400.0F, 4.0F, 100, () -> Ingredient.ofItems(Items.NETHERITE_INGOT)),
-    VOID(500, 2032, 400.0F, 4.0F, 100, () -> Ingredient.ofItems(Items.NETHERITE_INGOT));
+    MAGMA(300, 4032, 300.0F, 4.0F, 100, () -> Ingredient.ofItems(InfiniumItems.VOID_EYE)),
+    VOID(150, 2032, 150.0F, 4.0F, 100, () -> Ingredient.ofItems(InfiniumItems.VOID_EYE));
 
     private final int miningLevel;
     private final int itemDurability;

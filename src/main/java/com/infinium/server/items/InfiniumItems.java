@@ -85,6 +85,7 @@ public class InfiniumItems {
     public static Item MYSTERIOUS_KEY;
     public static Item MAGMA_SHARD;
     public static Item NIGHTMARE_INGOT;
+    public static Item UNBREAKING_MERGER;
     private static Item registerItem(String name, Item item) {
         return Registry.register(Registry.ITEM, new Identifier(Infinium.MOD_ID, name), item);
     }
@@ -149,6 +150,7 @@ public class InfiniumItems {
         VOID_EYE = registerItem("void_eye", new VoidEyeItem(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC).maxCount(64)));
         SOUL_SPEED_MERGER = registerItem("soul_speed_merger", new MergerItem(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC).maxCount(1), Enchantments.SOUL_SPEED, 6));
         LOOTING_MERGER = registerItem("looting_merger", new MergerItem(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC).maxCount(1), Enchantments.LOOTING, 6));
+        UNBREAKING_MERGER = registerItem("unbreaking_merger", new MergerItem(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC).maxCount(1), Enchantments.UNBREAKING, 10));
     }
 
     private static void registerMusicDiscs(){

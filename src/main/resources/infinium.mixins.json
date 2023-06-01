@@ -8,7 +8,6 @@
     "server.block.BlockMixin",
     "server.entity.EntityMixin",
     "server.entity.LivingEntityMixin",
-    "server.entity.MobEntityMixin",
     "server.entity.boss.EnderDragonEntityMixin",
     "server.entity.peaceful.ChickenEntityMixin",
     "server.entity.peaceful.CowEntityMixin",

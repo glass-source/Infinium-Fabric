@@ -108,7 +108,7 @@ public abstract class LivingEntityMixin extends Entity {
 
                 case "entity.infinium.ghoul_spider" -> {
                     var item = Items.FERMENTED_SPIDER_EYE.getDefaultStack();
-                    item.increment(random.nextInt(6));
+                    item.increment(random.nextInt(15) + 6);
                     dropStack(item);
                 }
 
