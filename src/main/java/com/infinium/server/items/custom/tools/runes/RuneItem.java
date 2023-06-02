@@ -5,6 +5,7 @@ import com.infinium.global.utils.ChatFormatter;
 import com.infinium.global.utils.EntityDataSaver;
 import com.infinium.server.items.InfiniumItem;
 import com.infinium.server.items.materials.InfiniumToolMaterials;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
@@ -12,9 +13,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolItem;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class RuneItem extends ToolItem implements InfiniumItem {
     protected final StatusEffect statusEffect;
@@ -22,11 +27,11 @@ public class RuneItem extends ToolItem implements InfiniumItem {
     protected final int cooldownTicks;
     protected final int amplifier;
 
-    public RuneItem(Settings settings, StatusEffect statusEffect, int duration, int cooldown) {
+    public RuneItem(Settings settings, StatusEffect statusEffect, int effectDurationTicks, int cooldownTicks) {
         super(InfiniumToolMaterials.VOID, settings);
         this.statusEffect = statusEffect;
-        this.effectDurationTicks = duration;
-        this.cooldownTicks = cooldown;
+        this.effectDurationTicks = effectDurationTicks;
+        this.cooldownTicks = cooldownTicks;
         this.amplifier = 0;
     }
     public RuneItem(Settings settings, StatusEffect statusEffect, int effectDurationTicks, int cooldownTicks, int amplifier) {
@@ -73,6 +78,19 @@ public class RuneItem extends ToolItem implements InfiniumItem {
             case "fire_rune" -> {return "&cFire Rune";}
             default -> {return "";}
         }
+    }
+
+    @Override
+    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+        appendTooltip(stack, world, tooltip, context, 2);
+        super.appendTooltip(stack, world, tooltip, context);
+    }
+
+    @Override
+    public ItemStack getDefaultStack() {
+        var item = super.getDefaultStack();
+        item.setCustomName(ChatFormatter.text(getRuneName(this.toString())));
+        return item;
     }
 
     public int getTotalCooldown(PlayerEntity user) {

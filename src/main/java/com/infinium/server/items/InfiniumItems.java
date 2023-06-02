@@ -8,6 +8,7 @@ import com.infinium.server.items.custom.armor.MagmaArmorItem;
 import com.infinium.server.items.custom.armor.MagmaElytraItem;
 import com.infinium.server.items.custom.armor.VoidArmorItem;
 import com.infinium.server.items.custom.armor.VoidElytraItem;
+import com.infinium.server.items.custom.food.EmpanadaCarneItem;
 import com.infinium.server.items.custom.food.NetheriteCarrotItem;
 import com.infinium.server.items.custom.food.SanityItem;
 import com.infinium.server.items.custom.misc.InfiniumDiscItem;
@@ -151,6 +152,7 @@ public class InfiniumItems {
         SOUL_SPEED_MERGER = registerItem("soul_speed_merger", new MergerItem(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC).maxCount(1), Enchantments.SOUL_SPEED, 6));
         LOOTING_MERGER = registerItem("looting_merger", new MergerItem(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC).maxCount(1), Enchantments.LOOTING, 6));
         UNBREAKING_MERGER = registerItem("unbreaking_merger", new MergerItem(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC).maxCount(1), Enchantments.UNBREAKING, 10));
+
     }
 
     private static void registerMusicDiscs(){
@@ -164,16 +166,16 @@ public class InfiniumItems {
     }
 
     private static void registerRunes() {
-        IMMUNITY_RUNE = registerItem("immunity_rune", new RuneItem(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC), InfiniumEffects.IMMUNITY, 20 * 30, 20 * (60 * 6)));
-        RESISTANCE_RUNE = registerItem("resistance_rune", new RuneItem(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC), StatusEffects.RESISTANCE, 20 * 60, 20 * (60 * 4), 3));
-        SPEED_RUNE = registerItem("speed_rune", new RuneItem(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC), StatusEffects.SPEED, 20 * (60 * 2), 20 * (60 * 2), 4));
-        FIRE_RUNE = registerItem("fire_rune", new RuneItem(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC), StatusEffects.FIRE_RESISTANCE, 20 * (60 * 10), 20 * (60 * 5)));
+        IMMUNITY_RUNE = registerItem("immunity_rune", new RuneItem(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC), InfiniumEffects.IMMUNITY, 400, 9600));
+        RESISTANCE_RUNE = registerItem("resistance_rune", new RuneItem(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC), StatusEffects.RESISTANCE, 1200, 3600, 3));
+        SPEED_RUNE = registerItem("speed_rune", new RuneItem(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC), StatusEffects.SPEED, 2400, 3000, 4));
+        FIRE_RUNE = registerItem("fire_rune", new RuneItem(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC), StatusEffects.FIRE_RESISTANCE, 24000, 12000));
         WITHER_RUNE = registerItem("wither_rune", new WitherRuneItem(InfiniumToolMaterials.VOID, new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC)));
     }
 
     private static void registerFood() {
         SANITY_PILL = registerItem("sanity_pill", new SanityItem(new FabricItemSettings().group(ItemGroup.FOOD).food(InfiniumFoodComponents.SANITY_PILL).rarity(Rarity.EPIC)));
         NETHERITE_CARROT = registerItem("netherite_carrot", new NetheriteCarrotItem(new FabricItemSettings().group(ItemGroup.FOOD).food(InfiniumFoodComponents.NETHERITE_CARROT).rarity(Rarity.UNCOMMON)));
-        EMPANADA_CARNE = registerItem("empanada_carne", new NetheriteCarrotItem(new FabricItemSettings().group(ItemGroup.FOOD).food(FoodComponents.GOLDEN_CARROT).rarity(Rarity.UNCOMMON)));
+        EMPANADA_CARNE = registerItem("empanada_carne", new EmpanadaCarneItem(new FabricItemSettings().group(ItemGroup.FOOD).food(FoodComponents.GOLDEN_APPLE).rarity(Rarity.UNCOMMON)));
     }
 }

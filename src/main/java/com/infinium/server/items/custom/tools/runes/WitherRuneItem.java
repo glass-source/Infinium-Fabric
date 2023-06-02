@@ -2,16 +2,21 @@ package com.infinium.server.items.custom.tools.runes;
 
 import com.infinium.server.entities.mobs.hostile.bosses.SuperNovaSkullEntity;
 import com.infinium.server.items.InfiniumItem;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolItem;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class WitherRuneItem extends ToolItem implements InfiniumItem {
     public WitherRuneItem(ToolMaterial material, Settings settings) {
@@ -34,5 +39,10 @@ public class WitherRuneItem extends ToolItem implements InfiniumItem {
         return super.use(world, user, hand);
     }
 
+    @Override
+    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+        appendTooltip(stack, world, tooltip, context, 2);
+        super.appendTooltip(stack, world, tooltip, context);
+    }
 
 }

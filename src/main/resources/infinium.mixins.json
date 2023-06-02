@@ -19,6 +19,7 @@
     "server.entity.peaceful.VillagerEntityMixin",
     "server.entity.player.FishingBobberEntityMixin",
     "server.entity.player.ServerPlayerEntityMixin",
+    "server.item.FireworkRocketItemMixin",
     "server.world.ServerRecipeBookMixin",
     "server.world.ServerWorldMixin",
     "server.world.structure.StructureFeatureAccessor"

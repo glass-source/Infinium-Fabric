@@ -29,11 +29,11 @@
   "item.infinium.magma_totem" : "Magma Totem",
   "item.infinium.grappling_hook" : "Grappling Hook",
   "item.infinium.empanada_carne" : "Empanada de carne",
-  "item.infinium.immunity_rune" : "Immunity Rune",
-  "item.infinium.wither_rune" : "Wither Rune",
-  "item.infinium.speed_rune" : "Speed Rune",
-  "item.infinium.resistance_rune" : "Resistance Rune",
-  "item.infinium.fire_rune" : "Fire Rune",
+  "item.infinium.immunity_rune" : "§dImmunity Rune",
+  "item.infinium.wither_rune" : "§4Wither Rune",
+  "item.infinium.speed_rune" : "§bSpeed Rune",
+  "item.infinium.resistance_rune" : "§5Resistance Rune",
+  "item.infinium.fire_rune" : "§cFire Rune",
   "item.infinium.ender_wand": "Ender Wand",
   "item.infinium.duet_music_disc": "Music Disc",
   "item.infinium.duet_music_disc.desc": "Pedro Silva - Final Duet",
@@ -44,11 +44,29 @@
   "item.infinium.looting_merger" : "Looting Merger",
   "item.infinium.unbreaking_merger" : "Unbreaking Merger",
   "item.infinium.netherite_carrot" : "Netherite Carrot",
-  "item.infinium.kairos_clock" : "Kairos Clock",
+  "item.infinium.kairos_clock" : "Reset Kairos timer",
   "item.infinium.key_shard" : "Key Shard",
   "item.infinium.magma_shard" : "Magma Shard",
   "item.infinium.mysterious_key" : "Mysterious Key",
   "item.infinium.nightmare_ingot" : "Nightmare Ingot",
+
+  "item.infinium.general.tooltip" : "Press §6Shift§r for more info!",
+
+  "item.infinium.immunity_rune.tooltip.shift0" : "Grants you§6 20 seconds§r of §dImmunity",
+  "item.infinium.immunity_rune.tooltip.shift1" : "Has a §66 minutes§r cooldown",
+
+  "item.infinium.speed_rune.tooltip.shift0" : "Grants you§6 2 minutes§r of §bSpeed",
+  "item.infinium.speed_rune.tooltip.shift1" : "Has a §62 minutes§r cooldown",
+
+  "item.infinium.resistance_rune.tooltip.shift0" : "Grants you§6 1 minute§r of §5Speed",
+  "item.infinium.resistance_rune.tooltip.shift1" : "Has a §63 minutes§r cooldown",
+
+  "item.infinium.fire_rune.tooltip.shift0" : "Grants you§6 10 minutes§r of §cFire Resistance",
+  "item.infinium.fire_rune.tooltip.shift1" : "Has a §65 minutes§r cooldown",
+
+  "item.infinium.wither_rune.tooltip.shift0" : "Shoots §4Wither Skulls §rin your direction",
+  "item.infinium.wither_rune.tooltip.shift1" : "Has a §630 ticks§r cooldown",
+
   "category.minecraft.infinium": "Infinium Category",
   "itemGroup.infinium.infinium": "Infinium Group",
   

@@ -2,6 +2,7 @@ package com.infinium.server.entities.mobs.hostile.raidmobs;
 
 import com.infinium.global.utils.ChatFormatter;
 import com.infinium.server.entities.InfiniumEntity;
+import com.infinium.server.items.InfiniumItems;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.TargetPredicate;
@@ -49,6 +50,13 @@ public class ExplosiveSorcererEntity extends SpellcastingIllagerEntity implement
                 .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 12.0)
                 .add(EntityAttributes.GENERIC_MAX_HEALTH, 24.0);
     }
+
+    @Override
+    protected void dropEquipment(DamageSource source, int lootingMultiplier, boolean allowDrops) {
+        super.dropEquipment(source, lootingMultiplier, allowDrops);
+        if (this.random.nextBoolean()) this.dropStack(new ItemStack(InfiniumItems.VOID_TOTEM));
+    }
+
     protected void initGoals() {
         super.initGoals();
         this.goalSelector.add(0, new SwimGoal(this));
