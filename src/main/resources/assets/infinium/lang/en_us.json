@@ -52,6 +52,8 @@
 
   "item.infinium.general.tooltip" : "§7Press §6SHIFT§7 for extra info",
   "item.infinium.general_void.tooltip" : "§7Made from an unknown material",
+  "item.infinium.general_magma.tooltip" : "§8Made from the strongest metals",
+
 
   "item.infinium.immunity_rune.tooltip.shift0" : "§7Grants you§6 20 seconds§7 of §dImmunity",
   "item.infinium.immunity_rune.tooltip.shift1" : "§7Cooldown: §68 minutes",
@@ -70,6 +72,12 @@
 
   "item.infinium.void_tool.tooltip.shift0" : "§7Gives attacked entities",
   "item.infinium.void_tool.tooltip.shift1" : "§8Slowness §7and §6Glowing",
+
+  "item.infinium.magma_tool.tooltip.shift0" : "§7Gives attacked entities",
+  "item.infinium.magma_tool.tooltip.shift1" : "§8Slowness, §2Poison §7and §6Glowing",
+
+  "item.infinium.unbreaking_merger.tooltip.shift0" : "§7Gives attacked entities",
+  "item.infinium.unbreaking_merger.tooltip.shift1" : "§8Slowness, §2Poison §7and §6Glowing",
 
   "item.infinium.sanity_pill.tooltip.shift0" : "§7Regenerates your §cSanity §7by §640%",
   "item.infinium.sanity_pill.tooltip.shift1" : "§7Removes the §4Madness §7effect",
