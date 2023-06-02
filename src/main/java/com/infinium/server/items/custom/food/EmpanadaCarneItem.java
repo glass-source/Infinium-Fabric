@@ -9,16 +9,16 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.UseAction;
 import net.minecraft.world.World;
 public class EmpanadaCarneItem extends Item implements InfiniumItem {
-
     public EmpanadaCarneItem(Settings settings) {
         super(settings);
     }
     @Override
     public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
         if (!world.isClient()) {
-            user.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 160, 2));
-            user.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 2000, 2));
+            user.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 300   , 2));
+            user.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 2000, 4));
             user.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 2000, 0));
+            user.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 6000, 0));
         }
         return super.finishUsing(stack, world, user);
     }
@@ -27,6 +27,8 @@ public class EmpanadaCarneItem extends Item implements InfiniumItem {
         return UseAction.EAT;
     }
 
-
-
+    @Override
+    public boolean hasGlint(ItemStack stack) {
+        return true;
+    }
 }

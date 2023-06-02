@@ -52,7 +52,7 @@ public class MagmaBowItem extends BowItem implements InfiniumItem {
                     boolean checkCanPickUp = canPickUpArrow && itemStack.isOf(Items.ARROW);
                     if (!world.isClient) {
 
-                        ArrowItem arrowItem = (ArrowItem)(itemStack.getItem() instanceof ArrowItem ? itemStack.getItem() : Items.ARROW);
+                        ArrowItem arrowItem = (ArrowItem) (itemStack.getItem() instanceof ArrowItem ? itemStack.getItem() : Items.ARROW);
                         PersistentProjectileEntity arrowEntity = arrowItem.createArrow(world, itemStack, playerEntity);
                         arrowEntity.setVelocity(playerEntity, playerEntity.getPitch(), playerEntity.getYaw(), 0.0F, pullProgress * 3.0F, 1.0F);
                         arrowEntity.setCritical(true);

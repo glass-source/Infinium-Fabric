@@ -41,7 +41,7 @@ public class WitherRuneItem extends ToolItem implements InfiniumItem {
 
     @Override
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-        appendTooltip(stack, world, tooltip, context, 2);
+        appendGeneralToolTip(stack, tooltip, 2);
         super.appendTooltip(stack, world, tooltip, context);
     }
 

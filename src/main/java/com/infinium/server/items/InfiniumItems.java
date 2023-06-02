@@ -118,7 +118,7 @@ public class InfiniumItems {
         VOID_SHOVEL = registerItem("void_shovel", new VoidShovelItem(InfiniumToolMaterials.VOID, 1.5F, -3.0F, new FabricItemSettings().group(ItemGroup.TOOLS).rarity(Rarity.RARE).maxDamage(4570).fireproof()));
         VOID_HOE = registerItem("void_hoe", new VoidHoeItem(InfiniumToolMaterials.VOID, -4, 0.0F, new FabricItemSettings().group(ItemGroup.TOOLS).rarity(Rarity.RARE).maxDamage(4570).fireproof()));
         VOID_BOW = registerItem("void_bow", new VoidBowItem(new FabricItemSettings().group(ItemGroup.COMBAT).rarity(Rarity.RARE).maxDamage(4570).fireproof()));
-        VOID_SHIELD = registerItem("void_shield", new FabricShieldItem(new FabricItemSettings().maxDamage(4570).group(ItemGroup.COMBAT), 10, 16, Items.NETHERITE_INGOT));
+        VOID_SHIELD = registerItem("void_shield", new FabricShieldItem(new FabricItemSettings().maxDamage(4570).group(ItemGroup.COMBAT).rarity(Rarity.RARE).fireproof(), 10, 16, Items.NETHERITE_INGOT));
     }
 
     private static void registerMagmaArmor(){

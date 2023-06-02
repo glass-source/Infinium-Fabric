@@ -29,7 +29,8 @@ public class NetheriteCarrotItem extends Item implements InfiniumItem {
     public UseAction getUseAction(ItemStack stack) {
         return UseAction.EAT;
     }
-
-
-
+    @Override
+    public boolean hasGlint(ItemStack stack) {
+        return true;
+    }
 }

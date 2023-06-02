@@ -26,7 +26,6 @@ public class RuneItem extends ToolItem implements InfiniumItem {
     protected final int effectDurationTicks;
     protected final int cooldownTicks;
     protected final int amplifier;
-
     public RuneItem(Settings settings, StatusEffect statusEffect, int effectDurationTicks, int cooldownTicks) {
         super(InfiniumToolMaterials.VOID, settings);
         this.statusEffect = statusEffect;
@@ -41,7 +40,6 @@ public class RuneItem extends ToolItem implements InfiniumItem {
         this.cooldownTicks = cooldownTicks;
         this.amplifier = amplifier;
     }
-
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         if (!world.isClient()) {
             var data = ((EntityDataSaver) user).getPersistentData();
@@ -62,7 +60,7 @@ public class RuneItem extends ToolItem implements InfiniumItem {
                 int timeCooldownSeconds = cooldownTicks / 20;
                 var timeCooldownMinutes = timeCooldownSeconds % 3600 / 60;
                 var formattedSeconds = timeCooldownSeconds % 60;
-                var msg = ChatFormatter.textWithPrefix("&7Cooldown en " + getRuneName(this.toString()) + "&7: " + "[" + "&6" + String.format("%02d:%02d", timeCooldownMinutes, formattedSeconds) + "&7]");
+                var msg = ChatFormatter.textWithPrefix("&7Cooldown en " + getRuneName(this.toString()) + "&7: [" + "&6" + String.format("%02d:%02d", timeCooldownMinutes, formattedSeconds) + "&7]");
                 user.sendMessage(msg, false);
             }
         }
@@ -79,20 +77,11 @@ public class RuneItem extends ToolItem implements InfiniumItem {
             default -> {return "";}
         }
     }
-
     @Override
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-        appendTooltip(stack, world, tooltip, context, 2);
+        appendGeneralToolTip(stack, tooltip, 2);
         super.appendTooltip(stack, world, tooltip, context);
     }
-
-    @Override
-    public ItemStack getDefaultStack() {
-        var item = super.getDefaultStack();
-        item.setCustomName(ChatFormatter.text(getRuneName(this.toString())));
-        return item;
-    }
-
     public int getTotalCooldown(PlayerEntity user) {
         var data = ((EntityDataSaver) user).getPersistentData();
         var startingTickString = "infinium.cooldown.start." + this;

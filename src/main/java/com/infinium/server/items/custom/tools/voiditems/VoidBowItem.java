@@ -2,6 +2,7 @@ package com.infinium.server.items.custom.tools.voiditems;
 
 import com.infinium.server.items.InfiniumItem;
 import net.minecraft.block.BlockState;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.LivingEntity;
@@ -14,15 +15,18 @@ import net.minecraft.item.*;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
+import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class VoidBowItem extends BowItem implements InfiniumItem {
 
     public VoidBowItem(Settings settings) {
         super(settings);
     }
-
     @Override
     public boolean postMine(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner) {
         return super.postMine(stack, world, state, pos, miner);
@@ -88,6 +92,11 @@ public class VoidBowItem extends BowItem implements InfiniumItem {
                 }
             }
         }
+    }
+    @Override
+    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+        appendVoidToolTip(stack, tooltip, 2);
+        super.appendTooltip(stack, world, tooltip, context);
     }
 
 }

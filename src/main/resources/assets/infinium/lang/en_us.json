@@ -50,22 +50,29 @@
   "item.infinium.mysterious_key" : "Mysterious Key",
   "item.infinium.nightmare_ingot" : "Nightmare Ingot",
 
-  "item.infinium.general.tooltip" : "Press §6Shift§r for more info!",
+  "item.infinium.general.tooltip" : "§7Press §6SHIFT§7 for extra info",
+  "item.infinium.general_void.tooltip" : "§7Made from an unknown material",
 
-  "item.infinium.immunity_rune.tooltip.shift0" : "Grants you§6 20 seconds§r of §dImmunity",
-  "item.infinium.immunity_rune.tooltip.shift1" : "Has a §66 minutes§r cooldown",
+  "item.infinium.immunity_rune.tooltip.shift0" : "§7Grants you§6 20 seconds§7 of §dImmunity",
+  "item.infinium.immunity_rune.tooltip.shift1" : "§7Cooldown: §68 minutes",
 
-  "item.infinium.speed_rune.tooltip.shift0" : "Grants you§6 2 minutes§r of §bSpeed",
-  "item.infinium.speed_rune.tooltip.shift1" : "Has a §62 minutes§r cooldown",
+  "item.infinium.speed_rune.tooltip.shift0" : "§7Grants you§6 2 minutes§7 of §bSpeed 5",
+  "item.infinium.speed_rune.tooltip.shift1" : "§7Cooldown: §690 seconds",
 
-  "item.infinium.resistance_rune.tooltip.shift0" : "Grants you§6 1 minute§r of §5Speed",
-  "item.infinium.resistance_rune.tooltip.shift1" : "Has a §63 minutes§r cooldown",
+  "item.infinium.resistance_rune.tooltip.shift0" : "§7Grants you§6 1 minute§7 of §5Resistance 4",
+  "item.infinium.resistance_rune.tooltip.shift1" : "§7Cooldown: §63 minutes",
 
-  "item.infinium.fire_rune.tooltip.shift0" : "Grants you§6 10 minutes§r of §cFire Resistance",
-  "item.infinium.fire_rune.tooltip.shift1" : "Has a §65 minutes§r cooldown",
+  "item.infinium.fire_rune.tooltip.shift0" : "§7Grants you§6 10 minutes§7 of §cFire Resistance",
+  "item.infinium.fire_rune.tooltip.shift1" : "§7Cooldown: §65 minutes",
 
-  "item.infinium.wither_rune.tooltip.shift0" : "Shoots §4Wither Skulls §rin your direction",
-  "item.infinium.wither_rune.tooltip.shift1" : "Has a §630 ticks§r cooldown",
+  "item.infinium.wither_rune.tooltip.shift0" : "§7Shoots §4Wither Skulls §7in your direction",
+  "item.infinium.wither_rune.tooltip.shift1" : "§7Cooldown: §615 ticks",
+
+  "item.infinium.void_tool.tooltip.shift0" : "§7Gives attacked entities",
+  "item.infinium.void_tool.tooltip.shift1" : "§8Slowness §7and §6Glowing",
+
+  "item.infinium.sanity_pill.tooltip.shift0" : "§7Regenerates your §cSanity §7by §640%",
+  "item.infinium.sanity_pill.tooltip.shift1" : "§7Removes the §4Madness §7effect",
 
   "category.minecraft.infinium": "Infinium Category",
   "itemGroup.infinium.infinium": "Infinium Group",
@@ -105,7 +112,6 @@
   "infinium.duet_started": "Dead Sister Sounds",
   "infinium.fall_in_love": "Mysterious Music",
   "infinium.low_sanity" : "???",
-  "infinium.kairos_check" : "§6Has revisado la hora!",
   "key.category.infinium.infinium" : "Infinium",
   "key.infinium.check_time" : "Check Kairo's Clock"
 }
