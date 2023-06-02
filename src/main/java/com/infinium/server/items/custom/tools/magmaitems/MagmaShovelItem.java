@@ -37,7 +37,7 @@ public class MagmaShovelItem extends ShovelItem implements InfiniumItem {
     @Override
     public void onCraft(ItemStack stack, World world, PlayerEntity player) {
         super.onCraft(stack, world, player);
-        enchantMagmaTool(stack);
+        enchantMagmaTools(stack);
     }
 
 }

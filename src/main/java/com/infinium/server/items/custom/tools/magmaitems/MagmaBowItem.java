@@ -33,7 +33,7 @@ public class MagmaBowItem extends BowItem implements InfiniumItem {
     @Override
     public void onCraft(ItemStack stack, World world, PlayerEntity player) {
         super.onCraft(stack, world, player);
-        enchantMagmaTool(stack);
+        enchantMagmaBow(stack);
     }
     @Override
     public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {

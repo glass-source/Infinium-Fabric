@@ -37,6 +37,6 @@ public class MagmaSwordItem extends SwordItem implements InfiniumItem {
     @Override
     public void onCraft(ItemStack stack, World world, PlayerEntity player) {
         super.onCraft(stack, world, player);
-        enchantMagmaTool(stack);
+        enchantMagmaSword(stack);
     }
 }
