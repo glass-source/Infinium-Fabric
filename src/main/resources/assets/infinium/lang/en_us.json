@@ -44,7 +44,7 @@
   "item.infinium.looting_merger" : "Looting Merger",
   "item.infinium.unbreaking_merger" : "Unbreaking Merger",
   "item.infinium.netherite_carrot" : "Netherite Carrot",
-  "item.infinium.kairos_clock" : "Reset Kairos timer",
+  "item.infinium.kairos_clock" : "Kairos Clock",
   "item.infinium.key_shard" : "Key Shard",
   "item.infinium.magma_shard" : "Magma Shard",
   "item.infinium.mysterious_key" : "Mysterious Key",
@@ -54,12 +54,11 @@
   "item.infinium.general_void.tooltip" : "§7Made from an unknown material",
   "item.infinium.general_magma.tooltip" : "§8Made from the strongest metals",
 
-
   "item.infinium.immunity_rune.tooltip.shift0" : "§7Grants you§6 20 seconds§7 of §dImmunity",
   "item.infinium.immunity_rune.tooltip.shift1" : "§7Cooldown: §68 minutes",
 
   "item.infinium.speed_rune.tooltip.shift0" : "§7Grants you§6 2 minutes§7 of §bSpeed 5",
-  "item.infinium.speed_rune.tooltip.shift1" : "§7Cooldown: §690 seconds",
+  "item.infinium.speed_rune.tooltip.shift1" : "§7Cooldown: §6150 seconds",
 
   "item.infinium.resistance_rune.tooltip.shift0" : "§7Grants you§6 1 minute§7 of §5Resistance 4",
   "item.infinium.resistance_rune.tooltip.shift1" : "§7Cooldown: §63 minutes",
@@ -76,8 +75,22 @@
   "item.infinium.magma_tool.tooltip.shift0" : "§7Gives attacked entities",
   "item.infinium.magma_tool.tooltip.shift1" : "§8Slowness, §2Poison §7and §6Glowing",
 
-  "item.infinium.unbreaking_merger.tooltip.shift0" : "§7Gives attacked entities",
-  "item.infinium.unbreaking_merger.tooltip.shift1" : "§8Slowness, §2Poison §7and §6Glowing",
+  "item.infinium.unbreaking_merger.tooltip.shift0" : "§7Enchants the item in your §6OFFHAND",
+  "item.infinium.unbreaking_merger.tooltip.shift1" : "§7With §6Unbreaking 10 §7when used",
+
+  "item.infinium.soul_speed_merger.tooltip.shift0" : "§7Enchants the item in your §6OFFHAND",
+  "item.infinium.soul_speed_merger.tooltip.shift1" : "§7With §cSoul Speed 6 §7when used",
+
+  "item.infinium.looting_merger.tooltip.shift0" : "§7Enchants the item in your §6OFFHAND",
+  "item.infinium.looting_merger.tooltip.shift1" : "§7With §6Looting 6 §7when used",
+
+  "item.infinium.void_totem.tooltip.shift0" : "§7When used, grants you with §5§l15 seconds",
+  "item.infinium.void_totem.tooltip.shift1" : "§7Of §dImmunity§7, but also adds",
+  "item.infinium.void_totem.tooltip.shift2" : "§6§l2 Totems §7to your total counter",
+
+  "item.infinium.magma_totem.tooltip.shift0" : "§7Doesn't grant special effects",
+  "item.infinium.magma_totem.tooltip.shift1" : "§7But it also doesn't add any",
+  "item.infinium.magma_totem.tooltip.shift2" : "§6§lTotems §7to your total counter",
 
   "item.infinium.sanity_pill.tooltip.shift0" : "§7Regenerates your §cSanity §7by §640%",
   "item.infinium.sanity_pill.tooltip.shift1" : "§7Removes the §4Madness §7effect",

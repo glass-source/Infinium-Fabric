@@ -36,7 +36,7 @@ public class VoidAxeItem extends AxeItem implements InfiniumItem {
     }
     @Override
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-        appendVoidToolTip(stack, tooltip, 2);
+        appendInfiniumToolTip(tooltip, "void", 2);
         super.appendTooltip(stack, world, tooltip, context);
     }
 

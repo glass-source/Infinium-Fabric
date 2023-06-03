@@ -4,6 +4,11 @@ import com.infinium.Infinium;
 import com.infinium.global.utils.EntityDataSaver;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.enchantment.Enchantments;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.mob.EndermanEntity;
+import net.minecraft.entity.mob.ShulkerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
@@ -12,21 +17,36 @@ import net.minecraft.text.TranslatableText;
 import java.util.List;
 
 public interface InfiniumItem {
-
     default int getCurrentCooldown(PlayerEntity user) {
         var data = ((EntityDataSaver) user).getPersistentData();
         var cooldownString = "infinium.cooldown." + this;
         return data.getInt(cooldownString) - Infinium.getInstance().getCore().getServer().getTicks();
 
     }
-
-    default void appendVoidToolTip(ItemStack stack, List<Text> tooltip, int lines) {
+    default boolean fromMagmaToolHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+        if (!target.getWorld().isClient()) {
+            stack.damage(1, attacker, p -> p.sendToolBreakStatus(attacker.getActiveHand()));
+            if (target instanceof EndermanEntity || target instanceof ShulkerEntity) {
+                target.addStatusEffect(new StatusEffectInstance(StatusEffects.GLOWING, 160, 0));
+                target.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 160, 4));
+                target.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 160, 4));
+            } else {
+                target.addStatusEffect(new StatusEffectInstance(StatusEffects.GLOWING, 160, 0));
+                target.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 160, 4));
+                target.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 160, 4));
+                target.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 160, 4));
+            }
+            return true;
+        }
+        return false;
+    }
+    default void appendInfiniumToolTip(List<Text> tooltip, String toolString, int lines) {
         if (Screen.hasShiftDown()) {
             for (int i = 0; i < lines; i++) {
-                tooltip.add(new TranslatableText("item.infinium.void_tool.tooltip.shift" + i));
+                tooltip.add(new TranslatableText("item.infinium." + toolString + "_tool.tooltip.shift" + i));
             }
         } else {
-            tooltip.add(new TranslatableText("item.infinium.general_void.tooltip"));
+            tooltip.add(new TranslatableText("item.infinium.general_" + toolString + ".tooltip"));
         }
     }
     default void appendGeneralToolTip(ItemStack stack, List<Text> tooltip, int lines) {

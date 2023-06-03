@@ -2,7 +2,7 @@
   "type": "minecraft:chest",
   "pools": [
     {
-      "rolls": 6.0,
+      "rolls": 8.0,
       "entries": [
         {
           "type": "minecraft:item",
@@ -157,46 +157,19 @@
 
         {
           "type": "minecraft:item",
-          "weight": 1,
+          "weight": 20,
           "functions": [
             {
-              "function": "minecraft:enchant_randomly"
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 1.0,
+                "max": 1.0
+              },
+              "add": false
             }
           ],
-          "name": "minecraft:netherite_helmet"
-        },
-
-        {
-          "type": "minecraft:item",
-          "weight": 1,
-          "functions": [
-            {
-              "function": "minecraft:enchant_randomly"
-            }
-          ],
-          "name": "minecraft:netherite_chestplate"
-        },
-
-        {
-          "type": "minecraft:item",
-          "weight": 1,
-          "functions": [
-            {
-              "function": "minecraft:enchant_randomly"
-            }
-          ],
-          "name": "minecraft:netherite_leggings"
-        },
-
-        {
-          "type": "minecraft:item",
-          "weight": 1,
-          "functions": [
-            {
-              "function": "minecraft:enchant_randomly"
-            }
-          ],
-          "name": "minecraft:netherite_boots"
+          "name": "minecraft:totem_of_undying"
         }
       ]
     }

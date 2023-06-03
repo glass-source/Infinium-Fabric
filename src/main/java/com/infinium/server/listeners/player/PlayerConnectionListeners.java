@@ -187,7 +187,8 @@ public class PlayerConnectionListeners {
         ThroughTime("f3f59697-d07a-46d7-9fa1-fd399ef9ded7"),
         Saikomic("79a05b23-2cd9-4a39-b604-537cf127f082"),
         HellSinky("cf1408e4-ef36-4122-95bd-2c219aad202d"),
-        Grymps("b6c451a1-2318-4407-abb5-7727cdad8ef3")
+        Grymps("b6c451a1-2318-4407-abb5-7727cdad8ef3"),
+        DirfoxPYT("f5a56f53-112a-44af-b7dd-0ddbfae3ddd3")
 
         ;
         private final UUID uuid;

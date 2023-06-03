@@ -1,6 +1,7 @@
 package com.infinium.server.items.custom.misc;
 
 import com.infinium.server.items.InfiniumItem;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EquipmentSlot;
@@ -10,12 +11,15 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class MergerItem extends Item implements InfiniumItem {
-
     private final Enchantment enchantment;
     private final int level;
     public MergerItem(Settings settings, Enchantment enchantment, int level) {
@@ -23,7 +27,6 @@ public class MergerItem extends Item implements InfiniumItem {
         this.enchantment = enchantment;
         this.level = level;
     }
-
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
 
@@ -54,5 +57,11 @@ public class MergerItem extends Item implements InfiniumItem {
 
 
         return super.use(world, user, hand);
+    }
+
+    @Override
+    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+        appendGeneralToolTip(stack, tooltip, 2);
+        super.appendTooltip(stack, world, tooltip, context);
     }
 }
