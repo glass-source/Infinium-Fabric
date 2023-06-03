@@ -26,6 +26,7 @@ public class RuneItem extends ToolItem implements InfiniumItem {
     protected final int effectDurationTicks;
     protected final int cooldownTicks;
     protected final int amplifier;
+    protected PlayerEntity player;
     public RuneItem(Settings settings, StatusEffect statusEffect, int effectDurationTicks, int cooldownTicks) {
         super(InfiniumToolMaterials.VOID, settings);
         this.statusEffect = statusEffect;
@@ -42,6 +43,7 @@ public class RuneItem extends ToolItem implements InfiniumItem {
     }
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         if (!world.isClient()) {
+            this.player = user;
             var data = ((EntityDataSaver) user).getPersistentData();
             var cooldownString = "infinium.cooldown." + this;
             int cooldownTicks = data.getInt(cooldownString) - Infinium.getInstance().getCore().getServer().getTicks();
@@ -57,17 +59,14 @@ public class RuneItem extends ToolItem implements InfiniumItem {
                 user.playSound(SoundEvents.ENTITY_ILLUSIONER_PREPARE_BLINDNESS, SoundCategory.AMBIENT, 1, 0.03F);
 
             } else {
-                int timeCooldownSeconds = cooldownTicks / 20;
-                var timeCooldownMinutes = timeCooldownSeconds % 3600 / 60;
-                var formattedSeconds = timeCooldownSeconds % 60;
-                var msg = ChatFormatter.textWithPrefix("&7Cooldown en " + getRuneName(this.toString()) + "&7: [" + "&6" + String.format("%02d:%02d", timeCooldownMinutes, formattedSeconds) + "&7]");
-                user.sendMessage(msg, false);
+                var msg = getCooldownMsg(user);
+                user.sendMessage(ChatFormatter.textWithPrefix(msg), false);
             }
         }
 
         return TypedActionResult.pass(user.getStackInHand(hand));
     }
-    private String getRuneName(String runeType) {
+    public String getRuneName(String runeType) {
 
         switch (runeType) {
             case "immunity_rune" -> {return "&dImmunity Rune";}
@@ -77,8 +76,16 @@ public class RuneItem extends ToolItem implements InfiniumItem {
             default -> {return "";}
         }
     }
+    public String getCooldownMsg(PlayerEntity user) {
+        int cooldownTicks = this.getCurrentCooldown(user);
+        int timeCooldownSeconds = cooldownTicks / 20;
+        var timeCooldownMinutes = timeCooldownSeconds % 3600 / 60;
+        var formattedSeconds = timeCooldownSeconds % 60;
+        return ChatFormatter.format("&7Cooldown en " + getRuneName(this.toString()) + "&7: [" + "&6" + String.format("%02d:%02d", timeCooldownMinutes, formattedSeconds) + "&7]");
+    }
     @Override
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+        if (player != null) appendRuneCooldown(player, tooltip, getCooldownMsg(player));
         appendGeneralToolTip(stack, tooltip, 2);
         super.appendTooltip(stack, world, tooltip, context);
     }

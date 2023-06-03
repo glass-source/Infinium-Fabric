@@ -1,6 +1,7 @@
 package com.infinium.server.items;
 
 import com.infinium.Infinium;
+import com.infinium.global.utils.ChatFormatter;
 import com.infinium.global.utils.EntityDataSaver;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.enchantment.Enchantments;
@@ -21,7 +22,6 @@ public interface InfiniumItem {
         var data = ((EntityDataSaver) user).getPersistentData();
         var cooldownString = "infinium.cooldown." + this;
         return data.getInt(cooldownString) - Infinium.getInstance().getCore().getServer().getTicks();
-
     }
     default boolean fromMagmaToolHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         if (!target.getWorld().isClient()) {
@@ -56,6 +56,17 @@ public interface InfiniumItem {
             }
         } else {
             tooltip.add(new TranslatableText("item.infinium.general.tooltip"));
+        }
+    }
+
+    default void appendRuneCooldown(PlayerEntity user, List<Text> tooltip, String msg) {
+        if (user != null) {
+            var cooldown = this.getCurrentCooldown(user);
+            if (cooldown <= 0) {
+                tooltip.add(new TranslatableText("item.infinium.no_cooldown.tooltip"));
+            } else {
+                tooltip.add(ChatFormatter.text(msg));
+            }
         }
     }
     default void enchantMagmaTools(ItemStack stack) {

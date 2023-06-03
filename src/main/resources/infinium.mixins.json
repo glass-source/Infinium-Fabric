@@ -25,7 +25,6 @@
     "server.world.structure.StructureFeatureAccessor"
   ],
   "client": [
-    "client.MinecraftClientMixin",
     "client.renderer.entity.TridentEntityRendererMixin",
     "client.renderer.feature.TridentRiptideFeatureRendererMixin",
     "client.renderer.world.WorldRendererMixin"

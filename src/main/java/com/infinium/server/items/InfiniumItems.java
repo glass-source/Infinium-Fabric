@@ -120,22 +120,22 @@ public class InfiniumItems {
     }
 
     private static void registerMagmaArmor(){
-        MAGMA_HELMET = registerItem("magma_helmet", new MagmaArmorItem(InfiniumArmorMaterials.MAGMA, EquipmentSlot.HEAD, new FabricItemSettings().group(ItemGroup.COMBAT).rarity(Rarity.UNCOMMON).maxDamage(4350).fireproof()));
-        MAGMA_CHESTPLATE = registerItem("magma_chestplate", new MagmaArmorItem(InfiniumArmorMaterials.MAGMA, EquipmentSlot.CHEST, new FabricItemSettings().group(ItemGroup.COMBAT).rarity(Rarity.UNCOMMON).maxDamage(4770).fireproof()));
-        MAGMA_LEGGINGS = registerItem("magma_leggings", new MagmaArmorItem(InfiniumArmorMaterials.MAGMA, EquipmentSlot.LEGS, new FabricItemSettings().group(ItemGroup.COMBAT).rarity(Rarity.UNCOMMON).maxDamage(4500).fireproof()));
-        MAGMA_BOOTS = registerItem("magma_boots", new MagmaArmorItem(InfiniumArmorMaterials.MAGMA, EquipmentSlot.FEET, new FabricItemSettings().group(ItemGroup.COMBAT).rarity(Rarity.UNCOMMON).maxDamage(4350).fireproof()));
-        MAGMA_WINGS = registerItem("magma_wings", new MagmaElytraItem(InfiniumArmorMaterials.MAGMA_ELYTRA, EquipmentSlot.CHEST, new FabricItemSettings().group(ItemGroup.TRANSPORTATION).rarity(Rarity.UNCOMMON).maxDamage(4500).fireproof().equipmentSlot(context -> EquipmentSlot.CHEST)));
+        MAGMA_HELMET = registerItem("magma_helmet", new MagmaArmorItem(InfiniumArmorMaterials.MAGMA, EquipmentSlot.HEAD, new FabricItemSettings().group(ItemGroup.COMBAT).rarity(Rarity.UNCOMMON).maxDamage(4032).fireproof()));
+        MAGMA_CHESTPLATE = registerItem("magma_chestplate", new MagmaArmorItem(InfiniumArmorMaterials.MAGMA, EquipmentSlot.CHEST, new FabricItemSettings().group(ItemGroup.COMBAT).rarity(Rarity.UNCOMMON).maxDamage(4032).fireproof()));
+        MAGMA_LEGGINGS = registerItem("magma_leggings", new MagmaArmorItem(InfiniumArmorMaterials.MAGMA, EquipmentSlot.LEGS, new FabricItemSettings().group(ItemGroup.COMBAT).rarity(Rarity.UNCOMMON).maxDamage(4032).fireproof()));
+        MAGMA_BOOTS = registerItem("magma_boots", new MagmaArmorItem(InfiniumArmorMaterials.MAGMA, EquipmentSlot.FEET, new FabricItemSettings().group(ItemGroup.COMBAT).rarity(Rarity.UNCOMMON).maxDamage(4032).fireproof()));
+        MAGMA_WINGS = registerItem("magma_wings", new MagmaElytraItem(InfiniumArmorMaterials.MAGMA_ELYTRA, EquipmentSlot.CHEST, new FabricItemSettings().group(ItemGroup.TRANSPORTATION).rarity(Rarity.UNCOMMON).maxDamage(4032).fireproof().equipmentSlot(context -> EquipmentSlot.CHEST)));
     }
 
     private static void registerMagmaTools(){
-        MAGMA_SWORD = registerItem("magma_sword", new MagmaSwordItem(InfiniumToolMaterials.MAGMA, 7, -2.4F, new FabricItemSettings().group(ItemGroup.COMBAT).rarity(Rarity.UNCOMMON).maxDamage(4570).fireproof()));
-        MAGMA_PICKAXE = registerItem("magma_pickaxe", new MagmaPickaxeItem(InfiniumToolMaterials.MAGMA, 1, -2.8F, new FabricItemSettings().group(ItemGroup.TOOLS).rarity(Rarity.UNCOMMON).maxDamage(4570).fireproof()));
-        MAGMA_AXE = registerItem("magma_axe", new MagmaAxeItem(InfiniumToolMaterials.MAGMA, 9, -3.0F, new FabricItemSettings().group(ItemGroup.TOOLS).rarity(Rarity.UNCOMMON).maxDamage(4570).fireproof()));
-        MAGMA_SHOVEL = registerItem("magma_shovel", new MagmaShovelItem(InfiniumToolMaterials.MAGMA, 1.5F, -3.0F, new FabricItemSettings().group(ItemGroup.TOOLS).rarity(Rarity.UNCOMMON).maxDamage(4570).fireproof()));
+        MAGMA_SWORD = registerItem("magma_sword", new MagmaSwordItem(InfiniumToolMaterials.MAGMA, 7, -2.4F, new FabricItemSettings().group(ItemGroup.COMBAT).rarity(Rarity.UNCOMMON).maxDamage(4032).fireproof()));
+        MAGMA_PICKAXE = registerItem("magma_pickaxe", new MagmaPickaxeItem(InfiniumToolMaterials.MAGMA, 1, -2.8F, new FabricItemSettings().group(ItemGroup.TOOLS).rarity(Rarity.UNCOMMON).maxDamage(4032).fireproof()));
+        MAGMA_AXE = registerItem("magma_axe", new MagmaAxeItem(InfiniumToolMaterials.MAGMA, 9, -3.0F, new FabricItemSettings().group(ItemGroup.TOOLS).rarity(Rarity.UNCOMMON).maxDamage(4032).fireproof()));
+        MAGMA_SHOVEL = registerItem("magma_shovel", new MagmaShovelItem(InfiniumToolMaterials.MAGMA, 1.5F, -3.0F, new FabricItemSettings().group(ItemGroup.TOOLS).rarity(Rarity.UNCOMMON).maxDamage(4032).fireproof()));
         MAGMA_HOE = registerItem("magma_hoe", new MagmaHoeItem(InfiniumToolMaterials.MAGMA, -4, 0.0F, new FabricItemSettings().group(ItemGroup.TOOLS).rarity(Rarity.UNCOMMON).maxDamage(4570).fireproof()));
-        MAGMA_BOW = registerItem("magma_bow", new MagmaBowItem(new FabricItemSettings().group(ItemGroup.COMBAT).rarity(Rarity.UNCOMMON).maxDamage(4570).fireproof()));
-        MAGMA_TRIDENT = registerItem("magma_trident", new MagmaTridentItem(new FabricItemSettings().group(ItemGroup.COMBAT).rarity(Rarity.UNCOMMON).maxDamage(4570).fireproof()));
-        MAGMA_SHIELD = registerItem("magma_shield", new MagmaShieldItem(new FabricItemSettings().maxDamage(4570).group(ItemGroup.COMBAT).rarity(Rarity.UNCOMMON).fireproof(), 1, 16, NIGHTMARE_INGOT));
+        MAGMA_BOW = registerItem("magma_bow", new MagmaBowItem(new FabricItemSettings().group(ItemGroup.COMBAT).rarity(Rarity.UNCOMMON).maxDamage(4032).fireproof()));
+        MAGMA_TRIDENT = registerItem("magma_trident", new MagmaTridentItem(new FabricItemSettings().group(ItemGroup.COMBAT).rarity(Rarity.UNCOMMON).maxDamage(4032).fireproof()));
+        MAGMA_SHIELD = registerItem("magma_shield", new MagmaShieldItem(new FabricItemSettings().maxDamage(4032).group(ItemGroup.COMBAT).rarity(Rarity.UNCOMMON).fireproof(), 1, 16, NIGHTMARE_INGOT));
     }
 
     private static void registerMisc() {

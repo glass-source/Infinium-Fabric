@@ -95,6 +95,8 @@
   "item.infinium.sanity_pill.tooltip.shift0" : "§7Regenerates your §cSanity §7by §640%",
   "item.infinium.sanity_pill.tooltip.shift1" : "§7Removes the §4Madness §7effect",
 
+  "item.infinium.no_cooldown.tooltip" : "§7Cooldown: ready to use",
+
   "category.minecraft.infinium": "Infinium Category",
   "itemGroup.infinium.infinium": "Infinium Group",
   

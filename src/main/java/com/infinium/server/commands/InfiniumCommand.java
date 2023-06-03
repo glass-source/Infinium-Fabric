@@ -25,21 +25,23 @@ public class InfiniumCommand {
             var data = ((EntityDataSaver) source.getSource().getPlayer()).getPersistentData();
             int totems = data.getInt("infinium.totems");
             source.getSource().sendFeedback(ChatFormatter.textWithPrefix("&7Has consumido &6&l" + totems + " &7Tótems de la inmortalidad"), false);
+            return 1;
         } catch (CommandSyntaxException ex) {
             ex.printStackTrace();
-            source.getSource().sendError(ChatFormatter.text("&c¡Error! notificale esto a algun developer..."));
+            source.getSource().sendError(ChatFormatter.text("&c¡Error! notificale esto a @Asunder..."));
+            return -1;
         }
-        return 0;
     }
 
     private static int days(CommandContext<ServerCommandSource> source) {
         try{
             source.getSource().sendFeedback(ChatFormatter.textWithPrefix("&7Estamos en el día &6&l" + Infinium.getInstance().getDateUtils().getCurrentDay()), false);
+            return 1;
         }catch (ExceptionInInitializerError | DateTimeParseException ex) {
             ex.printStackTrace();
-            source.getSource().sendError(ChatFormatter.text("&c¡Error! notificale esto a algun developer..."));
+            source.getSource().sendError(ChatFormatter.text("&c¡Error! notificale esto a @Asunder..."));
+            return -1;
         }
-        return 0;
-    }
 
+    }
 }
