@@ -48,7 +48,6 @@ public class GhoulSpiderEntity extends SpiderEntity implements IAnimatable, Infi
 
     @Override
     protected void initGoals() {
-        super.initGoals();
         this.goalSelector.add(3, new WanderAroundFarGoal(this, 0.8));
         this.goalSelector.add(2, new LookAtEntityGoal(this, MobEntity.class, 16.0F));
         this.goalSelector.add(2, new LookAtEntityGoal(this, PlayerEntity.class, 16.0F));
@@ -63,16 +62,16 @@ public class GhoulSpiderEntity extends SpiderEntity implements IAnimatable, Infi
     public static DefaultAttributeContainer.Builder createGhoulSpiderAttributes() {
         return HostileEntity.createHostileAttributes()
         .add(EntityAttributes.GENERIC_MAX_HEALTH, 50.0)
-        .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.45f)
-        .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 20.0)
-        .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 50.0);
+        .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.40f)
+        .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 13.0)
+        .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 30.0);
     }
 
     @Override
     public boolean tryAttack(Entity target) {
         if (target instanceof LivingEntity entity) {
             StatusEffectInstance[] effects = {
-            new StatusEffectInstance(StatusEffects.POISON, 200, 4),
+            new StatusEffectInstance(StatusEffects.POISON, 200, 2),
             new StatusEffectInstance(StatusEffects.SLOWNESS, 200, 1),
             new StatusEffectInstance(StatusEffects.NAUSEA, 200, 0),
             new StatusEffectInstance(StatusEffects.HUNGER, 200, 9),

@@ -2,15 +2,16 @@ package com.infinium.server.items.custom.tools.runes;
 
 import com.infinium.Infinium;
 import com.infinium.global.utils.ChatFormatter;
-import com.infinium.global.utils.EntityDataSaver;
 import com.infinium.server.items.InfiniumItem;
 import com.infinium.server.items.materials.InfiniumToolMaterials;
 import net.minecraft.client.item.TooltipContext;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolItem;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
@@ -26,7 +27,7 @@ public class RuneItem extends ToolItem implements InfiniumItem {
     protected final int effectDurationTicks;
     protected final int cooldownTicks;
     protected final int amplifier;
-    protected PlayerEntity player;
+    protected MinecraftServer server;
     public RuneItem(Settings settings, StatusEffect statusEffect, int effectDurationTicks, int cooldownTicks) {
         super(InfiniumToolMaterials.VOID, settings);
         this.statusEffect = statusEffect;
@@ -41,10 +42,18 @@ public class RuneItem extends ToolItem implements InfiniumItem {
         this.cooldownTicks = cooldownTicks;
         this.amplifier = amplifier;
     }
+
+    @Override
+    public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
+        super.inventoryTick(stack, world, entity, slot, selected);
+
+    }
+
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         if (!world.isClient()) {
-            this.player = user;
-            var data = ((EntityDataSaver) user).getPersistentData();
+            this.server = Infinium.getInstance().getCore().getServer();
+            var stack = user.getStackInHand(hand);
+            var data = stack.getOrCreateNbt();
             var cooldownString = "infinium.cooldown." + this;
             int cooldownTicks = data.getInt(cooldownString) - Infinium.getInstance().getCore().getServer().getTicks();
 
@@ -59,7 +68,7 @@ public class RuneItem extends ToolItem implements InfiniumItem {
                 user.playSound(SoundEvents.ENTITY_ILLUSIONER_PREPARE_BLINDNESS, SoundCategory.AMBIENT, 1, 0.03F);
 
             } else {
-                var msg = getCooldownMsg(user);
+                var msg = getCooldownMsg(stack);
                 user.sendMessage(ChatFormatter.textWithPrefix(msg), false);
             }
         }
@@ -76,8 +85,8 @@ public class RuneItem extends ToolItem implements InfiniumItem {
             default -> {return "";}
         }
     }
-    public String getCooldownMsg(PlayerEntity user) {
-        int cooldownTicks = this.getCurrentCooldown(user);
+    public String getCooldownMsg(ItemStack stack) {
+        int cooldownTicks = this.getCurrentCooldown(stack);
         int timeCooldownSeconds = cooldownTicks / 20;
         var timeCooldownMinutes = timeCooldownSeconds % 3600 / 60;
         var formattedSeconds = timeCooldownSeconds % 60;
@@ -85,14 +94,9 @@ public class RuneItem extends ToolItem implements InfiniumItem {
     }
     @Override
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-        if (player != null) appendRuneCooldown(player, tooltip, getCooldownMsg(player));
-        appendGeneralToolTip(stack, tooltip, 2);
         super.appendTooltip(stack, world, tooltip, context);
+        if (this.server != null) tooltip.add(ChatFormatter.text("Cooldown: " + this.getCurrentCooldown(stack)));
+
+        appendGeneralToolTip(stack, tooltip, 2);
     }
-    public int getTotalCooldown(PlayerEntity user) {
-        var data = ((EntityDataSaver) user).getPersistentData();
-        var startingTickString = "infinium.cooldown.start." + this;
-        return getCooldownTicks() - data.getInt(startingTickString);
-    }
-    public int getCooldownTicks() {return this.cooldownTicks;}
 }

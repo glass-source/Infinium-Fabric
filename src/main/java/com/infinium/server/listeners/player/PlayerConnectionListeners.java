@@ -1,11 +1,9 @@
 package com.infinium.server.listeners.player;
 
 import com.infinium.Infinium;
-import com.infinium.global.utils.EntityDataSaver;
 import com.infinium.networking.InfiniumPackets;
 import com.infinium.server.InfiniumServerManager;
 import com.infinium.server.items.InfiniumItem;
-import com.infinium.server.items.custom.tools.runes.RuneItem;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -54,10 +52,11 @@ public class PlayerConnectionListeners {
     }
 
     private void initCooldowns(ServerPlayerEntity user) {
-        var data = ((EntityDataSaver) user).getPersistentData();
         var inventory = user.getInventory();
         for (int i = 0; i < inventory.size(); i++) {
             if (inventory.getStack(i) != null) {
+                var data = inventory.getStack(i).getOrCreateNbt();
+
                 if (inventory.getStack(i).getItem() instanceof InfiniumItem item) {
                     var cooldownString = "infinium.cooldown." + item;
                     var startingTickString = "infinium.cooldown.start." + item;
@@ -72,15 +71,6 @@ public class PlayerConnectionListeners {
 
                     if (data.getInt(cooldownString) < 0) {
                         data.putInt(cooldownString, 0);
-                    }
-
-                    if (inventory.getStack(i).getItem() instanceof RuneItem runeItem) {
-                        if (runeItem.getCurrentCooldown(user) > runeItem.getTotalCooldown(user)) {
-                            var startingTick = Infinium.getInstance().getCore().getServer().getTicks();
-                            var endingTick = startingTick + runeItem.getCooldownTicks();
-                            data.putInt(startingTickString, startingTick);
-                            data.putInt(cooldownString, endingTick);
-                        }
                     }
                 }
             }
@@ -188,7 +178,8 @@ public class PlayerConnectionListeners {
         Saikomic("79a05b23-2cd9-4a39-b604-537cf127f082"),
         HellSinky("cf1408e4-ef36-4122-95bd-2c219aad202d"),
         Grymps("b6c451a1-2318-4407-abb5-7727cdad8ef3"),
-        DirfoxPYT("f5a56f53-112a-44af-b7dd-0ddbfae3ddd3")
+        DirfoxPYT("f5a56f53-112a-44af-b7dd-0ddbfae3ddd3"),
+        rufk_("c5125f68-1d74-4781-8754-077b6a76fcc4")
 
         ;
         private final UUID uuid;

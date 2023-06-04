@@ -2,7 +2,6 @@ package com.infinium.server.items;
 
 import com.infinium.Infinium;
 import com.infinium.global.utils.ChatFormatter;
-import com.infinium.global.utils.EntityDataSaver;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.LivingEntity;
@@ -10,7 +9,6 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.EndermanEntity;
 import net.minecraft.entity.mob.ShulkerEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
@@ -18,8 +16,8 @@ import net.minecraft.text.TranslatableText;
 import java.util.List;
 
 public interface InfiniumItem {
-    default int getCurrentCooldown(PlayerEntity user) {
-        var data = ((EntityDataSaver) user).getPersistentData();
+    default int getCurrentCooldown(ItemStack stack) {
+        var data = stack.getOrCreateNbt();
         var cooldownString = "infinium.cooldown." + this;
         return data.getInt(cooldownString) - Infinium.getInstance().getCore().getServer().getTicks();
     }
@@ -59,15 +57,14 @@ public interface InfiniumItem {
         }
     }
 
-    default void appendRuneCooldown(PlayerEntity user, List<Text> tooltip, String msg) {
-        if (user != null) {
-            var cooldown = this.getCurrentCooldown(user);
-            if (cooldown <= 0) {
-                tooltip.add(new TranslatableText("item.infinium.no_cooldown.tooltip"));
-            } else {
-                tooltip.add(ChatFormatter.text(msg));
-            }
+    default void appendRuneCooldown(ItemStack stack, List<Text> tooltip, String msg) {
+        int cooldown = this.getCurrentCooldown(stack);
+        if (cooldown <= 0) {
+            tooltip.add(new TranslatableText("item.infinium.no_cooldown.tooltip"));
+        } else {
+            tooltip.add(ChatFormatter.text(msg));
         }
+
     }
     default void enchantMagmaTools(ItemStack stack) {
         stack.addEnchantment(Enchantments.MENDING, 1);

@@ -39,7 +39,9 @@ public class MergerItem extends Item implements InfiniumItem {
                 boolean[] shouldUse = {true};
 
                 enchantments.forEach(nbtElement -> {
-                    if (nbtElement.equals(enchant)) shouldUse[0] = false;
+                    if (nbtElement.equals(enchant)) {
+                        shouldUse[0] = false;
+                    }
                 });
 
                 if (!shouldUse[0]) {
@@ -47,7 +49,12 @@ public class MergerItem extends Item implements InfiniumItem {
                     return super.use(world, user, hand);
 
                 } else {
-                    user.getEquippedStack(EquipmentSlot.OFFHAND).addEnchantment(enchantment, level);
+                    enchantments.forEach(nbtElement -> {
+                        if (nbtElement.equals(enchant)) {
+                            enchantments.remove(nbtElement);
+                        }
+                    });
+                    offItem.addEnchantment(enchantment, level);
                     user.getEquippedStack(EquipmentSlot.MAINHAND).decrement(1);
                     world.playSound(user, user.getBlockPos(), SoundEvents.ENTITY_ILLUSIONER_PREPARE_BLINDNESS, SoundCategory.PLAYERS, 1, 0.03F);
                     finishUsing(user.getEquippedStack(EquipmentSlot.MAINHAND), world, user);

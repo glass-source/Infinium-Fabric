@@ -50,10 +50,9 @@ public class GhoulZombieEntity extends HostileEntity implements IAnimatable, Inf
 
     @Override
     protected void initGoals() {
-        super.initGoals();
-        this.goalSelector.add(3, new WanderAroundFarGoal(this, 0.8));
-        this.goalSelector.add(3, new LookAtEntityGoal(this, MobEntity.class, 16.0F));
-        this.goalSelector.add(2, new LookAtEntityGoal(this, PlayerEntity.class, 16.0F));
+        this.goalSelector.add(3, new WanderAroundFarGoal(this, 1.0));
+        this.goalSelector.add(3, new LookAtEntityGoal(this, MobEntity.class, 15.0F));
+        this.goalSelector.add(2, new LookAtEntityGoal(this, PlayerEntity.class, 15.0F));
         this.goalSelector.add(2, new LookAroundGoal(this));
         this.goalSelector.add(1, new IEntityAttackGoal(this, 1.0f, false, PLAYING_ATTACK_ANIMATION));
         this.goalSelector.add(1, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
@@ -84,10 +83,10 @@ public class GhoulZombieEntity extends HostileEntity implements IAnimatable, Inf
     }
     public static DefaultAttributeContainer.Builder createGhoulZombieAttributes() {
         return HostileEntity.createHostileAttributes()
-        .add(EntityAttributes.GENERIC_MAX_HEALTH, 75.0)
-        .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.40f)
-        .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 30.0)
-        .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 50.0);
+        .add(EntityAttributes.GENERIC_MAX_HEALTH, 70.0)
+        .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.35f)
+        .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 10.0)
+        .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 30.0);
     }
 
     @Override
@@ -95,9 +94,9 @@ public class GhoulZombieEntity extends HostileEntity implements IAnimatable, Inf
         if (target instanceof LivingEntity entity) {
             StatusEffectInstance[] effects = {
             new StatusEffectInstance(StatusEffects.POISON, 200, 0),
-            new StatusEffectInstance(StatusEffects.SLOWNESS, 200, 2),
-            new StatusEffectInstance(StatusEffects.NAUSEA, 200, 4),
-            new StatusEffectInstance(StatusEffects.HUNGER, 200, 14),
+            new StatusEffectInstance(StatusEffects.SLOWNESS, 200, 0),
+            new StatusEffectInstance(StatusEffects.NAUSEA, 200, 0),
+            new StatusEffectInstance(StatusEffects.HUNGER, 200, 9),
             };
             int randomNumber = random.nextInt(effects.length);
             entity.addStatusEffect(effects[randomNumber]);

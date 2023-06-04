@@ -19,8 +19,16 @@ public class EnderDragonEntityMixin extends MobEntity implements Monster {
         super(entityType, world);
     }
 
+    @Inject(method = "initDataTracker", at = @At("TAIL"))
+    public void initGoals(CallbackInfo ci) {
+        if (Infinium.getInstance().getDateUtils() == null) return;
+        if (Infinium.getInstance().getDateUtils().getCurrentDay() >= 4) {
+
+        }
+    }
+
     @Inject(method = "kill", at = @At("TAIL"))
-    public void injectAtTail(CallbackInfo ci) {
+    public void kill(CallbackInfo ci) {
         Infinium.getInstance().getCore().getTotalPlayers().forEach(p -> Criteria.PLAYER_KILLED_ENTITY.trigger(p, this, this.getRecentDamageSource()));
     }
 

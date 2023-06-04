@@ -73,7 +73,6 @@ public class InfiniumServerManager {
         ServerLifecycleEvents.SERVER_STARTED.register(server1 -> {
             this.server = server1;
             this.adventure = FabricServerAudiences.of(this.server);
-
             try {
                 this.dataManager = new DataManager(this.instance);
 
@@ -89,8 +88,7 @@ public class InfiniumServerManager {
             var nightmareWorld = this.server.getWorld(InfiniumDimensions.THE_NIGHTMARE);
             serverRules.get(GameRules.DO_IMMEDIATE_RESPAWN).set(true, this.server);
             serverRules.get(GameRules.KEEP_INVENTORY).set(true, this.server);
-            serverRules.get(GameRules.NATURAL_REGENERATION).set(dateUtils.getCurrentDay() <= 14, this.server);
-            serverRules.get(GameRules.DO_DAYLIGHT_CYCLE).set(!eclipseManager.isActive(), this.server);
+            serverRules.get(GameRules.DO_DAYLIGHT_CYCLE).set(true, this.server);
 
             if (nightmareWorld != null) {
                 nightmareWorld.getGameRules().get(GameRules.DO_DAYLIGHT_CYCLE).set(false, this.server);
@@ -101,6 +99,7 @@ public class InfiniumServerManager {
             this.initListeners();
             this.sanityManager.registerSanityTask();
             this.eclipseManager.load();
+
         });
     }
     private void onServerStop(){
@@ -112,6 +111,7 @@ public class InfiniumServerManager {
     private void initRegistries(){
         InfiniumEffects.init();
         InfiniumItems.init();
+
         InfiniumBlocks.init();
         InfiniumEntityType.init();
         InfiniumRegistries.init();
