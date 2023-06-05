@@ -9,6 +9,7 @@
     "server.entity.EntityMixin",
     "server.entity.LivingEntityMixin",
     "server.entity.boss.EnderDragonEntityMixin",
+    "server.entity.boss.EnderDragonFightMixin",
     "server.entity.peaceful.ChickenEntityMixin",
     "server.entity.peaceful.CowEntityMixin",
     "server.entity.peaceful.FoxEntityMixin",

@@ -55,9 +55,10 @@ public class PlayerConnectionListeners {
         var inventory = user.getInventory();
         for (int i = 0; i < inventory.size(); i++) {
             if (inventory.getStack(i) != null) {
-                var data = inventory.getStack(i).getOrCreateNbt();
+                var stackI = inventory.getStack(i);
+                var data = stackI.getOrCreateNbt();
 
-                if (inventory.getStack(i).getItem() instanceof InfiniumItem item) {
+                if (stackI.getItem() instanceof InfiniumItem item) {
                     var cooldownString = "infinium.cooldown." + item;
                     var startingTickString = "infinium.cooldown.start." + item;
 
@@ -72,6 +73,10 @@ public class PlayerConnectionListeners {
                     if (data.getInt(cooldownString) < 0) {
                         data.putInt(cooldownString, 0);
                     }
+
+                   if (item.getCurrentCooldown(stackI) > item.getMaxCooldown(stackI)) {
+                       data.putInt(cooldownString, item.getMaxCooldown(stackI));
+                   }
                 }
             }
         }
@@ -171,7 +176,6 @@ public class PlayerConnectionListeners {
         zSwixy("ec8c7874-dd7f-4139-b4b3-e3cc713a0ae3"),
         Alex1jared("f4cffb4d-1289-40f9-9646-07e38f10d5ec"),
         cPatoz("081874f7-df41-4c61-a327-953de12f0157"),
-        nosejiro("ecb5f2a4-09d3-48da-8c51-d1b5adda6e43"),
         noselight("309db69e-cf59-42fd-b047-62c7cf84dae9"),
         WaterMelonRT("1acba74e-8c93-4327-b382-42144e05077a"),
         ThroughTime("f3f59697-d07a-46d7-9fa1-fd399ef9ded7"),

@@ -1,7 +1,7 @@
 package com.infinium.server.items;
 
 import com.infinium.Infinium;
-import com.infinium.global.utils.ChatFormatter;
+import com.infinium.server.items.custom.tools.runes.RuneItem;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.LivingEntity;
@@ -21,22 +21,11 @@ public interface InfiniumItem {
         var cooldownString = "infinium.cooldown." + this;
         return data.getInt(cooldownString) - Infinium.getInstance().getCore().getServer().getTicks();
     }
-    default boolean fromMagmaToolHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        if (!target.getWorld().isClient()) {
-            stack.damage(1, attacker, p -> p.sendToolBreakStatus(attacker.getActiveHand()));
-            if (target instanceof EndermanEntity || target instanceof ShulkerEntity) {
-                target.addStatusEffect(new StatusEffectInstance(StatusEffects.GLOWING, 160, 0));
-                target.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 160, 4));
-                target.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 160, 4));
-            } else {
-                target.addStatusEffect(new StatusEffectInstance(StatusEffects.GLOWING, 160, 0));
-                target.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 160, 4));
-                target.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 160, 4));
-                target.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 160, 4));
-            }
-            return true;
+    default int getMaxCooldown(ItemStack stack) {
+        if (stack.getItem() instanceof RuneItem runeItem) {
+            return Infinium.getInstance().getCore().getServer().getTicks() + runeItem.getCooldownTicks();
         }
-        return false;
+        return 0;
     }
     default void appendInfiniumToolTip(List<Text> tooltip, String toolString, int lines) {
         if (Screen.hasShiftDown()) {
@@ -56,15 +45,22 @@ public interface InfiniumItem {
             tooltip.add(new TranslatableText("item.infinium.general.tooltip"));
         }
     }
-
-    default void appendRuneCooldown(ItemStack stack, List<Text> tooltip, String msg) {
-        int cooldown = this.getCurrentCooldown(stack);
-        if (cooldown <= 0) {
-            tooltip.add(new TranslatableText("item.infinium.no_cooldown.tooltip"));
-        } else {
-            tooltip.add(ChatFormatter.text(msg));
+    default boolean fromMagmaToolHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+        if (!target.getWorld().isClient()) {
+            stack.damage(1, attacker, p -> p.sendToolBreakStatus(attacker.getActiveHand()));
+            if (target instanceof EndermanEntity || target instanceof ShulkerEntity) {
+                target.addStatusEffect(new StatusEffectInstance(StatusEffects.GLOWING, 160, 0));
+                target.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 160, 4));
+                target.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 160, 4));
+            } else {
+                target.addStatusEffect(new StatusEffectInstance(StatusEffects.GLOWING, 160, 0));
+                target.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 160, 4));
+                target.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 160, 4));
+                target.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 160, 4));
+            }
+            return true;
         }
-
+        return false;
     }
     default void enchantMagmaTools(ItemStack stack) {
         stack.addEnchantment(Enchantments.MENDING, 1);

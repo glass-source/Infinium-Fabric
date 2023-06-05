@@ -1,14 +1,11 @@
 package com.infinium.client.renderer.mobs.hostile.raidmobs;
 
-import com.infinium.Infinium;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.entity.model.CrossbowPosing;
-import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.client.render.entity.model.IllagerEntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.mob.IllagerEntity;
 import net.minecraft.util.Arm;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 
 public class InfiniumVindicatorModel<T extends IllagerEntity> extends IllagerEntityModel<T> {
@@ -145,35 +142,37 @@ public class InfiniumVindicatorModel<T extends IllagerEntity> extends IllagerEnt
             this.leftLeg.roll = 0.0F;
         }
 
-        IllagerEntity.State state = illagerEntity.getState();
+        try {
+            IllagerEntity.State state = illagerEntity.getState();
 
-        switch (state) {
-            case ATTACKING -> {
-                if (illagerEntity.getMainHandStack().isEmpty()) {
-                    CrossbowPosing.meleeAttack(this.leftArm, this.rightArm, true, this.handSwingProgress, h);
-                } else {
-                    CrossbowPosing.meleeAttack(this.rightArm, this.leftArm, illagerEntity, this.handSwingProgress, h);
+            switch (state) {
+                case ATTACKING -> {
+                    if (illagerEntity.getMainHandStack().isEmpty()) {
+                        CrossbowPosing.meleeAttack(this.leftArm, this.rightArm, true, this.handSwingProgress, h);
+                    } else {
+                        CrossbowPosing.meleeAttack(this.rightArm, this.leftArm, illagerEntity, this.handSwingProgress, h);
+                    }
+                }
+
+                case CELEBRATING -> {
+                    this.rightArm.pivotZ = 0.0F;
+                    this.rightArm.pivotX = -5.0F;
+                    this.rightArm.pitch = MathHelper.cos(h * 0.6662F) * 0.05F;
+                    this.rightArm.roll = 2.670354F;
+                    this.rightArm.yaw = 0.0F;
+                    this.leftArm.pivotZ = 0.0F;
+                    this.leftArm.pivotX = 5.0F;
+                    this.leftArm.pitch = MathHelper.cos(h * 0.6662F) * 0.05F;
+                    this.leftArm.roll = -2.3561945F;
+                    this.leftArm.yaw = 0.0F;
                 }
             }
 
-            case CELEBRATING -> {
-                this.rightArm.pivotZ = 0.0F;
-                this.rightArm.pivotX = -5.0F;
-                this.rightArm.pitch = MathHelper.cos(h * 0.6662F) * 0.05F;
-                this.rightArm.roll = 2.670354F;
-                this.rightArm.yaw = 0.0F;
-                this.leftArm.pivotZ = 0.0F;
-                this.leftArm.pivotX = 5.0F;
-                this.leftArm.pitch = MathHelper.cos(h * 0.6662F) * 0.05F;
-                this.leftArm.roll = -2.3561945F;
-                this.leftArm.yaw = 0.0F;
-            }
-        }
-
-        boolean bl = state == IllagerEntity.State.CROSSED;
-        this.arms.visible = bl;
-        this.leftArm.visible = !bl;
-        this.rightArm.visible = !bl;
+            boolean bl = state == IllagerEntity.State.CROSSED;
+            this.arms.visible = bl;
+            this.leftArm.visible = !bl;
+            this.rightArm.visible = !bl;
+        } catch (Exception ignored) {}
     }
 
 

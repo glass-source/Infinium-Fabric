@@ -111,7 +111,7 @@ public class SuperNovaEntity extends HostileEntity implements SkinOverlayOwner, 
         this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
         this.goalSelector.add(7, new LookAroundGoal(this));
         this.targetSelector.add(1, new RevengeGoal(this));
-        this.targetSelector.add(0, new SuperNovaTargetGoal(this,false));
+        this.targetSelector.add(0, new SuperNovaTargetGoal(this, false));
     }
 
     protected void initDataTracker() {
@@ -537,7 +537,7 @@ public class SuperNovaEntity extends HostileEntity implements SkinOverlayOwner, 
     }
     private class SuperNovaTargetGoal extends ActiveTargetGoal<PlayerEntity> {
         private int attackCooldown = (20 * 10);
-        private Attacks lastAttack;
+        private SupernovaAttacks lastAttack;
         private int lastAttackIndex = 1;
         private boolean canAttack = true;
         private LivingEntity lastTarget;
@@ -555,21 +555,20 @@ public class SuperNovaEntity extends HostileEntity implements SkinOverlayOwner, 
         private void attack() {
             var superNova = SuperNovaEntity.this;
             var instance = Infinium.getInstance();
-            Attacks currentAttack;
+            SupernovaAttacks currentAttack;
             this.lastTarget = superNova.getTarget();
             switch (lastAttackIndex)  {
-                case 0 -> currentAttack = Attacks.EXPLOSION;
-                case 1 -> currentAttack = Attacks.NEGATIVE_EFFECTS;
-                case 2 -> currentAttack = Attacks.TNT_CIRCLE;
-                case 3 -> currentAttack = Attacks.SUMMON_MOBS;
-                case 4 -> currentAttack = Attacks.DISGUISE_PLAYERS;
-                case 5 -> currentAttack = Attacks.BEDROCK_BARRIER;
-                default -> currentAttack = Attacks.RANDOM_ATTACK;
-
+                case 0 -> currentAttack = SupernovaAttacks.EXPLOSION;
+                case 1 -> currentAttack = SupernovaAttacks.NEGATIVE_EFFECTS;
+                case 2 -> currentAttack = SupernovaAttacks.TNT_CIRCLE;
+                case 3 -> currentAttack = SupernovaAttacks.SUMMON_MOBS;
+                case 4 -> currentAttack = SupernovaAttacks.DISGUISE_PLAYERS;
+                case 5 -> currentAttack = SupernovaAttacks.BEDROCK_BARRIER;
+                default -> currentAttack = SupernovaAttacks.RANDOM_ATTACK;
             }
 
-            if (currentAttack == Attacks.RANDOM_ATTACK) {
-                Attacks[] attacks = Attacks.values();
+            if (currentAttack == SupernovaAttacks.RANDOM_ATTACK) {
+                SupernovaAttacks[] attacks = SupernovaAttacks.values();
                 currentAttack = attacks[new Random().nextInt(attacks.length)];
             }
 
@@ -714,7 +713,7 @@ public class SuperNovaEntity extends HostileEntity implements SkinOverlayOwner, 
             this.lastAttack = currentAttack;
             this.attackCooldown = (20 * 8);
             this.lastAttackIndex++;
-            if (lastAttackIndex > Attacks.values().length - 1) this.lastAttackIndex = 0;
+            if (lastAttackIndex > SupernovaAttacks.values().length - 1) this.lastAttackIndex = 0;
             this.sendMessage();
         }
         private void sendMessage() {
@@ -789,7 +788,7 @@ public class SuperNovaEntity extends HostileEntity implements SkinOverlayOwner, 
 
             return new BlockPos(x,blockPos.getY() + d, z);
         }
-        private enum Attacks {
+        private enum SupernovaAttacks {
             EXPLOSION("Stays still for 8 seconds and generates an explosion"),
             NEGATIVE_EFFECTS("Lowers sanity of all players and gives them random negative effects"),
             TNT_CIRCLE("Summons a circle of primed tnts"),
@@ -798,7 +797,7 @@ public class SuperNovaEntity extends HostileEntity implements SkinOverlayOwner, 
             DISGUISE_PLAYERS("Sets the identity of online players to a duck."),
             RANDOM_ATTACK("Random Attack");
 
-            Attacks(String s) {
+            SupernovaAttacks(String s) {
 
             }
         }

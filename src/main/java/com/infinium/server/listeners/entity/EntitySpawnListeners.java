@@ -4,6 +4,7 @@ import com.infinium.Infinium;
 import com.infinium.global.utils.ChatFormatter;
 import com.infinium.server.eclipse.SolarEclipseManager;
 import com.infinium.server.entities.InfiniumEntityType;
+import com.infinium.server.entities.mobs.hostile.bosses.NebulaFight;
 import com.infinium.server.entities.mobs.hostile.bosses.SuperNovaEntity;
 import com.infinium.server.entities.mobs.hostile.raidmobs.RaiderEntity;
 import com.infinium.server.events.entity.EntitySpawnEvent;
@@ -12,6 +13,8 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.boss.dragon.EnderDragonEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.CreeperEntity;
@@ -47,7 +50,16 @@ public class EntitySpawnListeners {
 
             if (entity instanceof SuperNovaEntity superNovaEntity) superNovaEntity.onSummoned();
 
-            else switch (world.getRegistryKey().getValue().toString()) {
+            else if (entity instanceof EnderDragonEntity enderDragonEntity) {
+                enderDragonEntity.setCustomName(ChatFormatter.text("&5&lNebula"));
+                var fight = new NebulaFight(enderDragonEntity);
+                var healthAttribute = enderDragonEntity.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH);
+                fight.start();
+                if (healthAttribute != null) {
+                    healthAttribute.setBaseValue(9500.0f);
+                    enderDragonEntity.setHealth(9500.0f);
+                }
+            } else switch (world.getRegistryKey().getValue().toString()) {
 
                 case "minecraft:overworld" -> {
 

@@ -22,9 +22,7 @@ public class Infinium implements ModInitializer {
     public static Identifier id(String arg) {
         return new Identifier(MOD_ID, arg);
     }
-
     public static final String MOD_ID = "infinium";
-
     private static final Gson gson = new GsonBuilder()
             .registerTypeAdapter(ScheduledFuture.class, new ScheduledFutureInstanceCreator())
             .setPrettyPrinting()

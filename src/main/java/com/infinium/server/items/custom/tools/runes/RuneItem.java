@@ -11,7 +11,6 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolItem;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
@@ -27,7 +26,7 @@ public class RuneItem extends ToolItem implements InfiniumItem {
     protected final int effectDurationTicks;
     protected final int cooldownTicks;
     protected final int amplifier;
-    protected MinecraftServer server;
+    protected String msg;
     public RuneItem(Settings settings, StatusEffect statusEffect, int effectDurationTicks, int cooldownTicks) {
         super(InfiniumToolMaterials.VOID, settings);
         this.statusEffect = statusEffect;
@@ -51,7 +50,6 @@ public class RuneItem extends ToolItem implements InfiniumItem {
 
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         if (!world.isClient()) {
-            this.server = Infinium.getInstance().getCore().getServer();
             var stack = user.getStackInHand(hand);
             var data = stack.getOrCreateNbt();
             var cooldownString = "infinium.cooldown." + this;
@@ -69,6 +67,7 @@ public class RuneItem extends ToolItem implements InfiniumItem {
 
             } else {
                 var msg = getCooldownMsg(stack);
+                this.msg = msg;
                 user.sendMessage(ChatFormatter.textWithPrefix(msg), false);
             }
         }
@@ -87,6 +86,7 @@ public class RuneItem extends ToolItem implements InfiniumItem {
     }
     public String getCooldownMsg(ItemStack stack) {
         int cooldownTicks = this.getCurrentCooldown(stack);
+        if (cooldownTicks <= 0) return "No cooldown";
         int timeCooldownSeconds = cooldownTicks / 20;
         var timeCooldownMinutes = timeCooldownSeconds % 3600 / 60;
         var formattedSeconds = timeCooldownSeconds % 60;
@@ -95,8 +95,11 @@ public class RuneItem extends ToolItem implements InfiniumItem {
     @Override
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
         super.appendTooltip(stack, world, tooltip, context);
-        if (this.server != null) tooltip.add(ChatFormatter.text("Cooldown: " + this.getCurrentCooldown(stack)));
-
+        if (this.msg != null) tooltip.add(ChatFormatter.text(this.msg));
         appendGeneralToolTip(stack, tooltip, 2);
+    }
+
+    public int getCooldownTicks() {
+        return cooldownTicks;
     }
 }
