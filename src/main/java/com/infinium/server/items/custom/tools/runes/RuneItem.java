@@ -59,6 +59,7 @@ public class RuneItem extends ToolItem implements InfiniumItem {
                     }
                 }
             }
+
             Collections.sort(cooldowns);
             var data = stack.getOrCreateNbt();
             data.putInt("cooldownTicks", cooldowns.get(cooldowns.size() - 1) - 1);
