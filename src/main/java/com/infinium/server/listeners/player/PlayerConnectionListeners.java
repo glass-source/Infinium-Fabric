@@ -3,7 +3,6 @@ package com.infinium.server.listeners.player;
 import com.infinium.Infinium;
 import com.infinium.networking.InfiniumPackets;
 import com.infinium.server.InfiniumServerManager;
-import com.infinium.server.items.InfiniumItem;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -41,7 +40,6 @@ public class PlayerConnectionListeners {
             var eclipseManager = core.getEclipseManager();
             player.getInventory().onOpen(player);
             initSanity(player);
-            initCooldowns(player);
             checkBannedPlayers(player);
 
             if (eclipseManager.isActive()) {
@@ -49,37 +47,6 @@ public class PlayerConnectionListeners {
                 eclipseManager.getBossBar().addPlayer(player);
             }
         });
-    }
-
-    private void initCooldowns(ServerPlayerEntity user) {
-        var inventory = user.getInventory();
-        for (int i = 0; i < inventory.size(); i++) {
-            if (inventory.getStack(i) != null) {
-                var stackI = inventory.getStack(i);
-                var data = stackI.getOrCreateNbt();
-
-                if (stackI.getItem() instanceof InfiniumItem item) {
-                    var cooldownString = "infinium.cooldown." + item;
-                    var startingTickString = "infinium.cooldown.start." + item;
-
-                    if (data.get(cooldownString) == null) {
-                        data.putInt(cooldownString, 0);
-                    }
-
-                    if (data.get(startingTickString) == null) {
-                        data.putInt(startingTickString, 0);
-                    }
-
-                    if (data.getInt(cooldownString) < 0) {
-                        data.putInt(cooldownString, 0);
-                    }
-
-                   if (item.getCurrentCooldown(stackI) > item.getMaxCooldown(stackI)) {
-                       data.putInt(cooldownString, item.getMaxCooldown(stackI));
-                   }
-                }
-            }
-        }
     }
     private void initSanity(ServerPlayerEntity player) {
         var sanityManager = core.getSanityManager();

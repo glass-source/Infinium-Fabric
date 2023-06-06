@@ -1,7 +1,5 @@
 package com.infinium.server.items;
 
-import com.infinium.Infinium;
-import com.infinium.server.items.custom.tools.runes.RuneItem;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.LivingEntity;
@@ -16,17 +14,6 @@ import net.minecraft.text.TranslatableText;
 import java.util.List;
 
 public interface InfiniumItem {
-    default int getCurrentCooldown(ItemStack stack) {
-        var data = stack.getOrCreateNbt();
-        var cooldownString = "infinium.cooldown." + this;
-        return data.getInt(cooldownString) - Infinium.getInstance().getCore().getServer().getTicks();
-    }
-    default int getMaxCooldown(ItemStack stack) {
-        if (stack.getItem() instanceof RuneItem runeItem) {
-            return Infinium.getInstance().getCore().getServer().getTicks() + runeItem.getCooldownTicks();
-        }
-        return 0;
-    }
     default void appendInfiniumToolTip(List<Text> tooltip, String toolString, int lines) {
         if (Screen.hasShiftDown()) {
             for (int i = 0; i < lines; i++) {

@@ -27,8 +27,7 @@ public class KairosClockItem extends Item implements InfiniumItem {
     }
     @Override
     public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
-        super.inventoryTick(stack, world, entity, slot, selected);
-        if (entity instanceof PlayerEntity pl && pl.getServer() != null) {
+        if (entity instanceof PlayerEntity pl && pl.getServer() != null && !world.isClient()) {
             stateList.add(new PlayerState(pl));
         }
     }

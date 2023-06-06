@@ -27,6 +27,7 @@ public class SanityHudOverlay implements HudRenderCallback {
         var playerSanity = ((EntityDataSaver) p).getPersistentData().getInt("infinium.sanity");
         int scaledWidth = window.getScaledWidth() / 3;
         int scaledHeight = (window.getScaledHeight() / 6);
+
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 0.85F);
 
@@ -49,8 +50,4 @@ public class SanityHudOverlay implements HudRenderCallback {
         DrawableHelper.drawTexture(matrices, x, y, -10,0, 0, 18, (int) i, 18, 34);
 
     }
-
-
-
-
 }

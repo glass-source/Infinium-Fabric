@@ -85,16 +85,8 @@ public class InfiniumServerManager {
             this.dataManager.restoreWorldData();
 
             var serverRules = this.server.getGameRules();
-            var nightmareWorld = this.server.getWorld(InfiniumDimensions.THE_NIGHTMARE);
             serverRules.get(GameRules.DO_IMMEDIATE_RESPAWN).set(true, this.server);
             serverRules.get(GameRules.KEEP_INVENTORY).set(true, this.server);
-            serverRules.get(GameRules.DO_DAYLIGHT_CYCLE).set(true, this.server);
-
-            if (nightmareWorld != null) {
-                nightmareWorld.getGameRules().get(GameRules.DO_DAYLIGHT_CYCLE).set(false, this.server);
-                nightmareWorld.setTimeOfDay(18000);
-            }
-
             this.initPortals(server1);
             this.initListeners();
             this.sanityManager.registerSanityTask();
