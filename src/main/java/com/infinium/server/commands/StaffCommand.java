@@ -110,10 +110,15 @@ public class StaffCommand {
 
 
                 .then(CommandManager.literal("eclipse")
+
                         .then(CommandManager.literal("end")
                                 .executes(StaffCommand::endEclipse))
                         .then(CommandManager.literal("get")
                                 .executes(StaffCommand::getEclipseTime))
+                        .then(CommandManager.literal("toggle")
+                                .then(CommandManager.argument("value", StringArgumentType.string())
+                                        .executes(context ->
+                                                setCanStart(context, Boolean.parseBoolean(StringArgumentType.getString(context, "value"))))))
                         .then(CommandManager.literal("start")
                                 .then(CommandManager.argument("duration", FloatArgumentType.floatArg())
                                         .executes(context ->
@@ -316,17 +321,34 @@ public class StaffCommand {
         eclipseManager.end();
         return 0;
     }
-
     private static int startEclipse(CommandContext<ServerCommandSource> source, float duration) {
         try{
-            eclipseManager.start(duration);
-            source.getSource().sendFeedback(ChatFormatter.text("&7Ha empezado un Eclipse Solar correctamente!"), true);
+            if (eclipseManager.getCanStart()) {
+                eclipseManager.start(duration);
+                source.getSource().sendFeedback(ChatFormatter.text("&7Ha empezado un Eclipse Solar correctamente!"), true);
+            } else {
+                source.getSource().sendFeedback(ChatFormatter.text("&7El eclipse solar esta deshabilitado!"), true);
+                source.getSource().sendFeedback(ChatFormatter.text("&7Puedes habilitarlo con /staff eclipse toggle <true|false>"), true);
+            }
+
             return 1;
         }catch (Exception ex) {
             ex.printStackTrace();
             source.getSource().sendError(ChatFormatter.text("&c¡Error! ese no es un número valido!"));
         }
         return -1;
+    }
+
+    private static int setCanStart(CommandContext<ServerCommandSource> source, boolean value) {
+        try {
+            eclipseManager.setCanStartEclipse(value);
+            source.getSource().sendFeedback(ChatFormatter.text("&7Se ha modificado el valor a: " + value), true);
+            return 1;
+        } catch (Exception ex) {
+            source.getSource().sendError(ChatFormatter.text("&c¡Error! ese no es un valor valido!"));
+            ex.printStackTrace();
+            return -1;
+        }
     }
 
     private static int getEclipseTime(CommandContext<ServerCommandSource> source) {

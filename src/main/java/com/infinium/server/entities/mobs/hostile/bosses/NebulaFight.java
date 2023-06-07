@@ -22,6 +22,7 @@ import java.util.concurrent.TimeUnit;
 
 public class NebulaFight {
 
+    private boolean isRunning = false;
     private int attackCooldown = 200;
     private final EnderDragonEntity mob;
     private NebulaAttacks lastAttack;
@@ -34,6 +35,7 @@ public class NebulaFight {
         this.mob = mob;
     }
     public void stop() {
+        isRunning = false;
         attackTask.cancel(true);
         attackTask = null;
         fightTask.cancel(true);
@@ -46,6 +48,8 @@ public class NebulaFight {
         mob.kill();
     }
     public void start() {
+        isRunning = true;
+        ChatFormatter.broadcastMessage("started");
         var instance = Infinium.getInstance();
         instance.getExecutor().scheduleAtFixedRate(() -> {
             if (canAttack) attackCooldown--;
@@ -164,6 +168,10 @@ public class NebulaFight {
     public NebulaFight getNebulaFight(EnderDragonEntity mob) {
         if (this.mob == mob) return this;
         return null;
+    }
+
+    public boolean isRunning() {
+        return this.isRunning;
     }
     private enum NebulaAttacks {
         NEGATIVE_EFFECTS(),

@@ -7,13 +7,12 @@ public class SolarEclipseManager {
     private final Infinium instance;
     private final SolarEclipse eclipse;
     private final ServerBossBar serverBossBar;
-
+    private boolean canStartEclipse = true;
     public SolarEclipseManager(Infinium instance){
         this.instance = instance;
         this.eclipse = new SolarEclipse(this);
         this.serverBossBar = eclipse.getBossBar();
     }
-
     public void load() {
         if (this.instance.getCore() == null || this.instance.getCore().getServer() == null) {
             Infinium.getInstance().LOGGER.error("Server was null");
@@ -46,12 +45,11 @@ public class SolarEclipseManager {
         dataManager.saveWorldData();
         eclipse.end();
     }
-
-
-
     public void start(double hours){
-        if (hours <= 0) eclipse.start(0.5f);
-        else eclipse.start(hours);
+        if (this.getCanStart()) {
+            if (hours <= 0) eclipse.start(0.5f);
+            else eclipse.start(hours);
+        }
     }
 
     public void end(){
@@ -88,6 +86,13 @@ public class SolarEclipseManager {
 
     public long startFromLoad(){
         return (eclipse.getEndsIn() / 1000) / 3600;
+    }
+
+    public void setCanStartEclipse(boolean value) {
+        this.canStartEclipse = value;
+    }
+    public boolean getCanStart() {
+        return this.canStartEclipse;
     }
 
 }

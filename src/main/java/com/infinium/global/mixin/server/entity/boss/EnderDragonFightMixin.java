@@ -23,10 +23,7 @@ public class EnderDragonFightMixin  {
     private void updateFight(EnderDragonEntity dragon, CallbackInfo ci) {
         if (dragon.getUuid().equals(this.dragonUuid)) {
             NebulaFight fight = new NebulaFight(dragon);
-            if (fight == fight.getNebulaFight(dragon)) {
-                fight.stop();
-                fight.start();
-            }
+            if (!fight.isRunning()) fight.start();
             this.bossBar.setColor(BossBar.Color.BLUE);
             this.bossBar.setStyle(BossBar.Style.NOTCHED_12);
         }

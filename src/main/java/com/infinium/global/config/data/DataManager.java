@@ -21,8 +21,7 @@ public class DataManager {
 
     public void saveWorldData() {
         var startDate = core.getDateUtils().getStartDate().toString();
-
-        gameData.setJsonObject(Infinium.getGson().toJsonTree(new WorldData(startDate, manager.getTimeToEnd(), manager.getTotalTime(), manager.getLastTimeChecked())).getAsJsonObject());
+        gameData.setJsonObject(Infinium.getGson().toJsonTree(new WorldData(startDate, manager.getTimeToEnd(), manager.getTotalTime(), manager.getLastTimeChecked(), manager.getCanStart())).getAsJsonObject());
         try {
 
             gameData.save();
@@ -34,7 +33,7 @@ public class DataManager {
         WorldData worldData;
         if (getGameData().entrySet().isEmpty()) {
             String startDate = LocalDate.now().toString();
-            worldData = new WorldData(startDate, 0, 0, 0);
+            worldData = new WorldData(startDate, 0, 0, 0, true);
 
         } else {
             worldData = Infinium.getGson().fromJson(getGameData(), WorldData.class);

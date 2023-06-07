@@ -18,15 +18,15 @@ public class SanityHudOverlay implements HudRenderCallback {
     @Override
     public void onHudRender(MatrixStack matrixStack, float tickDelta) {
         var client = MinecraftClient.getInstance();
-        if (client == null || client.player == null) return;
+        if (client == null || client.player == null || client.options.debugEnabled) return;
         var p = client.player;
-
         if (p.isSpectator() || p.isCreative()) return;
         var window = client.getWindow();
 
         var playerSanity = ((EntityDataSaver) p).getPersistentData().getInt("infinium.sanity");
         int scaledWidth = window.getScaledWidth() / 3;
         int scaledHeight = (window.getScaledHeight() / 6);
+        var color = playerSanity < 50 ? "&4" : "&6";
 
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 0.85F);
@@ -34,12 +34,10 @@ public class SanityHudOverlay implements HudRenderCallback {
         var textureMatrix = new MatrixStack();
         var textMatrix = new MatrixStack();
 
-        textureMatrix.scale(3.0f, 3.0f, 1.0f);
-        textMatrix.scale(1.5f, 1.5f, 1.0f);
-
-        renderBar(textureMatrix, scaledWidth - 25, scaledHeight - 10, p);
-        String color = playerSanity < 50 ? "&4" : "&6";
-        DrawableHelper.drawTextWithShadow(textMatrix, client.textRenderer, ChatFormatter.text("🧠 &7[" + color + playerSanity + "%&7]"), (scaledWidth * 2) - 45, (scaledHeight * 2) - 50, 0xFFFFFF);
+        textureMatrix.scale(2.5f, 2.5f, 1.0f);
+        textMatrix.scale(1.25f, 1.25f, 1.0f);
+        DrawableHelper.drawTextWithShadow(textMatrix, client.textRenderer, ChatFormatter.text("🧠 &7[" + color + playerSanity + "%&7]"), (scaledWidth * 2) + 45, (scaledHeight * 2) - 25, 0xFFFFFF);
+        renderBar(textureMatrix, scaledWidth + 25, scaledHeight, p);
     }
 
     private void renderBar(MatrixStack matrices, int x, int y, ClientPlayerEntity p) {
