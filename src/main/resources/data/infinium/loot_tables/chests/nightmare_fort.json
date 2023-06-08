@@ -2,7 +2,7 @@
   "type": "minecraft:chest",
   "pools": [
     {
-      "rolls": 4.0,
+      "rolls": 2.0,
       "entries": [
 
         {
@@ -13,29 +13,13 @@
               "function": "minecraft:set_count",
               "count": {
                 "type": "minecraft:uniform",
-                "min": 4.0,
-                "max": 12.0
+                "min": 12.0,
+                "max": 64.0
               },
               "add": false
             }
           ],
           "name": "infinium:sanity_pill"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 15,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "type": "minecraft:uniform",
-                "min": 4.0,
-                "max": 16.0
-              },
-              "add": false
-            }
-          ],
-          "name": "minecraft:enchanted_golden_apple"
         },
 
         {
@@ -46,8 +30,8 @@
               "function": "minecraft:set_count",
               "count": {
                 "type": "minecraft:uniform",
-                "min": 4.0,
-                "max": 16.0
+                "min": 12.0,
+                "max": 64.0
               },
               "add": false
             }
@@ -57,51 +41,19 @@
 
         {
           "type": "minecraft:item",
-          "weight": 20,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "type": "minecraft:uniform",
-                "min": 32.0,
-                "max": 64.0
-              },
-              "add": false
-            }
-          ],
-          "name": "minecraft:magma_cream"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 1,
+          "weight": 5,
           "functions": [
             {
               "function": "minecraft:set_count",
               "count": {
                 "type": "minecraft:uniform",
                 "min": 1.0,
-                "max": 4.0
+                "max": 3.0
               },
               "add": false
             }
           ],
           "name": "infinium:magma_shard"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 10,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "type": "minecraft:uniform",
-                "min": 8.0,
-                "max": 32.0
-              },
-              "add": false
-            }
-          ],
-          "name": "infinium:empanada_carne"
         }
       ]
     }

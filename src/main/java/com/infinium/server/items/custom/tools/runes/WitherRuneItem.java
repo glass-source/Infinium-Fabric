@@ -40,6 +40,14 @@ public class WitherRuneItem extends ToolItem implements InfiniumItem {
     }
 
     @Override
+    public boolean hasGlint(ItemStack stack) {
+        if (stack.getHolder() instanceof PlayerEntity entity) {
+            return !entity.getItemCooldownManager().isCoolingDown(this);
+        }
+        return super.hasGlint(stack);
+    }
+
+    @Override
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
         appendGeneralToolTip(stack, tooltip, 2);
         super.appendTooltip(stack, world, tooltip, context);
