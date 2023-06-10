@@ -1,15 +1,19 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    " S ",
+    "NSN",
     "SVS",
-    " S "
+    "NSN"
   ],
 
   "key": {
 
     "S": {
       "item": "infinium:magma_shard"
+    },
+
+    "N": {
+      "item": "infinium:nightmare_ingot"
     },
 
     "V": {

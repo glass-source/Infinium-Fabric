@@ -136,7 +136,7 @@ public class InfiniumItems {
     }
 
     private static void registerMisc() {
-        NIGHTMARE_INGOT = registerItem("nightmare_ingot", new Item(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC).maxCount(1).fireproof()));
+        NIGHTMARE_INGOT = registerItem("nightmare_ingot", new Item(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC).maxCount(64).fireproof()));
         MAGMA_SHARD = registerItem("magma_shard", new Item(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC).maxCount(64).fireproof()));
         MYSTERIOUS_KEY = registerItem("mysterious_key", new Item(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC).maxCount(1).fireproof()));
         KEY_SHARD = registerItem("key_shard", new Item(new FabricItemSettings().group(InfiniumItemGroups.INFINIUM).rarity(Rarity.EPIC).maxCount(5).fireproof()));
