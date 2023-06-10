@@ -41,9 +41,9 @@ public class SanityHudOverlay implements HudRenderCallback {
     }
 
     private void renderBar(MatrixStack matrices, int x, int y, ClientPlayerEntity p) {
+        var i = (((EntityDataSaver) p).getPersistentData().getInt("infinium.sanity") * 0.34);
         RenderSystem.setShaderTexture(0, SANITY_EMPTY);
         DrawableHelper.drawTexture(matrices, x, y,-10 ,0, 0, 18, 34, 18, 34);
-        var i = (((EntityDataSaver) p).getPersistentData().getInt("infinium.sanity") * 0.34);
         RenderSystem.setShaderTexture(0, SANITY_FULL);
         DrawableHelper.drawTexture(matrices, x, y, -10,0, 0, 18, (int) i, 18, 34);
 

@@ -2,7 +2,7 @@
   "type": "minecraft:chest",
   "pools": [
     {
-      "rolls": 2.0,
+      "rolls": 3.0,
       "entries": [
         {
           "type": "minecraft:item",
@@ -32,7 +32,7 @@
 
         {
           "type": "minecraft:item",
-          "weight": 15,
+          "weight": 10,
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -44,7 +44,7 @@
         },
         {
           "type": "minecraft:item",
-          "weight": 15,
+          "weight": 20,
           "functions": [
             {
               "function": "minecraft:set_count",

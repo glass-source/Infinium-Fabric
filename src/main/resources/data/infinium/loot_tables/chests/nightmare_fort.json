@@ -2,8 +2,60 @@
   "type": "minecraft:chest",
   "pools": [
     {
-      "rolls": 2.0,
+      "rolls": 7.0,
       "entries": [
+
+        {
+          "type": "minecraft:item",
+          "weight": 10,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": 1.0,
+              "add": false
+            }
+          ],
+          "name": "infinium:void_shield"
+        },
+
+        {
+          "type": "minecraft:item",
+          "weight": 15,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": 1.0,
+              "add": false
+            }
+          ],
+          "name": "infinium:void_sword"
+        },
+
+        {
+          "type": "minecraft:item",
+          "weight": 15,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": 1.0,
+              "add": false
+            }
+          ],
+          "name": "infinium:void_pickaxe"
+        },
+
+        {
+          "type": "minecraft:item",
+          "weight": 10,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": 1.0,
+              "add": false
+            }
+          ],
+          "name": "infinium:void_bow"
+        },
 
         {
           "type": "minecraft:item",
@@ -13,8 +65,8 @@
               "function": "minecraft:set_count",
               "count": {
                 "type": "minecraft:uniform",
-                "min": 12.0,
-                "max": 64.0
+                "min": 4.0,
+                "max": 16.0
               },
               "add": false
             }
@@ -30,8 +82,8 @@
               "function": "minecraft:set_count",
               "count": {
                 "type": "minecraft:uniform",
-                "min": 12.0,
-                "max": 64.0
+                "min": 4.0,
+                "max": 16.0
               },
               "add": false
             }
@@ -41,7 +93,7 @@
 
         {
           "type": "minecraft:item",
-          "weight": 5,
+          "weight": 10,
           "functions": [
             {
               "function": "minecraft:set_count",
