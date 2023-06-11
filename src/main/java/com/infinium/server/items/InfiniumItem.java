@@ -55,6 +55,7 @@ public interface InfiniumItem {
         stack.addEnchantment(Enchantments.UNBREAKING, 10);
     }
     default void enchantMagmaSword(ItemStack stack) {
+        stack.addEnchantment(Enchantments.MENDING, 1);
         stack.addEnchantment(Enchantments.UNBREAKING, 10);
         stack.addEnchantment(Enchantments.FIRE_ASPECT, 10);
         stack.addEnchantment(Enchantments.LOOTING, 10);
@@ -65,6 +66,7 @@ public interface InfiniumItem {
         stack.addEnchantment(Enchantments.SWEEPING, 10);
     }
     default void enchantMagmaBow(ItemStack stack) {
+        stack.addEnchantment(Enchantments.MENDING, 1);
         stack.addEnchantment(Enchantments.UNBREAKING, 10);
         stack.addEnchantment(Enchantments.FIRE_ASPECT, 10);
         stack.addEnchantment(Enchantments.LOOTING, 10);

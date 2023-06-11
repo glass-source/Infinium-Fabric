@@ -25,7 +25,6 @@ public class MagmaArmorItem extends ArmorItem implements InfiniumItem {
     private static final EntityAttributeModifier EXTRA_HEALTH_BOOST = new EntityAttributeModifier(UUID.randomUUID(), "Magma Armor Healthboost", 24, EntityAttributeModifier.Operation.ADDITION);;
     public MagmaArmorItem(ArmorMaterial material, EquipmentSlot slot, Settings settings) {
         super(material, slot, settings);
-
     }
 
     @Override
@@ -88,11 +87,10 @@ public class MagmaArmorItem extends ArmorItem implements InfiniumItem {
     @Override
     public void onCraft(ItemStack stack, World world, PlayerEntity player) {
         super.onCraft(stack, world, player);
-
-        stack.addEnchantment(Enchantments.PROTECTION, 8);
-        stack.addEnchantment(Enchantments.UNBREAKING, 8);
+        stack.addEnchantment(Enchantments.PROTECTION, 10);
+        stack.addEnchantment(Enchantments.UNBREAKING, 10);
         stack.addEnchantment(Enchantments.MENDING, 1);
-
+        stack.getOrCreateNbt().putBoolean("Unbreakable", true);
         if (stack.getItem().equals(InfiniumItems.MAGMA_BOOTS)) {
             stack.addEnchantment(Enchantments.FEATHER_FALLING, 8);
             stack.addEnchantment(Enchantments.DEPTH_STRIDER, 8);
