@@ -53,7 +53,7 @@ public class MagmaElytraItem extends MagmaArmorItem implements FabricElytraItem 
     @Override
     public boolean useCustomElytra(LivingEntity entity, ItemStack chestStack, boolean tickElytra) {
         if (ElytraItem.isUsable(chestStack)) {
-            if (tickElytra) customElytraTick(entity, chestStack);
+            if (tickElytra) customElytraTick(entity);
             return true;
         }
 
@@ -84,13 +84,10 @@ public class MagmaElytraItem extends MagmaArmorItem implements FabricElytraItem 
         return SoundEvents.ITEM_ARMOR_EQUIP_ELYTRA;
     }
 
-    private void customElytraTick(LivingEntity entity, ItemStack chestStack){
+    private void customElytraTick(LivingEntity entity){
         int nextRoll = entity.getRoll() + 1;
 
         if (!entity.world.isClient && nextRoll % 10 == 0) {
-            if ((nextRoll / 10) % 2 == 0) {
-                chestStack.damage(1, entity, p -> p.sendEquipmentBreakStatus(EquipmentSlot.CHEST));
-            }
             entity.emitGameEvent(GameEvent.ELYTRA_FREE_FALL);
         }
     }

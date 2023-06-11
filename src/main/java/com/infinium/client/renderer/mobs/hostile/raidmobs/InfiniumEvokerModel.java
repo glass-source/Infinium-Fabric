@@ -8,7 +8,6 @@ import net.minecraft.util.Arm;
 import net.minecraft.util.math.MathHelper;
 
 public class InfiniumEvokerModel<T extends IllagerEntity> extends IllagerEntityModel<T> {
-
     private final ModelPart root;
     private final ModelPart head;
     private final ModelPart hat;
@@ -90,33 +89,35 @@ public class InfiniumEvokerModel<T extends IllagerEntity> extends IllagerEntityM
 
         IllagerEntity.State state = illagerEntity.getState();
 
-        switch (state) {
-            case SPELLCASTING -> {
-                this.rightArm.pivotZ = 0.0F;
-                this.rightArm.pivotX = -5.0F;
-                this.leftArm.pivotZ = 0.0F;
-                this.leftArm.pivotX = 5.0F;
-                this.rightArm.pitch = MathHelper.cos(h * 0.6662F) * 0.25F;
-                this.leftArm.pitch = MathHelper.cos(h * 0.6662F) * 0.25F;
-                this.rightArm.roll = 2.3561945F;
-                this.leftArm.roll = -2.3561945F;
-                this.rightArm.yaw = 0.0F;
-                this.leftArm.yaw = 0.0F;
-            }
+        try {
+            switch (state) {
+                case SPELLCASTING -> {
+                    this.rightArm.pivotZ = 0.0F;
+                    this.rightArm.pivotX = -5.0F;
+                    this.leftArm.pivotZ = 0.0F;
+                    this.leftArm.pivotX = 5.0F;
+                    this.rightArm.pitch = MathHelper.cos(h * 0.6662F) * 0.25F;
+                    this.leftArm.pitch = MathHelper.cos(h * 0.6662F) * 0.25F;
+                    this.rightArm.roll = 2.3561945F;
+                    this.leftArm.roll = -2.3561945F;
+                    this.rightArm.yaw = 0.0F;
+                    this.leftArm.yaw = 0.0F;
+                }
 
-            case CELEBRATING -> {
-                this.rightArm.pivotZ = 0.0F;
-                this.rightArm.pivotX = -5.0F;
-                this.rightArm.pitch = MathHelper.cos(h * 0.6662F) * 0.05F;
-                this.rightArm.roll = 2.670354F;
-                this.rightArm.yaw = 0.0F;
-                this.leftArm.pivotZ = 0.0F;
-                this.leftArm.pivotX = 5.0F;
-                this.leftArm.pitch = MathHelper.cos(h * 0.6662F) * 0.05F;
-                this.leftArm.roll = -2.3561945F;
-                this.leftArm.yaw = 0.0F;
+                case CELEBRATING -> {
+                    this.rightArm.pivotZ = 0.0F;
+                    this.rightArm.pivotX = -5.0F;
+                    this.rightArm.pitch = MathHelper.cos(h * 0.6662F) * 0.05F;
+                    this.rightArm.roll = 2.670354F;
+                    this.rightArm.yaw = 0.0F;
+                    this.leftArm.pivotZ = 0.0F;
+                    this.leftArm.pivotX = 5.0F;
+                    this.leftArm.pitch = MathHelper.cos(h * 0.6662F) * 0.05F;
+                    this.leftArm.roll = -2.3561945F;
+                    this.leftArm.yaw = 0.0F;
+                }
             }
-        }
+        } catch (Exception ex) {ex.printStackTrace();}
 
         boolean bl = state == IllagerEntity.State.CROSSED;
         this.arms.visible = bl;

@@ -7,6 +7,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -27,6 +28,14 @@ public class MagmaArmorItem extends ArmorItem implements InfiniumItem {
 
     }
 
+    @Override
+    public boolean isDamageable() {
+        return false;
+    }
+    @Override
+    public boolean damage(DamageSource source) {
+        return false;
+    }
     public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
         if (world.isClient()) return;
         if (!(entity instanceof PlayerEntity p)) return;

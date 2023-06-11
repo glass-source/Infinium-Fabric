@@ -15,6 +15,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.boss.dragon.EnderDragonEntity;
+import net.minecraft.entity.boss.dragon.EnderDragonFight;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.CreeperEntity;
@@ -46,6 +47,7 @@ public class EntitySpawnListeners {
             if (Infinium.getInstance().getDateUtils() == null) return ActionResult.PASS;
             var day = Infinium.getInstance().getDateUtils().getCurrentDay();
             var world = (ServerWorld) entity.getWorld();
+            var server = Infinium.getInstance().getCore().getServer();
             var entityTypeString = entity.getType().toString();
 
             if (entity instanceof SuperNovaEntity superNovaEntity) superNovaEntity.onSummoned();
@@ -54,10 +56,13 @@ public class EntitySpawnListeners {
                 enderDragonEntity.setCustomName(ChatFormatter.text("&5&lNebula"));
                 var fight = new NebulaFight(enderDragonEntity);
                 var healthAttribute = enderDragonEntity.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH);
+                var l = server.getSaveProperties().getGeneratorOptions().getSeed();
+                var eFight = new EnderDragonFight(world, l, server.getSaveProperties().getDragonFight());
+                eFight.updateFight(enderDragonEntity);
                 fight.start();
                 if (healthAttribute != null) {
-                    healthAttribute.setBaseValue(9500.0f);
-                    enderDragonEntity.setHealth(9500.0f);
+                    healthAttribute.setBaseValue(5500.0f);
+                    enderDragonEntity.setHealth(5500.0f);
                 }
             } else switch (world.getRegistryKey().getValue().toString()) {
 

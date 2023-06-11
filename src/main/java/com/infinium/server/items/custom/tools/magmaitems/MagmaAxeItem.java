@@ -18,6 +18,12 @@ public class MagmaAxeItem extends AxeItem implements InfiniumItem {
     public MagmaAxeItem(ToolMaterial material, int attackDamage, float attackSpeed, Settings settings) {
         super(material, attackDamage, attackSpeed, settings);
     }
+
+    @Override
+    public boolean canRepair(ItemStack stack, ItemStack ingredient) {
+        return this.getMaterial().getRepairIngredient().test(ingredient) || super.canRepair(stack, ingredient);
+    }
+
     @Override
     public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         return fromMagmaToolHit(stack, target, attacker);

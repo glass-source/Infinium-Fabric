@@ -16,14 +16,13 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 
-import java.util.Random;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 public class NebulaFight {
 
     private boolean isRunning = false;
-    private int attackCooldown = 200;
+    private int attackCooldown = 400;
     private final EnderDragonEntity mob;
     private NebulaAttacks lastAttack;
     private int lastAttackIndex = 0;
@@ -49,7 +48,6 @@ public class NebulaFight {
     }
     public void start() {
         isRunning = true;
-        ChatFormatter.broadcastMessage("started");
         var instance = Infinium.getInstance();
         instance.getExecutor().scheduleAtFixedRate(() -> {
             if (canAttack) attackCooldown--;
@@ -67,16 +65,10 @@ public class NebulaFight {
         var instance = Infinium.getInstance();
         NebulaAttacks currentAttack;
         switch (lastAttackIndex)  {
-            case 0 -> currentAttack = NebulaAttacks.NEGATIVE_EFFECTS;
             case 1 -> currentAttack = NebulaAttacks.RANDOM_TELEPORT;
             case 2 -> currentAttack = NebulaAttacks.EFFECT_CLOUD;
             case 3 -> currentAttack = NebulaAttacks.BEACON;
-            default -> currentAttack = NebulaAttacks.RANDOM_ATTACK;
-        }
-
-        if (currentAttack == NebulaAttacks.RANDOM_ATTACK) {
-            NebulaAttacks[] attacks = NebulaAttacks.values();
-            currentAttack = attacks[new Random().nextInt(attacks.length)];
+            default -> currentAttack = NebulaAttacks.NEGATIVE_EFFECTS;
         }
 
         switch (currentAttack) {
@@ -106,17 +98,19 @@ public class NebulaFight {
             });
 
             case RANDOM_TELEPORT -> {
-                var playerList = instance.getCore().getTotalPlayers();
-                int[] counter = {0};
-                playerList.forEach(player -> {
-                    int j = mob.getRandom().nextInt(counter[0] + 1);
-                    var randomPlayer = playerList.get(j);
-                    var x = randomPlayer.getX();
-                    var y = randomPlayer.getY();
-                    var z = randomPlayer.getZ();
-                    player.teleport(x, y, z);
-                    counter[0]++;
-                });
+                try {
+                    var playerList = instance.getCore().getTotalPlayers();
+                    int[] counter = {0};
+                    playerList.forEach(player -> {
+                        int j = mob.getRandom().nextInt(counter[0] + 1);
+                        var randomPlayer = playerList.get(j);
+                        var x = randomPlayer.getX();
+                        var y = randomPlayer.getY();
+                        var z = randomPlayer.getZ();
+                        player.teleport(x, y, z);
+                        counter[0]++;
+                    });
+                } catch (Exception ignored) {}
             }
 
             case BEACON -> {
@@ -128,24 +122,25 @@ public class NebulaFight {
                 var y = instance.getCore().getHighestY(world, x, z);
                 beaconBlockPos = new BlockPos(x, y, z);
                 world.setBlockState(beaconBlockPos, Blocks.BEACON.getDefaultState());
-                ChatFormatter.broadcastMessageWithPrefix("Beacon in: " + x + " " + y + " " + z);
+                ChatFormatter.sendTitle(ChatFormatter.format("&7Ha aparecido un beacon!"),
+                ChatFormatter.format("&8Coordenadas: &6" + x + " " + y + " " + z), 2, 10, 2);
 
                 attackTask = instance.getExecutor().schedule(() -> {
 
                     if (world.getBlockState(beaconBlockPos) == Blocks.BEACON.getDefaultState()) {
                         var playerList = instance.getCore().getTotalPlayers();
                         playerList.forEach(player -> player.damage(DamageSource.GENERIC, 9999));
-                        ChatFormatter.broadcastMessageWithPrefix("El Beacon ha explotado!");
+                        ChatFormatter.broadcastMessageWithPrefix("&7El &6Beacon &7ha explotado!");
                     }
                     canAttack = true;
                     world.setBlockState(beaconBlockPos, Blocks.AIR.getDefaultState());
                     beaconBlockPos = null;
-                }, 25, TimeUnit.SECONDS);
+                }, 30, TimeUnit.SECONDS);
             }
         }
 
         this.lastAttack = currentAttack;
-        attackCooldown = 160 + mob.getRandom().nextInt(40);
+        attackCooldown = 260 + mob.getRandom().nextInt(40);
         this.lastAttackIndex++;
         if (lastAttackIndex > NebulaAttacks.values().length - 1) this.lastAttackIndex = 0;
         playSound();
@@ -156,7 +151,7 @@ public class NebulaFight {
             case NEGATIVE_EFFECTS -> event = SoundEvents.ENTITY_WITHER_HURT;
             case EFFECT_CLOUD -> event = SoundEvents.ENTITY_SPLASH_POTION_BREAK;
             case RANDOM_TELEPORT -> event = SoundEvents.ITEM_CHORUS_FRUIT_TELEPORT;
-            case BEACON -> event = SoundEvents.BLOCK_WOOD_BREAK;
+            case BEACON -> event = SoundEvents.BLOCK_BEACON_ACTIVATE;
             default -> event = SoundEvents.BLOCK_AMETHYST_BLOCK_FALL;
         }
 
@@ -165,21 +160,11 @@ public class NebulaFight {
     public MobEntity getMob() {
         return mob;
     }
-    public NebulaFight getNebulaFight(EnderDragonEntity mob) {
-        if (this.mob == mob) return this;
-        return null;
-    }
-
-    public boolean isRunning() {
-        return this.isRunning;
-    }
     private enum NebulaAttacks {
         NEGATIVE_EFFECTS(),
         EFFECT_CLOUD(),
         RANDOM_TELEPORT(),
-        BEACON(),
-        RANDOM_ATTACK()
-        ;
+        BEACON(),;
 
         NebulaAttacks() {
 

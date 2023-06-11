@@ -11,6 +11,23 @@
           "functions": [
             {
               "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 1.0,
+                "max": 3.0
+              },
+              "add": false
+            }
+          ],
+          "name": "infinium:nightmare_ingot"
+        },
+
+        {
+          "type": "minecraft:item",
+          "weight": 10,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
               "count": 1.0,
               "add": false
             }

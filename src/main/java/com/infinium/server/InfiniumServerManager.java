@@ -103,7 +103,6 @@ public class InfiniumServerManager {
     private void initRegistries(){
         InfiniumEffects.init();
         InfiniumItems.init();
-
         InfiniumBlocks.init();
         InfiniumEntityType.init();
         InfiniumRegistries.init();
@@ -130,8 +129,8 @@ public class InfiniumServerManager {
                 .registerPortal();
 
         CustomPortalBuilder.beginPortal()
-                .frameBlock(Blocks.AMETHYST_BLOCK)
-                .lightWithItem(InfiniumItems.MYSTERIOUS_KEY)
+                .frameBlock(Blocks.BUDDING_AMETHYST)
+                .lightWithItem(InfiniumItems.KEY_SHARD)
                 .destDimID(World.END.getValue())
                 .tintColor(128, 0, 128)
                 .flatPortal()

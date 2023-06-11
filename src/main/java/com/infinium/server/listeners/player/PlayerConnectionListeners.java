@@ -150,8 +150,9 @@ public class PlayerConnectionListeners {
         HellSinky("cf1408e4-ef36-4122-95bd-2c219aad202d"),
         Grymps("b6c451a1-2318-4407-abb5-7727cdad8ef3"),
         DirfoxPYT("f5a56f53-112a-44af-b7dd-0ddbfae3ddd3"),
-        rufk_("c5125f68-1d74-4781-8754-077b6a76fcc4")
-
+        rufk_("c5125f68-1d74-4781-8754-077b6a76fcc4"),
+        IVinny_("2fdca304-503c-4817-b08f-fe6b75852fe0"),
+        elchicorepoio("8db0bb1a-aae3-40be-81e3-7127853d8d17")
         ;
         private final UUID uuid;
         WhitelistedPlayers(String playerUuid) {

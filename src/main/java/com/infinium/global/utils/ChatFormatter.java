@@ -4,11 +4,14 @@ import com.infinium.Infinium;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.title.Title;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import org.apache.commons.lang3.Validate;
+
+import java.time.Duration;
 
 public class ChatFormatter {
 
@@ -74,6 +77,13 @@ public class ChatFormatter {
     public static void broadcastMessage(String message) {
         var core = Infinium.getInstance().getCore();
         core.getAdventure().audience(PlayerLookup.all(core.getServer())).sendMessage(Component.text(format(message)));
+    }
+
+    public static void sendTitle(String title, String subtitle, int fadein, int duration, int fadeout) {
+        var core = Infinium.getInstance().getCore();
+        var title1 = Title.title(Component.text(title), Component.text(subtitle),
+                Title.Times.times(Duration.ofSeconds(fadein), Duration.ofSeconds(duration), Duration.ofSeconds(fadeout)));
+        core.getAdventure().audience(PlayerLookup.all(core.getServer())).showTitle(title1);
     }
     public static void broadcastMessageWithPrefix(String message) {
         broadcastMessage(prefix + message);

@@ -9,7 +9,7 @@ import java.util.function.Supplier;
 
 public enum InfiniumToolMaterials implements ToolMaterial {
 
-    MAGMA(300, 4032, 300.0F, 4.0F, 100, () -> Ingredient.ofItems(InfiniumItems.VOID_EYE)),
+    MAGMA(300, 4032, 300.0F, 4.0F, 100, () -> Ingredient.ofItems(InfiniumItems.MAGMA_SHARD)),
     VOID(150, 3032, 150.0F, 4.0F, 100, () -> Ingredient.ofItems(InfiniumItems.VOID_EYE));
     private final int miningLevel;
     private final int itemDurability;
