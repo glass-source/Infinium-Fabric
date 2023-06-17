@@ -67,7 +67,6 @@ public class SolarEclipse {
         totalTime += addedTime;
         lastTimeChecked = (new Date()).getTime();
 
-
         var server = core.getServer();
         var world = server.getOverworld();
         var audience = core.getAdventure().audience(PlayerLookup.all(server));
@@ -79,6 +78,7 @@ public class SolarEclipse {
         world.setTimeOfDay(18000);
         audience.showTitle(title);
         gamerules.get(GameRules.DO_DAYLIGHT_CYCLE).set(false, server);
+        serverBossBar.setDarkenSky(true);
         core.getTotalPlayers().forEach(player -> {
             serverBossBar.addPlayer(player);
             player.playSound(InfiniumSounds.ECLIPSE_START, SoundCategory.AMBIENT, 1, 0.5f);
@@ -100,6 +100,7 @@ public class SolarEclipse {
         lastTimeChecked = 0;
         serverBossBar.setVisible(false);
         serverBossBar.clearPlayers();
+        serverBossBar.setDarkenSky(false);
         gamerules.get(GameRules.DO_DAYLIGHT_CYCLE).set(true, server);
         core.getTotalPlayers().forEach(player -> player.playSound(SoundEvents.ITEM_TRIDENT_RETURN, SoundCategory.AMBIENT, 1, 0.05f));
     }
@@ -120,12 +121,12 @@ public class SolarEclipse {
     }
     public String getTimeToString() {
         if (isActive()) {
-            long segs = getTimeToEnd() / 1000L;
-            long days = segs / 86400L;
-            long hours = segs % 86400L / 3600L;
-            long mins = segs % 3600L / 60L;
-            segs %= 60L;
-            return (days > 0L ? String.format("%02d", days) + ":" : "") + String.format("%02d:%02d:%02d", hours, mins, segs);
+            long seconds = getTimeToEnd() / 1000L;
+            long minutes = seconds % 3600L / 60L;
+            long hours = seconds % 86400L / 3600L;
+            long days = seconds / 86400L;
+            seconds %= 60L;
+            return (days > 0L ? String.format("%02d", days) + ":" : "") + String.format("%02d:%02d:%02d", hours, minutes, seconds);
         } else {
             return " ";
         }

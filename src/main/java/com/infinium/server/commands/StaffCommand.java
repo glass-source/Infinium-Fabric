@@ -328,7 +328,7 @@ public class StaffCommand {
                 source.getSource().sendFeedback(ChatFormatter.text("&7Ha empezado un Eclipse Solar correctamente!"), true);
             } else {
                 source.getSource().sendFeedback(ChatFormatter.text("&7El eclipse solar esta deshabilitado!"), true);
-                source.getSource().sendFeedback(ChatFormatter.text("&7Puedes habilitarlo con /staff eclipse toggle <true|false>"), true);
+                source.getSource().sendFeedback(ChatFormatter.text("&7Puedes habilitarlo con /staff eclipse toggle <true | false>"), true);
             }
 
             return 1;
@@ -342,7 +342,11 @@ public class StaffCommand {
     private static int setCanStart(CommandContext<ServerCommandSource> source, boolean value) {
         try {
             eclipseManager.setCanStartEclipse(value);
-            source.getSource().sendFeedback(ChatFormatter.text("&7Se ha modificado el valor a: " + value), true);
+            if (String.valueOf(value).equalsIgnoreCase("get")) {
+                source.getSource().sendFeedback(ChatFormatter.text("&7El valor actual es: " + eclipseManager.getCanStart()), false);
+            } else {
+                source.getSource().sendFeedback(ChatFormatter.text("&7Se ha modificado el valor a: " + value), true);
+            }
             return 1;
         } catch (Exception ex) {
             source.getSource().sendError(ChatFormatter.text("&c¡Error! ese no es un valor valido!"));

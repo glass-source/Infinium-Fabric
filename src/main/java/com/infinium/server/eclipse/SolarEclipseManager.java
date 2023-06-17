@@ -15,7 +15,7 @@ public class SolarEclipseManager {
     }
     public void load() {
         if (this.instance.getCore() == null || this.instance.getCore().getServer() == null) {
-            Infinium.getInstance().LOGGER.error("Server was null");
+            Infinium.getInstance().LOGGER.error("Server was null and couldn't load the solar eclipse data.");
         } else {
             var dataManager = this.instance.getCore().getDataManager();
             var gameData = dataManager.getGameData();
@@ -24,70 +24,55 @@ public class SolarEclipseManager {
                 eclipse.setEndsIn(gameData.get("endsIn").getAsLong());
                 eclipse.setTotalTime(gameData.get("totalTime").getAsLong());
                 eclipse.setLastTimeChecked(gameData.get("lastTimeChecked").getAsLong());
+                setCanStartEclipse(gameData.get("canStartEclipse").getAsBoolean());
 
                 if (eclipse.getEndsIn() > 0) {
-
                     start(startFromLoad());
-                    serverBossBar.setVisible(true);
-                    instance.getCore().getTotalPlayers().forEach(serverBossBar::addPlayer);
                 }
             }
             
         }
     }
-
     public void disable(){
         var dataManager = this.instance.getCore().getDataManager();
         var gameData = dataManager.getGameData();
         gameData.addProperty("endsIn", eclipse.getEndsIn());
         gameData.addProperty("totalTime", eclipse.getTotalTime());
         gameData.addProperty("lastTimeChecked", eclipse.getLastChecked());
+        gameData.addProperty("canStartEclipse", getCanStart());
         dataManager.saveWorldData();
         eclipse.end();
     }
     public void start(double hours){
-        if (this.getCanStart()) {
-            if (hours <= 0) eclipse.start(0.5f);
-            else eclipse.start(hours);
-        }
+        if (this.getCanStart()) eclipse.start(hours <= 0 ? 0.5 : hours);
     }
-
     public void end(){
         eclipse.end();
     }
-
     public String getTimeToString() {
         return eclipse.getTimeToString();
     }
-
     public boolean isActive() {
         return eclipse.getTimeToEnd() > 0L;
     }
-
     public ServerBossBar getBossBar(){
         return this.serverBossBar;
     }
-
     public Infinium getInstance(){
         return this.instance;
     }
-
     public long getTimeToEnd(){
         return eclipse.getTimeToEnd();
     }
-
     public long getTotalTime(){
         return eclipse.getTotalTime();
     }
-
     public long getLastTimeChecked(){
         return eclipse.getLastTimeChecked();
     }
-
     public long startFromLoad(){
         return (eclipse.getEndsIn() / 1000) / 3600;
     }
-
     public void setCanStartEclipse(boolean value) {
         this.canStartEclipse = value;
     }

@@ -3,6 +3,7 @@ package com.infinium.server.items.blocks;
 import com.infinium.Infinium;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.kyrptonaught.customportalapi.CustomPortalBlock;
 import net.minecraft.block.*;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemGroup;
@@ -14,6 +15,7 @@ public class InfiniumBlocks {
     public static Block VOID_STONE_ORE;
     public static Block NIGHTMARE_OBSIDIAN;
     public static Block NIGHTMARE_DOOR;
+    public static CustomPortalBlock INFINIUM_PORTAL;
     public static void init() {
         registerBlocks();
     }
@@ -22,6 +24,7 @@ public class InfiniumBlocks {
         VOID_STONE_ORE = registerBlock("void_stone_ore", new Block(FabricBlockSettings.of(Material.STONE).strength(-1, 3600000.0F).luminance(14)));
         VOID_STONE = registerBlock("void_stone", new Block(FabricBlockSettings.of(Material.STONE).strength(3, 3).requiresTool()));
         NIGHTMARE_DOOR = registerBlock("nightmare_door", new NightmareDoorBlock(FabricBlockSettings.of(Material.METAL).strength(-1, 3600000.0F).luminance(14).nonOpaque()));
+        INFINIUM_PORTAL = (CustomPortalBlock) registerBlock("infinium_portal", new InfiniumPortalBlock(FabricBlockSettings.of(Material.METAL).strength(-1, 3600000.0F).luminance(14)));
     }
     private static Block registerBlock(String name, Block block) {
         registerBlockItem(name, block);

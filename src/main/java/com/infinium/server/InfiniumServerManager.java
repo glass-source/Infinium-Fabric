@@ -73,29 +73,26 @@ public class InfiniumServerManager {
         ServerLifecycleEvents.SERVER_STARTED.register(server1 -> {
             this.server = server1;
             this.adventure = FabricServerAudiences.of(this.server);
+            var serverRules = this.server.getGameRules();
+
             try {
                 this.dataManager = new DataManager(this.instance);
-
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
 
-
             this.dateUtils = new DateUtils(this.instance);
             this.dataManager.restoreWorldData();
-
-            var serverRules = this.server.getGameRules();
             serverRules.get(GameRules.DO_IMMEDIATE_RESPAWN).set(true, this.server);
             serverRules.get(GameRules.KEEP_INVENTORY).set(true, this.server);
             this.initPortals(server1);
             this.initListeners();
             this.sanityManager.registerSanityTask();
             this.eclipseManager.load();
-
         });
     }
     private void onServerStop(){
-        ServerLifecycleEvents.SERVER_STOPPED.register(server -> {
+        ServerLifecycleEvents.SERVER_STOPPING.register(server -> {
             this.eclipseManager.disable();
             this.sanityManager.stopSanityTask();
         });
@@ -118,6 +115,7 @@ public class InfiniumServerManager {
                 .tintColor(0, 0, 0)
                 .registerBeforeTPEvent(portalEvent(InfiniumDimensions.THE_VOID, server))
                 .flatPortal()
+                //.customPortalBlock(InfiniumBlocks.INFINIUM_PORTAL)
                 .registerPortal();
 
         CustomPortalBuilder.beginPortal()

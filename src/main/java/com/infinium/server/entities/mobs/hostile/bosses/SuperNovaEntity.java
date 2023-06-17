@@ -2,6 +2,7 @@ package com.infinium.server.entities.mobs.hostile.bosses;
 
 import com.google.common.collect.ImmutableList;
 import com.infinium.Infinium;
+import com.infinium.global.utils.Animation;
 import com.infinium.global.utils.ChatFormatter;
 import com.infinium.server.effects.InfiniumEffects;
 import com.infinium.server.entities.InfiniumEntity;
@@ -37,6 +38,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.BannedPlayerEntry;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
@@ -148,7 +150,7 @@ public class SuperNovaEntity extends HostileEntity implements SkinOverlayOwner, 
     }
 
     protected SoundEvent getDeathSound() {
-        return InfiniumSounds.LOW_SANITY_8;
+        return SoundEvents.ENTITY_WITHER_SKELETON_AMBIENT;
     }
 
     public void tickMovement() {
@@ -352,9 +354,54 @@ public class SuperNovaEntity extends HostileEntity implements SkinOverlayOwner, 
     @Override
     public void onDeath(DamageSource source) {
         super.onDeath(source);
-        Infinium.getInstance().getCore().getTotalPlayers().forEach(player -> Criteria.PLAYER_KILLED_ENTITY.trigger(player, this, source));
+        deathSequence(source);
     }
 
+    private void deathSequence(DamageSource source) {
+        if (!this.world.isClient()) {
+            var instance = Infinium.getInstance();
+            var core = instance.getCore();
+            var totalPlayers = core.getTotalPlayers();
+            Animation.initImageForAll();
+            var genericMsg = "&6&l%player% &7ha sucumbido ante el\n&5&lVacío Infinito".replaceAll("%player%", this.getDisplayName().getString());
+            var deathMsg = source.getDeathMessage(this).getString();
+            ChatFormatter.broadcastMessageWithPrefix(genericMsg);
+            ChatFormatter.broadcastMessage(deathMsg);
+
+            totalPlayers.forEach(player -> {
+                Criteria.PLAYER_KILLED_ENTITY.trigger(player, this, source);
+                player.playSound(InfiniumSounds.PLAYER_DEATH, SoundCategory.AMBIENT, 10, 0.7f);
+                player.clearStatusEffects();
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, Short.MAX_VALUE, 0));
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, Short.MAX_VALUE, 9));
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, Short.MAX_VALUE, 5));
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, Short.MAX_VALUE, 0));
+            });
+
+            instance.getExecutor().schedule(() -> totalPlayers.forEach(player -> decrementArmor(player, 0)), 6, TimeUnit.SECONDS);
+            instance.getExecutor().schedule(() -> totalPlayers.forEach(player -> decrementArmor(player, 1)), 10, TimeUnit.SECONDS);
+            instance.getExecutor().schedule(() -> totalPlayers.forEach(player -> decrementArmor(player, 2)), 14, TimeUnit.SECONDS);
+            instance.getExecutor().schedule(() -> totalPlayers.forEach(player -> decrementArmor(player, 3)), 18, TimeUnit.SECONDS);
+            instance.getExecutor().schedule(() -> {
+                var server = core.getServer();
+                var pManager = server.getPlayerManager();
+                totalPlayers.forEach(player -> {
+                    var profile = player.getGameProfile();
+                    pManager.getWhitelist().remove(profile);
+                    pManager.getUserBanList().add(new BannedPlayerEntry(profile));
+                    player.networkHandler.disconnect(ChatFormatter.text("&cBad Ending."));
+                });
+
+            }, 24, TimeUnit.SECONDS);
+        }
+
+    }
+
+    private void decrementArmor(PlayerEntity player, int i) {
+        player.getInventory().getArmorStack(i).decrement(1);
+        player.damage(DamageSource.player(player), 0.001f);
+        player.playSound(SoundEvents.ENTITY_ITEM_BREAK, SoundCategory.AMBIENT, 1, 0.05f);
+    }
     public void onStartedTrackingBy(ServerPlayerEntity player) {
         super.onStartedTrackingBy(player);
         this.bossBar.addPlayer(player);
@@ -528,15 +575,15 @@ public class SuperNovaEntity extends HostileEntity implements SkinOverlayOwner, 
     }
     public static DefaultAttributeContainer.Builder createNovaAttributes() {
         return HostileEntity.createHostileAttributes()
-                .add(EntityAttributes.GENERIC_MAX_HEALTH, 15500.0)
+                .add(EntityAttributes.GENERIC_MAX_HEALTH, 30000)
                 .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.75)
                 .add(EntityAttributes.GENERIC_FLYING_SPEED, 1.35)
                 .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 40.0)
                 .add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 100)
-                .add(EntityAttributes.GENERIC_ARMOR, 12.0);
+                .add(EntityAttributes.GENERIC_ARMOR, 15.0);
     }
     private class SuperNovaTargetGoal extends ActiveTargetGoal<PlayerEntity> {
-        private int attackCooldown = (20 * 10);
+        private int attackCooldown = 200;
         private SupernovaAttacks lastAttack;
         private int lastAttackIndex = 1;
         private boolean canAttack = true;
@@ -569,14 +616,14 @@ public class SuperNovaEntity extends HostileEntity implements SkinOverlayOwner, 
 
             if (currentAttack == SupernovaAttacks.RANDOM_ATTACK) {
                 SupernovaAttacks[] attacks = SupernovaAttacks.values();
-                currentAttack = attacks[new Random().nextInt(attacks.length)];
+                currentAttack = attacks[new Random().nextInt(attacks.length - 1)];
             }
 
             switch (currentAttack) {
                 case EXPLOSION -> {
                     canAttack = false;
-                    this.setControls(EnumSet.of(Control.MOVE, Control.JUMP, Control.LOOK));
-
+                    var controls = EnumSet.copyOf(this.getControls());
+                    this.setControls(EnumSet.of(Control.LOOK, Control.JUMP));
                     List<Float> healthList = new ArrayList<>();
                     healthList.add(superNova.getHealth());
                     superNova.setInvulTimer(260);
@@ -584,6 +631,7 @@ public class SuperNovaEntity extends HostileEntity implements SkinOverlayOwner, 
                     superNova.setGlowing(true);
                     task = instance.getExecutor().schedule(() -> {
                         canAttack = true;
+                        this.setControls(controls);
                         superNova.setHealth(healthList.get(0));
                         superNova.setGlowing(false);
                         createExplosionFromEntity(superNova, superNova.getWorld(), superNova.getBlockPos());
@@ -678,8 +726,9 @@ public class SuperNovaEntity extends HostileEntity implements SkinOverlayOwner, 
                 }
 
                 case BEDROCK_BARRIER -> {
-                    LivingEntity target1 = superNova.getTarget();
+                    PlayerEntity target1 = this.getClosestPlayer(superNova.getX(), superNova.getY(), superNova.getZ());
                     if (target1 != null) {
+                        instance.getCore().getServer().getPlayerManager().disconnectAllPlayers();
                         var world = superNova.getWorld();
                         double radius = 4.5;
                         int segments = 20;
@@ -704,14 +753,11 @@ public class SuperNovaEntity extends HostileEntity implements SkinOverlayOwner, 
                         }), 8, TimeUnit.SECONDS);
                     }
                 }
-
-
-
             }
 
             this.setTargetEntity(this.getClosestPlayer(superNova.getX(), superNova.getY(), superNova.getZ()));
             this.lastAttack = currentAttack;
-            this.attackCooldown = (20 * 8);
+            this.attackCooldown = (200);
             this.lastAttackIndex++;
             if (lastAttackIndex > SupernovaAttacks.values().length - 1) this.lastAttackIndex = 0;
             this.sendMessage();
