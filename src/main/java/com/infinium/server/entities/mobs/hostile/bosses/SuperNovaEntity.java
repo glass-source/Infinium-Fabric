@@ -38,7 +38,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.server.BannedPlayerEntry;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
@@ -377,22 +376,11 @@ public class SuperNovaEntity extends HostileEntity implements SkinOverlayOwner, 
                 player.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, Short.MAX_VALUE, 5));
                 player.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, Short.MAX_VALUE, 0));
             });
-
             instance.getExecutor().schedule(() -> totalPlayers.forEach(player -> decrementArmor(player, 0)), 6, TimeUnit.SECONDS);
             instance.getExecutor().schedule(() -> totalPlayers.forEach(player -> decrementArmor(player, 1)), 10, TimeUnit.SECONDS);
             instance.getExecutor().schedule(() -> totalPlayers.forEach(player -> decrementArmor(player, 2)), 14, TimeUnit.SECONDS);
             instance.getExecutor().schedule(() -> totalPlayers.forEach(player -> decrementArmor(player, 3)), 18, TimeUnit.SECONDS);
-            instance.getExecutor().schedule(() -> {
-                var server = core.getServer();
-                var pManager = server.getPlayerManager();
-                totalPlayers.forEach(player -> {
-                    var profile = player.getGameProfile();
-                    pManager.getWhitelist().remove(profile);
-                    pManager.getUserBanList().add(new BannedPlayerEntry(profile));
-                    player.networkHandler.disconnect(ChatFormatter.text("&cBad Ending."));
-                });
-
-            }, 24, TimeUnit.SECONDS);
+            instance.getExecutor().schedule(() -> totalPlayers.forEach(player -> player.networkHandler.disconnect(ChatFormatter.text("&cBad Ending."))), 24, TimeUnit.SECONDS);
         }
 
     }
@@ -728,7 +716,6 @@ public class SuperNovaEntity extends HostileEntity implements SkinOverlayOwner, 
                 case BEDROCK_BARRIER -> {
                     PlayerEntity target1 = this.getClosestPlayer(superNova.getX(), superNova.getY(), superNova.getZ());
                     if (target1 != null) {
-                        instance.getCore().getServer().getPlayerManager().disconnectAllPlayers();
                         var world = superNova.getWorld();
                         double radius = 4.5;
                         int segments = 20;
