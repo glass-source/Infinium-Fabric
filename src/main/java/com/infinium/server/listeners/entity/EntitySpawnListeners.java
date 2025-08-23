@@ -129,7 +129,7 @@ public class EntitySpawnListeners {
                             case "entity.minecraft.zombie" -> spawnMobFromEntity( livingEntity, InfiniumEntityType.GHOUL_ZOMBIE);
                             case "entity.minecraft.spider" -> spawnMobFromEntity( livingEntity, InfiniumEntityType.GHOUL_SPIDER);
                             case "entity.minecraft.creeper" -> spawnMobFromEntity( livingEntity, InfiniumEntityType.GHOUL_CREEPER);
-                            case "entity.minecraft.skeleton" -> spawnMobFromEntity( livingEntity, InfiniumEntityType.NIGHTMARE_SKELETON);
+                            case "entity.minecraft.skeleton" -> spawnMobFromEntity(livingEntity, InfiniumEntityType.NIGHTMARE_SKELETON);
                             case "entity.minecraft.witch" -> spawnMobFromEntity(livingEntity, InfiniumEntityType.GHOUL_WITCH);
                             case "entity.minecraft.hoglin" -> spawnMobFromEntity(livingEntity, InfiniumEntityType.NIGHTMARE_HOGLIN);
                             case "entity.minecraft.glow_squid"
@@ -223,7 +223,7 @@ public class EntitySpawnListeners {
             var spawned = typeToReplace.spawn(world, null, null, null, entityToRemove.getBlockPos(), SpawnReason.NATURAL, true, false);
 
             if (entityToRemove instanceof RaiderEntity raiderEntity && spawned instanceof RaiderEntity) {
-                var raid = ((RaiderEntity) entityToRemove).getRaid();
+                var raid = raiderEntity.getRaid();
                 if (raid != null) raid.addRaider(raiderEntity.getWave(), ((RaiderEntity) spawned), raiderEntity.getBlockPos(), false);
             }
             entityToRemove.discard();

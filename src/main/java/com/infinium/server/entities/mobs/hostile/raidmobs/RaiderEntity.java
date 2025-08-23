@@ -2,10 +2,6 @@ package com.infinium.server.entities.mobs.hostile.raidmobs;
 
 import com.infinium.global.utils.ChatFormatter;
 import com.infinium.server.entities.InfiniumEntity;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.EnchantmentTarget;
-import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -30,12 +26,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
-import net.minecraft.world.LocalDifficulty;
-import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Map;
 
 public class RaiderEntity extends PillagerEntity implements InfiniumEntity {
 
@@ -133,27 +124,19 @@ public class RaiderEntity extends PillagerEntity implements InfiniumEntity {
         return 4;
     }
 
-    @Nullable
-    public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
-        this.initEquipment(difficulty);
-        this.updateEnchantments(difficulty);
-        this.setTransBanner(world, this);
-        return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
-    }
-
-    protected void enchantMainHandItem(float power) {
-        ItemStack itemStack = this.getMainHandStack();
-        if (EnchantmentTarget.CROSSBOW.isAcceptableItem(itemStack.getItem())) {
-            if (itemStack.isOf(Items.CROSSBOW)) {
-                Map<Enchantment, Integer> map = EnchantmentHelper.get(itemStack);
-                map.putIfAbsent(Enchantments.PIERCING, 3);
-                EnchantmentHelper.set(map, itemStack);
-                this.equipStack(EquipmentSlot.MAINHAND, itemStack);
-            }
-            super.enchantMainHandItem(power);
-        }
-
-    }
+//    protected void enchantMainHandItem(float power) {
+//        ItemStack itemStack = this.getMainHandStack();
+//        if (EnchantmentTarget.CROSSBOW.isAcceptableItem(itemStack.getItem())) {
+//            if (itemStack.isOf(Items.CROSSBOW)) {
+//                Map<Enchantment, Integer> map = EnchantmentHelper.get(itemStack);
+//                map.putIfAbsent(Enchantments.PIERCING, 3);
+//                EnchantmentHelper.set(map, itemStack);
+//                this.equipStack(EquipmentSlot.MAINHAND, itemStack);
+//            }
+//            super.enchantMainHandItem(power);
+//        }
+//
+//    }
 
     public boolean isTeammate(Entity other) {
         if (super.isTeammate(other)) {

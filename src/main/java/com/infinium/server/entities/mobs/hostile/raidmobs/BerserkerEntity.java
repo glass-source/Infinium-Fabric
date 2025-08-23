@@ -76,7 +76,6 @@ public class BerserkerEntity extends VindicatorEntity implements InfiniumEntity 
         ((MobNavigation)this.getNavigation()).setCanPathThroughDoors(true);
         this.initEquipment(difficulty);
         this.updateEnchantments(difficulty);
-        this.setTransBanner(world, this);
 
         return entityData2;
     }

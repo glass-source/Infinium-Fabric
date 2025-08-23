@@ -62,6 +62,7 @@ public class PlayerConnectionListeners {
 
         sanityManager.syncSanity(player, sanityManager.get(player, sanityManager.SANITY));
     }
+
     public void checkBannedPlayers(PlayerEntity player) {
         try {
             boolean banned = true;
@@ -75,6 +76,7 @@ public class PlayerConnectionListeners {
                     break;
                 }
             }
+
             if (banned) {
                 if (player instanceof ServerPlayerEntity sp) {
                     var buffer = PacketByteBufs.create();

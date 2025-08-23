@@ -67,13 +67,6 @@ public class VoidCreeperEntity extends CreeperEntity implements InfiniumEntity {
                 .add(EntityAttributes.GENERIC_MAX_HEALTH, 10.0F);
     }
 
-    @Nullable
-    @Override
-    public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
-        setTransBanner(world, this);
-        return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
-    }
-
     public boolean handleFallDamage(float fallDistance, float damageMultiplier, DamageSource damageSource) {
         boolean bl = super.handleFallDamage(fallDistance, damageMultiplier, damageSource);
         this.currentFuseTime += (int)(fallDistance * 1.5F);

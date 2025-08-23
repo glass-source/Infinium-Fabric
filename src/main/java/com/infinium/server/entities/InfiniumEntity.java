@@ -15,27 +15,4 @@ import net.minecraft.world.ServerWorldAccess;
 
 public interface InfiniumEntity {
 
-    default void setTransBanner(ServerWorldAccess world, MobEntity entity) {
-        if (world.getRandom().nextDouble(20) <= 1.25f) {
-            entity.equipStack(EquipmentSlot.HEAD, getTransBanner());
-            entity.setEquipmentDropChance(EquipmentSlot.HEAD, 100.0f);
-        }
-    }
-    default ItemStack getTransBanner() {
-        ItemStack itemStack = new ItemStack(Items.WHITE_BANNER);
-        NbtCompound nbtCompound = new NbtCompound();
-        NbtList nbtList = (new BannerPattern.Patterns())
-                .add(BannerPattern.HALF_HORIZONTAL, DyeColor.PINK)
-                .add(BannerPattern.HALF_HORIZONTAL_MIRROR, DyeColor.PINK)
-                .add(BannerPattern.STRIPE_TOP, DyeColor.LIGHT_BLUE)
-                .add(BannerPattern.STRIPE_BOTTOM, DyeColor.LIGHT_BLUE)
-                .add(BannerPattern.STRIPE_MIDDLE, DyeColor.WHITE)
-                .toNbt();
-        nbtCompound.put("Patterns", nbtList);
-        BlockItem.setBlockEntityNbt(itemStack, BlockEntityType.BANNER, nbtCompound);
-        itemStack.addHideFlag(ItemStack.TooltipSection.ADDITIONAL);
-        itemStack.setCustomName(ChatFormatter.text("&dTrans rights bitch"));
-        return itemStack;
-    }
-
 }

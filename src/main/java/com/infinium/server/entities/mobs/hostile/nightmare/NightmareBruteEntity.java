@@ -46,13 +46,6 @@ public class NightmareBruteEntity extends PiglinBruteEntity implements InfiniumE
                 .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 20.0);
     }
 
-    @Nullable
-    public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
-        this.setTransBanner(world, this);
-        this.initEquipment(difficulty);
-        return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
-    }
-
     protected void initEquipment(LocalDifficulty difficulty) {
         this.equipStack(EquipmentSlot.MAINHAND, new ItemStack(InfiniumItems.VOID_AXE));
         this.setEquipmentDropChance(EquipmentSlot.MAINHAND, 0);

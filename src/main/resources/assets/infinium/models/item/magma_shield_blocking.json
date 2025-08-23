@@ -429,12 +429,6 @@
     "overrides": [
         {
             "predicate": {
-                "lefthanded": 1
-            },
-            "model": "item/magma_shield"
-        },
-        {
-            "predicate": {
                 "blocking": 1
             },
             "model": "item/shield_blocking"

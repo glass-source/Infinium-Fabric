@@ -14,6 +14,7 @@ import net.minecraft.text.TranslatableText;
 import java.util.List;
 
 public interface InfiniumItem {
+
     default void appendInfiniumToolTip(List<Text> tooltip, String toolString, int lines) {
         if (Screen.hasShiftDown()) {
             for (int i = 0; i < lines; i++) {
@@ -23,6 +24,7 @@ public interface InfiniumItem {
             tooltip.add(new TranslatableText("item.infinium.general_" + toolString + ".tooltip"));
         }
     }
+
     default void appendGeneralToolTip(ItemStack stack, List<Text> tooltip, int lines) {
         if (Screen.hasShiftDown()) {
             for (int i = 0; i < lines; i++) {
@@ -32,6 +34,7 @@ public interface InfiniumItem {
             tooltip.add(new TranslatableText("item.infinium.general.tooltip"));
         }
     }
+
     default boolean fromMagmaToolHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         if (!target.getWorld().isClient()) {
             stack.damage(1, attacker, p -> p.sendToolBreakStatus(attacker.getActiveHand()));
@@ -49,11 +52,13 @@ public interface InfiniumItem {
         }
         return false;
     }
+
     default void enchantMagmaTools(ItemStack stack) {
         stack.addEnchantment(Enchantments.MENDING, 1);
         stack.addEnchantment(Enchantments.EFFICIENCY, 10);
         stack.addEnchantment(Enchantments.UNBREAKING, 10);
     }
+
     default void enchantMagmaSword(ItemStack stack) {
         stack.addEnchantment(Enchantments.MENDING, 1);
         stack.addEnchantment(Enchantments.UNBREAKING, 10);
@@ -65,6 +70,7 @@ public interface InfiniumItem {
         stack.addEnchantment(Enchantments.BANE_OF_ARTHROPODS, 10);
         stack.addEnchantment(Enchantments.SWEEPING, 10);
     }
+
     default void enchantMagmaBow(ItemStack stack) {
         stack.addEnchantment(Enchantments.MENDING, 1);
         stack.addEnchantment(Enchantments.UNBREAKING, 10);

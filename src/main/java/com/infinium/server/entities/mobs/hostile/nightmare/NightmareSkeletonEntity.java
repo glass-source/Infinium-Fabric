@@ -36,12 +36,14 @@ public class NightmareSkeletonEntity extends SkeletonEntity implements InfiniumE
             NightmareSkeletonEntity.this.setAttacking(true);
         }
     };
+
     public NightmareSkeletonEntity(EntityType<? extends SkeletonEntity> entityType, World world) {
         super(entityType, world);
         this.setCustomName(ChatFormatter.text("&cNightmare Skeleton"));
 
     }
 
+    @Override
     protected void initDataTracker() {
         super.initDataTracker();
     }
@@ -80,25 +82,6 @@ public class NightmareSkeletonEntity extends SkeletonEntity implements InfiniumE
         return this.isHolding(Items.BOW) || this.isHolding(InfiniumItems.VOID_BOW) || this.isHolding(InfiniumItems.MAGMA_BOW);
     }
 
-    @Override
-    public void tickMovement() {
-        super.tickMovement();
-    }
-    @Nullable @Override
-    public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
-        this.setTransBanner(world, this);
-        return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
-    }
-
-    @Override
-    protected void initEquipment(LocalDifficulty difficulty) {
-        ItemStack magmaBow = new ItemStack(InfiniumItems.MAGMA_BOW);
-        magmaBow.addEnchantment(Enchantments.POWER, 35);
-        magmaBow.addEnchantment(Enchantments.PUNCH, 1);
-        this.equipStack(EquipmentSlot.MAINHAND, magmaBow);
-        this.setEquipmentDropChance(EquipmentSlot.MAINHAND, 0);
-    }
-
     public boolean damage(DamageSource source, float amount) {
         if (this.isInvulnerableTo(source)) {
             return false;
@@ -111,26 +94,27 @@ public class NightmareSkeletonEntity extends SkeletonEntity implements InfiniumE
         }
     }
 
+    @Override
+    protected void initEquipment(LocalDifficulty difficulty) {
+        ItemStack magmaBow = new ItemStack(InfiniumItems.MAGMA_BOW);
+        magmaBow.addEnchantment(Enchantments.POWER, 40);
+        this.equipStack(EquipmentSlot.MAINHAND, magmaBow);
+        this.setEquipmentDropChance(EquipmentSlot.MAINHAND, 0);
+    }
+
+    @Nullable
+    @Override
+    public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
+        this.updateAttackType();
+        this.initEquipment(difficulty);
+        return entityData;
+    }
+
     public static DefaultAttributeContainer.Builder createNightmareSkeletonAttributes() {
         return HostileEntity.createHostileAttributes()
                 .add(EntityAttributes.GENERIC_MAX_HEALTH, 45.0)
                 .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.30f)
                 .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 60.0)
                 .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 30.0);
-    }
-
-    public void tick() {
-        super.tick();
-    }
-    protected void dropEquipment(DamageSource source, int lootingMultiplier, boolean allowDrops) {
-        super.dropEquipment(source, lootingMultiplier, allowDrops);
-        Entity entity = source.getAttacker();
-        if (entity instanceof CreeperEntity creeperEntity) {
-            if (creeperEntity.shouldDropHead()) {
-                creeperEntity.onHeadDropped();
-                this.dropItem(Items.SKELETON_SKULL);
-            }
-        }
-
     }
 }

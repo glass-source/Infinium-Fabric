@@ -14,6 +14,7 @@ import net.minecraft.world.explosion.Explosion;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -29,6 +30,7 @@ public abstract class LivingEntityMixin extends Entity {
     @Shadow public abstract boolean addStatusEffect(StatusEffectInstance effect, @Nullable Entity source);
     @Shadow public abstract boolean damage(DamageSource source, float amount);
     @Shadow @Nullable public abstract LivingEntity getAttacker();
+
     @Inject(method = "damage", at = @At("HEAD"), cancellable = true)
     private void onDamage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
         if (!source.isExplosive()) return;
@@ -126,10 +128,12 @@ public abstract class LivingEntityMixin extends Entity {
         }
     }
 
+    @Unique
     private void createExplosionFromEntity(@Nullable LivingEntity entity, World world, BlockPos position, float explosionPower) {
         world.createExplosion(entity, position.getX(), position.getY(), position.getZ(), explosionPower, Explosion.DestructionType.DESTROY);
     }
 
+    @Unique
     private void createExplosionFromEntity(@Nullable LivingEntity entity, World world, BlockPos position, float explosionPower, boolean breakBlocks) {
         world.createExplosion(entity, position.getX(), position.getY(), position.getZ(), explosionPower,  breakBlocks ? Explosion.DestructionType.DESTROY : Explosion.DestructionType.NONE);
     }

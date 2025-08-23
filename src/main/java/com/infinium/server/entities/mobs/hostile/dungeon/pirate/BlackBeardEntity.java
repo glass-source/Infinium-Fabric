@@ -36,10 +36,6 @@ public class BlackBeardEntity extends SpellcastingIllagerEntity implements Infin
         this.experiencePoints = 450;
     }
 
-    public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
-        this.setTransBanner(world, this);
-        return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
-    }
     public static DefaultAttributeContainer.Builder createBlackBeardAttributes() {
         return HostileEntity.createHostileAttributes()
                 .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.22)

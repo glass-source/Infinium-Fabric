@@ -192,6 +192,7 @@ public class SanityTask {
             manager.set(p, 20, manager.EMPTY_HUNGER_COOLDOWN);
         }
     }
+
     private void kairosEffects(PlayerEntity p) {
         int timeCooldownSeconds = manager.get(p, manager.TIME_COOLDOWN);
         var timeCooldownMinutes = timeCooldownSeconds % 3600 / 60;

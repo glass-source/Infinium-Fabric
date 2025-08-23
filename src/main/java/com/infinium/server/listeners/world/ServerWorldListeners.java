@@ -20,15 +20,15 @@ public class ServerWorldListeners {
 
             if (world.getRegistryKey().getValue().toString().equals("infinium:the_nightmare")) {
                 var chunkPos = chunk.getPos();
-                if (world.getRandom().nextInt(400) == 1) {
-                    Executors.newSingleThreadExecutor().execute(() -> {
-
+                if (world.getRandom().nextInt(800) == 1) {
+                    instance.getExecutor().execute(() -> {
                         var blockpos = chunkPos.getCenterAtY(0);
                         var posX = blockpos.getX();
                         var posY = 65;
                         var posZ = blockpos.getZ();
                         instance.getCore().loadSchem("Nightmare_Bastion_Treasure", world, posX, posY, posZ);
                     });
+
                 }
             }
         }));

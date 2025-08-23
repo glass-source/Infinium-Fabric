@@ -60,6 +60,7 @@ public class InfiniumEntityType {
     public static EntityType<NightmareBlazeEntity> NIGHTMARE_BLAZE;
     public static EntityType<BlackBeardEntity> BLACK_BEARD;
     public static EntityType<DuckEntity> DUCK;
+
     public static List<EntityType<? extends MobEntity>> getEntityTypes() {
         return List.of(
                 VOID_GHAST,

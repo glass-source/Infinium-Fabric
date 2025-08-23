@@ -27,11 +27,13 @@ public class MagmaBowItem extends BowItem implements InfiniumItem {
     public MagmaBowItem(Settings settings) {
         super(settings);
     }
+
     @Override
     public void onCraft(ItemStack stack, World world, PlayerEntity player) {
         super.onCraft(stack, world, player);
         enchantMagmaBow(stack);
     }
+
     @Override
     public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
         if (user instanceof PlayerEntity playerEntity) {
@@ -94,6 +96,7 @@ public class MagmaBowItem extends BowItem implements InfiniumItem {
             }
         }
     }
+
     @Override
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
         appendInfiniumToolTip(tooltip, "magma", 2);

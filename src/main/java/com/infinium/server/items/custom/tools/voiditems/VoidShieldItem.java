@@ -19,6 +19,12 @@ public class VoidShieldItem extends FabricShieldItem implements InfiniumItem {
     public VoidShieldItem(Settings settings, int cooldownTicks, int enchantability, Item... repairItems) {
         super(settings, cooldownTicks, enchantability, repairItems);
     }
+
+    @Override
+    public boolean isEnchantable(ItemStack stack) {
+        return false;
+    }
+
     @Override
     public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         if (!target.getWorld().isClient()) {

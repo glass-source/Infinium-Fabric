@@ -37,13 +37,6 @@ public class ExplosiveSorcererEntity extends SpellcastingIllagerEntity implement
         this.setCustomName(ChatFormatter.text("&6Explosive Sorcerer"));
     }
 
-    @Nullable
-    @Override
-    public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
-        this.setTransBanner(world, this);
-        return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
-    }
-
     public static DefaultAttributeContainer.Builder createSorcererAttributes() {
         return HostileEntity.createHostileAttributes()
                 .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.6)

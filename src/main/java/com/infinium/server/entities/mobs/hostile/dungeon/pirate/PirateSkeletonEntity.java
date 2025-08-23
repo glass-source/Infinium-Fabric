@@ -85,18 +85,10 @@ public class PirateSkeletonEntity extends SkeletonEntity implements InfiniumEnti
     public void tickMovement() {
         super.tickMovement();
     }
-    @Nullable @Override
-    public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
-        this.setTransBanner(world, this);
-        return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
-    }
 
     @Override
     protected void initEquipment(LocalDifficulty difficulty) {
         ItemStack bow = new ItemStack(Items.BOW);
-        bow.addEnchantment(Enchantments.POWER, 25);
-        bow.addEnchantment(Enchantments.PUNCH, 1);
-        bow.addEnchantment(Enchantments.FLAME, 3);
         this.equipStack(EquipmentSlot.MAINHAND, bow);
         this.setEquipmentDropChance(EquipmentSlot.MAINHAND, 0);
     }

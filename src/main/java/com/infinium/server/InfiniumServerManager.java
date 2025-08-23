@@ -115,7 +115,7 @@ public class InfiniumServerManager {
                 .tintColor(0, 0, 0)
                 .registerBeforeTPEvent(portalEvent(InfiniumDimensions.THE_VOID, server))
                 .flatPortal()
-                //.customPortalBlock(InfiniumBlocks.INFINIUM_PORTAL)
+                //.customPortalBlock(InfiniumBlocks.)
                 .registerPortal();
 
         CustomPortalBuilder.beginPortal()
@@ -166,6 +166,7 @@ public class InfiniumServerManager {
     public DateUtils getDateUtils() {
         return this.dateUtils;
     }
+
     public void loadSchem(String filename, PlayerEntity player) {
         var world = player.getWorld();
         var X = player.getX();
@@ -177,7 +178,7 @@ public class InfiniumServerManager {
         File file = new File(Infinium.getInstance().getCore().getServer().getFile("world").getAbsolutePath() + "/schematics/" + filename + ".schem");
         com.sk89q.worldedit.world.World adaptedWorld = FabricAdapter.adapt(world);
         ClipboardFormat format = ClipboardFormats.findByFile(file);
-
+        if (!file.exists()) return;
         try {
             assert format != null;
             try (ClipboardReader reader = format.getReader(new FileInputStream(file))) {
@@ -199,6 +200,7 @@ public class InfiniumServerManager {
             e.printStackTrace();
         }
     }
+
     private @NotNull Function<Entity, SHOULDTP> portalEvent(RegistryKey<World> worldToKey, MinecraftServer server) {
         return entity -> {
             var worldFromKey = entity.getWorld().getRegistryKey();

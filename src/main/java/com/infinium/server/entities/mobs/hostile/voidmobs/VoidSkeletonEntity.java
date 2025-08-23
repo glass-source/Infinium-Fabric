@@ -53,17 +53,9 @@ public class VoidSkeletonEntity extends SkeletonEntity implements InfiniumEntity
         this.getDataTracker().startTracking(CONVERTING, false);
     }
 
-    @Nullable @Override
-    public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
-        this.setTransBanner(world, this);
-        return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
-    }
-
     @Override
     protected void initEquipment(LocalDifficulty difficulty) {
         ItemStack voidBow = new ItemStack(InfiniumItems.VOID_BOW);
-        voidBow.addEnchantment(Enchantments.POWER, 35);
-        voidBow.addEnchantment(Enchantments.PUNCH, 40);
         this.equipStack(EquipmentSlot.MAINHAND, voidBow);
         this.setEquipmentDropChance(EquipmentSlot.MAINHAND, 0);
     }

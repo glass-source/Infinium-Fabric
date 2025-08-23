@@ -16,6 +16,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -56,6 +57,7 @@ public abstract class BlockMixin extends AbstractBlock implements ItemConvertibl
         addBedrockEffects(p);
     }
 
+    @Unique
     private void addBedrockEffects(ServerPlayerEntity p) {
         if (Infinium.getInstance().getDateUtils() == null) return;
         var day = Infinium.getInstance().getDateUtils().getCurrentDay();
@@ -110,6 +112,8 @@ public abstract class BlockMixin extends AbstractBlock implements ItemConvertibl
             });
         }
     }
+
+    @Unique
     private boolean isBlock(Block block, ServerPlayerEntity p) {
         if (Infinium.getInstance().getDateUtils() == null) return false;
         var item = block.asItem();
