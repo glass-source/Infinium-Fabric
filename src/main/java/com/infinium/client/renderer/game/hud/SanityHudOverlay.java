@@ -23,7 +23,7 @@ public class SanityHudOverlay implements HudRenderCallback {
         if (p.isSpectator() || p.isCreative()) return;
         var window = client.getWindow();
 
-        var playerSanity = ((EntityDataSaver) p).getPersistentData().getInt("infinium.sanity");
+        var playerSanity = ((EntityDataSaver) p).infinium_Fabric$getPersistentData().getInt("infinium.sanity");
         int scaledWidth = window.getScaledWidth() / 3;
         int scaledHeight = (window.getScaledHeight() / 6);
         var color = playerSanity < 50 ? "&4" : "&6";
@@ -41,7 +41,7 @@ public class SanityHudOverlay implements HudRenderCallback {
     }
 
     private void renderBar(MatrixStack matrices, int x, int y, ClientPlayerEntity p) {
-        var i = (((EntityDataSaver) p).getPersistentData().getInt("infinium.sanity") * 0.34);
+        var i = (((EntityDataSaver) p).infinium_Fabric$getPersistentData().getInt("infinium.sanity") * 0.34);
         RenderSystem.setShaderTexture(0, SANITY_EMPTY);
         DrawableHelper.drawTexture(matrices, x, y,-10 ,0, 0, 18, 34, 18, 34);
         RenderSystem.setShaderTexture(0, SANITY_FULL);

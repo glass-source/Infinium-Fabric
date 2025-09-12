@@ -5,6 +5,7 @@ import com.infinium.server.effects.InfiniumEffects;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NbtCompound;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
@@ -14,10 +15,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(Entity.class)
 public abstract class EntityMixin implements EntityDataSaver {
 
+    @Unique
     private NbtCompound persistentData;
 
     @Override
-    public NbtCompound getPersistentData(){
+    public NbtCompound infinium_Fabric$getPersistentData(){
         if (this.persistentData == null) this.persistentData = new NbtCompound();
         return this.persistentData;
     }

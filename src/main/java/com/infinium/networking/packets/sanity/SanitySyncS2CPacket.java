@@ -10,6 +10,6 @@ public class SanitySyncS2CPacket {
 
     public static void receive(MinecraftClient minecraftClient, ClientPlayNetworkHandler clientPlayNetworkHandler, PacketByteBuf packetByteBuf, PacketSender packetSender) {
         if (minecraftClient.player == null) return;
-        ((EntityDataSaver) minecraftClient.player).getPersistentData().putInt("infinium.sanity", packetByteBuf.readInt());
+        ((EntityDataSaver) minecraftClient.player).infinium_Fabric$getPersistentData().putInt("infinium.sanity", packetByteBuf.readInt());
     }
 }

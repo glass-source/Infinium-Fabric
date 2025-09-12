@@ -40,7 +40,6 @@ public class PlayerConnectionListeners {
             var eclipseManager = core.getEclipseManager();
             player.getInventory().onOpen(player);
             initSanity(player);
-            checkBannedPlayers(player);
 
             if (eclipseManager.isActive()) {
                 eclipseManager.getBossBar().setVisible(true);
@@ -61,104 +60,5 @@ public class PlayerConnectionListeners {
         if (data.get(sanityManager.SOUND_COOLDOWN) == null) sanityManager.set(player, 300, sanityManager.SOUND_COOLDOWN);
 
         sanityManager.syncSanity(player, sanityManager.get(player, sanityManager.SANITY));
-    }
-
-    public void checkBannedPlayers(PlayerEntity player) {
-        try {
-            boolean banned = true;
-            var entityName = player.getEntityName();
-            var logger = Infinium.getInstance().LOGGER;
-            logger.info("Amount of players found in whitelist: #{}", WhitelistedPlayers.values().length);
-            logger.info("Verifying whitelist for {}...", entityName);
-            for (WhitelistedPlayers playerName : WhitelistedPlayers.values()) {
-                if (player.getUuid().equals(playerName.uuid) || entityName.toLowerCase().contains("player")) {
-                    banned = false;
-                    break;
-                }
-            }
-
-            if (banned) {
-                if (player instanceof ServerPlayerEntity sp) {
-                    var buffer = PacketByteBufs.create();
-                    buffer.writeInt(1);
-                    ServerPlayNetworking.send(sp, InfiniumPackets.APPLY_WHITELIST_ID, buffer);
-                    logger.info("Player {} tried to join, but they're banned internally!", entityName);
-                }
-            } else {
-                logger.info("{} was found in whitelist, approved.", entityName);
-            }
-        } catch (Exception ex) {
-            Infinium.getInstance().LOGGER.info("Hubo un error al verificar los jugadores!");
-            ex.printStackTrace();
-        }
-    }
-    public enum WhitelistedPlayers {
-        Asunderer("381ce4f8-774c-4842-98e1-027c9ae9e8c5"),
-        zDropeadx("723fa819-d0cc-4bdd-8fd7-950808549da9"),
-        ITzFel17("815e3676-ca97-4689-8ac5-08c814721eac"),
-        SrLexan("ce4fcc17-98bc-48f1-a8f6-25c1dde61bbe"),
-        LechugaMC("966b523a-a31c-4fd2-b65c-62296dbee593"),
-        Evelynnyb("9b0ceb80-fff2-482e-9383-1397a3e2dd2f"),
-        MeteorCry("80f920bb-9dae-4dfa-9255-e669ca642571"),
-        OweWhat("e6bbeba0-ebb0-442d-9f71-9dd31d4477f7"),
-        Litro6666("d5216e9e-3959-4466-aa67-66efaa583abd"),
-        waltttt("8badd71d-8a42-4303-9f5e-d26750d252c0"),
-        joseoscar1("b0e92b10-c155-4f82-8e11-3a577f80976d"),
-        papitasgeo_("cdc0c2d5-6de5-4af4-8c11-6bfff2e4f505"),
-        Ggc69("747f9acc-aba0-4583-9951-a6f87e724018"),
-        ShotaBlack("dc9ee133-bce9-4e79-b6e2-2a94c2f7f316"),
-        Gatin72("9c98caea-356a-41d0-acb2-54b69bb95eeb"),
-        zLucas("603ead46-4d3e-4abf-92c6-41bac64ca883"),
-        Empa_("ecdf4cc9-0487-4d6f-bf09-8497deaf8b33"),
-        SasuMC("64593c10-bdc4-4f14-947c-52d4ad846048"),
-        OmkSpar_("c10b3b4e-3749-4583-87e1-e78cc44284ac"),
-        CarmenedOwO("1845f9d0-7d40-4de2-aac3-593a8b710124"),
-        Fabo("87bc8c76-68de-416b-834b-33296b1e8679"),
-        AleSuarez("cd73752c-58c5-4c23-af2a-19fa2bcda7d9"),
-        ShiruSS("4881b948-f979-4b46-9031-ceb5f02e15d5"),
-        Blackstamp("994702e0-1a8b-459a-9d4e-ef9d06469d0d"),
-        UNKMage("7c395ed3-192f-4422-81f6-346b5c24b884"),
-        ElTiwizZ("6275ea44-511d-4b38-a3e4-8df8268f932a"),
-        Gus_Gus19("3f831faf-9f00-490f-9b4f-90c558197e76"),
-        Wickedyf("0a24848a-1247-49ff-83bc-d5604f5ed610"),
-        toposqui("c5ab7be0-d0e0-4cd8-9b23-eed961e2104a"),
-        Lucmus("66ac4b0b-4cff-4702-bac5-187b4aba1185"),
-        TheBoyPanda("d3f57305-6ce6-46e1-b2e3-d83177a5d71e"),
-        zapata2013("923f666a-395e-49e0-9451-065a09416d2f"),
-        ___Eclypse___("4baea546-a92d-4ee6-b096-f3c5ead71ada"),
-        Niita("fa7c0be7-c2fa-41e9-8157-e034132a40f0"),
-        tkedd("2c51c312-f515-46b8-a008-fce0a733c195"),
-        wHermes("4e083407-4bfc-45e9-94c9-ad2770303f8e"),
-        Ruldes("024d0bc4-e443-47cc-8404-7e82a5bf0441"),
-        Pepe3012("f0740065-7b6c-470e-b6e9-2a93da15dd89"),
-        Angel__Junior("bdbd24cf-7044-431a-a3dd-360410c0ff3b"),
-        Azurex("257cc308-e6ca-485a-8445-065de91bee1c"),
-        hheavensnight("e16dfef6-10db-44cd-adf4-5e2f8096c9f1"),
-        Darkvid("03c803e0-20ae-411f-85d7-43ec52766d0e"),
-        DarthG_("072ee52f-661b-4940-8f25-c42ca521e4bc"),
-        zzBeser("acc5b2f0-a7ad-472e-a557-e852c3651637"),
-        Pardo0("7349e731-95b3-4b4a-9a00-c8f2a61318b4"),
-        SalvaGamerVZ("0b198c94-19c7-44e4-9393-db77d50ac62a"),
-        Cmauyi("3992c8be-bbaf-4859-a470-0685fcd1a0b4"),
-        zLofro("fb02dc04-e13e-46ad-9404-bdbecf1d35b5"),
-        zSwiift_("bacc2043-9b14-4e97-a474-3fd53e5ab6ed"),
-        zSwixy("ec8c7874-dd7f-4139-b4b3-e3cc713a0ae3"),
-        Alex1jared("f4cffb4d-1289-40f9-9646-07e38f10d5ec"),
-        cPatoz("081874f7-df41-4c61-a327-953de12f0157"),
-        noselight("309db69e-cf59-42fd-b047-62c7cf84dae9"),
-        WaterMelonRT("1acba74e-8c93-4327-b382-42144e05077a"),
-        ThroughTime("f3f59697-d07a-46d7-9fa1-fd399ef9ded7"),
-        Saikomic("79a05b23-2cd9-4a39-b604-537cf127f082"),
-        HellSinky("cf1408e4-ef36-4122-95bd-2c219aad202d"),
-        Grymps("b6c451a1-2318-4407-abb5-7727cdad8ef3"),
-        DirfoxPYT("f5a56f53-112a-44af-b7dd-0ddbfae3ddd3"),
-        rufk_("c5125f68-1d74-4781-8754-077b6a76fcc4"),
-        IVinny_("2fdca304-503c-4817-b08f-fe6b75852fe0"),
-        elchicorepoio("8db0bb1a-aae3-40be-81e3-7127853d8d17")
-        ;
-        private final UUID uuid;
-        WhitelistedPlayers(String playerUuid) {
-            this.uuid = UUID.fromString(playerUuid);
-        }
     }
 }

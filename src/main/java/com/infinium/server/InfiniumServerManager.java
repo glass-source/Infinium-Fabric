@@ -69,7 +69,8 @@ public class InfiniumServerManager {
         onServerStart();
         onServerStop();
     }
-    private void onServerStart(){
+
+    private void onServerStart() {
         ServerLifecycleEvents.SERVER_STARTED.register(server1 -> {
             this.server = server1;
             this.adventure = FabricServerAudiences.of(this.server);
@@ -91,6 +92,7 @@ public class InfiniumServerManager {
             this.eclipseManager.load();
         });
     }
+
     private void onServerStop(){
         ServerLifecycleEvents.SERVER_STOPPING.register(server -> {
             this.eclipseManager.disable();

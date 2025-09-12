@@ -18,10 +18,12 @@ public class PlayerGlobalListeners {
 
     private final Infinium instance;
     private final InfiniumServerManager core;
+
     public PlayerGlobalListeners(Infinium instance) {
         this.instance = instance;
         this.core = this.instance.getCore();
     }
+
     public void registerListeners(){
         playerBedCallback();
     }
@@ -52,6 +54,7 @@ public class PlayerGlobalListeners {
 
         });
     }
+
     private void tpToWorld(RegistryKey<World> destination, ServerPlayerEntity who, int maxToTP) {
         if (who.getServer() == null) return;
         if (who.getServer().getWorld(destination) == null) return;

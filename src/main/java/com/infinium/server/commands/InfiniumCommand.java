@@ -22,7 +22,7 @@ public class InfiniumCommand {
 
     private static int totems(CommandContext<ServerCommandSource> source) {
         try {
-            var data = ((EntityDataSaver) source.getSource().getPlayer()).getPersistentData();
+            var data = ((EntityDataSaver) source.getSource().getPlayer()).infinium_Fabric$getPersistentData();
             int totems = data.getInt("infinium.totems");
             source.getSource().sendFeedback(ChatFormatter.textWithPrefix("&7Has consumido &6&l" + totems + " &7Tótems de la inmortalidad"), false);
             return 1;

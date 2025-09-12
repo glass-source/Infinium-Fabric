@@ -41,6 +41,7 @@ public class PlayerDeathListeners {
     public static final EntityAttributeModifier firstTotemDebuff = new EntityAttributeModifier(UUID.randomUUID(), "First Totem Debuff", -4, EntityAttributeModifier.Operation.ADDITION);
     public static final EntityAttributeModifier secondTotemDebuff = new EntityAttributeModifier(UUID.randomUUID(), "Second Totem Debuff", -8, EntityAttributeModifier.Operation.ADDITION);
     public static final EntityAttributeModifier finalTotemDebuff = new EntityAttributeModifier(UUID.randomUUID(), "Third Totem Debuff", -30, EntityAttributeModifier.Operation.ADDITION);
+
     public PlayerDeathListeners(Infinium instance){
         this.instance = instance;
         this.core = instance.getCore();
@@ -50,6 +51,7 @@ public class PlayerDeathListeners {
         playerDeathCallback();
         playerDamageCallback();
     }
+
     private void playerDeathCallback() {
         if (core.getServer() == null) return;
         ServerPlayerEvents.ALLOW_DEATH.register((player, damageSource, damageAmount) -> {
@@ -59,6 +61,7 @@ public class PlayerDeathListeners {
             return false;
         });
     }
+
     private void playerDamageCallback() {
         PlayerDamageEvent.EVENT.register((playerUUID, damageSource, amount, isCancelled) -> {
             var player = core.getServer().getPlayerManager().getPlayer(playerUUID);
@@ -101,9 +104,10 @@ public class PlayerDeathListeners {
                 break;
             }
         }
+
         if (totemStack == null) return;
         totemEffects(player, totemStack);
-        var stringCause = "&8Causa: &7[&6" + getLastCause(player ,source) + "&7]";
+        var stringCause = "&8Causa: &7[&6" + getLastCause(player, source) + "&7]";
         ChatFormatter.broadcastMessage(stringCause);
         instance.LOGGER.info(stringCause.replaceAll("&6", "").replaceAll("&7", "").replaceAll("&8", ""));
     }
@@ -112,7 +116,7 @@ public class PlayerDeathListeners {
         var attributeInstance = player.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH);
         if (attributeInstance == null) return;
 
-        var data = ((EntityDataSaver) player).getPersistentData();
+        var data = ((EntityDataSaver) player).infinium_Fabric$getPersistentData();
         int totems = data.getInt("infinium.totems");
         var totemData = "infinium.totems";
         var totemNumber = " &8(Tótem #%.%)".replaceAll("%.%", String.valueOf(totems));
@@ -167,11 +171,11 @@ public class PlayerDeathListeners {
             data.putInt(totemData, totems + 2);
             totemNumber = " &8(Tótem #%.%)".replaceAll("%.%", String.valueOf(totems + 2));
             message = ChatFormatter.formatWithPrefix("&5&l" + playerName + " &8ha consumido un \n&b&lVoid Tótem" + totemNumber);
-            Criteria.USED_TOTEM.trigger(player, InfiniumItems.VOID_TOTEM.getDefaultStack());
+            Criteria.USED_TOTEM.trigger(player, new ItemStack(InfiniumItems.VOID_TOTEM));
 
         } else if (totemItem.equals(InfiniumItems.MAGMA_TOTEM)) {
             message = ChatFormatter.formatWithPrefix("&5&l" + playerName + " &8ha consumido un \n&c&lMagma Tótem");
-            Criteria.USED_TOTEM.trigger(player, InfiniumItems.MAGMA_TOTEM.getDefaultStack());
+            Criteria.USED_TOTEM.trigger(player, new ItemStack(InfiniumItems.MAGMA_TOTEM));
 
         } else {
             data.putInt(totemData, totems + 1);
@@ -183,6 +187,7 @@ public class PlayerDeathListeners {
         ChatFormatter.broadcastMessage(message);
         instance.LOGGER.info(message.replaceAll("&", ""));
     }
+
     private void onPlayerDeath(ServerPlayerEntity playerDied, DamageSource damageSource) {
         if (playerDied.isSpectator()) return;
         var pos = playerDied.getBlockPos();
@@ -213,6 +218,7 @@ public class PlayerDeathListeners {
         if (pos.getY() <= -64) playerDied.teleport(pos.getX(), -60, pos.getZ());
         generatePlayerTombstone(playerDied);
     }
+
     private void generatePlayerTombstone(ServerPlayerEntity player)  {
         player.teleport(player.getX(), player.getY() + 1, player.getZ());
         try {
@@ -240,6 +246,7 @@ public class PlayerDeathListeners {
         }
 
     }
+
     private boolean playerHasTotem(PlayerEntity player, DamageSource damageSource) {
         if (damageSource.isOutOfWorld()) return false;
 

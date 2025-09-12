@@ -28,6 +28,7 @@ public class RuneItem extends ToolItem implements InfiniumItem {
     protected final int effectDurationTicks;
     protected int cooldownTicks;
     protected final int amplifier;
+    private final List<Integer> cooldowns = new ArrayList<>();
     public RuneItem(Settings settings, StatusEffect statusEffect, int effectDurationTicks, int cooldownTicks) {
         super(InfiniumToolMaterials.VOID, settings);
         this.statusEffect = statusEffect;
@@ -48,7 +49,7 @@ public class RuneItem extends ToolItem implements InfiniumItem {
         if (entity instanceof ServerPlayerEntity user && !world.isClient()) {
 
             var inv = user.getInventory();
-            List<Integer> cooldowns = new ArrayList<>();
+
             for (int i = 0; i < inv.size(); i++) {
                 if (inv.getStack(i) != null) {
                     var iStack = inv.getStack(i);
@@ -59,15 +60,18 @@ public class RuneItem extends ToolItem implements InfiniumItem {
                     }
                 }
             }
+
             Collections.sort(cooldowns);
             var data = stack.getOrCreateNbt();
             data.putInt("cooldownTicks", cooldowns.get(cooldowns.size() - 1) - 1);
         }
     }
+
     @Override
     public boolean allowNbtUpdateAnimation(PlayerEntity player, Hand hand, ItemStack oldStack, ItemStack newStack) {
         return false;
     }
+
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         if (!world.isClient()) {
             var stack = user.getStackInHand(hand);

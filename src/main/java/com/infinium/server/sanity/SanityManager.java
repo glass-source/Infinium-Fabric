@@ -87,7 +87,7 @@ public class SanityManager {
         return data.getInt(arg);
     }
     public NbtCompound getData(PlayerEntity entity){
-        return ((EntityDataSaver) entity).getPersistentData();
+        return ((EntityDataSaver) entity).infinium_Fabric$getPersistentData();
     }
 
     public void syncSanity(ServerPlayerEntity player, int amount){

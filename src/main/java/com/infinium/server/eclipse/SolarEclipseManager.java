@@ -13,6 +13,7 @@ public class SolarEclipseManager {
         this.eclipse = new SolarEclipse(this);
         this.serverBossBar = eclipse.getBossBar();
     }
+
     public void load() {
         if (this.instance.getCore() == null || this.instance.getCore().getServer() == null) {
             Infinium.getInstance().LOGGER.error("Server was null and couldn't load the solar eclipse data.");
@@ -27,12 +28,13 @@ public class SolarEclipseManager {
                 setCanStartEclipse(gameData.get("canStartEclipse").getAsBoolean());
 
                 if (eclipse.getEndsIn() > 0) {
-                    start(startFromLoad());
+                    start((double) (eclipse.getEndsIn() / 1000) / 3600);
                 }
             }
             
         }
     }
+
     public void disable(){
         var dataManager = this.instance.getCore().getDataManager();
         var gameData = dataManager.getGameData();
@@ -43,12 +45,15 @@ public class SolarEclipseManager {
         dataManager.saveWorldData();
         eclipse.end();
     }
-    public void start(double hours){
+
+    public void start(double hours) {
         if (this.getCanStart()) eclipse.start(hours <= 0 ? 0.5 : hours);
     }
+
     public void end(){
         eclipse.end();
     }
+
     public String getTimeToString() {
         return eclipse.getTimeToString();
     }
@@ -70,6 +75,7 @@ public class SolarEclipseManager {
     public long getLastTimeChecked(){
         return eclipse.getLastTimeChecked();
     }
+
     public long startFromLoad(){
         return (eclipse.getEndsIn() / 1000) / 3600;
     }

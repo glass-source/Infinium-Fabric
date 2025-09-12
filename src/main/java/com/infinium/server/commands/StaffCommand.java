@@ -272,7 +272,7 @@ public class StaffCommand {
     private static int getTotems(CommandContext<ServerCommandSource> source, ServerPlayerEntity player) {
         try{
 
-            var data = ((EntityDataSaver) player).getPersistentData();
+            var data = ((EntityDataSaver) player).infinium_Fabric$getPersistentData();
             int totems = data.getInt("infinium.totems");
 
             source.getSource().sendFeedback(ChatFormatter.textWithPrefix("&6&l" + player.getEntityName() + " &7ha consumido &6&l" + totems + " &7Tótems de la inmortalidad"), false);
@@ -289,7 +289,7 @@ public class StaffCommand {
             if (attributeInstance == null) return -1;
             attributeInstance.getModifiers().forEach(attributeInstance::removeModifier);
 
-            var data = ((EntityDataSaver) player).getPersistentData();
+            var data = ((EntityDataSaver) player).infinium_Fabric$getPersistentData();
             var totemString = "infinium.totems";
             data.putInt(totemString, value);
 

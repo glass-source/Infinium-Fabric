@@ -26,10 +26,12 @@ public class SolarEclipse {
     private ScheduledExecutorService service;
     private ScheduledFuture<?> task;
     private final SolarEclipseManager manager;
+
     public SolarEclipse(SolarEclipseManager manager) {
         this.manager = manager;
         this.service = Infinium.getInstance().getExecutor();
     }
+
     public void initBossBarTask(){
 
         if (service == null) service = Infinium.getInstance().getExecutor();
@@ -50,6 +52,7 @@ public class SolarEclipse {
 
         } catch (Exception ignored){}
     }
+
     public void start(double hours){
         if (Infinium.getInstance().getDateUtils() == null) return;
         if (hours <= 0) return;
@@ -84,6 +87,7 @@ public class SolarEclipse {
             player.playSound(InfiniumSounds.ECLIPSE_START, SoundCategory.AMBIENT, 1, 0.5f);
         });
     }
+
     public void end(){
         var core = manager.getInstance().getCore();
         var server = core.getServer();

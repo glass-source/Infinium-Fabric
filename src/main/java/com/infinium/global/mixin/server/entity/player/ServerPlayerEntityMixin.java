@@ -23,16 +23,18 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity {
     public ServerPlayerEntityMixin(World world, BlockPos pos, float yaw, GameProfile profile) {
         super(world, pos, yaw, profile);
     }
+
     @ModifyVariable(method = "damage", at = @At("HEAD"), ordinal = 0, argsOnly = true)
     private float applyMadness(float amount) {
 
         if (this.hasStatusEffect(InfiniumEffects.MADNESS)) {
             var level = this.getStatusEffect(InfiniumEffects.MADNESS).getAmplifier() + 1;
-            return amount * (level + (level * 0.25f));
+            return Math.min(amount * (level + (level * 0.25f)), 9999);
         } else {
             return amount;
         }
     }
+
     @Inject(method = "damage", at = @At("HEAD"), cancellable = true)
     private void onPlayerDamage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
         if (this.hasStatusEffect(InfiniumEffects.IMMUNITY)) {
@@ -41,6 +43,7 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity {
         }
         PlayerDamageEvent.EVENT.invoker().onPlayerDamage(this.getUuid(), source, amount, cir.isCancelled());
     }
+
     @Inject(method = "updatePotionVisibility", at = @At("TAIL"), cancellable = true)
     private void removeInvisPotion(CallbackInfo ci) {
         if (!this.hasStatusEffect(StatusEffects.INVISIBILITY)) return;
