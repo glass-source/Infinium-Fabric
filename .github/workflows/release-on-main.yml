@@ -61,6 +61,12 @@ jobs:
           gradle --version
           gradle wrapper --gradle-version "$VERSION"
 
+      - name: Make Gradle wrapper executable
+        run: chmod +x ./gradlew
+
+      - name: Verify Gradle wrapper version
+        run: ./gradlew --version
+
       - name: Bump mod_version (patch) in gradle.properties
         id: bump
         shell: bash
@@ -107,11 +113,8 @@ jobs:
           echo "new_version=${NEW_VERSION}" >> "$GITHUB_OUTPUT"
           echo "archive_base=${ARCHIVE_BASE}" >> "$GITHUB_OUTPUT"
 
-      - name: Make Gradle wrapper executable
-        run: chmod +x ./gradlew
-
       - name: Build
-        run: ./gradlew clean build --stacktrace
+        run: ./gradlew --no-daemon clean build --stacktrace
 
       - name: Commit version bump and tag
         env:

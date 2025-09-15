@@ -130,13 +130,17 @@ java {
     if (JavaVersion.current() < javaVersion) {
         toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
     }
-    archivesBaseName = project.archives_base_name
     withSourcesJar()
+}
+
+// Ensure all Jar outputs (including sourcesJar) use the configured base name
+tasks.withType(Jar).configureEach {
+    archiveBaseName.set(project.archives_base_name)
 }
 
 jar {
     from("LICENSE") {
-        rename { "${it}_${project.archivesBaseName}" }
+        rename { "${it}_${project.archives_base_name}" }
     }
 }
 
