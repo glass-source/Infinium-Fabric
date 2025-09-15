@@ -32,6 +32,35 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
 
+      - name: Bootstrap Gradle wrapper if missing
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -f ./gradlew && -f gradle/wrapper/gradle-wrapper.jar ]]; then
+            echo "Gradle wrapper already present."
+            exit 0
+          fi
+
+          # Determine desired Gradle version from wrapper properties if present; fallback to 7.3
+          VERSION=""
+          if [[ -f gradle/wrapper/gradle-wrapper.properties ]]; then
+            VERSION=$(sed -n 's/.*gradle-\([0-9.]*\)-.*/\1/p' gradle/wrapper/gradle-wrapper.properties | head -n1 || true)
+          fi
+          if [[ -z "$VERSION" ]]; then VERSION="7.3"; fi
+
+          # Ensure we have a Gradle CLI available; if not, download the specified version temporarily
+          if ! command -v gradle >/dev/null 2>&1; then
+            echo "Gradle CLI not found; downloading Gradle ${VERSION}..."
+            curl -sL "https://services.gradle.org/distributions/gradle-${VERSION}-bin.zip" -o gradle.zip
+            unzip -q gradle.zip -d "$HOME/gradle"
+            rm -f gradle.zip
+            export PATH="$HOME/gradle/gradle-${VERSION}/bin:$PATH"
+          fi
+
+          # Generate the wrapper scripts and jar for the desired version
+          gradle --version
+          gradle wrapper --gradle-version "$VERSION"
+
       - name: Bump mod_version (patch) in gradle.properties
         id: bump
         shell: bash
@@ -114,4 +143,3 @@ jobs:
           generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
