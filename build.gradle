@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '0.12-SNAPSHOT'
+    id 'fabric-loom' version '0.12.+' // stable 0.12 for MC 1.18.2
     id 'maven-publish'
 }
 
@@ -9,6 +9,12 @@ group = project.maven_group
 repositories {
     // Central repositories first for better resolution speed
     mavenCentral()
+
+    // Fabric (required for yarn mappings and Fabric artifacts)
+    maven {
+        name = "FabricMC"
+        url = "https://maven.fabricmc.net/"
+    }
 
     // Fabric/Minecraft repositories
     maven {
@@ -146,7 +152,7 @@ jar {
 
 publishing {
     publications {
-        maven(MavenPublication) {
+        create("maven", MavenPublication) {
             from components.java
         }
     }

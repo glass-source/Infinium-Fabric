@@ -113,8 +113,18 @@ jobs:
           echo "new_version=${NEW_VERSION}" >> "$GITHUB_OUTPUT"
           echo "archive_base=${ARCHIVE_BASE}" >> "$GITHUB_OUTPUT"
 
-      - name: Build
-        run: ./gradlew --no-daemon clean build --stacktrace
+      - name: Build (retry with dependency refresh)
+        shell: bash
+        run: |
+          set -euo pipefail
+          attempt() { ./gradlew --no-daemon --stacktrace --warning-mode all --refresh-dependencies clean build; }
+          if attempt; then
+            echo "Build succeeded on first attempt."
+          else
+            echo "Build failed, retrying once after cleaning caches..."
+            rm -rf "$HOME/.gradle/caches" || true
+            attempt
+          fi
 
       - name: Commit version bump and tag
         env:
