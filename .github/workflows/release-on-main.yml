@@ -29,43 +29,25 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@v4
-
-      - name: Bootstrap Gradle wrapper if missing
+      - name: Resolve Gradle version and download distribution
+        id: gradle
         shell: bash
         run: |
           set -euo pipefail
-          if [[ -f ./gradlew && -f gradle/wrapper/gradle-wrapper.jar ]]; then
-            echo "Gradle wrapper already present."
-            exit 0
-          fi
-
-          # Determine desired Gradle version from wrapper properties if present; fallback to 7.3
           VERSION=""
           if [[ -f gradle/wrapper/gradle-wrapper.properties ]]; then
             VERSION=$(sed -n 's/.*gradle-\([0-9.]*\)-.*/\1/p' gradle/wrapper/gradle-wrapper.properties | head -n1 || true)
           fi
           if [[ -z "$VERSION" ]]; then VERSION="7.3"; fi
+          echo "Using Gradle ${VERSION}"
+          URL="https://services.gradle.org/distributions/gradle-${VERSION}-bin.zip"
+          curl -sSfL "$URL" -o gradle.zip
+          unzip -q gradle.zip -d "$HOME/gradle"
+          rm -f gradle.zip
+          echo "cmd=$HOME/gradle/gradle-${VERSION}/bin/gradle" >> "$GITHUB_OUTPUT"
 
-          # Ensure we have a Gradle CLI available; if not, download the specified version temporarily
-          if ! command -v gradle >/dev/null 2>&1; then
-            echo "Gradle CLI not found; downloading Gradle ${VERSION}..."
-            curl -sL "https://services.gradle.org/distributions/gradle-${VERSION}-bin.zip" -o gradle.zip
-            unzip -q gradle.zip -d "$HOME/gradle"
-            rm -f gradle.zip
-            export PATH="$HOME/gradle/gradle-${VERSION}/bin:$PATH"
-          fi
-
-          # Generate the wrapper scripts and jar for the desired version
-          gradle --version
-          gradle wrapper --gradle-version "$VERSION"
-
-      - name: Make Gradle wrapper executable
-        run: chmod +x ./gradlew
-
-      - name: Verify Gradle wrapper version
-        run: ./gradlew --version
+      - name: Verify Gradle version
+        run: ${{ steps.gradle.outputs.cmd }} --version
 
       - name: Bump mod_version (patch) in gradle.properties
         id: bump
@@ -117,7 +99,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          attempt() { ./gradlew --no-daemon --stacktrace --warning-mode all --refresh-dependencies clean build; }
+          GRADLE_CMD="${{ steps.gradle.outputs.cmd }}"
+          attempt() { "$GRADLE_CMD" --no-daemon --stacktrace --warning-mode all --refresh-dependencies clean build; }
           if attempt; then
             echo "Build succeeded on first attempt."
           else
